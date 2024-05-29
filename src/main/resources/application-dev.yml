@@ -8,12 +8,6 @@ spring:
     view: # JSP 설정
       prefix: /WEB-INF/views/
       suffix: .jsp
-    static-path-pattern: /resources/**
-#    TODO : 시큐리티 추가 시 주석해제
-#  security:
-#    user: # SpringSecurity 로 인해 서버 가동시 로그인화면 이동함. 아래 id/pw 입력하면됨.
-#      name: mozip
-#      password: mozip1234
 
 server:
   port:
