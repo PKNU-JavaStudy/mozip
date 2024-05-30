@@ -1,0 +1,57 @@
+.teamnote h1 {
+  font-size: 1.5rem;
+  padding-bottom: 10px;
+}
+.sub-title {
+  font-size: 1.2rem;
+}
+.teamnote-list-wrap {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin: 55px 0;
+  justify-content: space-between;
+}
+
+.show-box {
+  width: 320px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+}
+.img-wrap {
+  overflow: hidden;
+  height: 185px;
+}
+.show-box:hover img {
+  scale: 1.1;
+  transition: 0.3s;
+}
+
+.show-box img {
+  transition: 0.3s;
+  height: 100%;
+}
+
+.box-text {
+  overflow: hidden;
+  background-color: #ffffff;
+  padding: 17px;
+}
+
+.box-text h2 {
+  font-size: 1.125rem;
+  width: 285px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-bottom: 20px;
+}
+
+.box-text p {
+  font-size: 0.815rem;
+  line-height: 1.1rem;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
