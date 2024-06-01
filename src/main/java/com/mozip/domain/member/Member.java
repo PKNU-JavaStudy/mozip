@@ -16,6 +16,7 @@ public class Member {
     private String phone;
     private int career;
     private NClob info;
+    private String position;
     private String githubLink;
     private String profileImageUrl;
     private int isModify;

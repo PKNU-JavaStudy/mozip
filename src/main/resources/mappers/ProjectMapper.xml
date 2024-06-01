@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mozip.domain.project.ProjectRepository">
+    <select id="findNewProject" resultType="com.mozip.dto.resp.ProjectListDto">
+        SELECT ID, PROJECT_NAME, PROJECT_TYPE, PROJECT_INFO, VIEWS
+        FROM PROJECT
+        ORDER BY CREATED_AT DESC
+    </select>
+
+    <select id="findRecruitRoles" resultType="java.lang.String">
+        SELECT r.ROLE_NAME
+        FROM PROJECT p INNER JOIN RECRUIT_ROLE r ON p.ID = r.PROJECT_ID
+        WHERE PROJECT_ID=#{projectId}
+    </select>
+    
+    <select id="findBookmarkCount" resultType="int">
+        SELECT COUNT(*)
+        FROM PROJECT p
+                 INNER JOIN BOOKMARK b ON p.ID = b.PROJECT_ID
+        WHERE b.PROJECT_ID = #{projectId}
+    </select>
+
+</mapper>
