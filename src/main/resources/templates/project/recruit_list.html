@@ -65,14 +65,14 @@
     </div>
 
     <div class="lists">
-      <a th:href="@{/project/projectId}" class="project-box">
-        <span class="pj-type pj">사이드 프로젝트</span>
+      <a th:href="@{/project/projectId}" th:each="project : ${allProject}" class="project-box">
+        <span class="pj-type" th:classappend="${project.getProjectType() == '사이드 프로젝트'? 'pj' : 'study'}" th:text="${project.getProjectType()}"></span>
         <p class="title">
-          <strong class="state-ing">모집 중</strong> 엘리스 SW 4기
-          모집합니다!
+          <strong class="state-ing" th:text="${project.status == 1 ? '모집 중' : '모집완료' }">모집 중</strong>
+          <span th:text="${project.projectName}">엘리스 SW 4기 모집합니다!</span>
         </p>
         <div class="cont-wrap">
-          <p class="content">
+          <p class="content" th:text="${project.getProjectInfo()}">
             열심히 코딩해서 멋진 개발자가 인재들을 모집합니다.열심히
             코딩해서 멋진 개발자가 인재 들을 모집합니다.열심히 코딩해서 멋진
             개발자가 인재들을 모집합니다.열심히 코딩해서 멋진 개발자가
@@ -83,153 +83,17 @@
           </p>
         </div>
         <ul class="pj-work">
-          <li>프론트엔드</li>
-          <li>백엔드</li>
-          <li>디자인</li>
+          <li th:each="role : ${project.getRoleNames()}">
+            <th:block th:text="${role}"></th:block>
+          </li>
         </ul>
         <ul class="count">
-          <li>2024.05.30</li>
-          <li><i class="fa-regular fa-comment"></i>8개</li>
-          <li><i class="fa-solid fa-eye"></i> 28회</li>
-        </ul>
-      </a>
-      <a th:href="@{/project/projectId}" class="project-box">
-        <span class="pj-type pj">사이드 프로젝트</span>
-        <p class="title">
-          <strong class="state-ing">모집 중</strong> 엘리스 SW 4기
-          모집합니다!
-        </p>
-        <p class="content">
-          열심히 코딩해서 멋진 개발자가 인재들을 모집합니다.열심히 코딩해서
-          멋진 개발자가 인재 들을 모집합니다.열심히 코딩해서 멋진 개발자가
-          인재들을 모집합니다.열심히 코딩해서 멋진 개발자가 인재들을
-          모집합니다.
-        </p>
-        <ul class="pj-work">
-          <li>프론트엔드</li>
-          <li>백엔드</li>
-          <li>디자인</li>
-        </ul>
-        <ul class="count">
-          <li>2024.05.30</li>
-          <li><i class="fa-regular fa-comment"></i>8개</li>
-          <li><i class="fa-solid fa-eye"></i> 28회</li>
-        </ul>
-      </a>
-      <a th:href="@{/project/projectId}" class="project-box">
-        <span class="pj-type pj">사이드 프로젝트</span>
-        <p class="title">
-          <strong class="state-done">모집 완료</strong> 엘리스 SW 4기
-          모집합니다!
-        </p>
-        <p class="content">
-          열심히 코딩해서 멋진 개발자가 인재들을 모집합니다.열심히 코딩해서
-          멋진 개발자가 인재 들을 모집합니다.열심히 코딩해서 멋진 개발자가
-          인재들을 모집합니다.열심히 코딩해서 멋진 개발자가 인재들을
-          모집합니다.
-        </p>
-        <ul class="pj-work">
-          <li>프론트엔드</li>
-          <li>백엔드</li>
-          <li>디자인</li>
-        </ul>
-
-        <ul class="count">
-          <li>2024.05.30</li>
-          <li><i class="fa-regular fa-comment"></i>8개</li>
-          <li><i class="fa-solid fa-eye"></i> 28회</li>
-        </ul>
-      </a>
-      <a th:href="@{/project/projectId}" class="project-box">
-        <span class="pj-type study">스터디/모집</span>
-        <p class="title">
-          <strong class="state-done">모집 완료</strong> 엘리스 SW 4기
-          모집합니다!
-        </p>
-        <p class="content">
-          열심히 코딩해서 멋진 개발자가 인재들을 모집합니다.열심히 코딩해서
-          멋진 개발자가 인재 들을 모집합니다.열심히 코딩해서 멋진 개발자가
-          인재들을 모집합니다.열심히 코딩해서 멋진 개발자가 인재들을
-          모집합니다.
-        </p>
-        <ul class="pj-work">
-          <li>프론트엔드</li>
-          <li>백엔드</li>
-          <li>디자인</li>
-        </ul>
-        <ul class="count">
-          <li>2024.05.30</li>
-          <li><i class="fa-regular fa-comment"></i>8개</li>
-          <li><i class="fa-solid fa-eye"></i> 28회</li>
-        </ul>
-      </a>
-      <a th:href="@{/project/projectId}" class="project-box">
-        <span class="pj-type study">스터디/모집</span>
-        <p class="title">
-          <strong class="state-done">모집 완료</strong> 엘리스 SW 4기
-          모집합니다!
-        </p>
-        <p class="content">
-          열심히 코딩해서 멋진 개발자가 인재들을 모집합니다.열심히 코딩해서
-          멋진 개발자가 인재 들을 모집합니다.열심히 코딩해서 멋진 개발자가
-          인재들을 모집합니다.열심히 코딩해서 멋진 개발자가 인재들을
-          모집합니다.
-        </p>
-        <ul class="pj-work">
-          <li>프론트엔드</li>
-          <li>백엔드</li>
-          <li>디자인</li>
-        </ul>
-        <ul class="count">
-          <li>2024.05.30</li>
-          <li><i class="fa-regular fa-comment"></i>8개</li>
-          <li><i class="fa-solid fa-eye"></i> 28회</li>
-        </ul>
-      </a>
-      <a th:href="@{/project/projectId}" class="project-box">
-        <span class="pj-type pj">사이드 프로젝트</span>
-        <p class="title">
-          <strong class="state-done">모집 완료</strong> 엘리스 SW 4기
-          모집합니다!
-        </p>
-        <p class="content">
-          열심히 코딩해서 멋진 개발자가 인재들을 모집합니다.열심히 코딩해서
-          멋진 개발자가 인재 들을 모집합니다.열심히 코딩해서 멋진 개발자가
-          인재들을 모집합니다.열심히 코딩해서 멋진 개발자가 인재들을
-          모집합니다.
-        </p>
-        <ul class="pj-work">
-          <li>프론트엔드</li>
-          <li>백엔드</li>
-          <li>디자인</li>
-        </ul>
-        <ul class="count">
-          <li>2024.05.30</li>
-          <li><i class="fa-regular fa-comment"></i>8개</li>
-          <li><i class="fa-solid fa-eye"></i> 28회</li>
-        </ul>
-      </a>
-      <a th:href="@{/project/projectId}" class="project-box">
-        <span class="pj-type pj">사이드 프로젝트</span>
-        <p class="title">
-          <strong class="state-done">모집 완료</strong> 엘리스 SW 4기
-          모집합니다!
-        </p>
-        <p class="content">
-          열심히 코딩해서 멋진 개발자가 인재들을 모집합니다.열심히 코딩해서
-          멋진 개발자가 인재 들을 모집합니다.열심히 코딩해서 멋진 개발자가
-          인재들을 모집합니다.열심히 코딩해서 멋진 개발자가 인재들을
-          모집합니다.
-        </p>
-        <ul class="pj-work">
-          <li>프론트엔드</li>
-          <li>백엔드</li>
-          <li>디자인</li>
-        </ul>
-        <ul class="count">
-          <li>2024.05.30</li>
-          <li><i class="fa-regular fa-comment"></i>8개</li>
-          <li><i class="fa-solid fa-eye"></i> 28회</li>
+          <li th:text="${project.getCreateTime()}">2024.05.30</li>
+          <li><i class="fa-regular fa-hand"></i></i>
+            <th:block th:text="${project.getSubscribe()} + '명'">8개</th:block></li>
+          <li><i class="fa-solid fa-eye"></i>
+            <th:block th:text="${project.getViews()} + '회'">16회</th:block>
+          </li>
         </ul>
       </a>
     </div>

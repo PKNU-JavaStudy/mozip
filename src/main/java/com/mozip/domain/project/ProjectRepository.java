@@ -2,8 +2,10 @@ package com.mozip.domain.project;
 
 import com.mozip.dto.resp.ProjectDetailDto;
 import com.mozip.dto.resp.ProjectListDto;
+import com.mozip.dto.resp.RecruitListDto;
 import com.mozip.dto.resp.ProjectMemberDto;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface ProjectRepository {
@@ -36,4 +38,10 @@ public interface ProjectRepository {
 
     // 프로젝트모집 상세페이지 : 프로젝트 모집분야
     List<String> findProjectRecruitRoles(int projectId);
+
+    // 리스트페이지 : 전체 모집글 데이터 쿼리
+    List<RecruitListDto> findAllProject();
+
+    // 리스트페이지 : 모집글 신청 멤버 조회 쿼리
+    int findSubscribeCount(int projectId);
 }
