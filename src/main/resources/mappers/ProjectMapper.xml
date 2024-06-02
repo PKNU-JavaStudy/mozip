@@ -11,6 +11,16 @@
         <result property="projectInfo" column="PROJECT_INFO"/>
         <result property="views" column="VIEWS"/>
     </resultMap>
+    <!--    -->
+    <resultMap id="recruitDtoMap" type="com.mozip.dto.resp.RecruitListDto">
+        <result property="id" column="ID"/>
+        <result property="projectName" column="PROJECT_NAME"/>
+        <result property="projectType" column="PROJECT_TYPE"/>
+        <result property="projectInfo" column="PROJECT_INFO"/>
+        <result property="views" column="VIEWS"/>
+        <result property="status" column="STATUS"/>
+        <result property="createTime" column="CREATED_AT"/>
+    </resultMap>
 
     <select id="findNewProject" resultMap="projectDtoMap">
         <![CDATA[
@@ -43,6 +53,12 @@
         FROM PROJECT p
                  INNER JOIN BOOKMARK b ON p.ID = b.PROJECT_ID
         WHERE b.PROJECT_ID = #{projectId}
+    </select>
+
+    <select id="findAllProject" resultMap="recruitDtoMap">
+        SELECT ID, PROJECT_NAME, PROJECT_INFO, PROJECT_TYPE, VIEWS, STATUS, CREATED_AT
+        FROM PROJECT
+        ORDER BY CREATED_AT DESC
     </select>
 
 </mapper>

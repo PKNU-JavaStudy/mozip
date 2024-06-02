@@ -1,6 +1,7 @@
 package com.mozip.web;
 
 import com.mozip.dto.resp.ProjectListDto;
+import com.mozip.dto.resp.RecruitListDto;
 import com.mozip.service.MemberService;
 import com.mozip.service.ProjectService;
 import com.mozip.util.Util;
@@ -53,7 +54,14 @@ public class ProjectController {
 
     // recruit_list 페이지
     @GetMapping("/project")
-    public String recruitListForm(){
+    public String recruitListForm(Model model){
+        List<RecruitListDto> allProject = projectService.findAllProject();
+        // 가져온 데이터를 모델에 추가하여 타임리프 템플릿에서 사용할 수 있게 함
+        model.addAttribute("allProject", allProject);
+        // 가져온 데이터를 콘솔에 출력하여 확인
+        for (RecruitListDto project : allProject) {
+            System.out.println("Project: " + project);
+        }
         return "/project/recruit_list";
     }
 

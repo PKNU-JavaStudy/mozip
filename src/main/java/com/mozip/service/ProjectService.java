@@ -2,12 +2,14 @@ package com.mozip.service;
 
 import com.mozip.domain.project.ProjectRepository;
 import com.mozip.dto.resp.ProjectListDto;
+import com.mozip.dto.resp.RecruitListDto;
 import com.mozip.util.Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.NClob;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Transactional(readOnly = true)
@@ -42,5 +44,15 @@ public class ProjectService {
         }
 
         return hotProjects;
+    }
+
+    //리스트페이지 데이터 갖고오는 메서드
+    public List<RecruitListDto> findAllProject(){
+        List<RecruitListDto> allProjects = projectRepository.findAllProject();
+        for (RecruitListDto project : allProjects) {
+            project.setCreateTime(Util.formatTimestamp(Timestamp.valueOf(project.getCreateTime())));
+            project.setProjectInfo(Util.clobToString((NClob) project.getProjectInfo())); // NCLOB -> String 변환
+        }
+        return allProjects;
     }
 }
