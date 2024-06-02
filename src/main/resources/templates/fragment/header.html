@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div class="header-in">
+  <nav>
+    <a th:href="@{/}">
+      <img th:src="@{/img/logo.png}" alt="logo" />
+    </a>
+    <ul class="menu">
+      <li><a th:href="@{/project}">멤버 모집</a></li>
+      <li><a th:href="@{/project/show}">프로젝트 자랑</a></li>
+      <li><a th:href="@{/teamnote}">팀 노트</a></li>
+    </ul>
+  </nav>
+  <ul class="member">
+    <li><a th:href="@{/auth/login}">로그인</a></li>
+    <li><a th:href="@{/auth/join}">회원가입</a></li>
+  </ul>
+</div>
+</html>

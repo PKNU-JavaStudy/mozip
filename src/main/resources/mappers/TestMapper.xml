@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
-<mapper namespace="com.mozip.domain.MemberRepository">
-</mapper>
-
-<!-- 위 형식으로 각 도메인에 맞는 Mapper 를 작성 -->

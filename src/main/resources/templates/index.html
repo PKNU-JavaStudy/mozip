@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>모집(mo.zip)</title>
+  <!-- css / font -->
+  <!-- 아이콘 : font-awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"/>
+  <!-- 슬라이드 배너 : swiper -->
+  <link rel="stylesheet" as="style" crossorigin
+        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+
+  <!-- 직접 구현한 CSS -->
+  <link rel="stylesheet" th:href="@{/css/reset.css}"/>
+  <link rel="stylesheet" th:href="@{/css/common.css}"/>
+  <link rel="stylesheet" th:href="@{/css/index.css}"/>
+  <!-- js -->
+  <!-- jquery -->
+  <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+          crossorigin="anonymous"></script>
+  <!-- swiper -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script th:src="@{/js/index.js}"></script>
+  <script th:src="@{/js/common.js}"></script>
+  <!-- favicon -->
+  <link rel="icon" th:href="@{/img/favicon.ico}">
+</head>
+<body>
+<header>
+  <th:block th:replace="~{fragment/header}"></th:block>
+</header>
+<!-- main -->
+<main>
+  <!-- swiper -->
+  <div class="swi">
+    <div class="swiper bnr-swiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <img th:src="@{/img/banner01.jpg}" alt="배너01">
+        </div>
+        <div class="swiper-slide">
+          <img th:src="@{/img/banner02.jpg}" alt="배너02">
+        </div>
+        <div class="swiper-slide">
+          <img th:src="@{/img/banner03.jpg}" alt="배너03">
+        </div>
+      </div>
+      <div class="swiper-pagination"></div>
+    </div>
+  </div>
+  <!-- container -->
+  <div class="wrap">
+    <div class="container">
+      <h2 class="cont-h2">새로운 모집글 🎉</h2>
+      <h5>새로 업데이트 된 모집글을 확인해보세요!</h5>
+      <div class="swiper cont-swiper ps-l">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide" th:each="project : ${newProject}">
+            <div class="cont-box">
+              <span class="pj-type pj" th:text="${project.getProjectType()}">사이드 프로젝트</span>
+              <span class="pj-tag fire">🍞 따끈따끈 새 글</span><!-- TODO: 추후에 넣어야함 🔥 마감 코 앞 -->
+              <h1 class="pj-title" th:text="${project.getProjectName()}">
+                한달살기 프로젝트 - 백엔드 개발자님 추가 모집 중
+              </h1>
+              <p class="pj-content" th:text="${project.getProjectInfo()}">
+                현재 웹, 구글플레이스토어, 앱스토어에 출시되어있습니다.
+                도시별 한달살기 정보제공 플랫폼을 만들고 있습니다.
+                수익창출을 목표로 실행 중이며, 창업에 관심있는 분을 찾고
+                있어요.
+              </p>
+              <ul class="pj-work">
+                <li th:each="role : ${project.getRoleNames()}">
+                  <th:block th:text="${role}"></th:block>
+                </li>
+              </ul>
+              <ul class="pj-info">
+                <li><i class="fa-solid fa-eye"></i>
+                  <th:block th:text="${project.getViews()}">16회</th:block>
+                </li>
+                <li><i class="fa-regular fa-bookmark"></i>
+                  <th:block th:text="${project.getBookmarkCount()}">5회</th:block>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+        <div class="all-page">
+          <a th:href="@{/project}">모두 보기
+            <i class="fa-solid fa-angle-right"></i>
+          </a>
+        </div>
+        <div class="swiper-button-prev">
+          <i class="fa-solid fa-arrow-left"></i>
+        </div>
+        <div class="swiper-button-next">
+          <i class="fa-solid fa-arrow-right"></i>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <h2 class="cont-h2">인기 모집글 TOP 6 🔥</h2>
+      <h5>현재 인기있는 모집글을 확인해보세요!</h5>
+      <div class="swiper cont-swiper ps-l">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide" th:each="project : ${hotProject}">
+            <div class="cont-box">
+              <span class="pj-type study" th:text="${project.getProjectType()}">스터디/모집</span>
+              <span class="pj-tag hot">💙 인기</span>
+              <h1 class="pj-title" th:text="${project.getProjectName()}">
+                한달살기 프로젝트 - 백엔드 개발자님 추가 모집 중
+              </h1>
+              <p class="pj-content" th:text="${project.getProjectInfo()}">
+                현재 웹, 구글플레이스토어, 앱스토어에 출시되어있습니다.
+                도시별 한달살기 정보제공 플랫폼을 만들고 있습니다.
+                수익창출을 목표로 실행 중이며, 창업에 관심있는 분을 찾고
+                있어요.
+              </p>
+              <ul class="pj-work">
+                <li th:each="role : ${project.getRoleNames()}">
+                  <th:block th:text="${role}"></th:block>
+                </li>
+              </ul>
+              <ul class="pj-info">
+                <li><i class="fa-solid fa-eye"></i>
+                  <th:block th:text="${project.getViews()}">16회</th:block>
+                </li>
+                <li><i class="fa-regular fa-bookmark"></i>
+                  <th:block th:text="${project.getBookmarkCount()}">5회</th:block>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="all-page">
+          <a th:href="@{/project}">모두 보기
+            <i class="fa-solid fa-angle-right"></i>
+          </a>
+        </div>
+        <div class="swiper-button-prev">
+          <i class="fa-solid fa-arrow-left"></i>
+        </div>
+        <div class="swiper-button-next">
+          <i class="fa-solid fa-arrow-right"></i>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <h2 class="cont-h2">새로운 멤버 🎊</h2>
+      <h5>프로젝트를 함께 할 수 있는 새로운 멤버를 확인해보세요!</h5>
+      <div class="swiper member-swiper ps-l">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide" th:each="member : ${newMember}">
+            <div class="member-box">
+              <div class="profile-top">
+                <div class="profile-img"></div>
+                <div class="profile-info">
+                  <h6 th:text="${member.getUsername()}">이윤지</h6>
+                  <p th:text="${member.getPosition()}">프론트엔드 개발자</p>
+                </div>
+              </div>
+              <p class="profile-cont" th:text="${member.getInfo()}">
+                프로젝트 구인 중입니다.프로젝트 구인 중입니다.프로젝트 구인
+                중입니다.프로젝트 구인 중입니다.프로젝트 구인
+                중입니다.프로젝트 구인 중입니다.프로젝트 구인
+                중입니다.프로젝트 구인 중입니다.프로젝트 구인
+                중입니다.프로젝트 구인 중입니다.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="all-page">
+          <!--              <a-->
+          <!--                >모두 보기-->
+          <!--                <i class="fa-solid fa-angle-right"></i>-->
+          <!--              </a>-->
+        </div>
+        <div class="swiper-button-prev">
+          <i class="fa-solid fa-arrow-left"></i>
+        </div>
+        <div class="swiper-button-next">
+          <i class="fa-solid fa-arrow-right"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<footer>
+  <th:block th:replace="~{fragment/footer}"></th:block>
+</footer>
+</body>
+</html>

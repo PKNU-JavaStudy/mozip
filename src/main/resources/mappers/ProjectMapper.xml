@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mozip.domain.project.ProjectRepository">
+
+    <resultMap id="projectDtoMap" type="com.mozip.dto.resp.ProjectListDto">
+        <result property="id" column="ID"/>
+        <result property="projectName" column="PROJECT_NAME"/>
+        <result property="projectType" column="PROJECT_TYPE"/>
+        <result property="projectInfo" column="PROJECT_INFO"/>
+        <result property="views" column="VIEWS"/>
+    </resultMap>
+
+    <select id="findNewProject" resultMap="projectDtoMap">
+        <![CDATA[
+        SELECT ID, PROJECT_NAME, PROJECT_TYPE, PROJECT_INFO, VIEWS
+        FROM (SELECT ID, PROJECT_NAME, PROJECT_TYPE, PROJECT_INFO, VIEWS
+              FROM PROJECT
+              ORDER BY CREATED_AT DESC)
+        WHERE ROWNUM <= 6
+        ]]>
+    </select>
+
+    <select id="findHotProject" resultMap="projectDtoMap">
+        <![CDATA[
+        SELECT ID, PROJECT_NAME, PROJECT_TYPE, PROJECT_INFO, VIEWS
+        FROM (SELECT ID, PROJECT_NAME, PROJECT_TYPE, PROJECT_INFO, VIEWS
+              FROM PROJECT
+              ORDER BY VIEWS DESC)
+        WHERE ROWNUM <= 6
+        ]]>
+    </select>
+
+    <select id="findRecruitRoles" resultType="java.lang.String">
+        SELECT r.ROLE_NAME
+        FROM PROJECT p INNER JOIN RECRUIT_ROLE r ON p.ID = r.PROJECT_ID
+        WHERE PROJECT_ID=#{projectId}
+    </select>
+    
+    <select id="findBookmarkCount" resultType="int">
+        SELECT COUNT(*)
+        FROM PROJECT p
+                 INNER JOIN BOOKMARK b ON p.ID = b.PROJECT_ID
+        WHERE b.PROJECT_ID = #{projectId}
+    </select>
+
+</mapper>

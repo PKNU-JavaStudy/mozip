@@ -1,0 +1,532 @@
+/*!* 전체 wrap *!*/
+.wrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+/* 전체 body 스타일링 */
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/*마이페이지*/
+
+/* 마이페이지 프로필 정보 */
+.profile-container {
+    width: 100%;
+    margin: 20px auto;
+    text-align: left;
+    background-color: #fff;
+    padding: 20px;
+    border-color: #fff;
+    position: relative;
+}
+
+/* 마이페이지 프로필 이미지 */
+.profile-img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 40px;
+}
+/* 마이페이지 수정 버튼 추가_5.22 */
+.profile-section .edit-btn {
+    position: absolute;
+    right: 0px;
+    border-radius: 5px;
+    color: #ffff;
+    background-color: var(--main-color);
+    font-size: 1rem;
+    padding: 18px 25px;
+}
+
+/* 마이페이지 이름*/
+h1 {
+    font-size: 2.188rem;
+    margin-bottom: 5px;
+}
+/*마이페이지 경력칸*/
+.year {
+    /*간격수정_5.21*/
+    margin-top: 5px;
+    font-size: 0.938rem;
+    color: #969696;
+}
+.container {
+    margin: 60px 0;
+}
+
+.skill-flex i {
+    padding-right: 15px;
+}
+.skill-flex i,
+.skill-flex a {
+    font-size: 1.25rem;
+}
+.work {
+    background-color: #f1f7ff;
+    color: #74a0e2;
+    padding: 4px 7px;
+    border-radius: 3px;
+}
+/* 링크에 커서가 있을 때 밑줄 및 색상 변경 */
+a.github-link:hover {
+    text-decoration: underline;
+    color: #00dada;
+    width: 181px;
+    height: 181px;
+    border-radius: 50%;
+    margin-bottom: 55px;
+}
+
+/* 깃허브 이미지 크기 설정 */
+.github-logo {
+    width: 20px;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+/* 마이페이지 자기소개 */
+#text-input {
+    width: 700px;
+    height: 69px; /* 대략 3줄의 높이 */
+    font-size: 1rem;
+    margin-top: 28px;
+    border: none; /* 테두리 제거 */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3; /* 최대 3줄만 표시 */
+    overflow: hidden;
+    text-overflow: ellipsis; /* 텍스트가 넘칠 경우 생략 기호로 표시 */
+    white-space: normal; /* 줄바꿈 허용 */
+    line-height: 1.4;
+    box-shadow: none; /* 그림자 제거 */
+}
+.img-wrap {
+    display: block;
+    overflow: hidden;
+    width: 181px;
+    height: 181px;
+    border-radius: 50%;
+    margin-bottom: 55px;
+}
+.skill-flex {
+    display: flex;
+    margin-bottom: 30px;
+}
+
+.career {
+    display: inline-block;
+    font-size: 1rem;
+    padding: 4px 7px;
+    border-radius: 3px;
+    background-color: #e1ffd8;
+    color: #4dc900;
+    margin-bottom: 15px;
+}
+
+/* 기술 색션 */
+.programs-section {
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    padding: 5px;
+    margin-top: 16px;
+    margin-bottom: 10px;
+    /*색상변경_5.21*/
+    background-color: #fff;
+}
+
+.skills-header {
+    margin-right: 10px; /* 아이콘과 태그들 사이의 간격 */
+}
+
+/*기술 스택 태그 모양*/
+.tags.skills .tag {
+    padding: 4px 5px;
+    border-radius: 3px;
+    font-size: 14px;
+    text-align: center;
+    /* 간격변경_5.21 */
+    margin: 5px;
+    /*색상변경_5.21*/
+    color: #666666;
+}
+
+/* 개별 기술 스택 태그 색상 */
+.front {
+    background-color: #e9faff;
+}
+
+/* 프론트엔드 */
+.back {
+    background-color: #e9eeff;
+}
+
+/* 백엔드 */
+.design {
+    background-color: #ffe9fd;
+}
+
+/* 디자인 */
+.plan {
+    background-color: #edffe9;
+}
+
+/* 기획 */
+.tags.programs .tag {
+    padding: 4px 5px;
+    border-radius: 4px;
+    color: #666;
+    text-align: center;
+    background: #f3f3f3;
+    border: 1px solid transparent;
+}
+
+/* 내가 만든 프로젝트, 북마크 헤더 색션 */
+.header-flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+}
+
+/* 프로젝트, 북마크 제목 스타일 설정 */
+.make-pj {
+    border-top: 1px solid var(--border-color);
+}
+.make-pj h2,
+.bookmark h2 {
+    font-size: 1.25rem;
+}
+
+/* 프로젝트, 북마크 헤더 드롭다운 메뉴 */
+.dropdown {
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    border-color: #d9d9d9;
+    color: #969696;
+    width: 125px;
+}
+
+/* 프로젝트 정보 레이아웃 */
+.project-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+/* 생성한 프로젝트, 북마크한 프로젝트 수 색상 설정 */
+.highlight {
+    color: var(--main-color);
+}
+/* 프로젝트 내용 섹션의 배경 및 여백 설정 */
+.pj-content {
+    display: block;
+    background-color: #f7f7f7;
+    padding: 25px 35px;
+    margin-bottom: 30px;
+    border-radius: 15px;
+    position: relative;
+}
+.pj-type {
+    display: inline-block;
+    border-radius: 3px;
+    color: #fff;
+    font-size: 0.813rem;
+    padding: 4px 9px;
+    margin-right: 5px;
+}
+.pj-type.pj {
+    background-color: #ffadad;
+}
+.pj-type.study {
+    background-color: #aaec90;
+}
+
+.title {
+    padding: 12px 0 17px;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.title strong {
+    position: relative;
+    font-size: 1.25rem;
+    font-weight: 600;
+    padding-right: 20px;
+}
+
+.title strong.state-ing:before {
+    content: "|";
+    position: absolute;
+    top: 2px;
+    left: 66px;
+    color: var(--gray-font);
+    font-weight: 400;
+}
+
+.title strong.state-done:before {
+    content: "|";
+    position: absolute;
+    top: 2px;
+    left: 82px;
+    color: var(--gray-font);
+    font-weight: 400;
+}
+
+.title strong.state-ing {
+    color: var(--main-color);
+}
+
+.title strong.state-done {
+    color: var(--lightgray-font);
+}
+
+.count {
+    display: flex;
+    padding-top: 30px;
+}
+
+.count li {
+    font-size: 0.875rem;
+    color: var(--lightgray-font);
+    padding: 0 5px;
+}
+.count li i {
+    font-size: 0.815rem;
+    color: var(--lightgray-font);
+    padding-right: 3px;
+}
+
+/* 프로젝트 태그의 스타일 설정, 배경색 및 글꼴 크기 조정 */
+.project-tag {
+    background-color: #e0e0e0;
+    color: #333;
+    padding: 2px 6px;
+    font-size: 12px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.time-commitment {
+    color: #969696;
+    padding: 2px 6px;
+    font-size: 0.75rem;
+}
+
+.get-member {
+    font-size: 16px;
+    color: black;
+    font-weight: bold;
+    margin-right: 5px;
+    display: block;
+}
+
+.get-member span {
+    color: #00dada;
+}
+
+.date {
+    font-size: 14px;
+    color: #666;
+    display: block;
+    margin-top: 20px;
+}
+/*!*마이페이지 수정*!*/
+
+/* 폼 그룹 설정 */
+.form-group {
+    display: flex;
+    justify-content: space-between;
+}
+.input-group {
+    width: 49%;
+}
+
+/* 폼 그룹 제목 설정 */
+.form-group h2 {
+    width: 100%;
+    margin-top: 18px;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* 프로필 섹션 설정 */
+.edit-section {
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: auto; /* 자동 마진 */
+}
+.form-container {
+    width: 100%;
+}
+/* 필수사항 텍스트 설정 */
+.required {
+    color: palevioletred;
+    justify-content: right;
+}
+
+/* 라디오 버튼 스타일 */
+.radio {
+    display: flex;
+    flex-direction: row;
+    appearance: none;
+    cursor: pointer;
+    margin-top: 25px;
+    margin-bottom: 53px;
+}
+
+/* 라디오 버튼 간격 설정 */
+.radio label {
+    margin-right: 20px; /* 오른쪽 마진을 추가하여 간격을 넓힘 */
+    color: #717171;
+}
+
+/* 자기소개 입력칸 */
+.introduce-input {
+    width: 100%;
+    height: 182px;
+    margin-bottom: 38px;
+    border: 1px solid #d9d9d9;
+    border-radius: 10px;
+    justify-items: start;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.skill-select {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 305px;
+}
+
+.introduce {
+    margin-top: 20px;
+}
+
+.introduce h2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.introduce-input {
+    display: flex;
+    flex-direction: column;
+
+}
+
+/* 글자수 제한 폰트 설정 */
+.maxlength {
+    color: #D9D9D9;
+}
+
+/* 드롭다운 아래쪽 마진 */
+#role {
+    margin-bottom: 67px;
+}
+
+/* 링크 헤더 스타일 */
+.link h2 {
+    display: flex;
+    align-items: center; /* 세로 중앙 정렬 */
+    justify-content: space-between;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* 마이페이지 이름 border 삭제 데이터 들고와서 이름 넣기 */
+#name {
+    border: none;
+}
+
+/* 입력칸 공통 설정 */
+input[type="text"],
+input[type="url"],
+textarea,
+select {
+    width: 100%;
+    padding: 12px 8px;
+    border: 1px solid #D9D9D9;
+    border-radius: 10px;
+    box-sizing: border-box;
+    margin-top: 22px;
+    margin-bottom: 22px;
+}
+
+/* 특수 입력 필드 */
+.sc-input {
+    margin-bottom: 33px;
+    margin-top: 21px;
+    width: 584px;
+    height: 44px;
+    border: 1px solid #D9D9D9;
+    border-radius: 10px;
+}
+
+/*직군 아이콘 설정*/
+.select-skills, .select-programs {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    gap: 10px; /* 항목들 사이의 간격 추가 */
+    width: 280px;
+
+}
+
+.selected-item {
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    border: 1px solid #00dada;
+    border-radius: 15px;
+    background-color: #00dada;
+    color: #ffffff;
+    margin-right: 10px;
+    flex: 0 0 auto; /* 아이템이 고정된 너비로 나타나도록 */
+}
+
+.remove-btn {
+    margin-left: 5px;
+    cursor: pointer;
+    color: #ffffff;
+}
+
+/* 완료 버튼 색상 모양 설정 */
+#mypage-submit {
+    width: 100%;
+    justify-content: center;
+    background-color: var(--main-color);
+    color: #fff;
+    padding: 15px 15px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+/* 버튼 호버시 색상 */
+#mypage-submit:hover {
+    background-color: var(--main-hover-color);
+}

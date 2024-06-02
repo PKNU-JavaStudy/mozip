@@ -4,10 +4,6 @@ spring:
     url: jdbc:oracle:thin:@localhost:1521:xe
     username: mozip
     password: mozip1234
-  mvc:
-    view: # JSP 설정
-      prefix: /WEB-INF/views/
-      suffix: .jsp
 
 server:
   port:
@@ -17,6 +13,3 @@ server:
       charset: UTF-8
       force: true
       enabled: true
-    jsp:
-      init-parameters:
-        developmente: true

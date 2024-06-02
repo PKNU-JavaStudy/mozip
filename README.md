@@ -3,7 +3,7 @@
 ### Stack
 - 프로그래밍언어 : Java17
 - 서버: SpringBoot 3.2.5
-- 템플릿 엔진 : JSP
+- 템플릿 엔진 : Thymeleaf 3.1.2
 - 데이터베이스 : Oracle DB 21c
 - 개발 도구 : IntelliJ , DBeaver, Postman
 - 빌드도구 : Gradle 8.7
@@ -17,8 +17,7 @@
 - MyBatis Framework
 - Oracle Driver
 - Validation
-- JSP Engine
-- JSTL
+- Thymeleaf
 
 ### ERD(초안)
 ![mozip.png](/src/main/resources/static/img/mozip.png)
