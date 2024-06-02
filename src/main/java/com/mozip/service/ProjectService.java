@@ -3,6 +3,7 @@ package com.mozip.service;
 import com.mozip.domain.project.ProjectRepository;
 import com.mozip.dto.resp.ProjectListDto;
 import com.mozip.dto.resp.RecruitListDto;
+import com.mozip.dto.resp.ShowListDto;
 import com.mozip.util.Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -56,5 +57,9 @@ public class ProjectService {
             project.setProjectInfo(Util.clobToString((NClob) project.getProjectInfo())); // NCLOB -> String 변환
         }
         return allProjects;
+    }
+
+    public List<ShowListDto> findAllShowProject(){
+        return projectRepository.findAllShowProject();
     }
 }

@@ -2,6 +2,7 @@ package com.mozip.web;
 
 import com.mozip.dto.resp.ProjectListDto;
 import com.mozip.dto.resp.RecruitListDto;
+import com.mozip.dto.resp.ShowListDto;
 import com.mozip.service.MemberService;
 import com.mozip.service.ProjectService;
 import com.mozip.util.Util;
@@ -58,10 +59,6 @@ public class ProjectController {
         List<RecruitListDto> allProject = projectService.findAllProject();
         // 가져온 데이터를 모델에 추가하여 타임리프 템플릿에서 사용할 수 있게 함
         model.addAttribute("allProject", allProject);
-        // 가져온 데이터를 콘솔에 출력하여 확인
-        for (RecruitListDto project : allProject) {
-            System.out.println("Project: " + project);
-        }
         return "/project/recruit_list";
     }
 
@@ -73,7 +70,9 @@ public class ProjectController {
 
     // show_list 페이지
     @GetMapping("/project/show")
-    public String showListForm(){
+    public String showListForm(Model model){
+        List<ShowListDto> allShows = projectService.findAllShowProject();
+        model.addAttribute("allShows", allShows);
         return "/project/show_list";
     }
 }

@@ -2,8 +2,8 @@ package com.mozip.domain.project;
 
 import com.mozip.dto.resp.ProjectListDto;
 import com.mozip.dto.resp.RecruitListDto;
+import com.mozip.dto.resp.ShowListDto;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 public interface ProjectRepository {
@@ -19,9 +19,12 @@ public interface ProjectRepository {
     // 메인페이지 : 인기 모집글 데이터 쿼리
     List<ProjectListDto> findHotProject();
 
-    // 리스트페이지 : 전체 모집글 데이터 쿼리
+    // 멤버모집리스트페이지 : 전체 모집글 데이터 쿼리
     List<RecruitListDto> findAllProject();
 
-    // 리스트페이지 : 모집글 신청 멤버 조회 쿼리
+    // 멤버모집리스트페이지 : 모집글 신청 멤버 조회 쿼리
     int findSubscribeCount(int projectId);
+
+    // 프로젝트자랑리스트페이지 : 전체 자랑글 데이터 쿼리
+    List<ShowListDto> findAllShowProject();
 }

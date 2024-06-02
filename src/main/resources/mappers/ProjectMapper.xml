@@ -11,7 +11,7 @@
         <result property="projectInfo" column="PROJECT_INFO"/>
         <result property="views" column="VIEWS"/>
     </resultMap>
-    <!--    -->
+
     <resultMap id="recruitDtoMap" type="com.mozip.dto.resp.RecruitListDto">
         <result property="id" column="ID"/>
         <result property="projectName" column="PROJECT_NAME"/>
@@ -20,6 +20,14 @@
         <result property="views" column="VIEWS"/>
         <result property="status" column="STATUS"/>
         <result property="createTime" column="CREATED_AT"/>
+    </resultMap>
+
+    <resultMap id="ShowListDtoMap" type="com.mozip.dto.resp.ShowListDto">
+        <result property="id" column="ID"/>
+        <result property="projectName" column="PROJECT_NAME"/>
+        <result property="projectType" column="PROJECT_TYPE"/>
+        <result property="ownerId" column="OWNER_ID"/>
+        <result property="views" column="VIEWS"/>
     </resultMap>
 
     <select id="findNewProject" resultMap="projectDtoMap">
@@ -65,6 +73,12 @@
         SELECT COUNT(*)
         FROM SUBSCRIBE INNER JOIN PROJECT ON SUBSCRIBE.PROJECT_ID = PROJECT.ID
         WHERE PROJECT.ID = #{projectId}
+    </select>
+
+    <select id="findAllShowProject" resultMap="ShowListDtoMap">
+        SELECT ID, PROJECT_NAME, PROJECT_TYPE, OWNER_ID, VIEWS
+        FROM PROJECT
+        WHERE IS_SHOW = 1
     </select>
 
 </mapper>
