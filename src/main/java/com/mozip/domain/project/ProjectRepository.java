@@ -21,4 +21,7 @@ public interface ProjectRepository {
 
     // 리스트페이지 : 전체 모집글 데이터 쿼리
     List<RecruitListDto> findAllProject();
+
+    // 리스트페이지 : 모집글 신청 멤버 조회 쿼리
+    int findSubscribeCount(int projectId);
 }

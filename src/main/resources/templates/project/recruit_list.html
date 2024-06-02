@@ -83,14 +83,17 @@
           </p>
         </div>
         <ul class="pj-work">
-          <li>프론트엔드</li>
-          <li>백엔드</li>
-          <li>디자인</li>
+          <li th:each="role : ${project.getRoleNames()}">
+            <th:block th:text="${role}"></th:block>
+          </li>
         </ul>
         <ul class="count">
           <li th:text="${project.getCreateTime()}">2024.05.30</li>
-          <li><i class="fa-regular fa-comment"></i>8개</li>
-          <li><i class="fa-solid fa-eye"></i> 28회</li>
+          <li><i class="fa-regular fa-hand"></i></i>
+            <th:block th:text="${project.getSubscribe()} + '명'">8개</th:block></li>
+          <li><i class="fa-solid fa-eye"></i>
+            <th:block th:text="${project.getViews()} + '회'">16회</th:block>
+          </li>
         </ul>
       </a>
     </div>

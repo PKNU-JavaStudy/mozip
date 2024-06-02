@@ -61,4 +61,10 @@
         ORDER BY CREATED_AT DESC
     </select>
 
+    <select id="findSubscribeCount" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM SUBSCRIBE INNER JOIN PROJECT ON SUBSCRIBE.PROJECT_ID = PROJECT.ID
+        WHERE PROJECT.ID = #{projectId}
+    </select>
+
 </mapper>

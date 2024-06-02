@@ -50,7 +50,9 @@ public class ProjectService {
     public List<RecruitListDto> findAllProject(){
         List<RecruitListDto> allProjects = projectRepository.findAllProject();
         for (RecruitListDto project : allProjects) {
+            project.setRoleNames(projectRepository.findRecruitRoles(project.getId()));
             project.setCreateTime(Util.formatTimestamp(Timestamp.valueOf(project.getCreateTime())));
+            project.setSubscribe(projectRepository.findSubscribeCount(project.getId()));
             project.setProjectInfo(Util.clobToString((NClob) project.getProjectInfo())); // NCLOB -> String 변환
         }
         return allProjects;

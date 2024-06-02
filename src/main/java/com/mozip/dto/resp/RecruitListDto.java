@@ -18,6 +18,9 @@ public class RecruitListDto {
     private List<String> skillName;
     private String createTime;
     private int memberCount;
+    // 다른 쿼리 조인
+    private List<String> roleNames;
+    private int subscribe;
 
 
     // 멤버모집 리스트 페이지 생성자
