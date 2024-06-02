@@ -7,5 +7,5 @@ public class JoinMemberDto {
     private String email;
     private String password;
     private String username;
-    private int phone;
+    private String phone;
 }
