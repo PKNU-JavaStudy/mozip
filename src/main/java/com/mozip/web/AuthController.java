@@ -32,18 +32,13 @@ public class AuthController {
 
     // join 페이지
     @GetMapping("/auth/join")
-    public String joinForm(Model model) {
-        model.addAttribute("joinDto", new JoinMemberDto());
+    public String joinForm() {
         return "auth/join";
     }
     
     // 회원가입 처리
     @PostMapping("/auth/join")
     public String join(@ModelAttribute JoinMemberDto joinMemberDto) {
-        System.out.println("=======================");
-        System.out.println("joinDto.getUsername() = " + joinMemberDto.getUsername());
-        System.out.println("joinDto.getPhone() = " + joinMemberDto.getPhone());
-        System.out.println("=======================");
         authService.joinUser(joinMemberDto);
         return "redirect:/auth/login";
     }
