@@ -47,25 +47,25 @@ public class ProjectController {
 
     // recruit_detail 페이지
     @GetMapping("/project/projectId") // TODO : {}로 묶어야함(쿼리 파라미터)
-    public String recruitDetailForm() {
+    public String recruitDetailForm(){
         return "/project/recruit_detail";
     }
 
     // recruit_list 페이지
     @GetMapping("/project")
-    public String recruitListForm() {
+    public String recruitListForm(){
         return "/project/recruit_list";
     }
 
     // show_detail 페이지
     @GetMapping("/project/show/projectId") // TODO : {}로 묶어야함(쿼리 파라미터)
-    public String showDetailForm() {
+    public String showDetailForm(){
         return "/project/show_detail";
     }
 
     // show_list 페이지
     @GetMapping("/project/show")
-    public String showListForm() {
+    public String showListForm(){
         return "/project/show_list";
     }
 }
