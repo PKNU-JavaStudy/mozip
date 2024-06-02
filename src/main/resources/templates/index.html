@@ -60,153 +60,38 @@
       <h5>새로 업데이트 된 모집글을 확인해보세요!</h5>
       <div class="swiper cont-swiper ps-l">
         <div class="swiper-wrapper">
-          <div class="swiper-slide">
+          <div class="swiper-slide" th:each="project : ${newProject}">
             <div class="cont-box">
-              <span class="pj-type pj">사이드 프로젝트</span>
-              <span class="pj-tag fire">🔥 마감 코 앞</span>
-              <h1 class="pj-title">
+              <span class="pj-type pj" th:text="${project.getProjectType()}">사이드 프로젝트</span>
+              <span class="pj-tag fire">🍞 따끈따끈 새 글</span><!-- TODO: 추후에 넣어야함 🔥 마감 코 앞 -->
+              <h1 class="pj-title" th:text="${project.getProjectName()}">
                 한달살기 프로젝트 - 백엔드 개발자님 추가 모집 중
               </h1>
-              <p class="pj-content">
+              <p class="pj-content" th:text="${project.getProjectInfo()}">
                 현재 웹, 구글플레이스토어, 앱스토어에 출시되어있습니다.
                 도시별 한달살기 정보제공 플랫폼을 만들고 있습니다.
                 수익창출을 목표로 실행 중이며, 창업에 관심있는 분을 찾고
                 있어요.
               </p>
               <ul class="pj-work">
-                <li>프론트엔드</li>
-                <li>백엔드</li>
-                <li>디자인</li>
+                <li th:each="role : ${project.getRoleNames()}">
+                  <th:block th:text="${role}"></th:block>
+                </li>
               </ul>
               <ul class="pj-info">
-                <li><i class="fa-solid fa-eye"></i> 16회</li>
-                <li><i class="fa-regular fa-bookmark"></i> 5회</li>
+                <li><i class="fa-solid fa-eye"></i>
+                  <th:block th:text="${project.getViews()}">16회</th:block>
+                </li>
+                <li><i class="fa-regular fa-bookmark"></i>
+                  <th:block th:text="${project.getBookmarkCount()}">5회</th:block>
+                </li>
               </ul>
             </div>
           </div>
-          <div class="swiper-slide">
-            <div class="cont-box">
-              <span class="pj-type pj">사이드 프로젝트</span>
-              <span class="pj-tag new">🍞 따끈따끈 새 글</span>
-              <h1 class="pj-title">
-                한달살기 프로젝트 - 백엔드 개발자님 추가 모집 중
-              </h1>
-              <p class="pj-content">
-                현재 웹, 구글플레이스토어, 앱스토어에 출시되어있습니다.
-                도시별 한달살기 정보제공 플랫폼을 만들고 있습니다.
-                수익창출을 목표로 실행 중이며, 창업에 관심있는 분을 찾고
-                있어요.
-              </p>
-              <ul class="pj-work">
-                <li>프론트엔드</li>
-                <li>백엔드</li>
-                <li>디자인</li>
-              </ul>
-              <ul class="pj-info">
-                <li><i class="fa-solid fa-eye"></i> 16회</li>
-                <li><i class="fa-regular fa-bookmark"></i> 5회</li>
-              </ul>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="cont-box">
-              <span class="pj-type pj">사이드 프로젝트</span>
-              <span class="pj-tag new">🍞 따끈따끈 새 글</span>
-              <h1 class="pj-title">
-                한달살기 프로젝트 - 백엔드 개발자님 추가 모집 중
-              </h1>
-              <p class="pj-content">
-                현재 웹, 구글플레이스토어, 앱스토어에 출시되어있습니다.
-                도시별 한달살기 정보제공 플랫폼을 만들고 있습니다.
-                수익창출을 목표로 실행 중이며, 창업에 관심있는 분을 찾고
-                있어요.
-              </p>
-              <ul class="pj-work">
-                <li>프론트엔드</li>
-                <li>백엔드</li>
-                <li>디자인</li>
-              </ul>
-              <ul class="pj-info">
-                <li><i class="fa-solid fa-eye"></i> 16회</li>
-                <li><i class="fa-regular fa-bookmark"></i> 5회</li>
-              </ul>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="cont-box">
-              <span class="pj-type pj">사이드 프로젝트</span>
-              <span class="pj-tag new">🍞 따끈따끈 새 글</span>
-              <h1 class="pj-title">
-                한달살기 프로젝트 - 백엔드 개발자님 추가 모집 중
-              </h1>
-              <p class="pj-content">
-                현재 웹, 구글플레이스토어, 앱스토어에 출시되어있습니다.
-                도시별 한달살기 정보제공 플랫폼을 만들고 있습니다.
-                수익창출을 목표로 실행 중이며, 창업에 관심있는 분을 찾고
-                있어요.
-              </p>
-              <ul class="pj-work">
-                <li>프론트엔드</li>
-                <li>백엔드</li>
-                <li>디자인</li>
-              </ul>
-              <ul class="pj-info">
-                <li><i class="fa-solid fa-eye"></i> 16회</li>
-                <li><i class="fa-regular fa-bookmark"></i> 5회</li>
-              </ul>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="cont-box">
-              <span class="pj-type pj">사이드 프로젝트</span>
-              <span class="pj-tag new">🍞 따끈따끈 새 글</span>
-              <h1 class="pj-title">
-                한달살기 프로젝트 - 백엔드 개발자님 추가 모집 중
-              </h1>
-              <p class="pj-content">
-                현재 웹, 구글플레이스토어, 앱스토어에 출시되어있습니다.
-                도시별 한달살기 정보제공 플랫폼을 만들고 있습니다.
-                수익창출을 목표로 실행 중이며, 창업에 관심있는 분을 찾고
-                있어요.
-              </p>
-              <ul class="pj-work">
-                <li>프론트엔드</li>
-                <li>백엔드</li>
-                <li>디자인</li>
-              </ul>
-              <ul class="pj-info">
-                <li><i class="fa-solid fa-eye"></i> 16회</li>
-                <li><i class="fa-regular fa-bookmark"></i> 5회</li>
-              </ul>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="cont-box">
-              <span class="pj-type study">스터디/모집</span>
-              <span class="pj-tag new">💙 인기</span>
-              <h1 class="pj-title">
-                한달살기 프로젝트 - 백엔드 개발자님 추가 모집 중
-              </h1>
-              <p class="pj-content">
-                현재 웹, 구글플레이스토어, 앱스토어에 출시되어있습니다.
-                도시별 한달살기 정보제공 플랫폼을 만들고 있습니다.
-                수익창출을 목표로 실행 중이며, 창업에 관심있는 분을 찾고
-                있어요.
-              </p>
-              <ul class="pj-work">
-                <li>프론트엔드</li>
-                <li>백엔드</li>
-                <li>디자인</li>
-              </ul>
-              <ul class="pj-info">
-                <li><i class="fa-solid fa-eye"></i> 16회</li>
-                <li><i class="fa-regular fa-bookmark"></i> 5회</li>
-              </ul>
-            </div>
-          </div>
+
         </div>
         <div class="all-page">
-          <a href="recruit_list.html">모두 보기
+          <a th:href="@{/project}">모두 보기
             <i class="fa-solid fa-angle-right"></i>
           </a>
         </div>
@@ -223,153 +108,37 @@
       <h5>현재 인기있는 모집글을 확인해보세요!</h5>
       <div class="swiper cont-swiper ps-l">
         <div class="swiper-wrapper">
-          <div class="swiper-slide">
+          <div class="swiper-slide" th:each="project : ${hotProject}">
             <div class="cont-box">
-              <span class="pj-type study">스터디/모집</span>
+              <span class="pj-type study" th:text="${project.getProjectType()}">스터디/모집</span>
               <span class="pj-tag hot">💙 인기</span>
-              <h1 class="pj-title">
+              <h1 class="pj-title" th:text="${project.getProjectName()}">
                 한달살기 프로젝트 - 백엔드 개발자님 추가 모집 중
               </h1>
-              <p class="pj-content">
+              <p class="pj-content" th:text="${project.getProjectInfo()}">
                 현재 웹, 구글플레이스토어, 앱스토어에 출시되어있습니다.
                 도시별 한달살기 정보제공 플랫폼을 만들고 있습니다.
                 수익창출을 목표로 실행 중이며, 창업에 관심있는 분을 찾고
                 있어요.
               </p>
               <ul class="pj-work">
-                <li>프론트엔드</li>
-                <li>백엔드</li>
-                <li>디자인</li>
+                <li th:each="role : ${project.getRoleNames()}">
+                  <th:block th:text="${role}"></th:block>
+                </li>
               </ul>
               <ul class="pj-info">
-                <li><i class="fa-solid fa-eye"></i> 16회</li>
-                <li><i class="fa-regular fa-bookmark"></i> 5회</li>
-              </ul>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="cont-box">
-              <span class="pj-type study">스터디/모집</span>
-              <span class="pj-tag hot">💙 인기</span>
-              <h1 class="pj-title">
-                한달살기 프로젝트 - 백엔드 개발자님 추가 모집 중
-              </h1>
-              <p class="pj-content">
-                현재 웹, 구글플레이스토어, 앱스토어에 출시되어있습니다.
-                도시별 한달살기 정보제공 플랫폼을 만들고 있습니다.
-                수익창출을 목표로 실행 중이며, 창업에 관심있는 분을 찾고
-                있어요.
-              </p>
-              <ul class="pj-work">
-                <li>프론트엔드</li>
-                <li>백엔드</li>
-                <li>디자인</li>
-              </ul>
-              <ul class="pj-info">
-                <li><i class="fa-solid fa-eye"></i> 16회</li>
-                <li><i class="fa-regular fa-bookmark"></i> 5회</li>
-              </ul>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="cont-box">
-              <span class="pj-type study">스터디/모집</span>
-              <span class="pj-tag hot">💙 인기</span>
-              <h1 class="pj-title">
-                한달살기 프로젝트 - 백엔드 개발자님 추가 모집 중
-              </h1>
-              <p class="pj-content">
-                현재 웹, 구글플레이스토어, 앱스토어에 출시되어있습니다.
-                도시별 한달살기 정보제공 플랫폼을 만들고 있습니다.
-                수익창출을 목표로 실행 중이며, 창업에 관심있는 분을 찾고
-                있어요.
-              </p>
-              <ul class="pj-work">
-                <li>프론트엔드</li>
-                <li>백엔드</li>
-                <li>디자인</li>
-              </ul>
-              <ul class="pj-info">
-                <li><i class="fa-solid fa-eye"></i> 16회</li>
-                <li><i class="fa-regular fa-bookmark"></i> 5회</li>
-              </ul>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="cont-box">
-              <span class="pj-type study">스터디/모집</span>
-              <span class="pj-tag hot">💙 인기</span>
-              <h1 class="pj-title">
-                한달살기 프로젝트 - 백엔드 개발자님 추가 모집 중
-              </h1>
-              <p class="pj-content">
-                현재 웹, 구글플레이스토어, 앱스토어에 출시되어있습니다.
-                도시별 한달살기 정보제공 플랫폼을 만들고 있습니다.
-                수익창출을 목표로 실행 중이며, 창업에 관심있는 분을 찾고
-                있어요.
-              </p>
-              <ul class="pj-work">
-                <li>프론트엔드</li>
-                <li>백엔드</li>
-                <li>디자인</li>
-              </ul>
-              <ul class="pj-info">
-                <li><i class="fa-solid fa-eye"></i> 16회</li>
-                <li><i class="fa-regular fa-bookmark"></i> 5회</li>
-              </ul>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="cont-box">
-              <span class="pj-type study">스터디/모집</span>
-              <span class="pj-tag hot">💙 인기</span>
-              <h1 class="pj-title">
-                한달살기 프로젝트 - 백엔드 개발자님 추가 모집 중
-              </h1>
-              <p class="pj-content">
-                현재 웹, 구글플레이스토어, 앱스토어에 출시되어있습니다.
-                도시별 한달살기 정보제공 플랫폼을 만들고 있습니다.
-                수익창출을 목표로 실행 중이며, 창업에 관심있는 분을 찾고
-                있어요.
-              </p>
-              <ul class="pj-work">
-                <li>프론트엔드</li>
-                <li>백엔드</li>
-                <li>디자인</li>
-              </ul>
-              <ul class="pj-info">
-                <li><i class="fa-solid fa-eye"></i> 16회</li>
-                <li><i class="fa-regular fa-bookmark"></i> 5회</li>
-              </ul>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="cont-box">
-              <span class="pj-type study">스터디/모집</span>
-              <span class="pj-tag hot">💙 인기</span>
-              <h1 class="pj-title">
-                한달살기 프로젝트 - 백엔드 개발자님 추가 모집 중
-              </h1>
-              <p class="pj-content">
-                현재 웹, 구글플레이스토어, 앱스토어에 출시되어있습니다.
-                도시별 한달살기 정보제공 플랫폼을 만들고 있습니다.
-                수익창출을 목표로 실행 중이며, 창업에 관심있는 분을 찾고
-                있어요.
-              </p>
-              <ul class="pj-work">
-                <li>프론트엔드</li>
-                <li>백엔드</li>
-                <li>디자인</li>
-              </ul>
-              <ul class="pj-info">
-                <li><i class="fa-solid fa-eye"></i> 16회</li>
-                <li><i class="fa-regular fa-bookmark"></i> 5회</li>
+                <li><i class="fa-solid fa-eye"></i>
+                  <th:block th:text="${project.getViews()}">16회</th:block>
+                </li>
+                <li><i class="fa-regular fa-bookmark"></i>
+                  <th:block th:text="${project.getBookmarkCount()}">5회</th:block>
+                </li>
               </ul>
             </div>
           </div>
         </div>
         <div class="all-page">
-          <a href="recruit_list.html">모두 보기
+          <a th:href="@{/project}">모두 보기
             <i class="fa-solid fa-angle-right"></i>
           </a>
         </div>
@@ -386,106 +155,16 @@
       <h5>프로젝트를 함께 할 수 있는 새로운 멤버를 확인해보세요!</h5>
       <div class="swiper member-swiper ps-l">
         <div class="swiper-wrapper">
-          <div class="swiper-slide">
+          <div class="swiper-slide" th:each="member : ${newMember}">
             <div class="member-box">
               <div class="profile-top">
                 <div class="profile-img"></div>
                 <div class="profile-info">
-                  <h6>이윤지</h6>
-                  <p>프론트엔드 개발자</p>
+                  <h6 th:text="${member.getUsername()}">이윤지</h6>
+                  <p th:text="${member.getPosition()}">프론트엔드 개발자</p>
                 </div>
               </div>
-              <p class="profile-cont">
-                프로젝트 구인 중입니다.프로젝트 구인 중입니다.프로젝트 구인
-                중입니다.프로젝트 구인 중입니다.프로젝트 구인
-                중입니다.프로젝트 구인 중입니다.프로젝트 구인
-                중입니다.프로젝트 구인 중입니다.프로젝트 구인
-                중입니다.프로젝트 구인 중입니다.
-              </p>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="member-box">
-              <div class="profile-top">
-                <div class="profile-img"></div>
-                <div class="profile-info">
-                  <h6>이윤지</h6>
-                  <p>프론트엔드 개발자</p>
-                </div>
-              </div>
-              <p class="profile-cont">
-                프로젝트 구인 중입니다.프로젝트 구인 중입니다.프로젝트 구인
-                중입니다.프로젝트 구인 중입니다.프로젝트 구인
-                중입니다.프로젝트 구인 중입니다.프로젝트 구인
-                중입니다.프로젝트 구인 중입니다.프로젝트 구인
-                중입니다.프로젝트 구인 중입니다.
-              </p>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="member-box">
-              <div class="profile-top">
-                <div class="profile-img"></div>
-                <div class="profile-info">
-                  <h6>이윤지</h6>
-                  <p>프론트엔드 개발자</p>
-                </div>
-              </div>
-              <p class="profile-cont">
-                프로젝트 구인 중입니다.프로젝트 구인 중입니다.프로젝트 구인
-                중입니다.프로젝트 구인 중입니다.프로젝트 구인
-                중입니다.프로젝트 구인 중입니다.프로젝트 구인
-                중입니다.프로젝트 구인 중입니다.프로젝트 구인
-                중입니다.프로젝트 구인 중입니다.
-              </p>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="member-box">
-              <div class="profile-top">
-                <div class="profile-img"></div>
-                <div class="profile-info">
-                  <h6>이윤지</h6>
-                  <p>프론트엔드 개발자</p>
-                </div>
-              </div>
-              <p class="profile-cont">
-                프로젝트 구인 중입니다.프로젝트 구인 중입니다.프로젝트 구인
-                중입니다.프로젝트 구인 중입니다.프로젝트 구인
-                중입니다.프로젝트 구인 중입니다.프로젝트 구인
-                중입니다.프로젝트 구인 중입니다.프로젝트 구인
-                중입니다.프로젝트 구인 중입니다.
-              </p>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="member-box">
-              <div class="profile-top">
-                <div class="profile-img"></div>
-                <div class="profile-info">
-                  <h6>이윤지</h6>
-                  <p>프론트엔드 개발자</p>
-                </div>
-              </div>
-              <p class="profile-cont">
-                프로젝트 구인 중입니다.프로젝트 구인 중입니다.프로젝트 구인
-                중입니다.프로젝트 구인 중입니다.프로젝트 구인
-                중입니다.프로젝트 구인 중입니다.프로젝트 구인
-                중입니다.프로젝트 구인 중입니다.프로젝트 구인
-                중입니다.프로젝트 구인 중입니다.
-              </p>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="member-box">
-              <div class="profile-top">
-                <div class="profile-img"></div>
-                <div class="profile-info">
-                  <h6>이윤지</h6>
-                  <p>프론트엔드 개발자</p>
-                </div>
-              </div>
-              <p class="profile-cont">
+              <p class="profile-cont" th:text="${member.getInfo()}">
                 프로젝트 구인 중입니다.프로젝트 구인 중입니다.프로젝트 구인
                 중입니다.프로젝트 구인 중입니다.프로젝트 구인
                 중입니다.프로젝트 구인 중입니다.프로젝트 구인
