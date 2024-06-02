@@ -34,10 +34,12 @@
     <div class="content">
       <div class="main-contents">
         <div class="title-wrap">
-          <span class="pj-type pj">사이드 프로젝트</span>
+          <span class="pj-type pj" th:classappend="${project.getProjectType() == '사이드 프로젝트'? 'pj' : 'study'}" th:text="${project.getProjectType()}">사이드
+            프로젝트</span>
           <p class="title">
-            <strong class="state-ing">모집 중</strong> 엘리스 SW 4기
-            모집합니다!
+            <strong class="state-ing" th:if="${project.getStatus()==1}">모집 중</strong>
+            <strong class="state-ing" th:if="${project.getStatus()==0}">모집완료</strong>
+            <th:block th:text="${project.getProjectName()}">엘리스 SW 4 모집합니다!</th:block>
           </p>
         </div>
         <!-- <p class="title">
@@ -46,9 +48,9 @@
   </p> -->
         <div class="info-wrap">
           <ul class="count">
-            <li>2024년 4월 30일</li>
-            <li><i class="fa-regular fa-comment"></i> 4개</li>
-            <li><i class="fa-solid fa-eye"></i> 28회</li>
+            <li th:text="${project.getCreatedAt()}">2024년 4월 30일</li>
+            <li><i class="fa-regular fa-comment"></i> <th:block th:text="${project.getRecruitCount()}">4개</th:block></li>
+            <li><i class="fa-solid fa-eye"></i><th:block th:text="${project.getViews()}">28회</th:block></li>
           </ul>
           <a href="" class="share-Btn"><i class="fa-solid fa-share-nodes"></i>공유하기</a>
         </div>
@@ -58,32 +60,33 @@
           <table>
             <tr>
               <td>모집 인원</td>
-              <td>4명</td>
+              <td th:text="${project.getRecruitCount()}">4명</td>
               <td>진행 방식</td>
-              <td>온라인</td>
+              <td th:text="${project.getProjectProcess()}">온라인</td>
             </tr>
             <tr>
               <td>모집 분야</td>
               <td>
-                <span class="work top">전체</span>
-                <span class="work top">프론트엔드</span>
-                <span class="work top">백엔드</span>
+                <span class="work top" th:each="role : ${project.getRecruitRoles()}" th:text="${role}">전체</span>
               </td>
               <td>시작 예정</td>
-              <td>2024.06.09</td>
+              <td th:text="${project.getExceptTime()}">2024.06.09</td>
             </tr>
             <tr>
               <td>수행 목적</td>
-              <td>포트폴리오</td>
+              <td th:text="${project.getProjectPurpose()}">포트폴리오</td>
               <td>예상 기간</td>
-              <td>2개월</td>
+              <td th:text="${project.getExceptDate()}">2개월</td>
             </tr>
             <tr>
               <td>참여 시간</td>
-              <td>매주 4시간 이하</td>
+              <td th:if="${project.getProjectTime() == 1}">매주 4시간 이하</td>
+              <td th:if="${project.getProjectTime() == 2}">4시간 ~ 10시간</td>
+              <td th:if="${project.getProjectTime() == 3}">10시간 이상</td>
               <td>기술 스택</td>
               <td>
                 <ul class="skill">
+                  <li th:each="skill : ${project.getSkills()}"><th:block th:text="${skill}"></th:block></li>
                   <li><img th:src="@{/img/typescript.svg}" alt="TypeScript"></li>
                   <li><img th:src="@{/img/vue.svg}" alt="Vue.js"></li>
                   <li><img th:src="@{/img/git.svg}" alt="Git"></li>
@@ -95,7 +98,7 @@
         </div>
         <div class="pj-intro">
           <h2 class="title-contents">프로젝트 소개</h2>
-          <p class="content bottom">
+          <p class="content bottom" th:text="${project.getProjectInfo()}">
             나만의 독보적인 포트폴리오를 만들고 싶다면?</br>
             단기간에 프로젝트 A to Z를 경험하고 싶다면?</br>
             타 직군과 소통하며 협업을 경험하고 싶다면?</br>
@@ -134,54 +137,23 @@
         </div>
         <p class="title-contents app">🖐 참가 신청자 목록 </strong><i class="fa-solid fa-circle-info"></i>
         <div class="app-wrap">
-          <div class="application-box">
+          <div class="application-box" th:each="member : ${project.getMembers()}">
             <div class="profile-top">
               <img th:src="@{/img/profile_sample.png}" alt="프로필이미지">
               <div>
-                <span class="work">프론트엔드</span>
-                <span class="career">신입</span>
-                <h3>이윤지</h3>
+                <span class="work" th:text="${member.getPosition()}">프론트엔드</span>
+                <span class="career" th:if="${member.getCareer() == 1}">학생/취준생</span>
+                <span class="career" th:if="${member.getCareer() == 2}">신입</span>
+                <span class="career" th:if="${member.getCareer() == 3}">1~3년차</span>
+                <span class="career" th:if="${member.getCareer() == 4}">3~5년차</span>
+                <span class="career" th:if="${member.getCareer() == 5}">5년이상</span>
+                <h3 th:text="${member.getUsername()}">👑 이윤지</h3>
               </div>
               <button class="addmem-button add">멤버 추가</button>
             </div>
-            <p class="app-date">2024년 4월 30일</p>
+            <p class="app-date" th:text="${member.getCreatedAt()}">2024년 4월 30일</p>
           </div>
-          <div class="application-box">
-            <div class="profile-top">
-              <img th:src="@{/img/profile_sample.png}" alt="프로필이미지">
-              <div>
-                <span class="work">백엔드</span>
-                <span class="career">1~3년차</span>
-                <h3>한지수</h3>
-              </div>
-              <button class="addmem-button done">멤버</button>
-            </div>
-            <p class="app-date">2024년 4월 30일</p>
-          </div>
-          <div class="application-box">
-            <div class="profile-top">
-              <img th:src="@{/img/profile_sample.png}" alt="프로필이미지">
-              <div>
-                <span class="work">기획</span>
-                <span class="career">3~5년차</span>
-                <h3>최재영</h3>
-              </div>
-              <button class="addmem-button done">멤버</button>
-            </div>
-            <p class="app-date">2024년 4월 30일</p>
-          </div>
-          <div class="application-box">
-            <div class="profile-top">
-              <img th:src="@{/img/profile_sample.png}" alt="프로필이미지">
-              <div>
-                <span class="work">디자인</span>
-                <span class="career">5년이상</span>
-                <h3>김동건</h3>
-              </div>
-              <button class="addmem-button add">멤버 추가</button>
-            </div>
-            <p class="app-date">2024년 4월 30일</p>
-          </div>
+
         </div>
       </div>
     </div>
@@ -189,10 +161,13 @@
       <div class="profile-box">
         <img th:src="@{/img/profile_sample.png}" alt="프로필이미지">
         <div class="right-tag">
-          <span class="work right">백엔드</span>
-          <span class="career right">1~3년차</span>
+          <span class="work right" th:text="${project.getOwnerInfo().getPosition()}">백엔드</span>
+          <span class="career right" th:if="${project.getOwnerInfo().getCareer() ==1}">신입/취준생</span>
+          <span class="career right" th:if="${project.getOwnerInfo().getCareer() ==2}">1~3년차</span>
+          <span class="career right" th:if="${project.getOwnerInfo().getCareer() ==3}">3~5년차</span>
+          <span class="career right" th:if="${project.getOwnerInfo().getCareer() ==4}">5년차이상</span>
         </div>
-        <h3>👑 이윤지</h3>
+        <h3 th:text="${project.getOwnerInfo().getUsername()}"> 이윤지</h3>
       </div>
       <button class="right-btn apply">프로젝트 참여 신청</button>
       <button class="right-btn bookmark"><i class="fa-regular fa-bookmark"></i>북마크</button>
@@ -205,7 +180,7 @@
         <button class="right-btn del_btn open-modal02">삭제</button>
       </div>
 
-      <p class="current-mem">👩‍👦‍👦 현재 참여 인원 <span>5</span>명</p>
+      <p class="current-mem">👩‍👦‍👦 현재 참여 인원 <span th:text="${project.getProjectMemberCount()}">5</span>명</p>
 
     </div>
     <!-- 모달창 -->

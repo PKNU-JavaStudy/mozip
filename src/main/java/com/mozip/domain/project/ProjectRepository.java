@@ -28,7 +28,7 @@ public interface ProjectRepository {
     int findProjectMemberCount(int projectId);
 
     // 프로젝트모집 상세페이지 : 프로젝트 지원자 명단 쿼리
-    //List<ProjectMemberDto> findProjectMembers(int projectId);
+    List<ProjectMemberDto> findProjectMembers(int projectId);
 
     // 프로젝트모집 상세페이지 : 프로젝트 작성자 데이터 쿼리
     ProjectMemberDto findOwnerInfo(int ownerId);

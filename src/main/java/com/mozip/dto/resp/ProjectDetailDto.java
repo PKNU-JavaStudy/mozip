@@ -11,12 +11,12 @@ public class ProjectDetailDto {
     private String projectType; // 프로젝트 타입
     private int status; // 프로젝트 모집상태
     private String projectName; // 프로젝트 제목
-    private LocalDateTime createdAt; // 생성일
+    private String createdAt; // 생성일
     private int recruitCount; // 모집인원(subscribe 테이블과 조인) 수
     private int views; // 조회수
     private String projectProcess; // 진행방식PROJECT
     private String projectPurpose; // 프로젝트 목적
-    private LocalDateTime exceptTime; // 시작예정
+    private String exceptTime; // 시작예정
     private int exceptDate; // 예상기간
     private int projectTime; // 프로젝트 참여시간
     private Object projectInfo;
@@ -28,8 +28,8 @@ public class ProjectDetailDto {
     private List<String> recruitRoles; // 프로젝트 모집분야(recruit_role 테이블과 조인)
     private int projectMemberCount; // 현재 프로젝트에 참여중인 멤버수
 
-    public ProjectDetailDto(int id, String projectType, int status, String projectName, LocalDateTime createdAt, int recruitCount, int views, String projectProcess,
-                            String projectPurpose, LocalDateTime exceptTime, int exceptDate, int projectTime, Object projectInfo, int ownerId) {
+    public ProjectDetailDto(int id, String projectType, int status, String projectName, String createdAt, int recruitCount, int views, String projectProcess,
+                            String projectPurpose, String exceptTime, int exceptDate, int projectTime, Object projectInfo, int ownerId) {
         this.id = id;
         this.projectType = projectType;
         this.status = status;

@@ -36,7 +36,7 @@ public class ProjectService {
     }
 
     // 메인페이지 인기모집글(상위6개) 데이터 갖고오는 메서드
-    public List<ProjectListDto> findHotProject(){
+    public List<ProjectListDto> findHotProject() {
         List<ProjectListDto> hotProjects = projectRepository.findHotProject();
         // 각 project의 각 ID를 통해 북마크수, 조회수를 가져와서 추가
         for (ProjectListDto project : hotProjects) {
@@ -44,7 +44,6 @@ public class ProjectService {
             project.setBookmarkCount(projectRepository.findBookmarkCount(project.getId()));
             project.setProjectInfo(Util.clobToString((NClob) project.getProjectInfo())); // NCLOB -> String 변환
         }
-
         return hotProjects;
     }
 
@@ -56,12 +55,19 @@ public class ProjectService {
         findProject.setProjectInfo(Util.clobToString((NClob) findProject.getProjectInfo()));
 
         // 시작예정, 생성일 타입 변경
+        findProject.setCreatedAt(Util.formatTimestamp(Timestamp.valueOf(findProject.getCreatedAt())));
+        findProject.setExceptTime(Util.formatTimestamp(Timestamp.valueOf(findProject.getExceptTime())));
 
         // 프로젝트 참여자 인원 수
         findProject.setProjectMemberCount(projectRepository.findProjectMemberCount(projectId));
 
         // TODO : 더미데이터 받고 참여지원자
-//        findProject.setMembers(projectRepository.findProjectMembers(projectId));
+        List<ProjectMemberDto> projectMembers = projectRepository.findProjectMembers(projectId);
+        for (ProjectMemberDto projectMember : projectMembers) {
+            // 생성일 포멧 변경
+            projectMember.setCreatedAt(Util.formatTimestamp(Timestamp.valueOf(projectMember.getCreatedAt())));
+        }
+        findProject.setMembers(projectMembers);
 
         // 프로젝트 모집 작성자 데이터
         findProject.setOwnerInfo(projectRepository.findOwnerInfo(findProject.getOwnerId()));
@@ -76,7 +82,7 @@ public class ProjectService {
     }
 
     //리스트페이지 데이터 갖고오는 메서드
-    public List<RecruitListDto> findAllProject(){
+    public List<RecruitListDto> findAllProject() {
         List<RecruitListDto> allProjects = projectRepository.findAllProject();
         for (RecruitListDto project : allProjects) {
             project.setRoleNames(projectRepository.findRecruitRoles(project.getId()));

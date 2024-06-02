@@ -114,7 +114,7 @@
     </select>
 
     <select id="findOwnerInfo" resultType="com.mozip.dto.resp.ProjectMemberDto">
-        SELECT ID, USERNAME, POSITION, CAREER
+        SELECT ID, USERNAME, POSITION, CAREER ,CREATED_AT
         FROM MEMBER
         WHERE ID = #{ownerId}
     </select>
@@ -131,5 +131,14 @@
         FROM PROJECT p
                  INNER JOIN RECRUIT_ROLE r ON p.ID = r.PROJECT_ID
         WHERE p.ID = #{projectId}
+    </select>
+
+    <select id="findProjectMembers" resultType="com.mozip.dto.resp.ProjectMemberDto">
+        SELECT MEMBER_ID, USERNAME, POSITION, CAREER, STIME
+        FROM (SELECT SUBSCRIBE.MEMBER_ID, SUBSCRIBE.CREATED_AT AS STIME
+              FROM SUBSCRIBE
+                       INNER JOIN PROJECT ON PROJECT.ID = SUBSCRIBE.PROJECT_ID
+              WHERE PROJECT_ID = #{projectId})
+                 INNER JOIN MEMBER ON MEMBER_ID = MEMBER.ID
     </select>
 </mapper>
