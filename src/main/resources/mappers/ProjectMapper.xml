@@ -12,6 +12,23 @@
         <result property="views" column="VIEWS"/>
     </resultMap>
 
+    <resultMap id="projectDetailMap" type="com.mozip.dto.resp.ProjectDetailDto">
+        <result property="id" column="ID"/>
+        <result property="projectType" column="PROJECT_TYPE"/>
+        <result property="status" column="STATUS"/>
+        <result property="projectName" column="PROJECT_NAME"/>
+        <result property="createdAt" column="CREATED_AT"/>
+        <result property="recruitCount" column="RECRUIT_COUNT"/>
+        <result property="views" column="VIEWS"/>
+        <result property="projectProcess" column="PROJECT_PROCESS"/>
+        <result property="projectPurpose" column="PROJECT_PURPOSE"/>
+        <result property="exceptTime" column="EXCEPT_TIME"/>
+        <result property="exceptDate" column="EXCEPT_DATE"/>
+        <result property="projectTime" column="PROJECT_TIME"/>
+        <result property="projectInfo" column="PROJECT_INFO"/>
+        <result property="ownerId" column="OWNER_ID"/>
+    </resultMap>
+
     <select id="findNewProject" resultMap="projectDtoMap">
         <![CDATA[
         SELECT ID, PROJECT_NAME, PROJECT_TYPE, PROJECT_INFO, VIEWS
@@ -34,10 +51,11 @@
 
     <select id="findRecruitRoles" resultType="java.lang.String">
         SELECT r.ROLE_NAME
-        FROM PROJECT p INNER JOIN RECRUIT_ROLE r ON p.ID = r.PROJECT_ID
-        WHERE PROJECT_ID=#{projectId}
+        FROM PROJECT p
+                 INNER JOIN RECRUIT_ROLE r ON p.ID = r.PROJECT_ID
+        WHERE PROJECT_ID = #{projectId}
     </select>
-    
+
     <select id="findBookmarkCount" resultType="int">
         SELECT COUNT(*)
         FROM PROJECT p
@@ -45,4 +63,51 @@
         WHERE b.PROJECT_ID = #{projectId}
     </select>
 
+    <select id="findProjectDetail" resultMap="projectDetailMap">
+        SELECT ID,
+               PROJECT_TYPE,
+               STATUS,
+               PROJECT_NAME,
+               CREATED_AT,
+               RECRUIT_COUNT,
+               VIEWS,
+               PROJECT_PROCESS,
+               PROJECT_PURPOSE,
+               EXCEPT_TIME,
+               EXCEPT_DATE,
+               PROJECT_TIME,
+               PROJECT_INFO,
+               OWNER_ID
+        FROM PROJECT
+        WHERE ID = #{projectId}
+    </select>
+
+    <select id="findProjectMemberCount" resultType="int">
+        SELECT COUNT(*)
+        FROM MEMBER
+        WHERE ID IN (SELECT pm.MEMBER_ID
+                     FROM PROJECT p
+                              INNER JOIN PROJECT_MEMBER pm ON p.ID = pm.PROJECT_ID
+                     WHERE P.ID = #{projectId})
+    </select>
+
+    <select id="findOwnerInfo" resultType="com.mozip.dto.resp.ProjectMemberDto">
+        SELECT ID, USERNAME, POSITION, CAREER
+        FROM MEMBER
+        WHERE ID = #{ownerId}
+    </select>
+
+    <select id="findProjectSkills" resultType="java.lang.String">
+        SELECT ps.SKILL_NAME
+        FROM PROJECT p
+                 INNER JOIN PROJECT_SKILL ps ON p.ID = ps.PROJECT_ID
+        WHERE p.ID = #{projectId}
+    </select>
+
+    <select id="findProjectRecruitRoles" resultType="java.lang.String">
+        SELECT r.ROLE_NAME
+        FROM PROJECT p
+                 INNER JOIN RECRUIT_ROLE r ON p.ID = r.PROJECT_ID
+        WHERE p.ID = #{projectId}
+    </select>
 </mapper>

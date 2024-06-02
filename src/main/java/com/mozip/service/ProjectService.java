@@ -1,7 +1,9 @@
 package com.mozip.service;
 
 import com.mozip.domain.project.ProjectRepository;
+import com.mozip.dto.resp.ProjectDetailDto;
 import com.mozip.dto.resp.ProjectListDto;
+import com.mozip.dto.resp.ProjectMemberDto;
 import com.mozip.util.Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,7 +34,7 @@ public class ProjectService {
     }
 
     // 메인페이지 인기모집글(상위6개) 데이터 갖고오는 메서드
-    public List<ProjectListDto> findHotProject(){
+    public List<ProjectListDto> findHotProject() {
         List<ProjectListDto> hotProjects = projectRepository.findHotProject();
         // 각 project의 각 ID를 통해 북마크수, 조회수를 가져와서 추가
         for (ProjectListDto project : hotProjects) {
@@ -42,5 +44,32 @@ public class ProjectService {
         }
 
         return hotProjects;
+    }
+
+    // 프로젝트모집 상세페이지 데이터 갖고오는 메서드
+    public ProjectDetailDto findProjectDetail(int projectId) {
+        ProjectDetailDto findProject = projectRepository.findProjectDetail(projectId);
+
+        // 프로젝트소개 타입 변경: NCLOB -> String
+        findProject.setProjectInfo(Util.clobToString((NClob) findProject.getProjectInfo()));
+
+        // 시작예정, 생성일 타입 변경
+
+        // 프로젝트 참여자 인원 수
+        findProject.setProjectMemberCount(projectRepository.findProjectMemberCount(projectId));
+
+        // TODO : 더미데이터 받고 참여지원자
+//        findProject.setMembers(projectRepository.findProjectMembers(projectId));
+
+        // 프로젝트 모집 작성자 데이터
+        findProject.setOwnerInfo(projectRepository.findOwnerInfo(findProject.getOwnerId()));
+
+        // 프로젝트 사용 기술스택
+        findProject.setSkills(projectRepository.findProjectSkills(projectId));
+
+        // 프로젝트 모집분야
+        findProject.setRecruitRoles(projectRepository.findProjectRecruitRoles(projectId));
+
+        return findProject;
     }
 }

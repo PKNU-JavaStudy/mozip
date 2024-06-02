@@ -1,5 +1,6 @@
 package com.mozip.web;
 
+import com.mozip.dto.resp.ProjectDetailDto;
 import com.mozip.dto.resp.ProjectListDto;
 import com.mozip.service.MemberService;
 import com.mozip.service.ProjectService;
@@ -8,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.sql.NClob;
 import java.util.List;
@@ -46,8 +48,11 @@ public class ProjectController {
     }
 
     // recruit_detail 페이지
-    @GetMapping("/project/projectId") // TODO : {}로 묶어야함(쿼리 파라미터)
-    public String recruitDetailForm(){
+    @GetMapping("/project/{projectId}") // TODO : {}로 묶어야함(쿼리 파라미터)
+    public String recruitDetailForm(@PathVariable int projectId, Model model){
+
+        ProjectDetailDto project = projectService.findProjectDetail(projectId);
+        System.out.println(project);
         return "/project/recruit_detail";
     }
 
