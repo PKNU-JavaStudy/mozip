@@ -18,6 +18,7 @@
 - Oracle Driver
 - Validation
 - Thymeleaf
+- Java Mail Sender
 
 ### ERD(초안)
 ![mozip.png](/src/main/resources/static/img/mozip.png)
