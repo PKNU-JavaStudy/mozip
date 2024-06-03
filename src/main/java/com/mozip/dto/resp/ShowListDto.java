@@ -2,6 +2,8 @@ package com.mozip.dto.resp;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class ShowListDto {
     private int id;
@@ -12,6 +14,7 @@ public class ShowListDto {
     // 조인 쿼리
     private String teamName;
     private int Likes;
+    private List<String> skills;
 
 
     public ShowListDto(int id, String projectName, String projectType, int views) {

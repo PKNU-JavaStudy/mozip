@@ -49,10 +49,13 @@ public class ProjectController {
     }
 
     // recruit_detail 페이지
-    @GetMapping("/project/{projectId}") // TODO : {}로 묶어야함(쿼리 파라미터)
-    public String recruitDetailForm(@PathVariable int projectId, Model model){
-        model.addAttribute("project", projectService.findProjectDetail(projectId));
-
+    @GetMapping("/project/{projectId}")
+    public String recruitDetailForm(@PathVariable("projectId") int projectId, Model model){
+        ProjectDetailDto projectDetail = projectService.findProjectDetail(projectId);
+        System.out.println("==================");
+        System.out.println(projectDetail);
+        System.out.println("==================");
+        model.addAttribute("project", projectDetail);
         return "/project/recruit_detail";
     }
 
