@@ -34,7 +34,6 @@ public class AuthService {
     @Transactional
     public void joinUser(JoinMemberDto joinMemberDto) {
         // 아이디 중복 체크
-        // TODO : 이메일 중복 알림창이 회원가입 알림창 이후에 나옴.
         String findEmail = authRepository.findByEmail(joinMemberDto.getEmail());
 
         if(findEmail != null) throw new CustomException("이메일 중복입니다 !");
