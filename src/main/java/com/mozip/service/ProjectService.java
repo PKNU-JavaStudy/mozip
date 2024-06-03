@@ -59,7 +59,24 @@ public class ProjectService {
         return allProjects;
     }
 
+    // 프로젝트자랑페이지 데이터 갖고오는 메서드
     public List<ShowListDto> findAllShowProject(){
-        return projectRepository.findAllShowProject();
+        List<ShowListDto> allShows =  projectRepository.findAllShowProject();
+        for(ShowListDto show : allShows){
+            show.setTeamName(projectRepository.findTeamName(show.getId()));
+            show.setLikes(projectRepository.findLikeCount(show.getId()));
+        }
+        return allShows;
     }
+
+    // 프로젝트자랑페이지 인기 데이터 갖고오는 메서드
+    public List<ShowListDto> findHotShow(){
+        List<ShowListDto> HotShows =  projectRepository.findHotShow();
+        for(ShowListDto show : HotShows) {
+            show.setTeamName(projectRepository.findTeamName(show.getId()));
+            show.setLikes(projectRepository.findLikeCount(show.getId()));
+        }
+        return HotShows;
+    }
+
 }

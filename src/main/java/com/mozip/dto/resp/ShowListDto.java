@@ -9,12 +9,15 @@ public class ShowListDto {
     private String projectType;
     private int ownerId;
     private int views;
+    // 조인 쿼리
+    private String teamName;
+    private int Likes;
 
-    public ShowListDto(int id, String projectName, String projectType, int ownerId, int views) {
+
+    public ShowListDto(int id, String projectName, String projectType, int views) {
         this.id = id;
         this.projectName = projectName;
         this.projectType = projectType;
-        this.ownerId = ownerId;
         this.views = views;
     }
 }

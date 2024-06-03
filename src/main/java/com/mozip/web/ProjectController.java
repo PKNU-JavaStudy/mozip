@@ -72,7 +72,10 @@ public class ProjectController {
     @GetMapping("/project/show")
     public String showListForm(Model model){
         List<ShowListDto> allShows = projectService.findAllShowProject();
+        // 모든 프로젝트 자랑
         model.addAttribute("allShows", allShows);
+        // 인기 프로젝트 자랑
+        model.addAttribute("HotShows", projectService.findHotShow());
         return "/project/show_list";
     }
 }

@@ -34,14 +34,13 @@
   <div class="top-lists">
     <h2>👑 현재 인기 프로젝트</h2>
     <div class="show-lists top">
-      <a th:href="@{/project/show/projectId}" class="show-box">
+      <a th:href="@{/project/show/${project.getId()}}" th:each="project:${HotShows}" class="show-box">
         <div class="img-wrap">
           <img th:src="@{/img/showlist_sample.png}" alt="프로필 이미지"/>
         </div>
         <div class="box-text">
-          <span class="pj-type pj">사이드 프로젝트</span>
-          <span class="pj-tag new">🍞 따끈따끈 새 글</span>
-          <h2>
+          <span class="pj-type" th:classappend="${project.getProjectType() == '사이드 프로젝트'? 'pj' : 'study'}" th:text="${project.getProjectType()}"></span>
+          <h2 th:text="${project.getProjectName()}">
             [풀스택개발자구인] 운동인을 위한 구독형 개인 맞춤 식단도시락
             서비스
           </h2>
@@ -52,65 +51,14 @@
             <li><img th:src="@{/img/figma.svg}" alt="Figma"></li>
           </ul>
           <div class="lists-bot">
-            <p>dbswl</p>
+            <p th:text="${project.getTeamName()}"></p>
             <ul class="count">
-
-              <li><i class="fa-solid fa-eye"></i> 28회</li>
-              <li><i class="fa-regular fa-thumbs-up"></i> 12회</li>
-            </ul>
-          </div>
-
-        </div>
-      </a>
-      <a th:href="@{/project/show/projectId}" class="show-box">
-        <div class="img-wrap">
-          <img th:src="@{/img/showlist_sample.png}" alt="프로필 이미지"/>
-        </div>
-        <div class="box-text">
-          <span class="pj-type pj">사이드 프로젝트</span>
-          <span class="pj-tag new">🍞 따끈따끈 새 글</span>
-          <h2>
-            [풀스택개발자구인] 운동인을 위한 구독형 개인 맞춤 식단도시락
-            서비스
-          </h2>
-          <ul class="skill">
-            <li><img th:src="@{/img/typescript.svg}" alt="TypeScript"></li>
-            <li><img th:src="@{/img/vue.svg}" alt="Vue.js"></li>
-            <li><img th:src="@{/img/git.svg}" alt="Git"></li>
-            <li><img th:src="@{/img/figma.svg}" alt="Figma"></li>
-          </ul>
-          <div class="lists-bot">
-            <p>dbswl</p>
-            <ul class="count">
-
-              <li><i class="fa-solid fa-eye"></i> 28회</li>
-              <li><i class="fa-regular fa-thumbs-up"></i> 12회</li>
-            </ul>
-          </div>
-        </div>
-      </a>
-      <a th:href="@{/project/show/projectId}" class="show-box">
-        <div class="img-wrap">
-          <img th:src="@{/img/showlist_sample.png}" alt="프로필 이미지"/>
-        </div>
-        <div class="box-text">
-          <span class="pj-type pj">사이드 프로젝트</span>
-          <span class="pj-tag new">🍞 따끈따끈 새 글</span>
-          <h2>
-            [풀스택개발자구인] 운동인을 위한 구독형 개인 맞춤 식단도시락
-            서비스
-          </h2>
-          <ul class="skill">
-            <li><img th:src="@{/img/typescript.svg}" alt="TypeScript"></li>
-            <li><img th:src="@{/img/vue.svg}" alt="Vue.js"></li>
-            <li><img th:src="@{/img/git.svg}" alt="Git"></li>
-            <li><img th:src="@{/img/figma.svg}" alt="Figma"></li>
-          </ul>
-          <div class="lists-bot">
-            <p>dbswl</p>
-            <ul class="count">
-              <li><i class="fa-solid fa-eye"></i> 28회</li>
-              <li><i class="fa-regular fa-thumbs-up"></i> 12회</li>
+              <li><i class="fa-solid fa-eye"></i>
+                <th:block th:text="${project.getViews()} + '회'">16회</th:block>
+              </li>
+              <li><i class="fa-regular fa-thumbs-up"></i>
+                <th:block th:text="${project.getLikes()} + '개'"></th:block>
+              </li>
             </ul>
           </div>
 
@@ -179,13 +127,12 @@
 
   </div>
   <div class="show-lists">
-    <a th:href="@{/project/show/projectId}" th:each="project:${allShows}" class="show-box">
+    <a th:href="@{/project/show/${project.getId()}}" th:each="project:${allShows}" class="show-box">
       <div class="img-wrap">
         <img th:src="@{/img/showlist_sample.png}" alt="프로필 이미지"/>
       </div>
       <div class="box-text">
         <span class="pj-type" th:classappend="${project.getProjectType() == '사이드 프로젝트'? 'pj' : 'study'}" th:text="${project.getProjectType()}"></span>
-        <span class="pj-tag new">🍞 따끈따끈 새 글</span>
         <h2 th:text="${project.getProjectName()}">
           [풀스택개발자구인] 운동인을 위한 구독형 개인 맞춤 식단도시락
           서비스
@@ -197,13 +144,15 @@
           <li><img th:src="@{/img/figma.svg}" alt="Figma"></li>
         </ul>
         <div class="lists-bot">
-          <p th:text="${project.getOwnerId()}">dbswl</p>
+          <p th:text="${project.getTeamName()}"></p>
           <ul class="count">
 
             <li><i class="fa-solid fa-eye"></i>
               <th:block th:text="${project.getViews()} + '회'">16회</th:block>
             </li>
-            <li><i class="fa-regular fa-thumbs-up"></i> 12회</li>
+            <li><i class="fa-regular fa-thumbs-up"></i>
+              <th:block th:text="${project.getLikes()} + '개'"></th:block>
+            </li>
           </ul>
         </div>
 

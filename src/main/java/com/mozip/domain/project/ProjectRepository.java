@@ -27,4 +27,13 @@ public interface ProjectRepository {
 
     // 프로젝트자랑리스트페이지 : 전체 자랑글 데이터 쿼리
     List<ShowListDto> findAllShowProject();
+
+    // 프로젝트자랑리스트페이지 : 팀네임 데이터 쿼리
+    String findTeamName(int projectId);
+
+    // 프로젝트자랑리스트페이지 : 인기 프로젝트자랑 데이터 쿼리
+    List<ShowListDto> findHotShow();
+
+    // 프로젝트자랑리스트페이지 : 좋아요 수 카운트 쿼리
+    int findLikeCount(int projectId);
 }
