@@ -61,7 +61,7 @@ header {
 
 .menu li a {
   font-size: 1.125rem;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .menu li a:hover {
@@ -69,7 +69,9 @@ header {
 }
 
 .member {
+  position: relative;
   display: flex;
+  align-items: center;
 }
 
 .member li {
@@ -97,6 +99,56 @@ header {
 
 .member li a:hover {
   text-decoration: underline;
+}
+.member li span:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+.member li:hover .sub-member {
+  display: block;
+}
+.member li.welcome {
+  border-right: 0px;
+  padding: 20px 0;
+  font-size: 1.1rem;
+}
+.member li span {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--main-color);
+}
+.member li img {
+  width: 50px;
+}
+.sub-member {
+  display: none;
+  position: absolute;
+  bottom: -120px;
+  left: 0px;
+  background: #fff;
+  z-index: 99;
+  border: 1px solid var(--border-color);
+  padding: 18px 23px;
+  border-radius: 8px;
+}
+
+.sub-member li {
+  padding: 7px 0;
+}
+.sub-member li:hover a {
+  font-weight: 600;
+}
+.sub-member li button{
+  background: none;
+  border: none;
+  padding: 0;
+}
+.sub-member li button:hover{
+  text-decoration: underline;
+  font-weight:600;
+}
+.sub-member li:nth-child(1) {
+  border-right: none;
 }
 
 /* main */

@@ -11,17 +11,24 @@
       <li><a th:href="@{/project/show}">프로젝트 자랑</a></li>
 
       <li th:if="${session.loginMember != null}"><a th:href="@{/teamnote/{memberId}(memberId=${session.loginMember.getId()})}">팀 노트</a></li>
-
     </ul>
   </nav>
   <ul class="member">
     <li th:if="${session.loginMember == null}"><a th:href="@{/auth/login}">로그인</a></li>
     <li th:if="${session.loginMember == null}"><a th:href="@{/auth/join}">회원가입</a></li>
 
-    <li th:if="${session.loginMember != null}"><th:block th:text="${session.loginMember.getUsername()}+'님 반갑습니다!'"></th:block></li>
-    <li th:if="${session.loginMember != null}"><a th:href="@{/member/{memberId}(memberId=${session.loginMember.getId()})}">마이페이지</a></li>
-    <li th:if="${session.loginMember != null}"><form th:action="@{/auth/logout}" method="post"><button>로그아웃</button></form>
+<!--    <li th:if="${session.loginMember != null}"><span th:text="${session.loginMember.getUsername()}+'님 반갑습니다!'"></span></li>-->
+<!--    <li th:if="${session.loginMember != null}"><a th:href="@{/member/{memberId}(memberId=${session.loginMember.getId()})}">마이페이지</a></li>-->
+<!--    <li th:if="${session.loginMember != null}"><form th:action="@{/auth/logout}" method="post"><button>로그아웃</button></form>-->
 
+    <li class="welcome" th:if="${session.loginMember != null}"><span th:text="${session.loginMember.getUsername()}">이윤지</span>님 반갑습니다!
+      <ul class="sub-member" th:if="${session.loginMember != null}">
+        <li><a th:href="@{/member/{memberId}(memberId=${session.loginMember.getId()})}">내프로필</a></li>
+        <li><a href="">프로필수정</a></li>
+        <li><form th:action="@{/auth/logout}" method="post"><button>로그아웃</button></form></li>
+      </ul>
+    </li>
+    <li th:if="${session.loginMember != null}"><a th:href="@{/member/{memberId}(memberId=${session.loginMember.getId()})}"><img src="./img/profile_sample.png" alt=""></a></li>
   </ul>
 </div>
 </html>

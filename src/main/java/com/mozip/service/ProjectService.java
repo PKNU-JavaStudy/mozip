@@ -110,6 +110,7 @@ public class ProjectService {
         for(ShowListDto show : HotShows) {
             show.setTeamName(projectRepository.findTeamName(show.getId()));
             show.setLikes(projectRepository.findLikeCount(show.getId()));
+            show.setSkills(projectRepository.findProjectSkills(show.getId()));
         }
         return HotShows;
     }

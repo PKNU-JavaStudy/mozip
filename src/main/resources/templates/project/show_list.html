@@ -34,7 +34,7 @@
   <div class="top-lists">
     <h2>👑 현재 인기 프로젝트</h2>
     <div class="show-lists top">
-      <a th:href="@{/project/show/${project.getId()}}" th:each="project:${HotShows}" class="show-box">
+      <a th:href="@{/project/show/{project}(project=${project.getId()})}" th:each="project:${HotShows}" class="show-box">
         <div class="img-wrap">
           <img th:src="@{/img/showlist_sample.png}" alt="프로필 이미지"/>
         </div>
@@ -45,7 +45,32 @@
             서비스
           </h2>
           <ul class="skill">
-            <li th:each="skill : ${project.getSkills()}"><th:block th:text="${skill}"></th:block></li>
+            <li th:each="skill : ${project.getSkills()}">
+              <th:block th:switch="${skill}">
+                <img th:case="'AWS'" src="/img/aws.svg" alt="AWS"/>
+                <img th:case="'Docker'" src="/img/docker.svg" alt="Docker"/>
+                <img th:case="'Figma'" src="/img/figma.svg" alt="Figma"/>
+                <img th:case="'Flutter'" src="/img/flutter.svg" alt="Flutter"/>
+                <img th:case="'Git'" src="/img/git.svg" alt="Git"/>
+                <img th:case="'Java'" src="/img/java.svg" alt="Java"/>
+                <img th:case="'JavaScript'" src="/img/javascript.svg" alt="JavaScript"/>
+                <img th:case="'Jest'" src="/img/jest.svg" alt="Jest"/>
+                <img th:case="'Kotlin'" src="/img/kotlin.svg" alt="Kotlin"/>
+                <img th:case="'MongoDb'" src="/img/mongodb.svg" alt="MongoDb"/>
+                <img th:case="'MySQL'" src="/img/mysql.svg" alt="MySQL"/>
+                <img th:case="'Nodejs'" src="/img/nodejs.svg" alt="Nodejs"/>
+                <img th:case="'php'" src="/img/php.svg" alt="php"/>
+                <img th:case="'Python'" src="/img/python.svg" alt="Python"/>
+                <img th:case="'React'" src="/img/react.svg" alt="React"/>
+                <img th:case="'ReactNative'" src="/img/reactnative.svg" alt="ReactNative"/>
+                <img th:case="'Spring'" src="/img/spring.svg" alt="Spring"/>
+                <img th:case="'Svelte'" src="/img/svelte.svg" alt="Svelte"/>
+                <img th:case="'TypeScript'" src="/img/typescript.svg" alt="TypeScript"/>
+                <img th:case="'Vue'" src="/img/vue.svg" alt="Vue"/>
+                <!-- 추가적인 스킬에 대한 case를 여기에 추가 -->
+                <span th:case="*">[[${skill}]]</span>
+              </th:block>
+            </li>
           </ul>
           <div class="lists-bot">
             <p th:text="${project.getTeamName()}"></p>
