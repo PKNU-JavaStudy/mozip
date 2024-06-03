@@ -1,6 +1,7 @@
 package com.mozip.service;
 
 import com.mozip.domain.member.MemberRepository;
+import com.mozip.dto.resp.MypageDto;
 import com.mozip.dto.resp.NewMemberListDto;
 import com.mozip.util.Util;
 import lombok.RequiredArgsConstructor;
@@ -22,5 +23,13 @@ public class MemberService {
             newMember.setInfo(Util.clobToString((NClob) newMember.getInfo()));
         }
         return newMembers;
+    }
+
+    public MypageDto getUserInfo(int id) {
+        MypageDto userInfo = memberRepository.getUserInfo(id);
+        List<String> skill = memberRepository.getUserSkills(id);
+        List<String> bookmark = memberRepository.getUserBookmarks(id);
+        return userInfo;
+
     }
 }

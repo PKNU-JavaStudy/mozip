@@ -7,12 +7,42 @@
         <![CDATA[
         SELECT *
         FROM (SELECT ID, USERNAME, POSITION, INFO
-        FROM MEMBER
-        WHERE IS_MODIFY = 1
-        ORDER BY CREATED_AT DESC)
+              FROM MEMBER
+              WHERE IS_MODIFY = 1
+              ORDER BY CREATED_AT DESC)
         WHERE ROWNUM <= 6
         ]]>
     </select>
+    <!--마이페이지-->
+    <!-- 사용자 기본 정보 가져오기 -->
+    <select id="getUserInfo" resultType="com.mozip.dto.resp.MypageDto">
+        SELECT
+            M.ID,
+            M.USERNAME AS NAME,
+            M.CAREER,
+            M.INFO,
+            M.POSITION,
+            (SELECT COUNT(*) FROM PROJECT WHERE PROJECT.OWNER_ID = M.ID) AS MAKEPROJECT,
+            (SELECT COUNT(*) FROM BOOKMARK WHERE BOOKMARK.ID = M.ID) AS MYBOOKMARK
+        FROM MEMBER M
+        WHERE M.ID = #{id}
+    </select>
+
+    <!-- 사용자 스킬 가져오기 -->
+    <select id="getUserSkills" resultType="string">
+        SELECT PS.SKILL_NAME
+        FROM PROJECT_SKILL PS
+                 INNER JOIN PROJECT P ON PS.PROJECT_ID = P.ID
+        WHERE P.OWNER_ID = #{id}
+    </select>
+
+    <!-- 북마크 리스트 가져오기 -->
+    <select id="getUserBookmarks" resultType="string">
+        SELECT P.PROJECT_NAME
+        FROM BOOKMARK B
+                 INNER JOIN PROJECT P ON B.PROJECT_ID = P.ID
+        WHERE B.MEMBER_ID = #{id}
+    </select>
 </mapper>
 
-<!-- 위 형식으로 각 도메인에 맞는 Mapper 를 작성 -->
+        <!-- 위 형식으로 각 도메인에 맞는 Mapper 를 작성 -->
