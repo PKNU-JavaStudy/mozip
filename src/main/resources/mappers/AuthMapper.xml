@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mozip.domain.member.AuthRepository">
+    <insert id="joinMember">
+        INSERT INTO MEMBER(ID, EMAIL, PASSWORD, USERNAME, PHONE)
+        VALUES (MEMBER_SEQ.NEXTVAL, #{email}, #{password}, #{username}, #{phone})
+    </insert>
+
+<!--    <resultMap id="findLoginMemberMap" type="com.mozip.domain.member.Member">-->
+<!--        <result property="id" column="ID"/>-->
+<!--        <result property="email" column="EMAIL"/>-->
+<!--        <result property="password" column="PASSWORD"/>-->
+<!--        <result property="username" column="USERNAME"/>-->
+<!--        <result property="phone" column="PHONE"/>-->
+<!--    </resultMap>-->
+
+    <select id="findLoginMember" resultType="com.mozip.domain.member.Member">
+        SELECT *
+        FROM MEMBER
+        WHERE EMAIL = #{email}
+    </select>
+
+    <select id="findByEmail" resultType="java.lang.String">
+        SELECT EMAIL
+        FROM MEMBER
+        WHERE EMAIL=#{email}
+    </select>
+
+</mapper>

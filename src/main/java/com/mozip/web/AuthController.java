@@ -1,7 +1,12 @@
 package com.mozip.web;
 
+import com.mozip.domain.member.Member;
+import com.mozip.dto.req.LoginDto;
 import com.mozip.dto.resp.JoinMemberDto;
 import com.mozip.service.AuthService;
+import com.mozip.util.SessionConst;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,13 +25,13 @@ public class AuthController {
 
     // find_id 페이지
     @GetMapping("/auth/findId")
-    public String findIdForm(){
+    public String findIdForm() {
         return "auth/find_id";
     }
 
     // find_password 페이지
     @GetMapping("/auth/findPw")
-    public String findPwForm(){
+    public String findPwForm() {
         return "auth/find_password";
     }
 
@@ -35,7 +40,7 @@ public class AuthController {
     public String joinForm() {
         return "auth/join";
     }
-    
+
     // 회원가입 처리
     @PostMapping("/auth/join")
     public String join(@ModelAttribute JoinMemberDto joinMemberDto) {
@@ -45,7 +50,28 @@ public class AuthController {
 
     // login 페이지
     @GetMapping("/auth/login")
-    public String loginForm(){
+    public String loginForm() {
         return "auth/login";
+    }
+
+    // login 처리
+    @PostMapping("/auth/login")
+    public String login(@ModelAttribute LoginDto loginDto, HttpServletRequest req) {
+        Member loginMember = authService.login(loginDto);
+        if (loginMember != null) {
+            HttpSession session = req.getSession();
+            session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
+        }
+        // HTTP Session 이용
+        return "redirect:/";
+    }
+
+    // logout
+    @PostMapping("/auth/logout")
+    public String logout(HttpServletRequest req) {
+        HttpSession session = req.getSession(false);
+        if (session != null) session.invalidate();
+
+        return "redirect:/";
     }
 }
