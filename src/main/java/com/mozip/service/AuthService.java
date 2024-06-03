@@ -35,10 +35,13 @@ public class AuthService {
     public void joinUser(JoinMemberDto joinMemberDto) {
         // 아이디 중복 체크
         // TODO : 이메일 중복 알림창이 회원가입 알림창 이후에 나옴.
-        if(!authRepository.findByEmail(joinMemberDto.getEmail()).isEmpty()) throw new CustomException("이메일 중복입니다 !");
+        String findEmail = authRepository.findByEmail(joinMemberDto.getEmail());
 
-        // 비밀번호 암호화
-        joinMemberDto.setPassword(BCrypt.hashpw(joinMemberDto.getPassword(), BCrypt.gensalt()));
-        authRepository.joinMember(joinMemberDto);
+        if(findEmail != null) throw new CustomException("이메일 중복입니다 !");
+        else{
+            // 비밀번호 암호화
+            joinMemberDto.setPassword(BCrypt.hashpw(joinMemberDto.getPassword(), BCrypt.gensalt()));
+            authRepository.joinMember(joinMemberDto);
+        }
     }
 }

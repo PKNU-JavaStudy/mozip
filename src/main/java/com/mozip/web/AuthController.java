@@ -57,6 +57,10 @@ public class AuthController {
     // login 처리
     @PostMapping("/auth/login")
     public String login(@ModelAttribute LoginDto loginDto, HttpServletRequest req) {
+        System.out.println("=====================");
+        System.out.println("loginDto.getEmail() = " + loginDto.getEmail());
+        System.out.println("loginDto.getPassword() = " + loginDto.getPassword());
+        System.out.println("=====================");
         Member loginMember = authService.login(loginDto);
         if (loginMember != null) {
             HttpSession session = req.getSession();
