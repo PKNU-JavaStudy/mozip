@@ -56,4 +56,23 @@ public interface ProjectRepository {
 
     // 프로젝트자랑리스트페이지 : 좋아요 수 카운트 쿼리
     int findLikeCount(int projectId);
+
+//
+//    // 프로젝트모집 상세페이지 : 프로젝트 정보 데이터 쿼리
+//    ProjectDetailDto findProjectDetail(int projectId);
+//
+//    // 프로젝트모집 상세페이지 : 프로젝트 참여인원수 쿼리
+//    int findProjectMemberCount(int projectId);
+//
+//    // 프로젝트모집 상세페이지 : 프로젝트 지원자 명단 쿼리
+//    List<ProjectMemberDto> findProjectMembers(int projectId);
+//
+//    // 프로젝트모집 상세페이지 : 프로젝트 작성자 데이터 쿼리
+//    ProjectMemberDto findOwnerInfo(int ownerId);
+//
+//    // 프로젝트모집 상세페이지 : 프로젝트 기술스택 쿼리
+//    List<String> findProjectSkills(int projectId);
+//
+//    // 프로젝트모집 상세페이지 : 프로젝트 모집분야
+//    List<String> findProjectRecruitRoles(int projectId);
 }
