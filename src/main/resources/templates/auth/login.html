@@ -27,14 +27,14 @@
 <main>
   <div class="wrap flex user-title">
     <h1>로그인</h1>
-    <form class="submit-box" action="#">
+    <form class="submit-box" action="/auth/login" method="post">
       <div class="input-group">
         <h2 for="email">이메일</h2>
-        <input type="email" id="email" placeholder="mozip@mozip.com" required>
+        <input type="email" id="email" name="email" placeholder="mozip@mozip.com" required>
       </div>
       <div class="input-group">
         <h2 for="password">비밀번호</h2>
-        <input type="password" id="password" placeholder="비밀번호를 입력하세요." minlength="5" required>
+        <input type="password" id="password" name="password" placeholder="비밀번호를 입력하세요." minlength="5" required>
       </div>
       <div class="inputLogin">
         <input type="submit" value="로그인" class="inputLogin">

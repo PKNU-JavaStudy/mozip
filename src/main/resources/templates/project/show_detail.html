@@ -34,16 +34,11 @@
     <div class="content show">
       <div class="main-contents">
         <div class="title-wrap">
-          <span class="pj-type pj">사이드 프로젝트</span>
+          <span class="pj-type pj" th:classappend="${project.getProjectType() == '사이드 프로젝트'? 'pj' : 'study'}" th:text="${project.getProjectType()}">사이드 프로젝트</span>
           <p class="title">
-            <strong class="state-ing">모집 중</strong> 엘리스 SW 4기
-            모집합니다!
+             엘리스 SW 4기 모집합니다!
           </p>
         </div>
-        <!-- <p class="title">
-              <strong class="state-done">모집 완료</strong> 엘리스 SW 4기
-              모집합니다!
-            </p> -->
         <div class="info-wrap">
           <ul class="count">
             <li>2024년 4월 30일</li>

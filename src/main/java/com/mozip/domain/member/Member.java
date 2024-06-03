@@ -1,12 +1,12 @@
 package com.mozip.domain.member;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.sql.NClob;
 import java.time.LocalDateTime;
 
-@AllArgsConstructor
+@ToString
 @Getter
 public class Member {
     private int id;
@@ -21,4 +21,12 @@ public class Member {
     private String profileImageUrl;
     private int isModify;
     private LocalDateTime createdAt;
+
+    public Member(int id, String email, String password, String username, String phone) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.username = username;
+        this.phone = phone;
+    }
 }

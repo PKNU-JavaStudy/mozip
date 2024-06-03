@@ -1,11 +1,7 @@
 package com.mozip.service;
 
 import com.mozip.domain.project.ProjectRepository;
-import com.mozip.dto.resp.ProjectDetailDto;
-import com.mozip.dto.resp.ProjectListDto;
-import com.mozip.dto.resp.ProjectMemberDto;
-import com.mozip.dto.resp.RecruitListDto;
-import com.mozip.dto.resp.ShowListDto;
+import com.mozip.dto.resp.*;
 import com.mozip.util.Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -62,7 +58,6 @@ public class ProjectService {
         // 프로젝트 참여자 인원 수
         findProject.setProjectMemberCount(projectRepository.findProjectMemberCount(projectId));
 
-        // TODO : 더미데이터 받고 참여지원자
         List<ProjectMemberDto> projectMembers = projectRepository.findProjectMembers(projectId);
         for (ProjectMemberDto projectMember : projectMembers) {
             // 생성일 포멧 변경
@@ -100,6 +95,7 @@ public class ProjectService {
         for(ShowListDto show : allShows){
             show.setTeamName(projectRepository.findTeamName(show.getId()));
             show.setLikes(projectRepository.findLikeCount(show.getId()));
+            show.setSkills(projectRepository.findProjectSkills(show.getId()));
         }
         return allShows;
     }
@@ -112,6 +108,36 @@ public class ProjectService {
             show.setLikes(projectRepository.findLikeCount(show.getId()));
         }
         return HotShows;
+    }
+
+    // 프로젝트자랑 상세페이지 데이터 갖고오는 메서드
+    public ShowDetailDto findShowDetail(int projectId) {
+        ShowDetailDto findShowDetail = projectRepository.findShowDetail(projectId);
+
+        findShowDetail.setProjectInfo(Util.clobToString((NClob) findShowDetail.getProjectInfo()));
+        findShowDetail.setSkills(projectRepository.findProjectSkills(findShowDetail.getId()));
+        findShowDetail.setLikes(projectRepository.findShowLikeCount(findShowDetail.getId()));
+
+        // 프로젝트 참여자 인원 수
+        findShowDetail.setProjectMemberCount(projectRepository.findShowMemberCount(projectId));
+
+        List<ProjectMemberDto> projectMembers = projectRepository.findProjectMembers(projectId);
+        for (ProjectMemberDto projectMember : projectMembers) {
+            // 생성일 포멧 변경
+            projectMember.setCreatedAt(Util.formatTimestamp(Timestamp.valueOf(projectMember.getCreatedAt())));
+        }
+        findShowDetail.setMembers(projectMembers);
+
+        // 프로젝트 모집 작성자 데이터
+//        findShowDetail.setOwnerInfo(projectRepository.findShowOwnerInfo(findShowDetail.getOwnerId()));
+
+        // 프로젝트 사용 기술스택
+        findShowDetail.setSkills(projectRepository.findShowSkills(projectId));
+
+        // 프로젝트 모집분야
+        findShowDetail.setRecruitRoles(projectRepository.findShowRecruitRoles(projectId));
+
+        return findShowDetail;
     }
 
 }

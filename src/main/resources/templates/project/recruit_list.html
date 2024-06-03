@@ -65,7 +65,7 @@
     </div>
 
     <div class="lists">
-      <a th:href="@{/project/projectId}" th:each="project : ${allProject}" class="project-box">
+      <a th:href="@{/project/{project}(project=${project.getId()})}" th:each="project : ${allProject}" class="project-box">
         <span class="pj-type" th:classappend="${project.getProjectType() == '사이드 프로젝트'? 'pj' : 'study'}" th:text="${project.getProjectType()}"></span>
         <p class="title">
           <strong class="state-ing" th:text="${project.getStatus() == 1 ? '모집 중' : '모집완료' }">모집 중</strong>

@@ -185,4 +185,57 @@
               WHERE PROJECT_ID = #{projectId})
                  INNER JOIN MEMBER ON MEMBER_ID = MEMBER.ID
     </select>
+    <!-- mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm -->
+    <select id="findShowDetail" resultType="com.mozip.dto.resp.ProjectMemberDto">
+        SELECT ID,
+               PROJECT_TYPE,
+               STATUS,
+               PROJECT_NAME,
+               CREATED_AT,
+               MODIFIED_SHOW,
+               VIEWS,
+               PROJECT_PROCESS,
+               PROJECT_PURPOSE,
+               PROJECT_TIME,
+               PROJECT_INFO,
+               OWNER_ID
+        FROM PROJECT
+        WHERE ID = #{projectId}
+    </select>
+
+    <!--  프로젝트자랑페이지 : 좋아요 카운트  -->
+    <select id="findShowLikeCount" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM LIKES INNER JOIN PROJECT ON LIKES.PROJECT_ID = PROJECT.ID
+        WHERE PROJECT_ID = #{projectId}
+    </select>
+<!--참여 인원수-->
+    <select id="findShowMemberCount" resultType="int">
+        SELECT COUNT(*)
+        FROM MEMBER
+        WHERE ID IN (SELECT pm.MEMBER_ID
+                     FROM PROJECT p
+                              INNER JOIN PROJECT_MEMBER pm ON p.ID = pm.PROJECT_ID
+                     WHERE P.ID = #{projectId})
+    </select>
+
+    <select id="findShowOwnerInfo" resultType="com.mozip.dto.resp.ProjectMemberDto">
+        SELECT ID, USERNAME, POSITION, CAREER ,CREATED_AT
+        FROM MEMBER
+        WHERE ID = #{ownerId}
+    </select>
+
+    <select id="findShowSkills" resultType="java.lang.String">
+        SELECT ps.SKILL_NAME
+        FROM PROJECT p
+                 INNER JOIN PROJECT_SKILL ps ON p.ID = ps.PROJECT_ID
+        WHERE p.ID = #{projectId}
+    </select>
+
+    <select id="findShowRecruitRoles" resultType="java.lang.String">
+        SELECT r.ROLE_NAME
+        FROM PROJECT p
+                 INNER JOIN RECRUIT_ROLE r ON p.ID = r.PROJECT_ID
+        WHERE p.ID = #{projectId}
+    </select>
 </mapper>

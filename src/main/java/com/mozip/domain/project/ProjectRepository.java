@@ -1,10 +1,6 @@
 package com.mozip.domain.project;
 
-import com.mozip.dto.resp.ProjectDetailDto;
-import com.mozip.dto.resp.ProjectListDto;
-import com.mozip.dto.resp.RecruitListDto;
-import com.mozip.dto.resp.ShowListDto;
-import com.mozip.dto.resp.ProjectMemberDto;
+import com.mozip.dto.resp.*;
 
 import java.util.List;
 
@@ -57,22 +53,22 @@ public interface ProjectRepository {
     // 프로젝트자랑리스트페이지 : 좋아요 수 카운트 쿼리
     int findLikeCount(int projectId);
 
-//
-//    // 프로젝트모집 상세페이지 : 프로젝트 정보 데이터 쿼리
-//    ProjectDetailDto findProjectDetail(int projectId);
-//
-//    // 프로젝트모집 상세페이지 : 프로젝트 참여인원수 쿼리
-//    int findProjectMemberCount(int projectId);
-//
-//    // 프로젝트모집 상세페이지 : 프로젝트 지원자 명단 쿼리
-//    List<ProjectMemberDto> findProjectMembers(int projectId);
-//
-//    // 프로젝트모집 상세페이지 : 프로젝트 작성자 데이터 쿼리
-//    ProjectMemberDto findOwnerInfo(int ownerId);
-//
-//    // 프로젝트모집 상세페이지 : 프로젝트 기술스택 쿼리
-//    List<String> findProjectSkills(int projectId);
-//
-//    // 프로젝트모집 상세페이지 : 프로젝트 모집분야
-//    List<String> findProjectRecruitRoles(int projectId);
+
+    // 프로젝트자랑 상세페이지 : 프로젝트 정보 데이터 쿼리
+    ShowDetailDto findShowDetail(int projectId);
+
+    // 프로젝트자랑리스트페이지 : 좋아요 수 카운트 쿼리
+    int findShowLikeCount(int projectId);
+
+    // 프로젝트자랑 상세페이지 : 프로젝트 참여인원수 쿼리
+    int findShowMemberCount(int projectId);
+
+    // 프로젝트자랑 상세페이지 : 프로젝트 작성자 데이터 쿼리
+//    ShowDetailDto findShowOwnerInfo(int ownerId);
+
+    // 프로젝트자랑 상세페이지 : 프로젝트 기술스택 쿼리
+    List<String> findShowSkills(int projectId);
+
+    // 프로젝트자랑 상세페이지 : 프로젝트 모집분야
+    List<String> findShowRecruitRoles(int projectId);
 }

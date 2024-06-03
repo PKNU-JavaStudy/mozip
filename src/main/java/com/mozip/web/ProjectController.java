@@ -42,17 +42,20 @@ public class ProjectController {
         return "index";
     }
 
-    // recruit_create 페이지
+    // recruit_create 페이지: 로그인한 유저만 접근
     @GetMapping("/project/create") // TODO : {}로 묶어야함(쿼리 파라미터)
     public String recruitCreateForm() {
         return "/project/recruit_create";
     }
 
     // recruit_detail 페이지
-    @GetMapping("/project/{projectId}") // TODO : {}로 묶어야함(쿼리 파라미터)
-    public String recruitDetailForm(@PathVariable int projectId, Model model){
-        model.addAttribute("project", projectService.findProjectDetail(projectId));
-
+    @GetMapping("/project/{projectId}")
+    public String recruitDetailForm(@PathVariable("projectId") int projectId, Model model){
+        ProjectDetailDto projectDetail = projectService.findProjectDetail(projectId);
+        System.out.println("==================");
+        System.out.println(projectDetail);
+        System.out.println("==================");
+        model.addAttribute("project", projectDetail);
         return "/project/recruit_detail";
     }
 
@@ -65,8 +68,9 @@ public class ProjectController {
     }
 
     // show_detail 페이지
-    @GetMapping("/project/show/projectId") // TODO : {}로 묶어야함(쿼리 파라미터)
-    public String showDetailForm(){
+    @GetMapping("/project/show/{projectId}") // TODO : {}로 묶어야함(쿼리 파라미터)
+    public String showDetailForm(@PathVariable int projectId, Model model){
+        model.addAttribute("showDetail", projectService.findShowDetail(projectId));
         return "/project/show_detail";
     }
 
