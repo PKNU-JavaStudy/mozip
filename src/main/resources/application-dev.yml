@@ -13,3 +13,5 @@ server:
       charset: UTF-8
       force: true
       enabled: true
+    session:
+      tracking-modes: cookie

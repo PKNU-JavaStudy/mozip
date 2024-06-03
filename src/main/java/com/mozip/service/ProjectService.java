@@ -62,7 +62,6 @@ public class ProjectService {
         // 프로젝트 참여자 인원 수
         findProject.setProjectMemberCount(projectRepository.findProjectMemberCount(projectId));
 
-        // TODO : 더미데이터 받고 참여지원자
         List<ProjectMemberDto> projectMembers = projectRepository.findProjectMembers(projectId);
         for (ProjectMemberDto projectMember : projectMembers) {
             // 생성일 포멧 변경

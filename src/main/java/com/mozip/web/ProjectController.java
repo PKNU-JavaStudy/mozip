@@ -42,7 +42,7 @@ public class ProjectController {
         return "index";
     }
 
-    // recruit_create 페이지
+    // recruit_create 페이지: 로그인한 유저만 접근
     @GetMapping("/project/create") // TODO : {}로 묶어야함(쿼리 파라미터)
     public String recruitCreateForm() {
         return "/project/recruit_create";
