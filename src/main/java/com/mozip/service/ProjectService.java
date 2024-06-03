@@ -5,6 +5,7 @@ import com.mozip.dto.resp.ProjectDetailDto;
 import com.mozip.dto.resp.ProjectListDto;
 import com.mozip.dto.resp.ProjectMemberDto;
 import com.mozip.dto.resp.RecruitListDto;
+import com.mozip.dto.resp.ShowListDto;
 import com.mozip.util.Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -91,4 +92,26 @@ public class ProjectService {
         }
         return allProjects;
     }
+
+    // 프로젝트자랑페이지 데이터 갖고오는 메서드
+    public List<ShowListDto> findAllShowProject(){
+        List<ShowListDto> allShows =  projectRepository.findAllShowProject();
+        for(ShowListDto show : allShows){
+            show.setTeamName(projectRepository.findTeamName(show.getId()));
+            show.setLikes(projectRepository.findLikeCount(show.getId()));
+            show.setSkills(projectRepository.findProjectSkills(show.getId()));
+        }
+        return allShows;
+    }
+
+    // 프로젝트자랑페이지 인기 데이터 갖고오는 메서드
+    public List<ShowListDto> findHotShow(){
+        List<ShowListDto> HotShows =  projectRepository.findHotShow();
+        for(ShowListDto show : HotShows) {
+            show.setTeamName(projectRepository.findTeamName(show.getId()));
+            show.setLikes(projectRepository.findLikeCount(show.getId()));
+        }
+        return HotShows;
+    }
+
 }

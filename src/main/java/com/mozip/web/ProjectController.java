@@ -3,6 +3,7 @@ package com.mozip.web;
 import com.mozip.dto.resp.ProjectDetailDto;
 import com.mozip.dto.resp.ProjectListDto;
 import com.mozip.dto.resp.RecruitListDto;
+import com.mozip.dto.resp.ShowListDto;
 import com.mozip.service.MemberService;
 import com.mozip.service.ProjectService;
 import com.mozip.util.Util;
@@ -48,10 +49,13 @@ public class ProjectController {
     }
 
     // recruit_detail 페이지
-    @GetMapping("/project/{projectId}") // TODO : {}로 묶어야함(쿼리 파라미터)
-    public String recruitDetailForm(@PathVariable int projectId, Model model){
-        model.addAttribute("project", projectService.findProjectDetail(projectId));
-
+    @GetMapping("/project/{projectId}")
+    public String recruitDetailForm(@PathVariable("projectId") int projectId, Model model){
+        ProjectDetailDto projectDetail = projectService.findProjectDetail(projectId);
+        System.out.println("==================");
+        System.out.println(projectDetail);
+        System.out.println("==================");
+        model.addAttribute("project", projectDetail);
         return "/project/recruit_detail";
     }
 
@@ -60,7 +64,6 @@ public class ProjectController {
     public String recruitListForm(Model model){
         // 가져온 데이터를 모델에 추가하여 타임리프 템플릿에서 사용할 수 있게 함
         model.addAttribute("allProject", projectService.findAllProject());
-
         return "/project/recruit_list";
     }
 
@@ -72,7 +75,12 @@ public class ProjectController {
 
     // show_list 페이지
     @GetMapping("/project/show")
-    public String showListForm(){
+    public String showListForm(Model model){
+        List<ShowListDto> allShows = projectService.findAllShowProject();
+        // 모든 프로젝트 자랑
+        model.addAttribute("allShows", allShows);
+        // 인기 프로젝트 자랑
+        model.addAttribute("HotShows", projectService.findHotShow());
         return "/project/show_list";
     }
 }

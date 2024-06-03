@@ -11,7 +11,7 @@
         <result property="projectInfo" column="PROJECT_INFO"/>
         <result property="views" column="VIEWS"/>
     </resultMap>
-    <!--    -->
+
     <resultMap id="recruitDtoMap" type="com.mozip.dto.resp.RecruitListDto">
         <result property="id" column="ID"/>
         <result property="projectName" column="PROJECT_NAME"/>
@@ -22,6 +22,14 @@
         <result property="createTime" column="CREATED_AT"/>
     </resultMap>
 
+    <resultMap id="ShowListDtoMap" type="com.mozip.dto.resp.ShowListDto">
+        <result property="id" column="ID"/>
+        <result property="projectName" column="PROJECT_NAME"/>
+        <result property="projectType" column="PROJECT_TYPE"/>
+        <result property="views" column="VIEWS"/>
+    </resultMap>
+
+    <!--  메인페이지 : 새로운 프로젝트  -->
     <resultMap id="projectDetailMap" type="com.mozip.dto.resp.ProjectDetailDto">
         <result property="id" column="ID"/>
         <result property="projectType" column="PROJECT_TYPE"/>
@@ -38,7 +46,6 @@
         <result property="projectInfo" column="PROJECT_INFO"/>
         <result property="ownerId" column="OWNER_ID"/>
     </resultMap>
-
     <select id="findNewProject" resultMap="projectDtoMap">
         <![CDATA[
         SELECT ID, PROJECT_NAME, PROJECT_TYPE, PROJECT_INFO, VIEWS
@@ -49,6 +56,7 @@
         ]]>
     </select>
 
+    <!--  메인페이지 : 인기 프로젝트  -->
     <select id="findHotProject" resultMap="projectDtoMap">
         <![CDATA[
         SELECT ID, PROJECT_NAME, PROJECT_TYPE, PROJECT_INFO, VIEWS
@@ -59,6 +67,7 @@
         ]]>
     </select>
 
+    <!--  메인페이지 : 모집역활  -->
     <select id="findRecruitRoles" resultType="java.lang.String">
         SELECT r.ROLE_NAME
         FROM PROJECT p
@@ -66,6 +75,7 @@
         WHERE PROJECT_ID = #{projectId}
     </select>
 
+    <!--  메인페이지 : 북마크 카운트  -->
     <select id="findBookmarkCount" resultType="int">
         SELECT COUNT(*)
         FROM PROJECT p
@@ -73,18 +83,52 @@
         WHERE b.PROJECT_ID = #{projectId}
     </select>
 
+    <!--  리스트페이지 : 모든 프로젝트  -->
     <select id="findAllProject" resultMap="recruitDtoMap">
         SELECT ID, PROJECT_NAME, PROJECT_INFO, PROJECT_TYPE, VIEWS, STATUS, CREATED_AT
         FROM PROJECT
         ORDER BY CREATED_AT DESC
     </select>
 
+    <!--  메인페이지 : 신청자 카운트  -->
     <select id="findSubscribeCount" resultType="java.lang.Integer">
         SELECT COUNT(*)
         FROM SUBSCRIBE INNER JOIN PROJECT ON SUBSCRIBE.PROJECT_ID = PROJECT.ID
         WHERE PROJECT.ID = #{projectId}
     </select>
 
+    <!--  프로젝트자랑페이지 : 모든 프로젝트자랑  -->
+    <select id="findAllShowProject" resultMap="ShowListDtoMap">
+        SELECT ID, PROJECT_NAME, PROJECT_TYPE, OWNER_ID, VIEWS
+        FROM PROJECT
+        WHERE IS_SHOW = 1
+    </select>
+
+    <!--  프로젝트자랑페이지 : 팀네임  -->
+    <select id="findTeamName" resultType="java.lang.String">
+        SELECT TEAM_NAME
+        FROM TEAM_NOTE INNER JOIN PROJECT ON TEAM_NOTE.PROJECT_ID = PROJECT.ID
+        WHERE PROJECT_ID = #{projectId}
+    </select>
+
+    <!--  프로젝트자랑페이지 : 새로운 프로젝트  -->
+    <select id="findHotShow" resultMap="ShowListDtoMap">
+        <![CDATA[
+        SELECT ID, PROJECT_NAME, PROJECT_TYPE, VIEWS
+        FROM (SELECT ID, PROJECT_NAME, PROJECT_TYPE, VIEWS
+        FROM PROJECT
+        ORDER BY VIEWS DESC)
+        WHERE ROWNUM <= 3
+        ]]>
+    </select>
+
+    <!--  프로젝트자랑페이지 : 좋아요 카운트  -->
+    <select id="findLikeCount" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM LIKES INNER JOIN PROJECT ON LIKES.PROJECT_ID = PROJECT.ID
+        WHERE PROJECT_ID = #{projectId}
+    </select>
+  
     <select id="findProjectDetail" resultMap="projectDetailMap">
         SELECT ID,
                PROJECT_TYPE,

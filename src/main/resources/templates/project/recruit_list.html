@@ -68,8 +68,8 @@
       <a th:href="@{/project/{project}(project=${project.getId()})}" th:each="project : ${allProject}" class="project-box">
         <span class="pj-type" th:classappend="${project.getProjectType() == '사이드 프로젝트'? 'pj' : 'study'}" th:text="${project.getProjectType()}"></span>
         <p class="title">
-          <strong class="state-ing" th:text="${project.status == 1 ? '모집 중' : '모집완료' }">모집 중</strong>
-          <span th:text="${project.projectName}">엘리스 SW 4기 모집합니다!</span>
+          <strong class="state-ing" th:text="${project.getStatus() == 1 ? '모집 중' : '모집완료' }">모집 중</strong>
+          <span th:text="${project.getProjectName()}">엘리스 SW 4기 모집합니다!</span>
         </p>
         <div class="cont-wrap">
           <p class="content" th:text="${project.getProjectInfo()}">

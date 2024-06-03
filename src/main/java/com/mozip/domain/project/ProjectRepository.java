@@ -3,6 +3,7 @@ package com.mozip.domain.project;
 import com.mozip.dto.resp.ProjectDetailDto;
 import com.mozip.dto.resp.ProjectListDto;
 import com.mozip.dto.resp.RecruitListDto;
+import com.mozip.dto.resp.ShowListDto;
 import com.mozip.dto.resp.ProjectMemberDto;
 
 import java.util.List;
@@ -41,6 +42,18 @@ public interface ProjectRepository {
     // 리스트페이지 : 전체 모집글 데이터 쿼리
     List<RecruitListDto> findAllProject();
 
-    // 리스트페이지 : 모집글 신청 멤버 조회 쿼리
+    // 멤버모집리스트페이지 : 모집글 신청 멤버 조회 쿼리
     int findSubscribeCount(int projectId);
+
+    // 프로젝트자랑리스트페이지 : 전체 자랑글 데이터 쿼리
+    List<ShowListDto> findAllShowProject();
+
+    // 프로젝트자랑리스트페이지 : 팀네임 데이터 쿼리
+    String findTeamName(int projectId);
+
+    // 프로젝트자랑리스트페이지 : 인기 프로젝트자랑 데이터 쿼리
+    List<ShowListDto> findHotShow();
+
+    // 프로젝트자랑리스트페이지 : 좋아요 수 카운트 쿼리
+    int findLikeCount(int projectId);
 }
