@@ -37,48 +37,16 @@
   <h1>📒 팀노트</h1>
   <p>팀원들과 함께 공유하는 팀 페이지 입니다.</p>
   <div class="teamnote-list-wrap">
-    <a th:href="@{/teamnote/teamId}" class="show-box">
+    <a th:href="@{/teamnote/${team.getId()}}" class="show-box" th:each="team : ${teamnoteList}">
       <div class="img-wrap">
         <img th:src="@{/img/showlist_sample.png}" alt="썸네일"/>
       </div>
       <div class="box-text teamnote">
-        <h2>
+        <h2 th:text="${team.getProjectSubject()}">
           [풀스택개발자구인] 운동인을 위한 구독형 개인 맞춤 식단도시락
           서비스
         </h2>
-        <p>
-          피트니스/다이어트 마켓을 같이 독점할 팀원을 찾습니다! '일반 및
-          전문 운동인을 위한 구독형 개인맞춤 식단도시락 서비스'를 준비중인
-          삼박자팀입니다.
-        </p>
-      </div>
-    </a>
-    <a th:href="@{/teamnote/teamId}" class="show-box">
-      <div class="img-wrap">
-        <img th:src="@{/img/showlist_sample.png}" alt="썸네일"/>
-      </div>
-      <div class="box-text">
-        <h2>
-          [풀스택개발자구인] 운동인을 위한 구독형 개인 맞춤 식단도시락
-          서비스
-        </h2>
-        <p class="sub-title">
-          피트니스/다이어트 마켓을 같이 독점할 팀원을 찾습니다! '일반 및
-          전문 운동인을 위한 구독형 개인맞춤 식단도시락 서비스'를 준비중인
-          삼박자팀입니다.
-        </p>
-      </div>
-    </a>
-    <a th:href="@{/teamnote/teamId}" class="show-box">
-      <div class="img-wrap">
-        <img th:src="@{/img/showlist_sample.png}" alt="썸네일"/>
-      </div>
-      <div class="box-text">
-        <h2>
-          [풀스택개발자구인] 운동인을 위한 구독형 개인 맞춤 식단도시락
-          서비스
-        </h2>
-        <p>
+        <p th:text="${team.getProjectInfo()}">
           피트니스/다이어트 마켓을 같이 독점할 팀원을 찾습니다! '일반 및
           전문 운동인을 위한 구독형 개인맞춤 식단도시락 서비스'를 준비중인
           삼박자팀입니다.

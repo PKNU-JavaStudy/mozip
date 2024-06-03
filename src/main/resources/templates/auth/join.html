@@ -2,12 +2,14 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>모집(mo.zip) - 회원가입</title>
   <!-- font awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous"
         referrerpolicy="no-referrer"/>
   <!-- 직접 구현한 CSS -->
   <link rel="stylesheet" th:href="@{/css/reset.css}"/>
@@ -25,14 +27,14 @@
 </header>
 <div class="wrap flex user-title">
   <h1>회원가입</h1>
-  <form id="signup-form" class="submit-box" action="javascript:void(0);">
+  <form id="signup-form" class="submit-box" th:action="@{/auth/join}" th:method="post">
     <div class="input-group">
       <h2 for="email">이메일</h2>
-      <input type="email" id="email" placeholder="mozip@mozip.com" required>
+      <input type="email" id="email" name="email" placeholder="mozip@mozip.com" required>
     </div>
     <div class="input-group">
       <h2 for="password">비밀번호</h2>
-      <input type="password" id="password" placeholder="비밀번호를 입력하세요." minlength="5" required>
+      <input type="password" id="password" name="password" placeholder="비밀번호를 입력하세요." minlength="5" required>
     </div>
     <div class="input-group">
       <h2 for="confirm-password">비밀번호 확인</h2>
@@ -41,20 +43,24 @@
     <div class="input-group">
       <h2 for="name">이름</h2>
       <div class="name">
-        <input type="text" id="name" placeholder="이름을 입력하세요." maxlength="4" required>
+        <input type="text" id="name" name="username" placeholder="이름을 입력하세요." maxlength="4" required>
       </div>
     </div>
     <div class="input-group">
       <h2 for="phone-number">휴대폰 번호</h2>
       <div class="email">
-        <input type="text" id="phone-number" placeholder="전화번호를 입력해주세요.(-제외)" minlength="11" maxlength="11" required>
+        <input type="text" id="phone-number" name="phone" placeholder="전화번호를 입력해주세요.(-제외)" minlength="11" maxlength="11"
+               required>
       </div>
     </div>
     <div class="join_checkBox">
-      <p><label><input type="checkbox" id="agreeAll" onclick="toggleAll(this)" value="모두 동의">&emsp;모두 동의</label></p>
-      <p><label><input type="checkbox" class="required" id="agreeAge" value="(필수) 만 14세 이상입니다.">&emsp;(필수) 만 14세 이상입니다.</label></p>
-      <p><label><input type="checkbox" class="required" id="agreeTerms" value="(필수) 커리어리 이용약관 동의">&emsp;(필수) 커리어리 이용약관 동의</label></p>
-      <p><label><input type="checkbox" class="required" id="agreePrivacy" value="(필수) 개인정보 수집 및 이용 동의">&emsp;(필수) 개인정보 수집 및 이용 동의</label></p>
+      <p><label><input type="checkbox" id="agreeAll" onclick="toggleAll(this)" value="모두 동의" >&emsp;모두 동의</label></p>
+      <p><label><input type="checkbox" class="required" id="agreeAge" value="(필수) 만 14세 이상입니다.">&emsp;(필수) 만 14세 이상입니다.</label>
+      </p>
+      <p><label><input type="checkbox" class="required" id="agreeTerms" value="(필수) 커리어리 이용약관 동의" >&emsp;(필수) 커리어리 이용약관
+        동의</label></p>
+      <p><label><input type="checkbox" class="required" id="agreePrivacy" value="(필수) 개인정보 수집 및 이용 동의">&emsp;(필수) 개인정보
+        수집 및 이용 동의</label></p>
       <p><label><input type="checkbox" id="agreeMarketing" value="(선택) 마케팅 정보 수신 동의">&emsp;(선택) 마케팅 정보 수신 동의</label></p>
       <div class="inputLogin">
         <input type="submit" id="join-submit" value="회원가입" class="inputLogin">
