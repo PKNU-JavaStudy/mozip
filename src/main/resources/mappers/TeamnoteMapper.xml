@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-
+<!-- db와 java를 맵핑시켜주는 역할 -->
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="연결할 Repository 인터페이스의 경로">
+<mapper namespace="com.mozip.domain.teamnote.TeamnoteRepository">
 <!-- 쿼리문 생성 -->
+    <select id="findTeamNoteList" resultType="com.mozip.dto.resp.TeamnoteListDto">
+        SELECT TEAM_NOTE.ID TEAM_ID, SUBJECT, PROJECT_INFO
+        FROM PROJECT
+                 INNER JOIN TEAM_NOTE ON PROJECT.ID = TEAM_NOTE.PROJECT_ID
+        WHERE PROJECT_ID IN(SELECT PROJECT_ID
+                            FROM PROJECT_MEMBER
+                            WHERE MEMBER_ID = #{memberId})
+    </select>
 </mapper>
