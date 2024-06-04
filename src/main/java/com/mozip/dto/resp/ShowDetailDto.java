@@ -19,7 +19,6 @@ public class ShowDetailDto {
     private Object projectInfo; // 프로젝트 소개
     private int ownerId; // 작성자 아이디
     private String githubLink; // 깃허브 링크 가져오기
-// !! Mapper에 resultMap작성과 생성자 작성 시 위와 순서가 일치해야 함. 아니면 읽어오지 못하는 오류가 생김. !!
 
     public ShowDetailDto(int id, String projectType, String projectName, String createdAt, String modifiedShow, int views, String projectProcess,
                          String projectPurpose, int projectTime, int recruitCount, Object projectInfo, int ownerId, String githubLink) {
@@ -43,6 +42,6 @@ public class ShowDetailDto {
     private List<String> skills; // 프로젝트에서 사용한 기술 스택(java, react 등..)(project_skill 테이블과 조인)
     private List<String> recruitRoles; // 프로젝트 모집 분야(프론트, 백엔드 등)(recruit_role 테이블과 조인)
     private int projectMemberCount; // 현재 프로젝트에 참여한 멤버수
-    private int Likes; // 좋아요 수 카운터
+    private int likes; // 좋아요 수 카운터
 
 }

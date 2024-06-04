@@ -117,10 +117,6 @@ public class ProjectService {
         // 프로젝트 소개 가져오기
         findShowDetail.setProjectInfo(Util.clobToString((NClob) findShowDetail.getProjectInfo()));
 
-        // 프로젝트에 사용된 스킬 가져오기
-//        findShowDetail.setSkills(projectRepository.findProjectSkills(findShowDetail.getId()));
-        // 아래에 스킬 가져오는 메서드 있어서 이 부분 주석(혹시 몰라서 남겨둠)
-
         // 좋아요 수 카운트
         findShowDetail.setLikes(projectRepository.findShowLikeCount(findShowDetail.getId()));
 
@@ -138,6 +134,7 @@ public class ProjectService {
 
         // 프로젝트 모집분야
         findShowDetail.setRecruitRoles(projectRepository.findShowRecruitRoles(projectId));
+
         return findShowDetail;
     }
 

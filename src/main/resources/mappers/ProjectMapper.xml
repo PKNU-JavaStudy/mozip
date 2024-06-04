@@ -186,9 +186,7 @@
                  INNER JOIN MEMBER ON MEMBER_ID = MEMBER.ID
     </select>
 
-
-    <!-- == 프로젝트 자랑 상세페이지(show_detail) == -->
-
+    <!-- 프로젝트 자랑 상세페이지(show_detail) -->
     <resultMap id="ShowDetailDtoMap" type="com.mozip.dto.resp.ShowDetailDto">
         <result property="id" column="ID"/>
         <result property="projectType" column="PROJECT_TYPE"/>

@@ -45,7 +45,7 @@ public class ProjectController {
     }
 
     // recruit_create 페이지: 로그인한 유저만 접근
-    @GetMapping("/project/create") // TODO : {}로 묶어야함(쿼리 파라미터)
+    @GetMapping("/project/create")
     public String recruitCreateForm() {
         return "/project/recruit_create";
     }
@@ -70,7 +70,7 @@ public class ProjectController {
     }
 
     // show_detail 페이지
-    @GetMapping("/project/show/{projectId}") // TODO : {}로 묶어야함(쿼리 파라미터)
+    @GetMapping("/project/show/{projectId}")
     public String showDetailForm(@PathVariable int projectId, Model model){
         model.addAttribute("showDetail", projectService.findShowDetail(projectId));
         return "/project/show_detail";
