@@ -4,6 +4,8 @@ import com.mozip.dto.resp.ProjectDetailDto;
 import com.mozip.dto.resp.ProjectListDto;
 import com.mozip.dto.resp.RecruitListDto;
 import com.mozip.dto.resp.ShowListDto;
+import com.mozip.handler.CustomExceptionHandler;
+import com.mozip.handler.ex.CustomException;
 import com.mozip.service.MemberService;
 import com.mozip.service.ProjectService;
 import com.mozip.util.Util;

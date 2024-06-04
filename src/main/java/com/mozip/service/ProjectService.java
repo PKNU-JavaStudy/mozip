@@ -110,33 +110,34 @@ public class ProjectService {
         return HotShows;
     }
 
-    // 프로젝트자랑 상세페이지 데이터 갖고오는 메서드
+    // 프로젝트 자랑 상세페이지(show_detail) 데이터 갖고오는 메서드
     public ShowDetailDto findShowDetail(int projectId) {
         ShowDetailDto findShowDetail = projectRepository.findShowDetail(projectId);
 
+        // 프로젝트 소개 가져오기
         findShowDetail.setProjectInfo(Util.clobToString((NClob) findShowDetail.getProjectInfo()));
-        findShowDetail.setSkills(projectRepository.findProjectSkills(findShowDetail.getId()));
+
+        // 프로젝트에 사용된 스킬 가져오기
+//        findShowDetail.setSkills(projectRepository.findProjectSkills(findShowDetail.getId()));
+        // 아래에 스킬 가져오는 메서드 있어서 이 부분 주석(혹시 몰라서 남겨둠)
+
+        // 좋아요 수 카운트
         findShowDetail.setLikes(projectRepository.findShowLikeCount(findShowDetail.getId()));
 
         // 프로젝트 참여자 인원 수
         findShowDetail.setProjectMemberCount(projectRepository.findShowMemberCount(projectId));
 
-        List<ProjectMemberDto> projectMembers = projectRepository.findProjectMembers(projectId);
-        for (ProjectMemberDto projectMember : projectMembers) {
-            // 생성일 포멧 변경
-            projectMember.setCreatedAt(Util.formatTimestamp(Timestamp.valueOf(projectMember.getCreatedAt())));
-        }
-        findShowDetail.setMembers(projectMembers);
+        // 생성일 포멧(형식) 변경
+        findShowDetail.setCreatedAt(Util.formatTimestamp(Timestamp.valueOf(findShowDetail.getCreatedAt())));
 
-        // 프로젝트 모집 작성자 데이터
-//        findShowDetail.setOwnerInfo(projectRepository.findShowOwnerInfo(findShowDetail.getOwnerId()));
+        // 프로젝트 모집 작성자 데이터(우측 프로필 띄우기)
+        findShowDetail.setOwnerInfo(projectRepository.findShowOwnerInfo(findShowDetail.getOwnerId(), findShowDetail.getId()));
 
         // 프로젝트 사용 기술스택
         findShowDetail.setSkills(projectRepository.findShowSkills(projectId));
 
         // 프로젝트 모집분야
         findShowDetail.setRecruitRoles(projectRepository.findShowRecruitRoles(projectId));
-
         return findShowDetail;
     }
 

@@ -1,6 +1,7 @@
 package com.mozip.domain.project;
 
 import com.mozip.dto.resp.*;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -54,21 +55,22 @@ public interface ProjectRepository {
     int findLikeCount(int projectId);
 
 
-    // 프로젝트자랑 상세페이지 : 프로젝트 정보 데이터 쿼리
-    ShowDetailDto findShowDetail(int projectId);
+// == 프로젝트 자랑 상세페이지(show_detail) ==
+    // 프로젝트 정보 모두 가져오기(진행 멤버, 진행 방식, 모집 분야, 수행목적, 시작날짜, 종료날짜, 참여 시간, 기술 스택)
+    ShowDetailDto findShowDetail(@Param("projectId") int projectId);
 
-    // 프로젝트자랑리스트페이지 : 좋아요 수 카운트 쿼리
+    // 좋아요 수 카운트
     int findShowLikeCount(int projectId);
 
-    // 프로젝트자랑 상세페이지 : 프로젝트 참여인원수 쿼리
+    // 프로젝트 참여 인원수
     int findShowMemberCount(int projectId);
 
-    // 프로젝트자랑 상세페이지 : 프로젝트 작성자 데이터 쿼리
-//    ShowDetailDto findShowOwnerInfo(int ownerId);
+    // 프로젝트 작성자 프로필
+    ProjectMemberDto findShowOwnerInfo(int ownerId, int projectId);
 
-    // 프로젝트자랑 상세페이지 : 프로젝트 기술스택 쿼리
+    // 프로젝트 기술스택
     List<String> findShowSkills(int projectId);
 
-    // 프로젝트자랑 상세페이지 : 프로젝트 모집분야
+    // 프로젝트 모집분야
     List<String> findShowRecruitRoles(int projectId);
 }

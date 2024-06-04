@@ -185,11 +185,29 @@
               WHERE PROJECT_ID = #{projectId})
                  INNER JOIN MEMBER ON MEMBER_ID = MEMBER.ID
     </select>
-    <!-- mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm -->
-    <select id="findShowDetail" resultType="com.mozip.dto.resp.ProjectMemberDto">
+
+
+    <!-- == 프로젝트 자랑 상세페이지(show_detail) == -->
+
+    <resultMap id="ShowDetailDtoMap" type="com.mozip.dto.resp.ShowDetailDto">
+        <result property="id" column="ID"/>
+        <result property="projectType" column="PROJECT_TYPE"/>
+        <result property="projectName" column="PROJECT_NAME"/>
+        <result property="createdAt" column="CREATED_AT"/>
+        <result property="modifiedShow" column="MODIFIED_SHOW"/>
+        <result property="views" column="VIEWS"/>
+        <result property="projectProcess" column="PROJECT_PROCESS"/>
+        <result property="projectPurpose" column="PROJECT_PURPOSE"/>
+        <result property="projectTime" column="PROJECT_TIME"/>
+        <result property="recruitCount" column="RECRUIT_COUNT"/>
+        <result property="projectInfo" column="PROJECT_INFO"/>
+        <result property="ownerId" column="OWNER_ID"/>
+        <result property="githubLink" column="GITHUB_LINK"/>
+    </resultMap>
+
+    <select id="findShowDetail" resultMap="ShowDetailDtoMap">
         SELECT ID,
                PROJECT_TYPE,
-               STATUS,
                PROJECT_NAME,
                CREATED_AT,
                MODIFIED_SHOW,
@@ -197,45 +215,48 @@
                PROJECT_PROCESS,
                PROJECT_PURPOSE,
                PROJECT_TIME,
+               RECRUIT_COUNT,
                PROJECT_INFO,
-               OWNER_ID
+               OWNER_ID,
+               GITHUB_LINK
         FROM PROJECT
-        WHERE ID = #{projectId}
+        WHERE ID =#{projectId}
     </select>
 
-    <!--  프로젝트자랑페이지 : 좋아요 카운트  -->
+    <!-- 좋아요 카운트 -->
     <select id="findShowLikeCount" resultType="java.lang.Integer">
         SELECT COUNT(*)
         FROM LIKES INNER JOIN PROJECT ON LIKES.PROJECT_ID = PROJECT.ID
         WHERE PROJECT_ID = #{projectId}
     </select>
-<!--참여 인원수-->
+
+    <!--참여 인원수-->
     <select id="findShowMemberCount" resultType="int">
         SELECT COUNT(*)
         FROM MEMBER
         WHERE ID IN (SELECT pm.MEMBER_ID
-                     FROM PROJECT p
-                              INNER JOIN PROJECT_MEMBER pm ON p.ID = pm.PROJECT_ID
+                     FROM PROJECT p INNER JOIN PROJECT_MEMBER pm ON p.ID = pm.PROJECT_ID
                      WHERE P.ID = #{projectId})
     </select>
 
+    <!-- 작성자 프로필 정보 가져오기 / !! 프로필 url 추가 해야함 !! -->
     <select id="findShowOwnerInfo" resultType="com.mozip.dto.resp.ProjectMemberDto">
-        SELECT ID, USERNAME, POSITION, CAREER ,CREATED_AT
-        FROM MEMBER
-        WHERE ID = #{ownerId}
+        SELECT p.ID, USERNAME, POSITION, CAREER, m.CREATED_AT
+        FROM MEMBER m INNER JOIN PROJECT p ON m.ID = p.OWNER_ID
+        WHERE p.Id = #{projectId} AND p.OWNER_ID=#{ownerId}
     </select>
 
+    <!-- 기술 스택 가져오기 -->
     <select id="findShowSkills" resultType="java.lang.String">
         SELECT ps.SKILL_NAME
-        FROM PROJECT p
-                 INNER JOIN PROJECT_SKILL ps ON p.ID = ps.PROJECT_ID
+        FROM PROJECT p INNER JOIN PROJECT_SKILL ps ON p.ID = ps.PROJECT_ID
         WHERE p.ID = #{projectId}
     </select>
 
+    <!-- 모집 분야 가져오기 -->
     <select id="findShowRecruitRoles" resultType="java.lang.String">
         SELECT r.ROLE_NAME
-        FROM PROJECT p
-                 INNER JOIN RECRUIT_ROLE r ON p.ID = r.PROJECT_ID
+        FROM PROJECT p INNER JOIN RECRUIT_ROLE r ON p.ID = r.PROJECT_ID
         WHERE p.ID = #{projectId}
     </select>
 </mapper>
