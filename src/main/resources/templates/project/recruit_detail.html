@@ -199,7 +199,8 @@
         </div>
         <h3 th:text="${project.getOwnerInfo().getUsername()}"> 이윤지</h3>
       </div>
-      <button class="right-btn apply" onclick="loginWarning()">프로젝트 참여 신청</button>
+      <button class="right-btn apply" th:if="${ session.loginMember!=null && session.loginMember.getId()!= project.getOwnerId()}">프로젝트 참여 신청
+      </button>
       <button class="right-btn bookmark" onclick="loginWarning()"><i class="fa-regular fa-bookmark"></i>북마크</button>
       <button class="right-btn confirm open-modal" th:if="${session.loginMember != null && session.loginMember.getId()==project.getOwnerId()}">모집완료
         하기
@@ -250,6 +251,18 @@
     // 멤버추가버튼
     function memberInvite(memberId) {
         console.log(memberId);
+        $.ajax(
+            {
+                type: "get",
+                url: "/api/email/" + memberId,
+                dataType: "json",
+            }
+        ).done(res => {
+            console.log(res);
+        }).fail(error => {
+            console.log("통신실패!", error);
+        });
+
     }
 
     // 로그인안한 회원이 프로젝트참여신청, 북마크 클릭 시 호출
