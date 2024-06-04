@@ -49,8 +49,12 @@
         <div class="info-wrap">
           <ul class="count">
             <li th:text="${project.getCreatedAt()}">2024년 4월 30일</li>
-            <li><i class="fa-regular fa-comment"></i> <th:block th:text="${project.getRecruitCount()}">4개</th:block></li>
-            <li><i class="fa-solid fa-eye"></i><th:block th:text="${project.getViews()}">28회</th:block></li>
+            <li><i class="fa-regular fa-comment"></i>
+              <th:block th:text="${project.getMembers().size()}">4개</th:block>
+            </li>
+            <li><i class="fa-solid fa-eye"></i>
+              <th:block th:text="${project.getViews()}">28회</th:block>
+            </li>
           </ul>
           <a href="" class="share-Btn"><i class="fa-solid fa-share-nodes"></i>공유하기</a>
         </div>
@@ -170,7 +174,12 @@
                 <span class="career" th:if="${member.getCareer() == 5}">5년이상</span>
                 <h3 th:text="${member.getUsername()}">👑 이윤지</h3>
               </div>
-              <button class="addmem-button add">멤버 추가</button>
+              <!-- th:onclick="'myFunction(\'' + ${member.getId()} + '\')'"-->
+              <button th:if="${session.loginMember!=null && session.loginMember.getId() == project.getOwnerId()}" class="addmem-button add"
+                      th:onclick="'memberInvite(\'' +
+              ${member.getId()} + '\')'">멤버
+                추가
+              </button>
             </div>
             <p class="app-date" th:text="${member.getCreatedAt()}">2024년 4월 30일</p>
           </div>
@@ -190,9 +199,11 @@
         </div>
         <h3 th:text="${project.getOwnerInfo().getUsername()}"> 이윤지</h3>
       </div>
-      <button class="right-btn apply">프로젝트 참여 신청</button>
-      <button class="right-btn bookmark"><i class="fa-regular fa-bookmark"></i>북마크</button>
-      <button class="right-btn confirm open-modal">모집완료 하기</button>
+      <button class="right-btn apply" onclick="loginWarning()">프로젝트 참여 신청</button>
+      <button class="right-btn bookmark" onclick="loginWarning()"><i class="fa-regular fa-bookmark"></i>북마크</button>
+      <button class="right-btn confirm open-modal" th:if="${session.loginMember != null && session.loginMember.getId()==project.getOwnerId()}">모집완료
+        하기
+      </button>
 
       <div class="edit-btn">
         <a href="#">
@@ -236,6 +247,18 @@
   <th:block th:replace="~{fragment/footer}"></th:block>
 </footer>
 <script>
+    // 멤버추가버튼
+    function memberInvite(memberId) {
+        console.log(memberId);
+    }
+
+    // 로그인안한 회원이 프로젝트참여신청, 북마크 클릭 시 호출
+    function loginWarning() {
+        alert("로그인이 필요합니다 !")
+        // 로그인 페이지 이동
+        window.location.assign('/auth/login');
+    }
+
     // 모집완료 모달
     document.querySelector(".open-modal").addEventListener("click", function () {
         document.querySelector(".modal-bg").classList.add("visible");

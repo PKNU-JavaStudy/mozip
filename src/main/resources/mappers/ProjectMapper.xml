@@ -158,7 +158,11 @@
     </select>
 
     <select id="findOwnerInfo" resultType="com.mozip.dto.resp.ProjectMemberDto">
-        SELECT ID, USERNAME, POSITION, CAREER ,CREATED_AT
+        SELECT ID,
+               USERNAME,
+               DECODE(POSITION, NULL, '수정필요!', POSITION),
+               DECODE(CAREER, NULL, 0, CAREER),
+               CREATED_AT
         FROM MEMBER
         WHERE ID = #{ownerId}
     </select>
@@ -178,7 +182,7 @@
     </select>
 
     <select id="findProjectMembers" resultType="com.mozip.dto.resp.ProjectMemberDto">
-        SELECT MEMBER_ID, USERNAME, POSITION, CAREER, STIME
+        SELECT MEMBER_ID, USERNAME, DECODE(POSITION, NULL, '수정필요!', POSITION), DECODE(CAREER, NULL, 0, CAREER), STIME
         FROM (SELECT SUBSCRIBE.MEMBER_ID, SUBSCRIBE.CREATED_AT AS STIME
               FROM SUBSCRIBE
                        INNER JOIN PROJECT ON PROJECT.ID = SUBSCRIBE.PROJECT_ID
