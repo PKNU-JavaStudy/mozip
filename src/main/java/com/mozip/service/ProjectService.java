@@ -1,11 +1,7 @@
 package com.mozip.service;
 
 import com.mozip.domain.project.ProjectRepository;
-import com.mozip.dto.resp.ProjectDetailDto;
-import com.mozip.dto.resp.ProjectListDto;
-import com.mozip.dto.resp.ProjectMemberDto;
-import com.mozip.dto.resp.RecruitListDto;
-import com.mozip.dto.resp.ShowListDto;
+import com.mozip.dto.resp.*;
 import com.mozip.util.Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -113,6 +109,34 @@ public class ProjectService {
             show.setSkills(projectRepository.findProjectSkills(show.getId()));
         }
         return HotShows;
+    }
+
+    // 프로젝트 자랑 상세페이지(show_detail) 데이터 갖고오는 메서드
+    public ShowDetailDto findShowDetail(int projectId) {
+        ShowDetailDto findShowDetail = projectRepository.findShowDetail(projectId);
+
+        // 프로젝트 소개 가져오기
+        findShowDetail.setProjectInfo(Util.clobToString((NClob) findShowDetail.getProjectInfo()));
+
+        // 좋아요 수 카운트
+        findShowDetail.setLikes(projectRepository.findShowLikeCount(findShowDetail.getId()));
+
+        // 프로젝트 참여자 인원 수
+        findShowDetail.setProjectMemberCount(projectRepository.findShowMemberCount(projectId));
+
+        // 생성일 포멧(형식) 변경
+        findShowDetail.setCreatedAt(Util.formatTimestamp(Timestamp.valueOf(findShowDetail.getCreatedAt())));
+
+        // 프로젝트 모집 작성자 데이터(우측 프로필 띄우기)
+        findShowDetail.setOwnerInfo(projectRepository.findShowOwnerInfo(findShowDetail.getOwnerId(), findShowDetail.getId()));
+
+        // 프로젝트 사용 기술스택
+        findShowDetail.setSkills(projectRepository.findShowSkills(projectId));
+
+        // 프로젝트 모집분야
+        findShowDetail.setRecruitRoles(projectRepository.findShowRecruitRoles(projectId));
+
+        return findShowDetail;
     }
 
 }

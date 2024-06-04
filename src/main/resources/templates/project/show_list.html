@@ -34,7 +34,7 @@
   <div class="top-lists">
     <h2>👑 현재 인기 프로젝트</h2>
     <div class="show-lists top">
-      <a th:href="@{/project/show/{project}(project=${project.getId()})}" th:each="project:${HotShows}" class="show-box">
+      <a th:href="@{/project/show/{projectId}(projectId=${project.getId()})}" th:each="project:${HotShows}" class="show-box">
         <div class="img-wrap">
           <img th:src="@{/img/showlist_sample.png}" alt="프로필 이미지"/>
         </div>
@@ -149,7 +149,7 @@
 
   </div>
   <div class="show-lists">
-    <a th:href="@{/project/show/${project.getId()}}" th:each="project:${allShows}" class="show-box">
+    <a th:href="@{/project/show/{projectId}(projectId=${project.getId()})}" th:each="project:${allShows}" class="show-box">
       <div class="img-wrap">
         <img th:src="@{/img/showlist_sample.png}" alt="프로필 이미지"/>
       </div>
