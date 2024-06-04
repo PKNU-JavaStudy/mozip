@@ -60,7 +60,7 @@
       <h5>새로 업데이트 된 모집글을 확인해보세요!</h5>
       <div class="swiper cont-swiper ps-l">
         <div class="swiper-wrapper">
-          <div class="swiper-slide" th:each="project : ${newProject}">
+          <a class="swiper-slide" th:href="@{/project/{project}(project=${project.getId()})}"  th:each="project : ${newProject}">
             <div class="cont-box">
               <span class="pj-type pj" th:text="${project.getProjectType()}">사이드 프로젝트</span>
               <span class="pj-tag fire">🍞 따끈따끈 새 글</span><!-- TODO: 추후에 넣어야함 🔥 마감 코 앞 -->
@@ -87,7 +87,7 @@
                 </li>
               </ul>
             </div>
-          </div>
+          </a>
 
         </div>
         <div class="all-page">
@@ -108,7 +108,7 @@
       <h5>현재 인기있는 모집글을 확인해보세요!</h5>
       <div class="swiper cont-swiper ps-l">
         <div class="swiper-wrapper">
-          <div class="swiper-slide" th:each="project : ${hotProject}">
+          <a class="swiper-slide" th:href="@{/project/{project}(project=${project.getId()})}" th:each="project : ${hotProject}">
             <div class="cont-box">
               <span class="pj-type study" th:text="${project.getProjectType()}">스터디/모집</span>
               <span class="pj-tag hot">💙 인기</span>
@@ -135,7 +135,7 @@
                 </li>
               </ul>
             </div>
-          </div>
+          </a>
         </div>
         <div class="all-page">
           <a th:href="@{/project}">모두 보기
@@ -155,7 +155,7 @@
       <h5>프로젝트를 함께 할 수 있는 새로운 멤버를 확인해보세요!</h5>
       <div class="swiper member-swiper ps-l">
         <div class="swiper-wrapper">
-          <div class="swiper-slide" th:each="member : ${newMember}">
+          <a class="swiper-slide" th:href="@{/member/{membetId}(membetId=${member.getId()})}" th:each="member : ${newMember}">
             <div class="member-box">
               <div class="profile-top">
                 <div class="profile-img"></div>
@@ -172,7 +172,7 @@
                 중입니다.프로젝트 구인 중입니다.
               </p>
             </div>
-          </div>
+          </a>
         </div>
         <div class="all-page">
           <!--              <a-->

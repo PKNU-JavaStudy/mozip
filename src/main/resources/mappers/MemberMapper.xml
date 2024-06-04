@@ -3,16 +3,83 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.mozip.domain.member.MemberRepository"> <!-- namespace 에는 repository 클래스의 경로를 입력 -->
+    <!-- 사용자 기본 정보 가져오기 -->
+    <resultMap id="mypageDtoMap" type="com.mozip.dto.resp.MypageDto">
+        <result property="id" column="ID"/>
+        <result property="name" column="USERNAME"/>
+        <result property="career" column="CAREER"/>
+        <result property="info" column="INFO"/>
+        <result property="position" column="POSITION"/>
+        <result property="profileImage" column="PROFILE_IMAGE_URL"/>
+        <result property="githubLink" column="GITHUB_LINK"/>
+    </resultMap>
+
+
+    <resultMap id="bookmarkListDtoMap" type="com.mozip.dto.resp.MyBookmarkListDto">
+        <result property="id" column="ID"/>
+        <result property="projectName" column="PROJECT_NAME"/>
+        <result property="projectType" column="PROJECT_TYPE"/>
+        <result property="status" column="STATUS"/>
+        <result property="projectTime" column="PROJECT_TIME"/>
+        <result property="createdAt" column="CREATE_AT"/>
+    </resultMap>
+
+    <resultMap id="myProjectDtoMap" type="com.mozip.dto.resp.MyProjectDto">
+        <result property="id" column="ID"/>
+        <result property="projectName" column="PROJECT_NAME"/>
+        <result property="projectType" column="PROJECT_TYPE"/>
+        <result property="status" column="STATUS"/>
+        <result property="projectTime" column="PROJECT_TIME"/>
+        <result property="createdAt" column="CREATED_AT"/>
+    </resultMap>
+
     <select id="newMemberList" resultType="com.mozip.dto.resp.NewMemberListDto">
         <![CDATA[
         SELECT *
         FROM (SELECT ID, USERNAME, POSITION, INFO
-        FROM MEMBER
-        WHERE IS_MODIFY = 1
-        ORDER BY CREATED_AT DESC)
+              FROM MEMBER
+              WHERE IS_MODIFY = 1
+              ORDER BY CREATED_AT DESC)
         WHERE ROWNUM <= 6
         ]]>
     </select>
-</mapper>
 
-<!-- 위 형식으로 각 도메인에 맞는 Mapper 를 작성 -->
+    <select id="getUserInfo" resultMap="mypageDtoMap">
+        SELECT ID,
+               USERNAME,
+               CAREER,
+               INFO,
+               POSITION,
+               PROFILE_IMAGE_URL,
+               GITHUB_LINK
+        FROM MEMBER
+        WHERE ID = #{id}
+    </select>
+
+    <select id="getUserProject" resultMap="myProjectDtoMap">
+        SELECT
+            P.ID,
+            P.PROJECT_NAME,
+            P.PROJECT_TYPE,
+            P.STATUS,
+            P.PROJECT_TIME,
+            P.CREATED_AT
+        FROM MEMBER M
+                 JOIN PROJECT_MEMBER MP ON M.ID = MP.MEMBER_ID
+                 JOIN PROJECT P ON MP.PROJECT_ID = P.ID
+        WHERE M.ID = ${memberId}
+    </select>
+
+    <select id="getUserBookmarks" resultMap="bookmarkListDtoMap">
+        SELECT P.ID, P.PROJECT_NAME, P.PROJECT_TYPE, P.STATUS, P.PROJECT_TIME, P.CREATED_AT
+        FROM BOOKMARK B
+                 JOIN PROJECT P ON B.PROJECT_ID = P.ID
+        WHERE B.MEMBER_ID = #{memberId}
+    </select>
+
+    <select id="getUserSkill" resultType="java.lang.String">
+        SELECT SKILL_NAME
+        FROM MEMBER_SKILL
+        WHERE MEMBER_ID = #{memberId}
+    </select>
+</mapper>

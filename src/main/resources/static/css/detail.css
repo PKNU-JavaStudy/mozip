@@ -111,10 +111,21 @@
     margin-top: 35px;
 }
 
+.list-wrap table tr{
+    display: flex;
+    align-content: center;
+    align-items: center;
+    width: 100%;
+}
+
 .list-wrap table tr td {
     padding-bottom: 20px;
     font-size: 1.2rem;
     font-weight: 600;
+}
+.list-wrap table tr td.skill-td{
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .list-wrap table tr td:nth-child(2n + 1) {
@@ -313,6 +324,9 @@ ul.stack-icon li:nth-child(3n) {
 
 .work.top {
     font-size: 0.875rem;
+    margin-right: 7px;
+    margin-bottom: 5px;
+
 }
 
 .skill {

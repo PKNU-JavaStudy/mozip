@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * 로그인, 회원가입, 아이디찾기, 비밀번호 찾기 URL 이 해당 컨트롤러로 옴
@@ -56,8 +57,8 @@ public class AuthController {
 
     // login 처리
     @PostMapping("/auth/login")
-    public String login(@ModelAttribute LoginDto loginDto, HttpServletRequest req) {
-        Member loginMember = authService.login(loginDto);
+    public String login(@RequestParam("email") String email, @RequestParam("password") String password, HttpServletRequest req) {
+        Member loginMember = authService.login(new LoginDto(email, password));
         if (loginMember != null) {
             HttpSession session = req.getSession();
             session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);

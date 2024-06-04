@@ -27,7 +27,7 @@ public class TeamController {
 
     // teamnote_list 페이지
     @GetMapping("/teamnote/{memberId}")
-    public String teamnoteListForm(@PathVariable int memberId, Model model, @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember) {
+    public String teamnoteListForm(@PathVariable("memberId") int memberId, Model model, @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember) {
         if (loginMember == null) throw new CustomException("로그인이 필요합니다 !");
 
         model.addAttribute("teamnoteList", teamService.findTeamNoteList(memberId));
