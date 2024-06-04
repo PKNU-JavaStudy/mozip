@@ -26,10 +26,12 @@ public class MemberService {
     }
 
     public MypageDto getUserInfo(int id) {
-        MypageDto userInfo = memberRepository.getUserInfo(id);
-        List<String> skill = memberRepository.getUserSkills(id);
-        List<String> bookmark = memberRepository.getUserBookmarks(id);
-        return userInfo;
+        MypageDto findMember = memberRepository.getUserInfo(id);
+        findMember.setBookmarks(memberRepository.getUserBookmarks(findMember.getId()));
+        findMember.setMyProjectList(memberRepository.getUserProject(findMember.getId()));
+        findMember.setSkills(memberRepository.getUserSkill(findMember.getId()));
+        findMember.setInfo(Util.clobToString((NClob)findMember.getInfo()));
 
+        return findMember;
     }
 }

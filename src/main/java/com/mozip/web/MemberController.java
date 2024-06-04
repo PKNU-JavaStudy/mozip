@@ -1,8 +1,6 @@
 package com.mozip.web;
 
 import com.mozip.domain.member.Member;
-import com.mozip.domain.member.MemberRepository;
-import com.mozip.dto.resp.MypageDto;
 import com.mozip.handler.ex.CustomException;
 import com.mozip.service.MemberService;
 import com.mozip.util.SessionConst;
@@ -22,19 +20,16 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    // mypage 페이지
-    @GetMapping("/member/{memberId}") // TODO : {}로 묶어야함(쿼리 파라미터)
-    public String myPageForm(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember, @PathVariable int memberId, Model model){
+    @GetMapping("/member/{memberId}")
+    public String myPageForm(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember, @PathVariable("memberId") int memberId, Model model) {
         if (loginMember == null) throw new CustomException("로그인이 필요합니다 !");
-        MypageDto userInfo = memberService.getUserInfo(memberId);
-        System.out.println("userInfo = " + userInfo);
-        model.addAttribute("userInfo", userInfo);
+        if (loginMember.getId() != memberId) throw new CustomException("접근권한이 없습니다!");
+        model.addAttribute("member", memberService.getUserInfo(memberId));
         return "member/mypage";
     }
 
-    // mypage_edit 페이지
-    @GetMapping("/member/edit/memberId") // TODO : {}로 묶어야함(쿼리 파라미터)
-    public String myPageEditForm(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember){
+    @GetMapping("/member/edit/memberId")
+    public String myPageEditForm(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember) {
         if (loginMember == null) throw new CustomException("로그인이 필요합니다 !");
         return "member/mypage_edit";
     }
