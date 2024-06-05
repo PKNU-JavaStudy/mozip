@@ -1,15 +1,15 @@
 // 기술스택 동적으로 바꾸기
 document.addEventListener("DOMContentLoaded", () => {
     const skillSelect = document.getElementById("skill");
-    const stackSelect = document.getElementById("stack");
+    const roleSelect = document.getElementById("role");
     const profileForm = document.getElementById("profile-form");
 
     skillSelect.addEventListener("change", () => {
         handleSelectChange(skillSelect, "skill-container");
     });
 
-    stackSelect.addEventListener("change", () => {
-        handleSelectChange(stackSelect, "stack-container");
+    roleSelect.addEventListener("change", () => {
+        handleSelectChange(roleSelect, "role-container");
     });
 
     profileForm.addEventListener("submit", validateForm);
@@ -27,7 +27,13 @@ document.addEventListener("DOMContentLoaded", () => {
         // 선택된 옵션을 컨테이너에 추가
         const iconContainer = document.getElementById(containerId);
         const icon = document.createElement('div');
-        icon.className = 'selected-item';
+        icon.textContent = selectedText;
+        // containerId에 따라 클래스를 설정
+        if (containerId === "skill-container") {
+            icon.className = 'selected-skill';
+        } else if (containerId === "role-container") {
+            icon.className = 'selected-role';
+        }
         icon.id = selectedValue;
         icon.textContent = selectedText;
 

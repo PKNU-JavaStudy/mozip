@@ -33,90 +33,90 @@
 <main>
   <div class="wrap flex">
     <div class="rc-input">
-      <form action="#" method="post">
-        <span class="pj-type pj">사이드 프로젝트</span>
-        <input class="rc-title" type="text" placeholder="제목을 입력하세요" maxlength="50"/>
+        <form  id="createProject" th:onsubmit="'memberInvite(\'' +event+ '\')'">
+<!--        <span class="pj-type pj">사이드 프로젝트</span>-->
+        <select name="projectType" class="proeject-type">
+          <option value="사이드 프로젝트">사이드 프로젝트</option>
+          <option value="모집/스터디">모집/스터디</option>
+        </select>
+        <input class="rc-title" type="text" name="projectName" placeholder="제목을 입력하세요" maxlength="50"/>
         <div class="rc-summarize">
           <p class="s-title">주제</p>
-          <textarea id="subject" rows="1" cols="20" placeholder="주제를 한 줄 이내로 간단하게 작성해주세요."></textarea>
+          <textarea id="subject" name="subject" rows="1" cols="20" placeholder="주제를 한 줄 이내로 간단하게 작성해주세요."></textarea>
         </div>
         <div class="cont-flex">
           <div>
-            <label for="" class="s-title">모집인원</label>
-            <select name="" id="">
-              <option value="">인원 미정</option>
-              <option value="">1명</option>
-              <option value="">2명</option>
-              <option value="">3명</option>
-              <option value="">4명</option>
-              <option value="">5명</option>
-              <option value="">6명</option>
-              <option value="">7명</option>
-              <option value="">8명</option>
-              <option value="">9명</option>
+            <label for="recruitCount" class="s-title">모집인원</label>
+            <select name="recruitCount" id="recruitCount">
+              <option value="0">인원 미정</option>
+              <option value="1">1명</option>
+              <option value="2">2명</option>
+              <option value="3">3명</option>
+              <option value="4">4명</option>
+              <option value="5">5명</option>
+              <option value="6">6명</option>
+              <option value="7">7명</option>
+              <option value="8">8명</option>
+              <option value="9">9명</option>
             </select>
           </div>
           <div>
-            <label for="" class="s-title">수행목적</label>
-            <select name="" id="">
-              <option value="">포트폴리오/직무 역량 강화</option>
-              <option value="">창업/수익 창출</option>
-              <option value="">재미/네트워킹</option>
-            </select>
-          </div>
-        </div>
-        <div class="cont-flex">
-          <div>
-            <label for="" class="s-title">참여시간</label>
-            <select name="" id="">
-              <option value="">매주 4시간 이하</option>
-              <option value="">매주 4 ~ 10시간</option>
-              <option value="">매주 10시간 이상</option>
-            </select>
-          </div>
-          <div>
-            <label for="" class="s-title">진행방식</label>
-            <select name="" id="">
-              <option value="">온라인</option>
-              <option value="">오프라인</option>
-              <option value="">온/오프라인</option>
+            <label for="projectPurpose" class="s-title">수행목적</label>
+            <select name="projectPurpose" id="projectPurpose">
+              <option value="포트폴리오/직무 역량 강화">포트폴리오/직무 역량 강화</option>
+              <option value="창업/수익 창출">창업/수익 창출</option>
+              <option value="재미/네트워킹">재미/네트워킹</option>
             </select>
           </div>
         </div>
         <div class="cont-flex">
           <div>
-            <label for="" class="s-title">예상기간</label>
-            <select name="" id="">
-              <option value="">1개월 이하</option>
-              <option value="">2개월</option>
-              <option value="">3개월</option>
-              <option value="">4개월</option>
-              <option value="">5개월</option>
-              <option value="">6개월</option>
-              <option value="">7개월</option>
-              <option value="">장기</option>
+            <label for="projectTime" class="s-title">참여시간</label>
+            <select name="projectTime" id="projectTime">
+              <option value="1">매주 4시간 이하</option>
+              <option value="2">매주 4 ~ 10시간</option>
+              <option value="3">매주 10시간 이상</option>
             </select>
           </div>
           <div>
-            <label for="" class="s-title">시작예정</label>
-            <input type="date">
+            <label for="projectProcess" class="s-title">진행방식</label>
+            <select name="projectProcess" id="projectProcess">
+              <option value="돈라인">온라인</option>
+              <option value="오프라인">오프라인</option>
+              <option value="온/오프라인">온/오프라인</option>
+            </select>
           </div>
         </div>
         <div class="cont-flex">
           <div>
-            <label for="stack" class="s-title">기술스택</label>
-            <div class="select-programs" id="stack-container">
+            <label for="exceptDate" class="s-title">예상기간</label>
+            <select name="exceptDate" id="exceptDate">
+              <option value="1">1개월 이하</option>
+              <option value="2">2개월</option>
+              <option value="3">3개월</option>
+              <option value="4">4개월</option>
+              <option value="5">5개월</option>
+              <option value="6">6개월</option>
+              <option value="7">7개월</option>
+              <option value="0">장기</option>
+            </select>
+          </div>
+          <div>
+            <label for="exceptTime" class="s-title">시작예정</label>
+            <input type="date" name="exceptTime" id="exceptTime">
+          </div>
+        </div>
+        <div class="cont-flex">
+          <div>
+            <label for="skill" class="s-title">기술스택</label>
+            <div class="select-programs" id="skill-container">
               <!--아이콘 들어가는 곳-->
             </div>
-            <select name="stack" id="stack">
+            <select  id="skill">
               <option value="all">기술스택 선택</option>
               <option value="Java">Java</option>
-              <option value="C++">C++</option>
-              <option value="C#">C#</option>
               <option value="Python">Python</option>
               <option value="Spring">Spring</option>
-              <option value="HTML">HTML</option>
-              <option value="CSS">CSS</option>
               <option value="JS">JS</option>
               <option value="React">React</option>
               <option value="Vue.js">Vue.js</option>
@@ -129,24 +129,24 @@
             </select>
           </div>
           <div>
-            <label for="skill" class="s-title">모집분야</label>
-            <div class="select-skills" id="skill-container">
+            <label for="role" class="s-title">모집분야</label>
+            <div class="selected-skill" id="role-container">
               <!--아이콘 들어가는 곳-->
             </div>
-            <select name="skill" id="skill">
+            <select id="role">
               <option value="all">전체</option>
-              <option value="frontend">프론트엔드</option>
-              <option value="backend">백엔드</option>
-              <option value="design">디자인</option>
-              <option value="opp">기회</option>
+              <option value="프론트엔드">프론트엔드</option>
+              <option value="백엔드">백엔드</option>
+              <option value="디자인">디자인</option>
+              <option value="기획">기획</option>
             </select>
           </div>
         </div>
         <div class="rc-project-info">
           <p class="s-title">소개</p>
-          <textarea cols="40" rows="15" placeholder="프로젝트 소개글을 작성하세요."></textarea>
+          <textarea cols="40" rows="15"  name="projectInfo" placeholder="프로젝트 소개글을 작성하세요."></textarea>
         </div>
-        <button class="open-modal btn-write" type="button">작성완료</button>
+        <div class="open-modal btn-write">작성완료</div>
         <!-- 모달창 -->
         <div class="modal-bg"></div>
         <div class="modal">
@@ -157,7 +157,7 @@
           <div class="button-wrap">
             <button class="close-modal">돌아가기</button>
             <!-- TODO: <button class="submit-modal" type="submit"> 백엔드 연결 후 수정 -->
-            <button class="submit-modal">
+            <button  class="submit-modal" type="button">
               등록하기
             </button>
           </div>
@@ -192,10 +192,12 @@
       </div>
     </div>
   </div>
+  <div class="owner-id" th:text="${session.loginMember.getId()}" style="visibility: hidden"></div>
   <footer>
     <th:block th:replace="~{fragment/footer}"></th:block>
   </footer>
   <script>
+    let ownerId = document.querySelector(".owner-id").textContent;
       // 프로젝트 주제(textarea) : 1줄만 쓰게 제한
       document.getElementById('subject').addEventListener('keydown', function (event) {
           if (event.key === 'Enter') {
@@ -220,16 +222,60 @@
           document.querySelector(".modal").classList.remove("visible");
       });
 
-      document.addEventListener("click", function (event) {
-          if (
-              !event.target.closest(".modal, .open-modal, .open-modal02, .open-modal03")
-          ) {
-              document.querySelector(".modal").classList.remove("visible");
-              document.querySelector(".modal-bg").classList.remove("visible");
-              document.body.classList.remove("modal-open");
-          }
+      // 데이터 전송
+      document.querySelector(".submit-modal").addEventListener("click", function() {
+        event.preventDefault(); // form 전송 막는 코드
+
+        let formData = $("#createProject").serializeArray();
+        let jsonData = {};
+
+        $(formData).each(function (index, obj) {
+          jsonData[obj.name] = obj.value;
+        });
+
+        jsonData.skills = [];
+
+        document.querySelectorAll(".selected-skill").forEach((skill) => {
+          jsonData.skills.push(skill.id);
+        })
+
+        jsonData.recruitRole = [];
+        document.querySelectorAll(".selected-role").forEach((role) => {
+          jsonData.recruitRole.push(role.id);
+        })
+
+        jsonData.ownerId = ownerId;
+
+        $.ajax({
+          type : "post",
+          url : "/api/project/create",
+          data : JSON.stringify(jsonData),
+          contentType : "application/json; charset=utf-8",
+          dataType : "json"
+        }).done(res=>{ // HttpStatus 200번대
+          console.log("성공",res);
+          let projectId = res.data;
+          alert("멤버 모집이 정상적으로 등록되었습니다.")
+
+          window.location.assign(`/project/${projectId}`);
+        }).fail(error=>{ // HttpStatus 200번대가 아닐때
+          alert("프로젝트 작성에 실패하였습니다!")
+        });
       });
-  </script>
+      document.addEventListener("click", function (event) {
+        if (
+                !event.target.closest(".modal, .open-modal, .open-modal02, .open-modal03")
+        ) {
+          document.querySelector(".modal").classList.remove("visible");
+          document.querySelector(".modal-bg").classList.remove("visible");
+          document.body.classList.remove("modal-open");
+        }
+
+      });
+
+
+
+</script>
 </main>
 </body>
 </html>

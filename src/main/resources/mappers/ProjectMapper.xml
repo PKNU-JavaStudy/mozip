@@ -261,4 +261,38 @@
         FROM PROJECT p INNER JOIN RECRUIT_ROLE r ON p.ID = r.PROJECT_ID
         WHERE p.ID = #{projectId}
     </select>
+
+    <insert id="createProject" parameterType="com.mozip.dto.req.ProjectCreateDto">
+        INSERT INTO PROJECT (ID, PROJECT_NAME,PROJECT_TYPE, SUBJECT,
+                             RECRUIT_COUNT,PROJECT_PURPOSE, PROJECT_TIME,
+                             PROJECT_PROCESS,EXCEPT_DATE,EXCEPT_TIME,OWNER_ID,PROJECT_INFO, STATUS, CREATED_AT, VIEWS)
+        VALUES (PROJECT_SEQ.nextval, #{dto.projectName}, #{dto.projectType}, #{dto.subject},
+                #{dto.recruitCount}, #{dto.projectPurpose}, #{dto.projectTime},
+                #{dto.projectProcess}, #{dto.exceptDate}, TO_TIMESTAMP(#{dto.exceptTime}), #{dto.ownerId},
+                TO_NCLOB(#{dto.projectInfo}),1, TO_CHAR(SYSDATE, 'YYYY-MM-DD HH:MI:SS'), 0)
+    </insert>
+
+    <insert id="createProjectSkill">
+            INSERT INTO PROJECT_SKILL (ID, SKILL_NAME, PROJECT_ID)
+            VALUES (PROJECT_SKILL_SEQ.nextval, #{skill}, #{id})
+
+    </insert>
+
+    <insert id="createRecruitRole">
+        INSERT INTO RECRUIT_ROLE (ID, PROJECT_ID, ROLE_NAME)
+        VALUES (RECRUIT_ROLE_SEQ.nextval, #{id}, #{role})
+    </insert>
+
+    <select id="findProjectId" resultType="java.lang.Integer">
+        SELECT ID
+        FROM PROJECT
+        WHERE PROJECT_NAME = #{projectName}
+    </select>
+
+    <select id="findProjectName" resultType="java.lang.String">
+        SELECT PROJECT_NAME
+        FROM PROJECT
+        WHERE PROJECT_NAME = #{projectName}
+    </select>
+
 </mapper>

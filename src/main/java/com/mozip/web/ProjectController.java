@@ -1,16 +1,23 @@
 package com.mozip.web;
 
+import com.mozip.domain.member.Member;
+import com.mozip.dto.req.ProjectCreateDto;
 import com.mozip.dto.resp.ProjectDetailDto;
+import com.mozip.dto.resp.ProjectListDto;
+import com.mozip.dto.resp.RecruitListDto;
 import com.mozip.dto.resp.ShowListDto;
+import com.mozip.handler.ex.CustomException;
 import com.mozip.service.MemberService;
 import com.mozip.service.ProjectService;
+import com.mozip.util.SessionConst;
+import com.mozip.util.Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.NClob;
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -41,7 +48,10 @@ public class ProjectController {
 
     // recruit_create 페이지: 로그인한 유저만 접근
     @GetMapping("/project/create")
-    public String recruitCreateForm() {
+    public String recruitCreateForm(@SessionAttribute(name= SessionConst.LOGIN_MEMBER, required=false) Member loginMember) {
+        if (loginMember == null) {
+            throw new CustomException("로그인이 필요합니다");
+        }
         return "/project/recruit_create";
     }
 
@@ -50,12 +60,6 @@ public class ProjectController {
     public String recruitDetailForm(@PathVariable("projectId") int projectId, Model model){
         model.addAttribute("project", projectService.findProjectDetail(projectId));
         return "/project/recruit_detail";
-    }
-
-    // recruit_edit 페이지
-    @GetMapping("/test")
-    public String recruitEditForm() {
-        return "/project/show_edit";
     }
 
     // recruit_list 페이지
@@ -67,9 +71,8 @@ public class ProjectController {
     }
 
     // show_detail 페이지
-    @GetMapping("/project/show/{projectId}")
-    public String showDetailForm(@PathVariable int projectId, Model model){
-        model.addAttribute("showDetail", projectService.findShowDetail(projectId));
+    @GetMapping("/project/show/projectId") // TODO : {}로 묶어야함(쿼리 파라미터)
+    public String showDetailForm(){
         return "/project/show_detail";
     }
 

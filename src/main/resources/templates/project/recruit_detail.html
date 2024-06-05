@@ -250,6 +250,7 @@
 <script>
     // 멤버추가버튼
     function memberInvite(memberId) {
+        console.log(memberId);
         $.ajax({
             type: "get",
             url: "/api/email/" + memberId,

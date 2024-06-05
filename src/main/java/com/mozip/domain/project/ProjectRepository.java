@@ -1,5 +1,6 @@
 package com.mozip.domain.project;
 
+import com.mozip.dto.req.ProjectCreateDto;
 import com.mozip.dto.resp.*;
 import org.apache.ibatis.annotations.Param;
 
@@ -73,4 +74,16 @@ public interface ProjectRepository {
 
     // 프로젝트 모집분야
     List<String> findShowRecruitRoles(int projectId);
+
+    // 프로젝트작성페이지
+    void createProject(@Param("dto") ProjectCreateDto dto);
+
+    void createProjectSkill(@Param("skill") String skill, @Param("id") int id);
+
+    void createRecruitRole(@Param("role") String role, @Param("id") int id);
+
+    // 프로젝트작성페이지
+    int findProjectId(String projectName);
+
+    String findProjectName(String projectName);
 }

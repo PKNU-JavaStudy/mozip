@@ -42,7 +42,8 @@
       <li><a href="#">기획</a></li>
       <li><a href="#">기타</a></li>
     </ul>
-    <a th:href="@{/project/create}"><button  class="btn-write open-modal">모집글 작성하기</button></a>
+    <button class="btn-write" onclick="createValidation()">모집글 작성하기</button>
+    <div class="hidden-session"th:text="${session.loginMember}" style="display: none"></div>
   </div>
   <div class="project-list">
     <div class="search">
@@ -103,4 +104,16 @@
   <th:block th:replace="~{fragment/footer}"></th:block>
 </footer>
 </body>
+<script>
+  function createValidation(){
+    let member = document.querySelector(".hidden-session").textContent;
+    if(member==null){
+      alert("로그인을 먼저 진행해주세요 !");
+      window.location.assign("/auth/login");
+    }else {
+      window.location.assign("/project/create");
+    }
+  }
+
+</script>
 </html>

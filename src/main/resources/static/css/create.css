@@ -382,7 +382,7 @@ h3 {
 }
 
 /*직군 아이콘 설정*/
-.select-skills,
+.selected-skill,
 .select-programs {
   display: flex;
   flex-direction: row;
@@ -394,7 +394,7 @@ h3 {
 
 }
 
-.selected-item {
+.selected-programs {
   display: flex;
   align-items: center;
   padding: 5px 10px;
@@ -404,7 +404,6 @@ h3 {
   color: #ffffff;
   flex: 0 0 auto;
   font-size:0.815rem;
-  /* 아이템이 고정된 너비로 나타나도록 */
 }
 
 .remove-btn {

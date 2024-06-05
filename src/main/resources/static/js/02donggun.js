@@ -60,9 +60,9 @@ document.addEventListener("DOMContentLoaded", () => {
         icon.id = selectedValue;
         icon.textContent = selectedText;
 
-        const removeBtn = document.createElement('span');
+        const removeBtn = document.createElement('i');
         removeBtn.className = 'remove-btn';
-        removeBtn.textContent = 'x';
+        removeBtn.textContent = '<i class="fa-solid fa-xmark"></i>';
         removeBtn.onclick = () => {
             iconContainer.removeChild(icon);
 
