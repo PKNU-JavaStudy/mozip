@@ -1,6 +1,7 @@
 package com.mozip.service;
 
 import com.mozip.domain.member.MemberRepository;
+import com.mozip.dto.req.MypageEditDto;
 import com.mozip.dto.resp.MypageDto;
 import com.mozip.dto.resp.NewMemberListDto;
 import com.mozip.util.Util;
@@ -30,8 +31,21 @@ public class MemberService {
         findMember.setBookmarks(memberRepository.getUserBookmarks(findMember.getId()));
         findMember.setMyProjectList(memberRepository.getUserProject(findMember.getId()));
         findMember.setSkills(memberRepository.getUserSkill(findMember.getId()));
-        findMember.setInfo(Util.clobToString((NClob)findMember.getInfo()));
+        findMember.setInfo(Util.clobToString((NClob) findMember.getInfo()));
 
         return findMember;
     }
+
+    public MypageDto editUserInfo(int id) {
+        MypageDto editMember = memberRepository.getUserInfo(id);
+        editMember.setInfo(memberRepository.getUserInfo(id));
+        editMember.setSkills(memberRepository.getUserSkill(editMember.getId()));
+
+        return editMember;
+    }
+
+    public void updateUserInfo(MypageEditDto mypageEditDto) {
+        memberRepository.updtaeUser(mypageEditDto);
+    }
 }
+

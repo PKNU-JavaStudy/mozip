@@ -32,6 +32,15 @@
         <result property="projectTime" column="PROJECT_TIME"/>
         <result property="createdAt" column="CREATED_AT"/>
     </resultMap>
+    <!-- 마이페이지 수정 -->
+<!--    <resultMap id="editUserInfoDtoMap" type="com.mozip.dto.req.MypageEditDto">-->
+<!--        <result property="id" column="ID"/>-->
+<!--        <result property="username" column="USERNAME"/>-->
+<!--        <result property="career" column="CAREER"/>-->
+<!--        <result property="githubLink" column="GITHUB_LINK"/>-->
+<!--        <result property="position" column="POSITION"/>-->
+<!--        <result property="info" column="INFO"/>-->
+<!--    </resultMap>-->
 
     <select id="newMemberList" resultType="com.mozip.dto.resp.NewMemberListDto">
         <![CDATA[
@@ -82,4 +91,16 @@
         FROM MEMBER_SKILL
         WHERE MEMBER_ID = #{memberId}
     </select>
+
+    <update id="editUserInfo" parameterType="com.mozip.dto.req.MypageEditDto">
+        UPDATE MEMBER
+        SET USERNAME    = #{username},
+            CAREER      = #{career},
+            GITHUB_LINK = #{githubLink},
+            POSITION    = #{position},
+            INFO        = #{info},
+            IS_MODIFY   = 1
+        WHERE ID = #{id}
+    </update>
+
 </mapper>

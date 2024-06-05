@@ -1,5 +1,6 @@
 package com.mozip.domain.member;
 
+import com.mozip.dto.req.MypageEditDto;
 import com.mozip.dto.resp.MyBookmarkListDto;
 import com.mozip.dto.resp.MyProjectDto;
 import com.mozip.dto.resp.MypageDto;
@@ -19,5 +20,8 @@ public interface MemberRepository {
     List<MyBookmarkListDto> getUserBookmarks(int memberId);
     // 마이페이지: 스킬목록
     List<String> getUserSkill(int memberId);
+
+    // 마이페이지 수정: 유저정보
+    void updtaeUser(MypageEditDto mypageEditDto);
 }
 
