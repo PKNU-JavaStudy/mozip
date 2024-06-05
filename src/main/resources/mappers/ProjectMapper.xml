@@ -46,6 +46,21 @@
         <result property="projectInfo" column="PROJECT_INFO"/>
         <result property="ownerId" column="OWNER_ID"/>
     </resultMap>
+
+<!--    <resultMap id="createProjectMap" type="com.mozip.dto.req.ProjectCreateDto">-->
+<!--        <result property="id" column="ID"/>-->
+<!--        <result property="projectType" column="PROJECT_TYPE"/>-->
+<!--        <result property="projectName" column="PROJECT_NAME"/>-->
+<!--        <result property="resultCount" column="RESULT_COUNT"/>-->
+<!--        <result property="projectProcess" column="PROJECT_PROCESS"/>-->
+<!--        <result property="projectTime" column="PROJECT_TIME"/>-->
+<!--        <result property="projectPurpose" column="PROJECT_PURPOSE"/>-->
+<!--        <result property="exceptDate" column="EXCEPT_DATE"/>-->
+<!--        <result property="exceptTime" column="EXCEPT_TIME"/>-->
+<!--        <result property="projectInfo" column="PROJECT_INFO"/>-->
+<!--        <result property="ownerId" column="OWNER_ID"/>-->
+<!--    </resultMap>-->
+
     <select id="findNewProject" resultMap="projectDtoMap">
         <![CDATA[
         SELECT ID, PROJECT_NAME, PROJECT_TYPE, PROJECT_INFO, VIEWS
@@ -185,4 +200,38 @@
               WHERE PROJECT_ID = #{projectId})
                  INNER JOIN MEMBER ON MEMBER_ID = MEMBER.ID
     </select>
+
+    <insert id="createProject" parameterType="com.mozip.dto.req.ProjectCreateDto">
+        INSERT INTO PROJECT (ID, PROJECT_NAME,PROJECT_TYPE, SUBJECT,
+                             RECRUIT_COUNT,PROJECT_PURPOSE, PROJECT_TIME,
+                             PROJECT_PROCESS,EXCEPT_DATE,EXCEPT_TIME,OWNER_ID,PROJECT_INFO, STATUS, CREATED_AT, VIEWS)
+        VALUES (PROJECT_SEQ.nextval, #{dto.projectName}, #{dto.projectType}, #{dto.subject},
+                #{dto.recruitCount}, #{dto.projectPurpose}, #{dto.projectTime},
+                #{dto.projectProcess}, #{dto.exceptDate}, TO_TIMESTAMP(#{dto.exceptTime}), #{dto.ownerId},
+                TO_NCLOB(#{dto.projectInfo}),1, TO_CHAR(SYSDATE, 'YYYY-MM-DD HH:MI:SS'), 0)
+    </insert>
+
+    <insert id="createProjectSkill">
+            INSERT INTO PROJECT_SKILL (ID, SKILL_NAME, PROJECT_ID)
+            VALUES (PROJECT_SKILL_SEQ.nextval, #{skill}, #{id})
+
+    </insert>
+
+    <insert id="createRecruitRole">
+        INSERT INTO RECRUIT_ROLE (ID, PROJECT_ID, ROLE_NAME)
+        VALUES (RECRUIT_ROLE_SEQ.nextval, #{id}, #{role})
+    </insert>
+
+    <select id="findProjectId" resultType="java.lang.Integer">
+        SELECT ID
+        FROM PROJECT
+        WHERE PROJECT_NAME = #{projectName}
+    </select>
+
+    <select id="findProjectName" resultType="java.lang.String">
+        SELECT PROJECT_NAME
+        FROM PROJECT
+        WHERE PROJECT_NAME = #{projectName}
+    </select>
+
 </mapper>

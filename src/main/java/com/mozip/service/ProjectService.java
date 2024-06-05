@@ -1,11 +1,13 @@
 package com.mozip.service;
 
 import com.mozip.domain.project.ProjectRepository;
+import com.mozip.dto.req.ProjectCreateDto;
 import com.mozip.dto.resp.ProjectDetailDto;
 import com.mozip.dto.resp.ProjectListDto;
 import com.mozip.dto.resp.ProjectMemberDto;
 import com.mozip.dto.resp.RecruitListDto;
 import com.mozip.dto.resp.ShowListDto;
+import com.mozip.handler.ex.CustomException;
 import com.mozip.util.Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.NClob;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.List;
 
 @Transactional(readOnly = true)
@@ -113,6 +116,40 @@ public class ProjectService {
             show.setSkills(projectRepository.findProjectSkills(show.getId()));
         }
         return HotShows;
+    }
+
+    // 프로젝트작성페이지
+    public int createProject(ProjectCreateDto projectCreateDto, int memberId ) throws ParseException {
+        // 프로젝트 작성자 아이디를 로그인한 유저의 ID를 갖고옴
+        projectCreateDto.setOwnerId(memberId);
+        // DTO 의 프로젝트네임으로 select 쿼리 날려서 값이 존재하지 않으면 아래 코드 실행
+        // 존재한다면 아래 코드 실행
+        String inputProjectName = projectCreateDto.getProjectName();
+        String findProjectName = projectRepository.findProjectName(inputProjectName);
+        if(findProjectName != null)
+          throw new CustomException("프로젝트 명이 중복됩니다 !");
+        
+        // DB 실행
+        projectRepository.createProject(projectCreateDto);
+        
+        // 1. DTO의 projectName으로 SELECT 쿼리를 날려서 해당 프로젝트 ID 값을 가져온다.
+        String projectName = projectCreateDto.getProjectName();
+        int projectId = projectRepository.findProjectId(projectName);
+
+        // 2. 프로젝트 ID값으로 기술스택 테이블 데이터 세팅
+        // 3. 프로젝트 ID값으로 모집역할 테이블 데이터 세팅
+        List<String> skills = projectCreateDto.getSkills();
+        for (String skill : skills) {
+            projectRepository.createProjectSkill(skill, projectId);
+        }
+        List<String> roles = projectCreateDto.getRecruitRole();
+        for (String role : roles) {
+            projectRepository.createRecruitRole(role, projectId);
+        }
+
+        // 4. 프로젝트 ID 값을 Controller에 반환
+        return projectId;
+
     }
 
 }

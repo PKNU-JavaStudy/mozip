@@ -1,10 +1,12 @@
 package com.mozip.domain.project;
 
+import com.mozip.dto.req.ProjectCreateDto;
 import com.mozip.dto.resp.ProjectDetailDto;
 import com.mozip.dto.resp.ProjectListDto;
 import com.mozip.dto.resp.RecruitListDto;
 import com.mozip.dto.resp.ShowListDto;
 import com.mozip.dto.resp.ProjectMemberDto;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -56,4 +58,16 @@ public interface ProjectRepository {
 
     // 프로젝트자랑리스트페이지 : 좋아요 수 카운트 쿼리
     int findLikeCount(int projectId);
+
+    // 프로젝트작성페이지
+    void createProject(@Param("dto") ProjectCreateDto dto);
+
+    void createProjectSkill(@Param("skill") String skill, @Param("id") int id);
+
+    void createRecruitRole(@Param("role") String role, @Param("id") int id);
+
+    // 프로젝트작성페이지
+    int findProjectId(String projectName);
+
+    String findProjectName(String projectName);
 }
