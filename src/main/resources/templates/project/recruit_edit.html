@@ -34,16 +34,19 @@
   <div class="wrap flex">
     <div class="rc-input">
       <form action="#" method="post">
-        <span class="pj-type pj">사이드 프로젝트</span>
-        <input class="rc-title" type="text" placeholder="제목을 입력하세요" maxlength="50"/>
+        <select name="projectType" class="project-type">
+          <option value="사이드 프로젝트">사이드 프로젝트</option>
+          <option value="모집/스터디">모집/스터디</option>
+        </select>
+        <input class="rc-title" type="text" placeholder="제목을 입력하세요" maxlength="50" />
         <div class="rc-summarize">
           <p class="s-title">주제</p>
           <textarea id="subject" rows="1" cols="20" placeholder="주제를 한 줄 이내로 간단하게 작성해주세요."></textarea>
         </div>
         <div class="cont-flex">
           <div>
-            <label for="" class="s-title">모집인원</label>
-            <select name="" id="">
+            <label class="s-title">모집인원</label>
+            <select name="">
               <option value="">인원 미정</option>
               <option value="">1명</option>
               <option value="">2명</option>
@@ -57,8 +60,8 @@
             </select>
           </div>
           <div>
-            <label for="" class="s-title">수행목적</label>
-            <select name="" id="">
+            <label class="s-title">수행목적</label>
+            <select name="">
               <option value="">포트폴리오/직무 역량 강화</option>
               <option value="">창업/수익 창출</option>
               <option value="">재미/네트워킹</option>
@@ -67,16 +70,16 @@
         </div>
         <div class="cont-flex">
           <div>
-            <label for="" class="s-title">참여시간</label>
-            <select name="" id="">
+            <label class="s-title">참여시간</label>
+            <select name="">
               <option value="">매주 4시간 이하</option>
               <option value="">매주 4 ~ 10시간</option>
               <option value="">매주 10시간 이상</option>
             </select>
           </div>
           <div>
-            <label for="" class="s-title">진행방식</label>
-            <select name="" id="">
+            <label class="s-title">진행방식</label>
+            <select name="">
               <option value="">온라인</option>
               <option value="">오프라인</option>
               <option value="">온/오프라인</option>
@@ -85,8 +88,8 @@
         </div>
         <div class="cont-flex">
           <div>
-            <label for="" class="s-title">예상기간</label>
-            <select name="" id="">
+            <label class="s-title">예상기간</label>
+            <select name="">
               <option value="">1개월 이하</option>
               <option value="">2개월</option>
               <option value="">3개월</option>
@@ -98,7 +101,7 @@
             </select>
           </div>
           <div>
-            <label for="" class="s-title">시작예정</label>
+            <label class="s-title">시작예정</label>
             <input type="date">
           </div>
         </div>
@@ -146,89 +149,62 @@
           <p class="s-title">소개</p>
           <textarea cols="40" rows="15" placeholder="프로젝트 소개글을 작성하세요."></textarea>
         </div>
-        <button class="open-modal btn-write" type="button">작성완료</button>
+        <button class="open-modal btn-write" type="button">수정완료</button>
         <!-- 모달창 -->
         <div class="modal-bg"></div>
         <div class="modal">
           <div class="modal-header">
             <a href="#" class="close-modal"><i class="fa-solid fa-xmark"></i></a>
           </div>
-          <h3>모집글을 등록하시겠습니까?</h3>
+          <h3>모집글을 수정하시겠습니까?</h3>
           <div class="button-wrap">
             <button class="close-modal">돌아가기</button>
             <!-- TODO: <button class="submit-modal" type="submit"> 백엔드 연결 후 수정 -->
             <button class="submit-modal">
-              등록하기
+              수정하기
             </button>
           </div>
         </div>
       </form>
     </div>
     <div class="rc-info">
-      <div class="rc-title-info">
-        제목은 프로젝트를 직관적으로 알 수 있게<br/>
-        작성해주세요 (50자이내)
-      </div>
-      <div class="rc-title-info summarize">
-        어떤 프로젝트인지 이해하기 쉽도록 명확하고 간결하게
-        요약해주세요(150자이내)
-      </div>
-      <div class="advice">
-        <div class="advice-step1">
-          ✅ 소개에는 이런 내용이 있으면 좋아요👇
-        </div>
-        <div class="advice-step2">
-          <ul>
-            <li>어떤 프로젝트인지</li>
-            <li>프로젝트를 기획한 배경</li>
-            <li>프로젝트 목적, 달성하고 싶은 목표</li>
-            <li>모집하고 싶은 역할과 인원수</li>
-            <li>프로젝트 진행 방식</li>
-          </ul>
-        </div>
-        <div class="advice-step3">
-          이미 진행 중인 프로젝트라면, 현재 구성원과 진행상황을 알려주세요
-        </div>
-      </div>
+
     </div>
   </div>
-  <footer>
-    <th:block th:replace="~{fragment/footer}"></th:block>
-  </footer>
   <script>
-      // 프로젝트 주제(textarea) : 1줄만 쓰게 제한
-      document.getElementById('subject').addEventListener('keydown', function (event) {
-          if (event.key === 'Enter') {
-              event.preventDefault();
-          }
-      });
+    // 프로젝트 주제(textarea) : 1줄만 쓰게 제한
+    document.getElementById('subject').addEventListener('keydown', function (event) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+      }
+    });
 
-      // 프로젝트 주제(textarea) 입력 칸 : 20자 글자 제한
-      document.getElementById('subject').addEventListener('input', function () {
-          if (this.value.length > 20) {
-              this.value = this.value.slice(0, 20);
-          }
-      });
+    // 프로젝트 주제(textarea) 입력 칸 : 20자 글자 제한
+    document.getElementById('subject').addEventListener('input', function () {
+      if (this.value.length > 20) {
+        this.value = this.value.slice(0, 20);
+      }
+    });
 
-      document.querySelector(".open-modal").addEventListener("click", function () {
-          document.querySelector(".modal-bg").classList.add("visible");
-          document.querySelector(".modal").classList.add("visible");
-      });
+    document.querySelector(".open-modal").addEventListener("click", function () {
+      document.querySelector(".modal-bg").classList.add("visible");
+      document.querySelector(".modal").classList.add("visible");
+    });
 
-      document.querySelector(".close-modal").addEventListener("click", function () {
-          document.querySelector(".modal-bg").classList.remove("visible");
-          document.querySelector(".modal").classList.remove("visible");
-      });
+    document.querySelector(".close-modal").addEventListener("click", function () {
+      document.querySelector(".modal-bg").classList.remove("visible");
+      document.querySelector(".modal").classList.remove("visible");
+    });
 
-      document.addEventListener("click", function (event) {
-          if (
+    document.addEventListener("click", function (event) {
+      if (
               !event.target.closest(".modal, .open-modal, .open-modal02, .open-modal03")
-          ) {
-              document.querySelector(".modal").classList.remove("visible");
-              document.querySelector(".modal-bg").classList.remove("visible");
-              document.body.classList.remove("modal-open");
-          }
-      });
+      ) {
+        document.querySelector(".modal").classList.remove("visible");
+        document.querySelector(".modal-bg").classList.remove("visible");
+        document.body.classList.remove("modal-open");
+      }
+    });
   </script>
 </main>
 </body>

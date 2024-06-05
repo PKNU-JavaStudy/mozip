@@ -1,14 +1,9 @@
 package com.mozip.web;
 
 import com.mozip.dto.resp.ProjectDetailDto;
-import com.mozip.dto.resp.ProjectListDto;
-import com.mozip.dto.resp.RecruitListDto;
 import com.mozip.dto.resp.ShowListDto;
-import com.mozip.handler.CustomExceptionHandler;
-import com.mozip.handler.ex.CustomException;
 import com.mozip.service.MemberService;
 import com.mozip.service.ProjectService;
-import com.mozip.util.Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -59,6 +54,12 @@ public class ProjectController {
         System.out.println("==================");
         model.addAttribute("project", projectDetail);
         return "/project/recruit_detail";
+    }
+
+    // recruit_edit 페이지
+    @GetMapping("/test")
+    public String recruitEditForm() {
+        return "/project/show_edit";
     }
 
     // recruit_list 페이지

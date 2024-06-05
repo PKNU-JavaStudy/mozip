@@ -28,7 +28,7 @@
 </head>
 
 <body>
-<header>
+<header id="header">
   <th:block th:replace="~{fragment/header}"></th:block>
 </header>
 <div class="wrap recruit-list">
@@ -42,7 +42,7 @@
       <li><a href="#">기획</a></li>
       <li><a href="#">기타</a></li>
     </ul>
-    <button class="btn-write open-modal">모집글 작성하기</button>
+    <a th:href="@{/project/create}"><button  class="btn-write open-modal">모집글 작성하기</button></a>
   </div>
   <div class="project-list">
     <div class="search">
@@ -99,51 +99,8 @@
     </div>
   </div>
 </div>
-<!-- 모집글 작성 모달창 -->
-<div class="modal-bg"></div>
-<div class="modal">
-  <div class="modal-header">
-    <a href="#" class="close-modal"><i class="fa-solid fa-xmark"></i></a>
-  </div>
-  <h3>작성할 프로젝트 타입을 골라주세요.</h3>
-  <div class="button-wrap">
-    <button class="type01">
-      <a th:href="@{/project/create}">사이드 프로젝트<i class="fa-solid fa-chevron-right"></i></a>
-    </button>
-    <button class="type02">
-      <a th:href="@{/project/create}">스터디/모임<i class="fa-solid fa-chevron-right"></i></a>
-    </button>
-  </div>
-</div>
 <footer>
   <th:block th:replace="~{fragment/footer}"></th:block>
 </footer>
-<script>
-    document
-        .querySelector(".open-modal")
-        .addEventListener("click", function () {
-            document.querySelector(".modal-bg").classList.add("visible");
-            document.querySelector(".modal").classList.add("visible");
-        });
-
-    document
-        .querySelector(".close-modal")
-        .addEventListener("click", function () {
-            document.querySelector(".modal-bg").classList.remove("visible");
-            document.querySelector(".modal").classList.remove("visible");
-        });
-
-    document.addEventListener("click", function (event) {
-        if (
-            !event.target.closest(
-                ".modal, .open-modal, .open-modal02, .open-modal03"
-            )
-        ) {
-            document.querySelector(".modal").classList.remove("visible");
-            document.querySelector(".modal-bg").classList.remove("visible");
-            document.body.classList.remove("modal-open");
-        }
-    });
-</script>
 </body>
 </html>

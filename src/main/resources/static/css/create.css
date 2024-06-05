@@ -52,7 +52,7 @@ textarea {
   justify-content: space-between;
 }
 
-.cont-flex>div {
+.cont-flex > div {
   display: flex;
   flex-direction: column;
   width: 49%;
@@ -240,11 +240,6 @@ h3 {
   display: flex;
   align-items: center;
   justify-content: center;
-
-  &:hover {
-    background: rgb(77, 77, 77);
-    color: #fff;
-  }
 }
 
 #file {
@@ -392,8 +387,8 @@ h3 {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  margin-top: 10px;
-  gap: 10px;
+  margin-bottom: 10px;
+  gap: 6px;
   /* 항목들 사이의 간격 추가 */
   width: 100%;
 
@@ -403,13 +398,12 @@ h3 {
   display: flex;
   align-items: center;
   padding: 5px 10px;
-  border: 1px solid #00dada;
+  border: 1px solid var(--main-color);
   border-radius: 15px;
-  background-color: #00dada;
+  background-color: var(--main-color);
   color: #ffffff;
-  margin-right: 10px;
-  margin-bottom: 15px;
   flex: 0 0 auto;
+  font-size:0.815rem;
   /* 아이템이 고정된 너비로 나타나도록 */
 }
 
@@ -419,10 +413,37 @@ h3 {
   color: #ffffff;
 }
 
+.project-type {
+  padding: 12px 17px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+
 /* 특정 컨테이너에만 적용하도록 조정 */
 #skill-container,
 #stack-container {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+}
+
+p.data {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+ul.ul-data {
+  display: flex;
+  flex-wrap: wrap;
+}
+.ul-data li {
+  background-color: var(--tag-bgcolor);
+  padding: 8px 10px;
+  border-radius: 5px;
+  font-size: 0.815rem;
+  font-weight: 700;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+.data-time {
+  margin-top: 11px;
 }

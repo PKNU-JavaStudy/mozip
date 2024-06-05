@@ -16,16 +16,13 @@
   <link rel="stylesheet" th:href="@{/css/common.css}">
   <link rel="stylesheet" th:href="@{/css/detail.css}">
   <!-- js -->
-  <script src="https://code.jquery.com/jquery-3.7.1.js"
-          integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <script th:src="@{/js/index.js}"></script>
   <script th:src="@{/js/common.js}"></script>
   <!-- favicon -->
   <link rel="icon" th:href="@{/img/favicon.ico}">
 </head>
 <body>
-<header>
+<header id="header">
   <th:block th:replace="~{fragment/header}"></th:block>
 </header>
 <!-- main -->
@@ -195,7 +192,7 @@
       <button class="right-btn confirm open-modal">모집완료 하기</button>
 
       <div class="edit-btn">
-        <a href="#">
+        <a th:href="@{/project/recruit_edit}">
           <button class="right-btn mod_btn">수정</button>
         </a>
         <button class="right-btn del_btn open-modal02">삭제</button>
