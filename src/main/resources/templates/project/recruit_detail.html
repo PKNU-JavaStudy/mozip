@@ -258,13 +258,6 @@
         });
     }
 
-    // 로그인안한 회원이 프로젝트참여신청, 북마크 클릭 시 호출
-    function loginWarning() {
-        alert("로그인이 필요합니다 !")
-        // 로그인 페이지 이동
-        window.location.assign('/auth/login');
-    }
-
     // 모집완료 모달
     document.querySelector(".open-modal").addEventListener("click", function () {
         document.querySelector(".modal-bg").classList.add("visible");

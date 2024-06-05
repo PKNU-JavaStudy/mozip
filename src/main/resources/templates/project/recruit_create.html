@@ -33,7 +33,7 @@
 <main>
   <div class="wrap flex">
     <div class="rc-input">
-      <form action="/project/create" method="post">
+        <form  id="createProject" th:onsubmit="'memberInvite(\'' +event+ '\')'">
 <!--        <span class="pj-type pj">사이드 프로젝트</span>-->
         <select name="projectType" class="proeject-type">
           <option value="사이드 프로젝트">사이드 프로젝트</option>
@@ -108,11 +108,11 @@
         </div>
         <div class="cont-flex">
           <div>
-            <label for="stack" class="s-title">기술스택</label>
-            <div class="select-programs" id="stack-container">
+            <label for="skill" class="s-title">기술스택</label>
+            <div class="select-programs" id="skill-container">
               <!--아이콘 들어가는 곳-->
             </div>
-            <select name="skills" id="stack">
+            <select  id="skill">
               <option value="all">기술스택 선택</option>
               <option value="Java">Java</option>
               <option value="Python">Python</option>
@@ -129,11 +129,11 @@
             </select>
           </div>
           <div>
-            <label for="skill" class="s-title">모집분야</label>
-            <div class="select-skills" id="skill-container">
+            <label for="role" class="s-title">모집분야</label>
+            <div class="selected-skill" id="role-container">
               <!--아이콘 들어가는 곳-->
             </div>
-            <select name="recruitRole" id="skill">
+            <select id="role">
               <option value="all">전체</option>
               <option value="프론트엔드">프론트엔드</option>
               <option value="백엔드">백엔드</option>
@@ -146,7 +146,7 @@
           <p class="s-title">소개</p>
           <textarea cols="40" rows="15"  name="projectInfo" placeholder="프로젝트 소개글을 작성하세요."></textarea>
         </div>
-        <button class="open-modal btn-write" type="button">작성완료</button>
+        <div class="open-modal btn-write">작성완료</div>
         <!-- 모달창 -->
         <div class="modal-bg"></div>
         <div class="modal">
@@ -157,7 +157,7 @@
           <div class="button-wrap">
             <button class="close-modal">돌아가기</button>
             <!-- TODO: <button class="submit-modal" type="submit"> 백엔드 연결 후 수정 -->
-            <button type="submit" class="submit-modal">
+            <button  class="submit-modal" type="button">
               등록하기
             </button>
           </div>
@@ -192,10 +192,12 @@
       </div>
     </div>
   </div>
+  <div class="owner-id" th:text="${session.loginMember.getId()}" style="visibility: hidden"></div>
   <footer>
     <th:block th:replace="~{fragment/footer}"></th:block>
   </footer>
   <script>
+    let ownerId = document.querySelector(".owner-id").textContent;
       // 프로젝트 주제(textarea) : 1줄만 쓰게 제한
       document.getElementById('subject').addEventListener('keydown', function (event) {
           if (event.key === 'Enter') {
@@ -220,16 +222,60 @@
           document.querySelector(".modal").classList.remove("visible");
       });
 
-      document.addEventListener("click", function (event) {
-          if (
-              !event.target.closest(".modal, .open-modal, .open-modal02, .open-modal03")
-          ) {
-              document.querySelector(".modal").classList.remove("visible");
-              document.querySelector(".modal-bg").classList.remove("visible");
-              document.body.classList.remove("modal-open");
-          }
+      // 데이터 전송
+      document.querySelector(".submit-modal").addEventListener("click", function() {
+        event.preventDefault(); // form 전송 막는 코드
+
+        let formData = $("#createProject").serializeArray();
+        let jsonData = {};
+
+        $(formData).each(function (index, obj) {
+          jsonData[obj.name] = obj.value;
+        });
+
+        jsonData.skills = [];
+
+        document.querySelectorAll(".selected-skill").forEach((skill) => {
+          jsonData.skills.push(skill.id);
+        })
+
+        jsonData.recruitRole = [];
+        document.querySelectorAll(".selected-role").forEach((role) => {
+          jsonData.recruitRole.push(role.id);
+        })
+
+        jsonData.ownerId = ownerId;
+
+        $.ajax({
+          type : "post",
+          url : "/api/project/create",
+          data : JSON.stringify(jsonData),
+          contentType : "application/json; charset=utf-8",
+          dataType : "json"
+        }).done(res=>{ // HttpStatus 200번대
+          console.log("성공",res);
+          let projectId = res.data;
+          alert("멤버 모집이 정상적으로 등록되었습니다.")
+
+          window.location.assign(`/project/${projectId}`);
+        }).fail(error=>{ // HttpStatus 200번대가 아닐때
+          alert("프로젝트 작성에 실패하였습니다!")
+        });
       });
-  </script>
+      document.addEventListener("click", function (event) {
+        if (
+                !event.target.closest(".modal, .open-modal, .open-modal02, .open-modal03")
+        ) {
+          document.querySelector(".modal").classList.remove("visible");
+          document.querySelector(".modal-bg").classList.remove("visible");
+          document.body.classList.remove("modal-open");
+        }
+
+      });
+
+
+
+</script>
 </main>
 </body>
 </html>

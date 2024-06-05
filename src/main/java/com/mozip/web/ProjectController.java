@@ -55,15 +55,6 @@ public class ProjectController {
         return "/project/recruit_create";
     }
 
-    @PostMapping("/project/create")
-    public String recruitCreate(@ModelAttribute ProjectCreateDto projectCreateDto, @SessionAttribute(name= SessionConst.LOGIN_MEMBER, required=false) Member loginMember) throws ParseException {
-        // 프로젝트 ID값 반환받아 아래 주석 명령어 실행
-        System.out.println(projectCreateDto);
-        int projectId = projectService.createProject(projectCreateDto, loginMember.getId());
-        return "redirect:/project/" + projectId;
-    }
-
-
     // recruit_detail 페이지
     @GetMapping("/project/{projectId}")
     public String recruitDetailForm(@PathVariable("projectId") int projectId, Model model){
