@@ -8,6 +8,7 @@ import com.mozip.dto.resp.ProjectMemberDto;
 import com.mozip.dto.resp.RecruitListDto;
 import com.mozip.dto.resp.ShowListDto;
 import com.mozip.handler.ex.CustomException;
+import com.mozip.dto.resp.*;
 import com.mozip.util.Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -118,6 +119,34 @@ public class ProjectService {
         return HotShows;
     }
 
+    // 프로젝트 자랑 상세페이지(show_detail) 데이터 갖고오는 메서드
+    public ShowDetailDto findShowDetail(int projectId) {
+        ShowDetailDto findShowDetail = projectRepository.findShowDetail(projectId);
+
+        // 프로젝트 소개 가져오기
+        findShowDetail.setProjectInfo(Util.clobToString((NClob) findShowDetail.getProjectInfo()));
+
+        // 좋아요 수 카운트
+        findShowDetail.setLikes(projectRepository.findShowLikeCount(findShowDetail.getId()));
+
+        // 프로젝트 참여자 인원 수
+        findShowDetail.setProjectMemberCount(projectRepository.findShowMemberCount(projectId));
+
+        // 생성일 포멧(형식) 변경
+        findShowDetail.setCreatedAt(Util.formatTimestamp(Timestamp.valueOf(findShowDetail.getCreatedAt())));
+
+        // 프로젝트 모집 작성자 데이터(우측 프로필 띄우기)
+        findShowDetail.setOwnerInfo(projectRepository.findShowOwnerInfo(findShowDetail.getOwnerId(), findShowDetail.getId()));
+
+        // 프로젝트 사용 기술스택
+        findShowDetail.setSkills(projectRepository.findShowSkills(projectId));
+
+        // 프로젝트 모집분야
+        findShowDetail.setRecruitRoles(projectRepository.findShowRecruitRoles(projectId));
+
+        return findShowDetail;
+    }
+
     // 프로젝트작성페이지
     public int createProject(ProjectCreateDto projectCreateDto, int memberId ) throws ParseException {
         // 프로젝트 작성자 아이디를 로그인한 유저의 ID를 갖고옴
@@ -128,10 +157,10 @@ public class ProjectService {
         String findProjectName = projectRepository.findProjectName(inputProjectName);
         if(findProjectName != null)
           throw new CustomException("프로젝트 명이 중복됩니다 !");
-        
+
         // DB 실행
         projectRepository.createProject(projectCreateDto);
-        
+
         // 1. DTO의 projectName으로 SELECT 쿼리를 날려서 해당 프로젝트 ID 값을 가져온다.
         String projectName = projectCreateDto.getProjectName();
         int projectId = projectRepository.findProjectId(projectName);

@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   window.addEventListener("scroll", function () {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    const scrollOffset = 300; // 요소의 높이를 직접 지정
+    const scrollOffset = 200; // 요소의 높이를 직접 지정
 
     if (scrollTop < scrollOffset) {
       header.style.boxShadow = "none";

@@ -49,7 +49,7 @@ public class ProjectController {
     // recruit_create 페이지: 로그인한 유저만 접근
     @GetMapping("/project/create")
     public String recruitCreateForm(@SessionAttribute(name= SessionConst.LOGIN_MEMBER, required=false) Member loginMember) {
-        if(loginMember ==null) {
+        if (loginMember == null) {
             throw new CustomException("로그인이 필요합니다");
         }
         return "/project/recruit_create";
@@ -67,11 +67,7 @@ public class ProjectController {
     // recruit_detail 페이지
     @GetMapping("/project/{projectId}")
     public String recruitDetailForm(@PathVariable("projectId") int projectId, Model model){
-        ProjectDetailDto projectDetail = projectService.findProjectDetail(projectId);
-        System.out.println("==================");
-        System.out.println(projectDetail);
-        System.out.println("==================");
-        model.addAttribute("project", projectDetail);
+        model.addAttribute("project", projectService.findProjectDetail(projectId));
         return "/project/recruit_detail";
     }
 
