@@ -71,8 +71,10 @@ public class ProjectController {
     }
 
     // show_detail 페이지
-    @GetMapping("/project/show/projectId") // TODO : {}로 묶어야함(쿼리 파라미터)
-    public String showDetailForm(){
+    @GetMapping("/project/show/{projectId}")
+    public String showDetailForm(@PathVariable("projectId") int projectId, Model model){
+        model.addAttribute("showDetail", projectService.findShowDetail(projectId));
+
         return "/project/show_detail";
     }
 
