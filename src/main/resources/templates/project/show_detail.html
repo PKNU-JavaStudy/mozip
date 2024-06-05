@@ -18,6 +18,8 @@
   <!-- js -->
   <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
           crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+          crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <script th:src="@{/js/index.js}"></script>
   <script th:src="@{/js/common.js}"></script>
@@ -34,7 +36,8 @@
     <div class="content show">
       <div class="main-contents">
         <div class="title-wrap">
-          <span class="pj-type pj" th:classappend="${showDetail.getProjectType() == '사이드 프로젝트'? 'pj' : 'study'}" th:text="${showDetail.getProjectType()}">사이드 프로젝트</span>
+          <span class="pj-type pj" th:classappend="${showDetail.getProjectType() == '사이드 프로젝트'? 'pj' : 'study'}"
+                th:text="${showDetail.getProjectType()}">사이드 프로젝트</span>
           <p class="title">
             <th:block th:text="${showDetail.getProjectName()}">엘리스 SW 4기 모집합니다!</th:block>
           </p>
@@ -43,9 +46,12 @@
           <ul class="count">
             <li th:text="${showDetail.getCreatedAt()}">2024년 4월 30일</li>
             <li>
-              <i class="fa-regular fa-thumbs-up"></i> <th:block th:text="${showDetail.getLikes()}"> 4개</th:block>
+              <i class="fa-regular fa-thumbs-up"></i>
+              <th:block th:text="${showDetail.getLikes()}"> 4개</th:block>
             </li>
-            <li><i class="fa-solid fa-eye"></i><th:block th:text="${showDetail.getViews()}"> 28회</th:block></li>
+            <li><i class="fa-solid fa-eye"></i>
+              <th:block th:text="${showDetail.getViews()}"> 28회</th:block>
+            </li>
           </ul>
           <a href="" class="share-Btn"><i class="fa-solid fa-share-nodes"></i>공유하기</a>
         </div>
@@ -115,12 +121,14 @@
         <div class="pj-intro">
           <h2 class="title-contents">프로젝트 소개</h2>
           <p class="content bottom" th:text="${showDetail.getProjectInfo()}">
-           내용이다 바보야
+            내용이다 바보야
           </p>
         </div>
       </div>
       <div class="show-btn">
-        <button class="like"><i class="fa-regular fa-thumbs-up"></i><th:block th:text="${showDetail.getLikes()}"> 4개</th:block></button>
+        <button class="like"><i class="fa-regular fa-thumbs-up"></i>
+          <th:block th:text="${showDetail.getLikes()}"> 4개</th:block>
+        </button>
         <a th:href="@{/project/show}">
           <button class="list"><i class="fa-solid fa-list-ul"></i>목록</button>
         </a>
@@ -142,15 +150,19 @@
       </div>
       <button class="right-btn bookmark"><i class="fa-regular fa-bookmark"></i>북마크</button>
       <!-- TODO : href 링크 수정해야함(현재 localhost:8082/www.github.com 이렇게 들어감) -->
-      <th:block th:if="${showDetail.getGithubLink() == null}"><a style="display:none;" th:href="@{/{github}(github=${showDetail.getGithubLink()})}"><button class="right-btn github"><i class="fa-brands fa-github"></i>깃허브</button></a></th:block>
-      <th:block th:if="${showDetail.getGithubLink() != null}"><a th:href="@{/{github}(github=${showDetail.getGithubLink()})}"><button class="right-btn github"><i class="fa-brands fa-github"></i>깃허브</button></a></th:block>
+      <th:block th:if="${showDetail.getGithubLink() == null}"><a style="display:none;" th:href="@{/{github}(github=${showDetail.getGithubLink()})}">
+        <button class="right-btn github"><i class="fa-brands fa-github"></i>깃허브</button>
+      </a></th:block>
+      <th:block th:if="${showDetail.getGithubLink() != null}"><a th:href="@{/{github}(github=${showDetail.getGithubLink()})}">
+        <button class="right-btn github"><i class="fa-brands fa-github"></i>깃허브</button>
+      </a></th:block>
       <div class="edit-btn">
         <!-- TODO : 수정 시 컨트롤러 URL 적어줘야함 -->
         <a href="#">
           <button th:if="${session.loginMember!=null && session.loginMember.getId()==showDetail.getOwnerId()}" class="right-btn mod_btn">수정</button>
         </a>
-        <button th:if="${session.loginMember!=null && session.loginMember.getId()==showDetail.getOwnerId()}" class="right-btn del_btn open-modal02">
-          삭제</button>
+        <button th:if="${session.loginMember!=null && session.loginMember.getId()==showDetail.getOwnerId()}" class="right-btn del_btn open-modal">삭제
+        </button>
       </div>
     </div>
     <!-- 모달창 -->
@@ -160,22 +172,10 @@
       <div class="modal-header">
         <a href="#" class="close-modal"><i class="fa-solid fa-xmark"></i></a>
       </div>
-      <h3>모집을 완료하시겠습니까?</h3>
-      <div class="button-wrap">
-        <button class="close-modal-back">돌아가기</button>
-        <button class="submit-modal" type="submit">모집 완료하기</button>
-      </div>
-    </div>
-    <div class="modal-bg bg02">
-    </div>
-    <div class="modal02">
-      <div class="modal-header">
-        <a href="#" class="close-modal02"><i class="fa-solid fa-xmark"></i></a>
-      </div>
       <h3>게시글을 삭제하시겠습니까?</h3>
       <p>삭제 후에는 게시글을 되돌릴 수 없습니다.</p>
       <div class="button-wrap">
-        <button class="close-modal02-back">돌아가기</button>
+        <button class="close-modal-back">돌아가기</button>
         <button class="submit-modal" type="submit">삭제하기</button>
       </div>
     </div>
