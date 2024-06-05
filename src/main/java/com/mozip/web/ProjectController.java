@@ -1,24 +1,15 @@
 package com.mozip.web;
 
 import com.mozip.domain.member.Member;
-import com.mozip.dto.req.ProjectCreateDto;
-import com.mozip.dto.resp.ProjectDetailDto;
-import com.mozip.dto.resp.ProjectListDto;
-import com.mozip.dto.resp.RecruitListDto;
-import com.mozip.dto.resp.ShowListDto;
+
 import com.mozip.handler.ex.CustomException;
 import com.mozip.service.MemberService;
 import com.mozip.service.ProjectService;
 import com.mozip.util.SessionConst;
-import com.mozip.util.Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.sql.NClob;
-import java.text.ParseException;
-import java.util.List;
 
 /**
  * Project 테이블과 관련된 URL매핑(recruit_create,detail,list / show_crate,detail,list)
@@ -31,16 +22,14 @@ public class ProjectController {
 
     // 메인페이지
     @GetMapping("/")
-    public String index(Model model) { // Model 객체를 쓰기위해 파라미터로 받는다.
-        // 새로운 모집글 데이터 로딩 후 model 에 담아서 View 전달
-
-        // 컨트롤러에서 데이터가 넘어오는 것을 확인하면 model 객체에 담아 key,value 형태로 view에 뿌려준다.
+    public String index(Model model) {
+        // 새로운 모집글
         model.addAttribute("newProject", projectService.findNewProject());
 
-        // 인기 모집글 데이터 로딩 후 model 에 담아서 View 전달(위 방식을 한줄로 바꾼방식)
+        // 인기 모집글
         model.addAttribute("hotProject", projectService.findHotProject());
 
-        // 새로운 멤버 데이터 로딩 후 model에 담아서 View 전달
+        // 새로운 멤버 데이터
         model.addAttribute("newMember", memberService.newMemberList());
 
         return "index";
@@ -58,6 +47,8 @@ public class ProjectController {
     // recruit_detail 페이지
     @GetMapping("/project/{projectId}")
     public String recruitDetailForm(@PathVariable("projectId") int projectId, Model model){
+        // 조회수 증가
+        projectService.increaseView(projectId);
         model.addAttribute("project", projectService.findProjectDetail(projectId));
         return "/project/recruit_detail";
     }
@@ -72,20 +63,21 @@ public class ProjectController {
 
     // show_detail 페이지
     @GetMapping("/project/show/{projectId}")
-    public String showDetailForm(@PathVariable("projectId") int projectId, Model model){
+    public String showDetailForm(@PathVariable int projectId, Model model){
+        // 조회수 증가
+        projectService.increaseView(projectId);
         model.addAttribute("showDetail", projectService.findShowDetail(projectId));
-
         return "/project/show_detail";
     }
 
     // show_list 페이지
     @GetMapping("/project/show")
     public String showListForm(Model model){
-        List<ShowListDto> allShows = projectService.findAllShowProject();
         // 모든 프로젝트 자랑
-        model.addAttribute("allShows", allShows);
+        model.addAttribute("allShows", projectService.findAllShowProject());
         // 인기 프로젝트 자랑
         model.addAttribute("HotShows", projectService.findHotShow());
+
         return "/project/show_list";
     }
 }

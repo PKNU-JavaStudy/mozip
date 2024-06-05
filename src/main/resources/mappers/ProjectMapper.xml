@@ -295,4 +295,9 @@
         WHERE PROJECT_NAME = #{projectName}
     </select>
 
+    <!-- 조회수 올리기 -->
+    <update id="findViewCount" parameterType="int">
+        UPDATE PROJECT SET VIEWS = VIEWS + 1 where ID = #{projectId}
+    </update>
+
 </mapper>
