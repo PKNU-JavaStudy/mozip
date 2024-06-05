@@ -197,16 +197,19 @@
       </div>
       <button class="right-btn apply" th:if="${ session.loginMember!=null && session.loginMember.getId()!= project.getOwnerId()}">프로젝트 참여 신청
       </button>
+      <!-- TODO : 북마크버튼 클릭 시 로그인한 유저가아니면 이동시켜야함 -->
       <button class="right-btn bookmark" onclick="loginWarning()"><i class="fa-regular fa-bookmark"></i>북마크</button>
       <button class="right-btn confirm open-modal" th:if="${session.loginMember != null && session.loginMember.getId()==project.getOwnerId()}">모집완료
         하기
       </button>
 
       <div class="edit-btn">
+        <!-- TODO : 프로젝트모집 수정 구현 시 컨트롤러 URL 입력 -->
         <a th:href="@{/project/recruit_edit}">
-          <button class="right-btn mod_btn">수정</button>
+          <button th:if="${session.loginMember!=null && session.loginMember.getId()==project.getOwnerId()}" class="right-btn mod_btn">수정</button>
         </a>
-        <button class="right-btn del_btn open-modal02">삭제</button>
+        <button th:if="${session.loginMember!=null && session.loginMember.getId()==project.getOwnerId()}" class="right-btn del_btn open-modal02">삭제
+        </button>
       </div>
 
       <p class="current-mem">👩‍👦‍👦 현재 참여 인원 <span th:text="${project.getProjectMemberCount()}">5</span>명</p>

@@ -141,13 +141,16 @@
         <h3 th:text="${showDetail.getOwnerInfo().getUsername()}">👑 이윤지</h3>
       </div>
       <button class="right-btn bookmark"><i class="fa-regular fa-bookmark"></i>북마크</button>
+      <!-- TODO : href 링크 수정해야함(현재 localhost:8082/www.github.com 이렇게 들어감) -->
       <th:block th:if="${showDetail.getGithubLink() == null}"><a style="display:none;" th:href="@{/{github}(github=${showDetail.getGithubLink()})}"><button class="right-btn github"><i class="fa-brands fa-github"></i>깃허브</button></a></th:block>
       <th:block th:if="${showDetail.getGithubLink() != null}"><a th:href="@{/{github}(github=${showDetail.getGithubLink()})}"><button class="right-btn github"><i class="fa-brands fa-github"></i>깃허브</button></a></th:block>
       <div class="edit-btn">
+        <!-- TODO : 수정 시 컨트롤러 URL 적어줘야함 -->
         <a href="#">
-          <button class="right-btn mod_btn">수정</button>
+          <button th:if="${session.loginMember!=null && session.loginMember.getId()==showDetail.getOwnerId()}" class="right-btn mod_btn">수정</button>
         </a>
-        <button class="right-btn del_btn open-modal02">삭제</button>
+        <button th:if="${session.loginMember!=null && session.loginMember.getId()==showDetail.getOwnerId()}" class="right-btn del_btn open-modal02">
+          삭제</button>
       </div>
     </div>
     <!-- 모달창 -->
