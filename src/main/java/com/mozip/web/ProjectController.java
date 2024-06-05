@@ -58,7 +58,9 @@ public class ProjectController {
     // recruit_detail 페이지
     @GetMapping("/project/{projectId}")
     public String recruitDetailForm(@PathVariable("projectId") int projectId, Model model){
+        int views = projectService.increaseView(projectId);
         model.addAttribute("project", projectService.findProjectDetail(projectId));
+        model.addAttribute("views", views);
         return "/project/recruit_detail";
     }
 
@@ -78,8 +80,9 @@ public class ProjectController {
 
     // show_list 페이지
     @GetMapping("/project/show")
-    public String showListForm(Model model){
+    public String showListForm(@PathVariable("projectId") int projectId, Model model){
         List<ShowListDto> allShows = projectService.findAllShowProject();
+        int views = projectService.increaseView(projectId);
         // 모든 프로젝트 자랑
         model.addAttribute("allShows", allShows);
         // 인기 프로젝트 자랑

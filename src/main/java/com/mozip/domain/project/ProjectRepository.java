@@ -86,4 +86,8 @@ public interface ProjectRepository {
     int findProjectId(String projectName);
 
     String findProjectName(String projectName);
+
+    int findViewCount(int projectId);
+
+    int findGetViewCount(int projectId);
 }

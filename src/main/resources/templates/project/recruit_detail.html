@@ -46,11 +46,11 @@
         <div class="info-wrap">
           <ul class="count">
             <li th:text="${project.getCreatedAt()}">2024년 4월 30일</li>
-            <li><i class="fa-regular fa-comment"></i>
-              <th:block th:text="${project.getMembers().size()}">4개</th:block>
+            <li><i class="fa-regular fa-hand"></i>
+              <th:block th:text="${project.getMembers().size()}+'명'">4명</th:block>
             </li>
             <li><i class="fa-solid fa-eye"></i>
-              <th:block th:text="${project.getViews()}">28회</th:block>
+              <th:block th:text="${project.getViews()}+'회'">28회</th:block>
             </li>
           </ul>
           <a href="" class="share-Btn"><i class="fa-solid fa-share-nodes"></i>공유하기</a>

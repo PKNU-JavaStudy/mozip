@@ -181,4 +181,8 @@ public class ProjectService {
         // 4. 프로젝트 ID 값을 Controller에 반환
         return projectId;
     }
+
+    public int increaseView(int projectId) {
+        return projectRepository.findViewCount(projectId);
+    }
 }
