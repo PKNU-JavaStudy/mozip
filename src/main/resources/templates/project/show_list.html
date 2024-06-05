@@ -21,8 +21,8 @@
   <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
           crossorigin="anonymous"></script>
   <!-- swiper -->
-  <script src="./js/index.js"></script>
-  <script src="./js/common.js"></script>
+  <script th:src="@{/js/index.js}"></script>
+  <script th:src="@{/js/common.js}"></script>
   <!-- favicon -->
   <link rel="icon" th:href="@{/img/favicon.ico}">
 </head>
@@ -39,7 +39,8 @@
           <img th:src="@{/img/showlist_sample.png}" alt="프로필 이미지"/>
         </div>
         <div class="box-text">
-          <span class="pj-type" th:classappend="${project.getProjectType() == '사이드 프로젝트'? 'pj' : 'study'}" th:text="${project.getProjectType()}"></span>
+          <span class="pj-type" th:classappend="${project.getProjectType() == '사이드 프로젝트'? 'pj' : 'study'}"
+                th:text="${project.getProjectType()}"></span>
           <h2 th:text="${project.getProjectName()}">
             [풀스택개발자구인] 운동인을 위한 구독형 개인 맞춤 식단도시락
             서비스

@@ -177,8 +177,7 @@
               <!-- th:onclick="'myFunction(\'' + ${member.getId()} + '\')'"-->
               <button th:if="${session.loginMember!=null && session.loginMember.getId() == project.getOwnerId()}" class="addmem-button add"
                       th:onclick="'memberInvite(\'' +
-              ${member.getId()} + '\')'">멤버
-                추가
+              ${member.getId()} + '\')'">멤버 추가
               </button>
             </div>
             <p class="app-date" th:text="${member.getCreatedAt()}">2024년 4월 30일</p>
@@ -251,18 +250,15 @@
     // 멤버추가버튼
     function memberInvite(memberId) {
         console.log(memberId);
-        $.ajax(
-            {
-                type: "get",
-                url: "/api/email/" + memberId,
-                dataType: "json",
-            }
-        ).done(res => {
+        $.ajax({
+            type: "get",
+            url: "/api/email/" + memberId,
+            dataType: "json",
+        }).done(res => {
             console.log(res);
         }).fail(error => {
             console.log("통신실패!", error);
         });
-
     }
 
     // 로그인안한 회원이 프로젝트참여신청, 북마크 클릭 시 호출
