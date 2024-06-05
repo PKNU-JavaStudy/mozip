@@ -1,18 +1,13 @@
 package com.mozip.web;
 
 import com.mozip.domain.member.Member;
-import com.mozip.dto.req.MypageEditDto;
-import com.mozip.dto.resp.MypageDto;
 import com.mozip.handler.ex.CustomException;
 import com.mozip.service.MemberService;
 import com.mozip.util.SessionConst;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Member 테이블과 관련된 URL 매핑(mypage, mypage_edit)
@@ -35,15 +30,9 @@ public class MemberController {
     @GetMapping("/member/edit/{memberId}")
     public String myPageEditForm(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember, @PathVariable("memberId") int memberId, Model model) {
         if (loginMember == null) throw new CustomException("로그인이 필요합니다 !");
-        MypageDto mypageEdit = memberService.editUserInfo(memberId);
-        System.out.println("memberId = " + memberId);
-        model.addAttribute("member", mypageEdit);
-        return "redirect:member/mypage_edit";
-    }
-
-    @PostMapping("/member/edit/{memberId}")
-    public String myPageEditForm(@PathVariable("memberId") int memberId, Model model) {
-        model.addAttribute("member", memberId);
-        return "redirect:member/mypage_edit";
+        if (loginMember.getId() != memberId) throw new CustomException("접근권한이 없습니다!");
+        System.out.println("memberService.editUserInfo() = " + memberService.editUserInfo(memberId));
+        model.addAttribute("member", memberService.editUserInfo(memberId));
+        return "member/mypage_edit";
     }
 }

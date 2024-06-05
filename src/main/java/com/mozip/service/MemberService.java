@@ -36,16 +36,14 @@ public class MemberService {
         return findMember;
     }
 
-    public MypageDto editUserInfo(int id) {
-        MypageDto editMember = memberRepository.getUserInfo(id);
-        editMember.setInfo(memberRepository.getUserInfo(id));
-        editMember.setSkills(memberRepository.getUserSkill(editMember.getId()));
+    public MypageEditDto editUserInfo(int id) {
+        MypageEditDto editMember = memberRepository.editUserInfo(id);
+        editMember.setInfo(Util.clobToString((NClob) editMember.getInfo()));
+        editMember.setSkills(memberRepository.findSkill(editMember.getId()));
+        return memberRepository.editUserInfo(id);
 
-        return editMember;
     }
 
-    public void updateUserInfo(MypageEditDto mypageEditDto) {
-        memberRepository.updtaeUser(mypageEditDto);
-    }
 }
+
 

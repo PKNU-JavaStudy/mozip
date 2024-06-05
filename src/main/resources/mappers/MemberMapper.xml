@@ -32,15 +32,6 @@
         <result property="projectTime" column="PROJECT_TIME"/>
         <result property="createdAt" column="CREATED_AT"/>
     </resultMap>
-    <!-- 마이페이지 수정 -->
-<!--    <resultMap id="editUserInfoDtoMap" type="com.mozip.dto.req.MypageEditDto">-->
-<!--        <result property="id" column="ID"/>-->
-<!--        <result property="username" column="USERNAME"/>-->
-<!--        <result property="career" column="CAREER"/>-->
-<!--        <result property="githubLink" column="GITHUB_LINK"/>-->
-<!--        <result property="position" column="POSITION"/>-->
-<!--        <result property="info" column="INFO"/>-->
-<!--    </resultMap>-->
 
     <select id="newMemberList" resultType="com.mozip.dto.resp.NewMemberListDto">
         <![CDATA[
@@ -92,15 +83,36 @@
         WHERE MEMBER_ID = #{memberId}
     </select>
 
-    <update id="editUserInfo" parameterType="com.mozip.dto.req.MypageEditDto">
-        UPDATE MEMBER
-        SET USERNAME    = #{username},
-            CAREER      = #{career},
-            GITHUB_LINK = #{githubLink},
-            POSITION    = #{position},
-            INFO        = #{info},
-            IS_MODIFY   = 1
+    <!-- 마이페이지 수정 -->
+
+    <resultMap id="editUserInfoDtoMap" type="com.mozip.dto.req.MypageEditDto">
+        <result property="id" column="ID"/>
+        <result property="email" column="EMAIL"/>
+        <result property="username" column="USERNAME"/>
+        <result property="career" column="CAREER"/>
+        <result property="info" column="INFO"/>
+        <result property="githubLink" column="GITHUB_LINK"/>
+        <result property="profileImage" column="PROFILE_IMAGE_URL"/>
+        <result property="position" column="POSITION"/>
+    </resultMap>
+
+    <select id="editUserInfo" resultMap="editUserInfoDtoMap">
+        SELECT ID,
+               EMAIL,
+               USERNAME,
+               CAREER,
+               INFO,
+               GITHUB_LINK,
+               PROFILE_IMAGE_URL,
+               POSITION
+        FROM MEMBER
         WHERE ID = #{id}
-    </update>
+    </select>
+
+    <select id="findSkill" resultType="java.lang.String">
+        SELECT SKILL_NAME
+        FROM MEMBER_SKILL
+        WHERE MEMBER_ID = #{memberId}
+    </select>
 
 </mapper>

@@ -27,7 +27,7 @@
   <div class="wrap">
     <div class="profile-container">
       <div class="profile-section">
-        <a th:href="@{/member/edit/memberId}" class="edit-btn">마이페이지 수정</a>
+        <a th:href="@{/member/edit/{memberId}(memberId=${member.getId()})}" class="edit-btn">마이페이지 수정</a>
         <a href="#" class="img-wrap">
           <img th:src="@{/img/cinnamoroll.jpeg}" alt="Profile Image" class="profile-image">
         </a>
