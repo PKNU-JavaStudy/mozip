@@ -184,6 +184,7 @@ a.github-link:hover {
     text-align: center;
     background: #f3f3f3;
     border: 1px solid transparent;
+    margin-right: 5px;
 }
 
 /* 내가 만든 프로젝트, 북마크 헤더 색션 */
@@ -513,7 +514,7 @@ select {
 }
 
 /* 완료 버튼 색상 모양 설정 */
-#mypage-submit {
+#mypage-button {
     width: 100%;
     justify-content: center;
     background-color: var(--main-color);
@@ -527,7 +528,7 @@ select {
 }
 
 /* 버튼 호버시 색상 */
-#mypage-submit:hover {
+#mypage-button:hover {
     background-color: var(--main-hover-color);
 }
 

@@ -1,6 +1,7 @@
 package com.mozip.web;
 
 import com.mozip.domain.member.Member;
+import com.mozip.dto.req.UpdateMypageEditDto;
 import com.mozip.handler.ex.CustomException;
 import com.mozip.service.MemberService;
 import com.mozip.util.SessionConst;
@@ -22,7 +23,6 @@ public class MemberController {
     public String myPageForm(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember, @PathVariable("memberId") int memberId, Model model) {
         if (loginMember == null) throw new CustomException("로그인이 필요합니다 !");
         if (loginMember.getId() != memberId) throw new CustomException("접근권한이 없습니다!");
-        System.out.println("memberId = " + memberId);
         model.addAttribute("member", memberService.getUserInfo(memberId));
         return "member/mypage";
     }
@@ -31,8 +31,15 @@ public class MemberController {
     public String myPageEditForm(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember, @PathVariable("memberId") int memberId, Model model) {
         if (loginMember == null) throw new CustomException("로그인이 필요합니다 !");
         if (loginMember.getId() != memberId) throw new CustomException("접근권한이 없습니다!");
-        System.out.println("memberService.editUserInfo() = " + memberService.editUserInfo(memberId));
         model.addAttribute("member", memberService.editUserInfo(memberId));
         return "member/mypage_edit";
+    }
+
+    @PostMapping("/member/edit")
+    public String mypageComplete(@ModelAttribute UpdateMypageEditDto updateMypageEditDto) {
+
+        System.out.println("updateMypageEditDto = " + updateMypageEditDto);
+
+        return "redirect:/member/" + updateMypageEditDto.getId();
     }
 }

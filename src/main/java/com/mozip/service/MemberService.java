@@ -4,6 +4,7 @@ import com.mozip.domain.member.MemberRepository;
 import com.mozip.dto.req.MypageEditDto;
 import com.mozip.dto.resp.MypageDto;
 import com.mozip.dto.resp.NewMemberListDto;
+import com.mozip.dto.req.UpdateMypageEditDto;
 import com.mozip.util.Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -42,6 +43,14 @@ public class MemberService {
         editMember.setSkills(memberRepository.findSkill(editMember.getId()));
         return memberRepository.editUserInfo(id);
 
+    }
+    @Transactional
+    public UpdateMypageEditDto updateInfo(int memberId) {
+        UpdateMypageEditDto updateMember = memberRepository.updateInfo(memberId);
+        updateMember.setInfo(memberRepository.getUserInfo(updateMember.getId()));
+        updateMember.setSkills(memberRepository.findSkill(updateMember.getId()));
+        updateMember.setInfo(Util.clobToString((NClob) updateMember.getInfo()));
+        return memberRepository.updateInfo(memberId);
     }
 
 }

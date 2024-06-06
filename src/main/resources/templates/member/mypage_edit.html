@@ -15,6 +15,10 @@
   <link rel="stylesheet" th:href="@{/css/common.css}"/>
   <link rel="stylesheet" th:href="@{/css/mypage.css}"/>
 
+  <!-- jquery -->
+  <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+          crossorigin="anonymous"></script>
+
   <script defer th:src="@{/js/02donggun.js}"></script>
   <script th:src="@{/js/common.js}"></script>
   <!-- favicon -->
@@ -32,6 +36,7 @@
       </div>
       <div class="form-container">
         <form id="profile-form">
+          <input id="userId" name="id" th:value="${member.getId()}" style="display: none;"/>
           <div class="edit-group">
             <h2>이름</h2>
             <input type="text" id="name" th:value="${member.username}" disabled>
@@ -39,25 +44,25 @@
 
           <div class="input-group">
             <h2>이메일</h2>
-            <input id="email" class="email" th:value="${member.email}">
+            <input id="email" name="email" class="email" th:value="${member.email}">
           </div>
 
           <div class="form-group">
             <div class="input-group">
               <h2>경력</h2>
-              <select id="experience-container">
+              <select id="experience-container" name="career">
                 <option class="experience" value="">--선택--</option>
                 <option class="experience" th:selected="${member.career == 1}" value="1">학생 / 취업준비생</option>
                 <option class="experience" th:selected="${member.career == 2}" value="2">신입</option>
                 <option class="experience" th:selected="${member.career == 3}" value="3">1~3년차</option>
                 <option class="experience" th:selected="${member.career == 4}" value="4">3~5년차</option>
-                <option class="experience" th:selected="${member.career == 5}"value="5">5년이상</option>
+                <option class="experience" th:selected="${member.career == 5}" value="5">5년이상</option>
               </select>
             </div>
             <div class="input-group">
               <h2>깃허브 레포지토리 링크<span id="charCount" class="maxlength">0/50</span></h2>
               <input id="urlInput" th:value="${member.githubLink}" class="sc-input" style="resize: none" type="text"
-                     name="title"
+                     name="githubLink"
                      maxlength="50"
                      placeholder="URL을 입력하세요."></input>
             </div>
@@ -68,7 +73,7 @@
               <div class="select-skills" id="skill-container">
                 <!--아이콘 들어가는 곳-->
               </div>
-              <select id="skill" th:switch="${member.position}">
+              <select id="skill" th:switch="${member.position}" name="position">
                 <option value="">--선택--</option>
                 <option value="frontend" th:selected="${member.position == '프론트엔드'}">프론트엔드</option>
                 <option value="backend" th:selected="${member.position == '백엔드'}">백엔드</option>
@@ -78,16 +83,15 @@
             </div>
             <div class="input-group">
               <h2 class="section">기술스택</h2>
-              <div class="select-programs" id="stack-container" th:text="${member.skills}">
-                <div th:each="skill : ${member.skills}" class="skill-tag" data-value="${skill}">
-                  <span th:text="${skill}"></span>
-                  <span class="remove-btn" onclick="removeSkill(this)">x</span>
+              <div class="select-programs" id="stack-container">
+                <div class="skill-tag" th:each="skill : ${member.getSkills()}">
+                  <div class="selected-item" th:text="${skill}"></div>
                 </div>
                 <!--아이콘 들어가는 곳-->
               </div>
               <select id="stack">
                 <option value="">--선택--</option>
-                <option value="java">Java</option>
+                <option value="Java">Java</option>
                 <option value="C++">C++</option>
                 <option value="C#">C#</option>
                 <option value="python">Python</option>
@@ -111,10 +115,12 @@
             <h2>자기소개<span id="introCount" class="maxlength">0/150</span></h2>
             <textarea id="introduceInput" th:text="${member.info}" class="introduce-input" style="resize: none"
                       type="text"
-                      name="title"
+                      name="info"
                       maxlength="150" placeholder="자기소개를 입력해주세요."></textarea>
           </div>
-          <input type="submit" id="mypage-submit" value="완료" class="complete">
+          <button id="mypage-button" type="button" class="complete">
+          수정 완료
+          </button>
         </form>
       </div>
     </div>
@@ -123,5 +129,27 @@
 <footer>
   <th:block th:replace="~{fragment/footer}"></th:block>
 </footer>
+<script>
+    // 데이터 전송
+    document.querySelector("#mypage-button").addEventListener("click", function() {
+        event.preventDefault(); // form 전송 막는 코드
+        let formData = $("#profile-form").serializeArray();
+        console.log(formData);
+
+        let id = document.querySelector("#userId").value;
+        let email = document.querySelector("#email").value;
+        let career = document.querySelector("#experience-container").value;
+        let githubLink = document.querySelector("#urlInput").value;
+        let position = document.querySelector("#skill").value;
+        let info = document.querySelector("#introduceInput").value;
+
+        console.log(id);
+        console.log(email);
+        console.log(career);
+        console.log(githubLink);
+        console.log(position);
+        console.log(info);
+    });
+</script>
 </body>
 </html>

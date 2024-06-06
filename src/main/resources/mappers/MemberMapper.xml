@@ -115,4 +115,15 @@
         WHERE MEMBER_ID = #{memberId}
     </select>
 
+    <update id="updateInfo" parameterType="com.mozip.dto.req.UpdateMypageEditDto">
+        UPDATE MEMBER
+        SET EMAIL       = #{email},
+            CAREER      = #{career},
+            GITHUB_LINK = #{githubLink},
+            POSITION    = #{position},
+            INFO        = #{info},
+            IS_MODIFY = 1
+        WHERE ID = #{id};
+    </update>
+
 </mapper>

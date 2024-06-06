@@ -1,10 +1,8 @@
 package com.mozip.domain.member;
 
 import com.mozip.dto.req.MypageEditDto;
-import com.mozip.dto.resp.MyBookmarkListDto;
-import com.mozip.dto.resp.MyProjectDto;
-import com.mozip.dto.resp.MypageDto;
-import com.mozip.dto.resp.NewMemberListDto;
+import com.mozip.dto.req.UpdateMypageEditDto;
+import com.mozip.dto.resp.*;
 
 import java.util.List;
 
@@ -28,5 +26,9 @@ public interface MemberRepository {
     MypageEditDto editUserInfo(int id);
 
     List<String> findSkill(int memberId);
+
+    UpdateMypageEditDto updateInfo(int id);
+
+    List<String> editSkill(int memberId);
 }
 

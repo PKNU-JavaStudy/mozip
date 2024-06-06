@@ -2,14 +2,13 @@ package com.mozip.web;
 
 import com.mozip.domain.member.Member;
 import com.mozip.dto.req.LoginDto;
-import com.mozip.dto.resp.JoinMemberDto;
+import com.mozip.dto.req.JoinMemberDto;
 import com.mozip.service.AuthService;
 import com.mozip.util.SessionConst;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
