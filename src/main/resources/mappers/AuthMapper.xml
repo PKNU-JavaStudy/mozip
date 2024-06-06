@@ -4,8 +4,10 @@
 
 <mapper namespace="com.mozip.domain.member.AuthRepository">
     <insert id="joinMember">
-        INSERT INTO MEMBER(ID, EMAIL, PASSWORD, USERNAME, PHONE, IS_MODIFY, CREATED_AT)
-        VALUES (MEMBER_SEQ.NEXTVAL, #{email}, #{password}, #{username}, #{phone}, 0, TO_CHAR(SYSDATE, 'YYYY-MM-DD HH:MI:SS'))
+        INSERT INTO MEMBER(ID, EMAIL, PASSWORD, USERNAME, PHONE, CAREER, INFO, GITHUB_LINK, PROFILE_IMAGE_URL, POSITION,
+                           IS_MODIFY, CREATED_AT)
+        VALUES (MEMBER_SEQ.NEXTVAL, #{email}, #{password}, #{username}, #{phone}, 0, '수정필요!', '수정필요!', '수정필요!', 0, 0,
+                TO_CHAR(SYSDATE, 'YYYY-MM-DD HH:MI:SS'))
     </insert>
 
     <select id="findLoginMember" resultType="com.mozip.domain.member.Member">

@@ -79,4 +79,16 @@ public class ProjectController {
 
         return "/project/show_list";
     }
+
+    // 프로젝트 삭제 메서드
+//    @DeleteMapping("/api/project/{projectId}")
+//    @ResponseBody
+//    publicResponseEntity<String> deleteProject(@PathVariable("projectId") int projectId) {
+//        try {
+//            projectService.deleteProject(projectId); // 프로젝트 삭제 로직
+//            return ResponseEntity.ok("Project deleted successfully");
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete project");
+//        }
+//    }
 }
