@@ -62,7 +62,7 @@ public class ProjectController {
 
     // show_detail 페이지
     @GetMapping("/project/show/{projectId}")
-    public String showDetailForm(@PathVariable int projectId, Model model){
+    public String showDetailForm(@PathVariable("projectId") int projectId, Model model){
         // 조회수 증가
         projectService.increaseView(projectId);
         model.addAttribute("showDetail", projectService.findShowDetail(projectId));
