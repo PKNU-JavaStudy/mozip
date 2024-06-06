@@ -171,10 +171,9 @@
                 <span class="career" th:if="${member.getCareer() == 5}">5년이상</span>
                 <h3 th:text="${member.getUsername()}">👑 이윤지</h3>
               </div>
-              <!-- th:onclick="'myFunction(\'' + ${member.getId()} + '\')'"-->
               <button th:if="${session.loginMember!=null && session.loginMember.getId() == project.getOwnerId()}" class="addmem-button add"
-                      th:onclick="'memberInvite(\'' +
-              ${member.getId()} + '\')'">멤버 추가
+                      th:onclick="'memberInvite(\'' + ${member.getId()} + '\')'">
+                멤버 추가
               </button>
             </div>
             <p class="app-date" th:text="${member.getCreatedAt()}">2024년 4월 30일</p>
@@ -263,16 +262,16 @@
     }
 
     // 프로젝트 모집완료
-    function recruitDone(projectId){
+    function recruitDone(projectId) {
         console.log(projectId);
         $.ajax({
             type: "get",
             url: `/api/recruit/${projectId}`,
             dataType: "json"
-        }).done(res=>{
+        }).done(res => {
             console.log(res);
-        }).fail(error=>{
-            console.log("통신실패!",error);
+        }).fail(error => {
+            console.log("통신실패!", error);
         })
     }
 
