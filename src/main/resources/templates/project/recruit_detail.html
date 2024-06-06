@@ -202,7 +202,7 @@
         하기
       </button>
 
-      <div class="edit-btn">
+      <div class="edit-btn" th:if="${session.loginMember != null && session.loginMember.getId()==project.getOwnerId()}">
         <a th:href="@{/project/recruit_edit}">
           <button class="right-btn mod_btn">수정</button>
         </a>

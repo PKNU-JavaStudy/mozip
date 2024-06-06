@@ -143,11 +143,11 @@
       <button class="right-btn bookmark"><i class="fa-regular fa-bookmark"></i>북마크</button>
       <th:block th:if="${showDetail.getGithubLink() == null}"><a style="display:none;" th:href="@{/{github}(github=${showDetail.getGithubLink()})}"><button class="right-btn github"><i class="fa-brands fa-github"></i>깃허브</button></a></th:block>
       <th:block th:if="${showDetail.getGithubLink() != null}"><a th:href="@{/{github}(github=${showDetail.getGithubLink()})}"><button class="right-btn github"><i class="fa-brands fa-github"></i>깃허브</button></a></th:block>
-      <div class="edit-btn">
+      <div class="edit-btn" th:if="${session.loginMember != null && session.loginMember.getId()==showDetail.getOwnerId()}">
         <a href="#">
           <button class="right-btn mod_btn">수정</button>
         </a>
-        <button class="right-btn del_btn open-modal02">삭제</button>
+        <button class="right-btn del_btn open-modal">삭제</button>
       </div>
     </div>
     <!-- 모달창 -->
@@ -155,25 +155,13 @@
     </div>
     <div class="modal">
       <div class="modal-header">
-        <a href="#" class="close-modal"><i class="fa-solid fa-xmark"></i></a>
-      </div>
-      <h3>모집을 완료하시겠습니까?</h3>
-      <div class="button-wrap">
-        <button class="close-modal-back">돌아가기</button>
-        <button class="submit-modal" type="submit">모집 완료하기</button>
-      </div>
-    </div>
-    <div class="modal-bg bg02">
-    </div>
-    <div class="modal02">
-      <div class="modal-header">
         <a href="#" class="close-modal02"><i class="fa-solid fa-xmark"></i></a>
       </div>
       <h3>게시글을 삭제하시겠습니까?</h3>
       <p>삭제 후에는 게시글을 되돌릴 수 없습니다.</p>
-      <div class="button-wrap">
+      <div class="button-wrap" >
         <button class="close-modal02-back">돌아가기</button>
-        <button class="submit-modal" type="submit">삭제하기</button>
+        <button class="submit-modal" type="submit" th:onclick="|ajaxDelete(${showDetail.getId()})|">삭제하기</button>
       </div>
     </div>
   </div>
@@ -209,21 +197,20 @@
     });
 
   // 프로젝트 자랑 삭제
-   function ajaxDelete(){
-     $.ajax({
-       type : "Delete",
-       url : "/api/project/{projectId}",
-       data : JSON.stringify(jsonData),
-       contentType : "application/json; charset=utf-8",
-       dataType : "json"
-     }).done(res=>{ // HttpStatus 200번대
-       console.log("성공",res);
-       alert("게시글이 정상적으로 삭제되었습니다.")
-       window.location.assign(`/project/`);
-     }).fail(error=>{ // HttpStatus 200번대가 아닐때
-       alert("게시글 삭제를 실패했습니다!")
-     });
-   }
+    function ajaxDelete(projectId) {
+      $.ajax({
+        type: "DELETE",
+        url: "/api/project/" + projectId,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json"
+      }).done(res => { // HTTP 상태 코드 200번대일 때 호출됨
+        console.log("성공:", res);
+        alert("게시글이 성공적으로 삭제되었습니다."); // 서버에서 반환된 메시지 표시
+        window.location.replace(`/project/show`);
+      }).fail(error => { // HTTP 상태 코드 200번대가 아닐 때 호출됨
+        alert("게시글 삭제를 실패했습니다. 다시 시도해주세요."); // 서버에서 반환된 메시지 대신 고정 메시지 표시
+      });
+    }
 </script>
 </body>
 </html>

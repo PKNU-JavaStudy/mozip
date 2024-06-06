@@ -11,13 +11,17 @@ import com.mozip.handler.ex.CustomException;
 import com.mozip.dto.resp.*;
 import com.mozip.util.Util;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.NClob;
 import java.sql.Timestamp;
 import java.text.ParseException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -182,7 +186,14 @@ public class ProjectService {
         return projectId;
     }
 
+    // 조회수 카운트
     public int increaseView(int projectId) {
         return projectRepository.findViewCount(projectId);
+    }
+
+    // 프로젝트자랑 페이지 삭제
+    public void deleteProject(int projectId) {
+       projectRepository.deleteProject(projectId); // 프로젝트 삭제 로직
+
     }
 }

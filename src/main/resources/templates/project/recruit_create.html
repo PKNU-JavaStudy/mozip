@@ -35,7 +35,7 @@
     <div class="rc-input">
         <form  id="createProject" th:onsubmit="'memberInvite(\'' +event+ '\')'">
 <!--        <span class="pj-type pj">사이드 프로젝트</span>-->
-        <select name="projectType" class="proeject-type">
+        <select name="projectType" class="project-type">
           <option value="사이드 프로젝트">사이드 프로젝트</option>
           <option value="모집/스터디">모집/스터디</option>
         </select>
@@ -130,7 +130,7 @@
           </div>
           <div>
             <label for="role" class="s-title">모집분야</label>
-            <div class="selected-skill" id="role-container">
+            <div class="select-programs" id="role-container">
               <!--아이콘 들어가는 곳-->
             </div>
             <select id="role">

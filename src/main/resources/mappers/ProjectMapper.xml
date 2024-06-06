@@ -27,6 +27,7 @@
         <result property="projectName" column="PROJECT_NAME"/>
         <result property="projectType" column="PROJECT_TYPE"/>
         <result property="views" column="VIEWS"/>
+        <result property="isShow" column="IS_SHOW"/>
     </resultMap>
 
     <!--  메인페이지 : 새로운 프로젝트  -->
@@ -99,7 +100,7 @@
 
     <!--  프로젝트자랑페이지 : 모든 프로젝트자랑  -->
     <select id="findAllShowProject" resultMap="ShowListDtoMap">
-        SELECT ID, PROJECT_NAME, PROJECT_TYPE, OWNER_ID, VIEWS
+        SELECT ID, PROJECT_NAME, PROJECT_TYPE, OWNER_ID, VIEWS, IS_SHOW
         FROM PROJECT
         WHERE IS_SHOW = 1
     </select>
@@ -114,10 +115,13 @@
     <!--  프로젝트자랑페이지 : 새로운 프로젝트  -->
     <select id="findHotShow" resultMap="ShowListDtoMap">
         <![CDATA[
-        SELECT ID, PROJECT_NAME, PROJECT_TYPE, VIEWS
-        FROM (SELECT ID, PROJECT_NAME, PROJECT_TYPE, VIEWS
-        FROM PROJECT
-        ORDER BY VIEWS DESC)
+        SELECT ID, PROJECT_NAME, PROJECT_TYPE, VIEWS, IS_SHOW
+        FROM (
+                 SELECT ID, PROJECT_NAME, PROJECT_TYPE, VIEWS, IS_SHOW
+                 FROM PROJECT
+                 WHERE IS_SHOW = 1
+                 ORDER BY VIEWS DESC
+             )
         WHERE ROWNUM <= 3
         ]]>
     </select>
@@ -299,5 +303,10 @@
     <update id="findViewCount" parameterType="int">
         UPDATE PROJECT SET VIEWS = VIEWS + 1 where ID = #{projectId}
     </update>
+
+    <!--  프로젝트자랑 삭제  -->
+    <delete id="deleteProject" parameterType="int">
+        DELETE FROM PROJECT WHERE id = #{projectId}
+    </delete>
 
 </mapper>

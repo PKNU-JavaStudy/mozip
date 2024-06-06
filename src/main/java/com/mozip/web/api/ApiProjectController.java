@@ -4,13 +4,13 @@ import com.mozip.dto.CMRespDto;
 import com.mozip.dto.req.ProjectCreateDto;
 import com.mozip.service.ProjectService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.http.HttpResponse;
+import java.util.HashMap;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @RequestMapping("/api")
@@ -21,6 +21,15 @@ public class ApiProjectController {
     @PostMapping("/project/create")
     public ResponseEntity<?> createProject(@RequestBody ProjectCreateDto dto) {
         int projectId = projectService.createProject(dto);
+
+        return ResponseEntity.ok().body(new CMRespDto<>(1,"통신성공",projectId));
+    }
+
+    // 프로젝트 삭제 메서드
+    @DeleteMapping("/project/{projectId}")
+    public ResponseEntity<?> deleteProject(@PathVariable("projectId") int projectId) {
+
+        projectService.deleteProject(projectId); // 프로젝트 삭제 로직
 
         return ResponseEntity.ok().body(new CMRespDto<>(1,"통신성공",projectId));
     }

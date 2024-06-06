@@ -89,4 +89,6 @@ public interface ProjectRepository {
 
     int findViewCount(@Param("projectId") int projectId);
 
+    // 프로젝트자랑페이지 : 프로젝트 삭제
+    void deleteProject(@Param("projectId") int projectId);
 }

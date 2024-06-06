@@ -763,6 +763,8 @@ ul.stack-icon li:nth-child(3n) {
     background-color: var(--main-color);
     border: none;
     color: white;
+    font-size:1.2rem;
+    font-weight:500;
 }
 
 .submit-modal:hover {
@@ -834,10 +836,12 @@ ul.stack-icon li:nth-child(3n) {
     /* 삭제버튼 -> 돌아가기 버튼*/
     margin-top: 25px;
     border: 1px solid var(--tag-bgcolor);
-    margin-bottom: 40px;
+    margin-bottom: 15px;
     justify-content: center;
     display: flex;
     align-items: center;
+    font-size:1.2rem;
+    font-weight:500;
 }
 
 .close-modal-back:hover {
