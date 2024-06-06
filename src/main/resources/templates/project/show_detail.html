@@ -61,7 +61,7 @@
             </tr>
             <tr>
               <td>모집 분야</td>
-              <td>
+              <td class="skill-td">
                 <span class="work top" th:each="role : ${showDetail.getRecruitRoles()}" th:text="${role}">전체</span>
               </td>
               <td>수행 목적</td>
@@ -207,6 +207,23 @@
             document.body.classList.remove("modal-open");
         }
     });
+
+  // 프로젝트 자랑 삭제
+   function ajaxDelete(){
+     $.ajax({
+       type : "Delete",
+       url : "/api/project/{projectId}",
+       data : JSON.stringify(jsonData),
+       contentType : "application/json; charset=utf-8",
+       dataType : "json"
+     }).done(res=>{ // HttpStatus 200번대
+       console.log("성공",res);
+       alert("게시글이 정상적으로 삭제되었습니다.")
+       window.location.assign(`/project/`);
+     }).fail(error=>{ // HttpStatus 200번대가 아닐때
+       alert("게시글 삭제를 실패했습니다!")
+     });
+   }
 </script>
 </body>
 </html>
