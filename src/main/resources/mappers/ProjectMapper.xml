@@ -27,6 +27,7 @@
         <result property="projectName" column="PROJECT_NAME"/>
         <result property="projectType" column="PROJECT_TYPE"/>
         <result property="views" column="VIEWS"/>
+        <result property="isShow" column="IS_SHOW"/>
     </resultMap>
 
     <!--  메인페이지 : 새로운 프로젝트  -->
@@ -93,13 +94,14 @@
     <!--  메인페이지 : 신청자 카운트  -->
     <select id="findSubscribeCount" resultType="java.lang.Integer">
         SELECT COUNT(*)
-        FROM SUBSCRIBE INNER JOIN PROJECT ON SUBSCRIBE.PROJECT_ID = PROJECT.ID
+        FROM SUBSCRIBE
+                 INNER JOIN PROJECT ON SUBSCRIBE.PROJECT_ID = PROJECT.ID
         WHERE PROJECT.ID = #{projectId}
     </select>
 
     <!--  프로젝트자랑페이지 : 모든 프로젝트자랑  -->
     <select id="findAllShowProject" resultMap="ShowListDtoMap">
-        SELECT ID, PROJECT_NAME, PROJECT_TYPE, OWNER_ID, VIEWS
+        SELECT ID, PROJECT_NAME, PROJECT_TYPE, OWNER_ID, VIEWS, IS_SHOW
         FROM PROJECT
         WHERE IS_SHOW = 1
     </select>
@@ -107,17 +109,21 @@
     <!--  프로젝트자랑페이지 : 팀네임  -->
     <select id="findTeamName" resultType="java.lang.String">
         SELECT TEAM_NAME
-        FROM TEAM_NOTE INNER JOIN PROJECT ON TEAM_NOTE.PROJECT_ID = PROJECT.ID
+        FROM TEAM_NOTE
+                 INNER JOIN PROJECT ON TEAM_NOTE.PROJECT_ID = PROJECT.ID
         WHERE PROJECT_ID = #{projectId}
     </select>
 
     <!--  프로젝트자랑페이지 : 새로운 프로젝트  -->
     <select id="findHotShow" resultMap="ShowListDtoMap">
         <![CDATA[
-        SELECT ID, PROJECT_NAME, PROJECT_TYPE, VIEWS
-        FROM (SELECT ID, PROJECT_NAME, PROJECT_TYPE, VIEWS
-        FROM PROJECT
-        ORDER BY VIEWS DESC)
+        SELECT ID, PROJECT_NAME, PROJECT_TYPE, VIEWS, IS_SHOW
+        FROM (
+                 SELECT ID, PROJECT_NAME, PROJECT_TYPE, VIEWS, IS_SHOW
+                 FROM PROJECT
+                 WHERE IS_SHOW = 1
+                 ORDER BY VIEWS DESC
+             )
         WHERE ROWNUM <= 3
         ]]>
     </select>
@@ -125,10 +131,11 @@
     <!--  프로젝트자랑페이지 : 좋아요 카운트  -->
     <select id="findLikeCount" resultType="java.lang.Integer">
         SELECT COUNT(*)
-        FROM LIKES INNER JOIN PROJECT ON LIKES.PROJECT_ID = PROJECT.ID
+        FROM LIKES
+                 INNER JOIN PROJECT ON LIKES.PROJECT_ID = PROJECT.ID
         WHERE PROJECT_ID = #{projectId}
     </select>
-  
+
     <select id="findProjectDetail" resultMap="projectDetailMap">
         SELECT ID,
                PROJECT_TYPE,
@@ -222,13 +229,14 @@
                OWNER_ID,
                GITHUB_LINK
         FROM PROJECT
-        WHERE ID =#{projectId}
+        WHERE ID = #{projectId}
     </select>
 
     <!-- 좋아요 카운트 -->
     <select id="findShowLikeCount" resultType="java.lang.Integer">
         SELECT COUNT(*)
-        FROM LIKES INNER JOIN PROJECT ON LIKES.PROJECT_ID = PROJECT.ID
+        FROM LIKES
+                 INNER JOIN PROJECT ON LIKES.PROJECT_ID = PROJECT.ID
         WHERE PROJECT_ID = #{projectId}
     </select>
 
@@ -237,44 +245,50 @@
         SELECT COUNT(*)
         FROM MEMBER
         WHERE ID IN (SELECT pm.MEMBER_ID
-                     FROM PROJECT p INNER JOIN PROJECT_MEMBER pm ON p.ID = pm.PROJECT_ID
+                     FROM PROJECT p
+                              INNER JOIN PROJECT_MEMBER pm ON p.ID = pm.PROJECT_ID
                      WHERE P.ID = #{projectId})
     </select>
 
     <!-- 작성자 프로필 정보 가져오기 / !! 프로필 url 추가 해야함 !! -->
     <select id="findShowOwnerInfo" resultType="com.mozip.dto.resp.ProjectMemberDto">
         SELECT p.ID, USERNAME, POSITION, CAREER, m.CREATED_AT
-        FROM MEMBER m INNER JOIN PROJECT p ON m.ID = p.OWNER_ID
-        WHERE p.Id = #{projectId} AND p.OWNER_ID=#{ownerId}
+        FROM MEMBER m
+                 INNER JOIN PROJECT p ON m.ID = p.OWNER_ID
+        WHERE p.Id = #{projectId}
+          AND p.OWNER_ID = #{ownerId}
     </select>
 
     <!-- 기술 스택 가져오기 -->
     <select id="findShowSkills" resultType="java.lang.String">
         SELECT ps.SKILL_NAME
-        FROM PROJECT p INNER JOIN PROJECT_SKILL ps ON p.ID = ps.PROJECT_ID
+        FROM PROJECT p
+                 INNER JOIN PROJECT_SKILL ps ON p.ID = ps.PROJECT_ID
         WHERE p.ID = #{projectId}
     </select>
 
     <!-- 모집 분야 가져오기 -->
     <select id="findShowRecruitRoles" resultType="java.lang.String">
         SELECT r.ROLE_NAME
-        FROM PROJECT p INNER JOIN RECRUIT_ROLE r ON p.ID = r.PROJECT_ID
+        FROM PROJECT p
+                 INNER JOIN RECRUIT_ROLE r ON p.ID = r.PROJECT_ID
         WHERE p.ID = #{projectId}
     </select>
 
     <insert id="createProject" parameterType="com.mozip.dto.req.ProjectCreateDto">
-        INSERT INTO PROJECT (ID, PROJECT_NAME,PROJECT_TYPE, SUBJECT,
-                             RECRUIT_COUNT,PROJECT_PURPOSE, PROJECT_TIME,
-                             PROJECT_PROCESS,EXCEPT_DATE,EXCEPT_TIME,OWNER_ID,PROJECT_INFO, STATUS, CREATED_AT, VIEWS)
+        INSERT INTO PROJECT (ID, PROJECT_NAME, PROJECT_TYPE, SUBJECT,
+                             RECRUIT_COUNT, PROJECT_PURPOSE, PROJECT_TIME,
+                             PROJECT_PROCESS, EXCEPT_DATE, EXCEPT_TIME, OWNER_ID, PROJECT_INFO, STATUS, CREATED_AT,
+                             VIEWS)
         VALUES (PROJECT_SEQ.nextval, #{dto.projectName}, #{dto.projectType}, #{dto.subject},
                 #{dto.recruitCount}, #{dto.projectPurpose}, #{dto.projectTime},
                 #{dto.projectProcess}, #{dto.exceptDate}, TO_TIMESTAMP(#{dto.exceptTime}), #{dto.ownerId},
-                TO_NCLOB(#{dto.projectInfo}),1, TO_CHAR(SYSDATE, 'YYYY-MM-DD HH:MI:SS'), 0)
+                TO_NCLOB(#{dto.projectInfo}), 1, TO_CHAR(SYSDATE, 'YYYY-MM-DD HH:MI:SS'), 0)
     </insert>
 
     <insert id="createProjectSkill">
-            INSERT INTO PROJECT_SKILL (ID, SKILL_NAME, PROJECT_ID)
-            VALUES (PROJECT_SKILL_SEQ.nextval, #{skill}, #{id})
+        INSERT INTO PROJECT_SKILL (ID, SKILL_NAME, PROJECT_ID)
+        VALUES (PROJECT_SKILL_SEQ.nextval, #{skill}, #{id})
 
     </insert>
 
@@ -297,7 +311,32 @@
 
     <!-- 조회수 올리기 -->
     <update id="findViewCount" parameterType="int">
-        UPDATE PROJECT SET VIEWS = VIEWS + 1 where ID = #{projectId}
+        UPDATE PROJECT
+        SET VIEWS = VIEWS + 1
+        where ID = #{projectId}
     </update>
 
+    <!-- 좋아요 수 올리기 -->
+    <insert id="addLike" parameterType="com.mozip.dto.req.ProjectLikeDto">
+        INSERT INTO LIKES(ID, PROJECT_ID, MEMBER_ID)
+        VALUES (LIKE_SEQ.nextVal, #{dto.projectId}, #{dto.memberId})
+    </insert>
+
+    <!-- 좋아요 취소 -->
+    <delete id="deleteLike" parameterType="com.mozip.dto.req.ProjectLikeDto">
+        DELETE FROM LIKES
+        WHERE PROJECT_ID=#{dto.projectId} AND MEMBER_ID=#{dto.memberId}
+    </delete>
+
+    <!-- 좋아요 수 체크-->
+    <select id="checkLike" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM LIKES
+        WHERE PROJECT_ID=#{projectId} AND MEMBER_ID=#{memberId}
+    </select>
+
+    <!--  프로젝트자랑 삭제  -->
+    <delete id="deleteProject" parameterType="int">
+        DELETE FROM PROJECT WHERE id = #{projectId}
+    </delete>
 </mapper>
