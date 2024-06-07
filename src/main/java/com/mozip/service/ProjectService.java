@@ -196,10 +196,10 @@ public class ProjectService {
             // 좋아요를 누른 기록에 projectId와 memberId가 존재하지 않으면
         if (projectRepository.checkLike(projectLikeDto.getProjectId(), projectLikeDto.getMemberId()) != 0) {
             projectRepository.deleteLike(projectLikeDto);
-            return -1; // 좋아요 취소 -1
+            return -1; // 좋아요 취소
         } else {
             projectRepository.addLike(projectLikeDto);
-            return 1; // 좋아요 취소
+            return 1; // 좋아요
         }
     }
         // 좋아요 수 가져오기

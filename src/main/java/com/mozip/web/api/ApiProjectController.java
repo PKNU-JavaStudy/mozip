@@ -26,9 +26,9 @@ public class ApiProjectController {
         return ResponseEntity.ok().body(new CMRespDto<>(1,"통신성공",projectId));
     }
 
-    // 좋아요, 좋아요 취소 구분하여 처리
     @PostMapping("/like")
     public ResponseEntity<?> likeProject(@RequestBody ProjectLikeDto projectLikeDto){
+        // 좋아요, 좋아요 취소 구분하여 처리
         projectService.likeValidation(projectLikeDto);
 
         return ResponseEntity.ok().body(new CMRespDto<>(1,"통신성공", projectService.likeCount(projectLikeDto.getProjectId())));
