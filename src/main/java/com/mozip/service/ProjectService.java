@@ -198,7 +198,7 @@ public class ProjectService {
     // 좋아요 수 저장
     @Transactional
     public int likeValidation(ProjectLikeDto projectLikeDto) {
-            // 좋아요를 누른 기록에 projectId와 memberId가 존재하지 않으면
+        // 좋아요를 누른 기록에 projectId와 memberId가 존재하지 않으면
         if (projectRepository.checkLike(projectLikeDto.getProjectId(), projectLikeDto.getMemberId()) != 0) {
             projectRepository.deleteLike(projectLikeDto);
             return -1; // 좋아요 취소
@@ -207,7 +207,7 @@ public class ProjectService {
             return 1; // 좋아요
         }
     }
-  
+
     // 좋아요 수 가져오기
     public int likeCount(int projectId) {
         return projectRepository.findLikeCount(projectId);
@@ -216,7 +216,23 @@ public class ProjectService {
 
     // 프로젝트자랑 페이지 삭제
     public void deleteProject(int projectId) {
-       projectRepository.deleteProject(projectId); // 프로젝트 삭제 로직
+        projectRepository.deleteProject(projectId); // 프로젝트 삭제 로직
 
+    }
+
+    // 프로젝트 모집 완료여부 체크 후 동작
+    @Transactional
+    public int recruitIsDone(int projectId) {
+        // 모집완료 여부 체크
+        int projectStatus = projectRepository.recruitDoneCheck(projectId);
+        if (projectStatus == 1) {
+            // 모집완료 등록
+            projectRepository.recruitDoneSuccess(projectId);
+            return 1;
+        } else {
+            // 모집완료 해제
+            projectRepository.recruitDoneCancle(projectId);
+            return -1;
+        }
     }
 }

@@ -38,6 +38,13 @@ public interface ProjectRepository {
     // 프로젝트모집 상세페이지 : 프로젝트 모집분야
     List<String> findProjectRecruitRoles(@Param("projectId") int projectId);
 
+    // 프로젝트모집 상세페이지 : 프로젝트 모집 완료
+    int recruitDoneCheck(@Param("projectId") int projectId);
+
+    void recruitDoneSuccess(int projectId);
+
+    void recruitDoneCancle(int projectId);
+
     // 리스트페이지 : 전체 모집글 데이터 쿼리
     List<RecruitListDto> findAllProject();
 

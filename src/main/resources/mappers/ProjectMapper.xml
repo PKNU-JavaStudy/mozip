@@ -339,4 +339,26 @@
     <delete id="deleteProject" parameterType="int">
         DELETE FROM PROJECT WHERE id = #{projectId}
     </delete>
+
+    <!-- 프로젝트모집 상세 : 모집완료 여부 체크 -->
+    <select id="recruitDoneCheck" resultType="int">
+        SELECT STATUS
+        FROM PROJECT
+        WHERE ID=#{projectId}
+    </select>
+
+    <!-- 프로젝트모집 상세 : 모집완료 -->
+    <update id="recruitDoneSuccess" parameterType="int">
+        UPDATE PROJECT
+        SET STATUS = 0
+        WHERE ID = #{projectId}
+    </update>
+
+
+    <!-- 프로젝트모집 상세 : 모집완료 취소 -->
+    <update id="recruitDoneCancle" parameterType="int">
+        UPDATE PROJECT
+        SET STATUS = 1
+        WHERE ID = #{projectId}
+    </update>
 </mapper>

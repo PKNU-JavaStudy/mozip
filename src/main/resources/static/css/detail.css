@@ -683,6 +683,12 @@ ul.stack-icon li:nth-child(3n) {
     color: #fff;
 }
 
+.right-btn.confirm-done {
+    /* right-box 모집완료 색상 설정 */
+    background-color: var(--gray-font2);
+    color: #fff;
+}
+
 /* -------------------------------------- */
 /* show_detail */
 .right-btn.confirm-show {

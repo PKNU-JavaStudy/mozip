@@ -26,12 +26,9 @@ public class ApiProjectController {
     private final ProjectService projectService;
 
     // 프로젝트 모집 완료
-    @PostMapping("/recruit/done")
-    public ResponseEntity<?> recruitDone(@RequestBody String projectId) {
-        System.out.println("===========================");
-        System.out.println("projectId = " + projectId);
-        System.out.println("===========================");
-        return ResponseEntity.ok().body(new CMRespDto<>(1,"통신성공!",null));
+    @PatchMapping("/recruit/done")
+    public ResponseEntity<?> recruitDone(@RequestParam("projectId") int projectId) {
+        return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공!", projectService.recruitIsDone(projectId)));
     }
 
     // 프로젝트 생성
@@ -39,15 +36,15 @@ public class ApiProjectController {
     public ResponseEntity<?> createProject(@RequestBody ProjectCreateDto dto) {
         int projectId = projectService.createProject(dto);
 
-        return ResponseEntity.ok().body(new CMRespDto<>(1,"통신성공",projectId));
+        return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공", projectId));
     }
 
     @PostMapping("/like")
-    public ResponseEntity<?> likeProject(@RequestBody ProjectLikeDto projectLikeDto){
+    public ResponseEntity<?> likeProject(@RequestBody ProjectLikeDto projectLikeDto) {
         // 좋아요, 좋아요 취소 구분하여 처리
         projectService.likeValidation(projectLikeDto);
 
-        return ResponseEntity.ok().body(new CMRespDto<>(1,"통신성공", projectService.likeCount(projectLikeDto.getProjectId())));
+        return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공", projectService.likeCount(projectLikeDto.getProjectId())));
     }
 
     // 프로젝트 삭제 메서드
@@ -56,6 +53,6 @@ public class ApiProjectController {
 
         projectService.deleteProject(projectId); // 프로젝트 삭제 로직
 
-        return ResponseEntity.ok().body(new CMRespDto<>(1,"통신성공",projectId))
+        return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공", projectId));
     }
 }
