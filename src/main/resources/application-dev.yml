@@ -4,6 +4,18 @@ spring:
     url: jdbc:oracle:thin:@localhost:1521:xe
     username: mozip
     password: mozip1234
+  # Mail
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: chlwodud19970327@gmail.com
+    password: wpiavganhaqabkem
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 server:
   port:

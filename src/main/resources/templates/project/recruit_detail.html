@@ -16,16 +16,13 @@
   <link rel="stylesheet" th:href="@{/css/common.css}">
   <link rel="stylesheet" th:href="@{/css/detail.css}">
   <!-- js -->
-  <script src="https://code.jquery.com/jquery-3.7.1.js"
-          integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <script th:src="@{/js/index.js}"></script>
   <script th:src="@{/js/common.js}"></script>
   <!-- favicon -->
   <link rel="icon" th:href="@{/img/favicon.ico}">
 </head>
 <body>
-<header>
+<header id="header">
   <th:block th:replace="~{fragment/header}"></th:block>
 </header>
 <!-- main -->
@@ -49,8 +46,12 @@
         <div class="info-wrap">
           <ul class="count">
             <li th:text="${project.getCreatedAt()}">2024년 4월 30일</li>
-            <li><i class="fa-regular fa-comment"></i> <th:block th:text="${project.getRecruitCount()}">4개</th:block></li>
-            <li><i class="fa-solid fa-eye"></i><th:block th:text="${project.getViews()}">28회</th:block></li>
+            <li><i class="fa-regular fa-hand"></i>
+              <th:block th:text="${project.getMembers().size()}+'명'">4명</th:block>
+            </li>
+            <li><i class="fa-solid fa-eye"></i>
+              <th:block th:text="${project.getViews()}+'회'">28회</th:block>
+            </li>
           </ul>
           <a href="" class="share-Btn"><i class="fa-solid fa-share-nodes"></i>공유하기</a>
         </div>
@@ -156,7 +157,7 @@
             ....
           </p>
         </div>
-        <p class="title-contents app">🖐 참가 신청자 목록 </strong><i class="fa-solid fa-circle-info"></i>
+        <p class="title-contents app">🖐 참가 신청자 목록&nbsp; <i class="fa-solid fa-circle-info"></i></p>
         <div class="app-wrap">
           <div class="application-box" th:each="member : ${project.getMembers()}">
             <div class="profile-top">
@@ -170,7 +171,11 @@
                 <span class="career" th:if="${member.getCareer() == 5}">5년이상</span>
                 <h3 th:text="${member.getUsername()}">👑 이윤지</h3>
               </div>
-              <button class="addmem-button add">멤버 추가</button>
+              <!-- th:onclick="'myFunction(\'' + ${member.getId()} + '\')'"-->
+              <button th:if="${session.loginMember!=null && session.loginMember.getId() == project.getOwnerId()}" class="addmem-button add"
+                      th:onclick="'memberInvite(\'' +
+              ${member.getId()} + '\')'">멤버 추가
+              </button>
             </div>
             <p class="app-date" th:text="${member.getCreatedAt()}">2024년 4월 30일</p>
           </div>
@@ -190,12 +195,15 @@
         </div>
         <h3 th:text="${project.getOwnerInfo().getUsername()}"> 이윤지</h3>
       </div>
-      <button class="right-btn apply">프로젝트 참여 신청</button>
-      <button class="right-btn bookmark"><i class="fa-regular fa-bookmark"></i>북마크</button>
-      <button class="right-btn confirm open-modal">모집완료 하기</button>
+      <button class="right-btn apply" th:if="${ session.loginMember!=null && session.loginMember.getId()!= project.getOwnerId()}">프로젝트 참여 신청
+      </button>
+      <button class="right-btn bookmark" onclick="loginWarning()"><i class="fa-regular fa-bookmark"></i>북마크</button>
+      <button class="right-btn confirm open-modal" th:if="${session.loginMember != null && session.loginMember.getId()==project.getOwnerId()}">모집완료
+        하기
+      </button>
 
-      <div class="edit-btn">
-        <a href="#">
+      <div class="edit-btn" th:if="${session.loginMember != null && session.loginMember.getId()==project.getOwnerId()}">
+        <a th:href="@{/project/recruit_edit}">
           <button class="right-btn mod_btn">수정</button>
         </a>
         <button class="right-btn del_btn open-modal02">삭제</button>
@@ -236,6 +244,20 @@
   <th:block th:replace="~{fragment/footer}"></th:block>
 </footer>
 <script>
+    // 멤버추가버튼
+    function memberInvite(memberId) {
+        console.log(memberId);
+        $.ajax({
+            type: "get",
+            url: "/api/email/" + memberId,
+            dataType: "json",
+        }).done(res => {
+            console.log(res);
+        }).fail(error => {
+            console.log("통신실패!", error);
+        });
+    }
+
     // 모집완료 모달
     document.querySelector(".open-modal").addEventListener("click", function () {
         document.querySelector(".modal-bg").classList.add("visible");
