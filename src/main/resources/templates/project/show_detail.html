@@ -156,7 +156,7 @@
         <a href="#">
           <button class="right-btn mod_btn">수정</button>
         </a>
-        <button class="right-btn del_btn open-modal02">삭제</button>
+        <button class="right-btn del_btn open-modal">삭제</button>
       </div>
     </div>
     <!-- 모달창 -->
@@ -166,25 +166,26 @@
       <div class="modal-header">
         <a href="#" class="close-modal"><i class="fa-solid fa-xmark"></i></a>
       </div>
-      <h3>모집을 완료하시겠습니까?</h3>
-      <div class="button-wrap">
-        <button class="close-modal-back">돌아가기</button>
-        <button class="submit-modal" type="submit">모집 완료하기</button>
-      </div>
-    </div>
-    <div class="modal-bg bg02">
-    </div>
-    <div class="modal02">
-      <div class="modal-header">
-        <a href="#" class="close-modal02"><i class="fa-solid fa-xmark"></i></a>
-      </div>
       <h3>게시글을 삭제하시겠습니까?</h3>
       <p>삭제 후에는 게시글을 되돌릴 수 없습니다.</p>
-      <div class="button-wrap" >
-        <button class="close-modal02-back">돌아가기</button>
+      <div class="button-wrap">
+        <button class="close-modal-back">돌아가기</button>
         <button class="submit-modal" type="submit" th:onclick="|ajaxDelete(${showDetail.getId()})|">삭제하기</button>
       </div>
     </div>
+<!--    <div class="modal-bg bg02">-->
+<!--    </div>-->
+<!--    <div class="modal02">-->
+<!--      <div class="modal-header">-->
+<!--        <a href="#" class="close-modal02"><i class="fa-solid fa-xmark"></i></a>-->
+<!--      </div>-->
+<!--      <h3>게시글을 삭제하시겠습니까?</h3>-->
+<!--      <p>삭제 후에는 게시글을 되돌릴 수 없습니다.</p>-->
+<!--      <div class="button-wrap" >-->
+<!--        <button class="close-modal02-back">돌아가기</button>-->
+<!--        <button class="submit-modal" type="submit" th:onclick="|ajaxDelete(${showDetail.getId()})|">삭제하기</button>-->
+<!--      </div>-->
+<!--    </div>-->
   </div>
 </main>
 <th:block th:if="${session.loginMember != null}"><div class="loginMember" th:text="${session.loginMember.getId()}" style="display: none"></div></th:block>

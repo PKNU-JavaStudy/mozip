@@ -243,7 +243,7 @@
       <p>삭제 후에는 게시글을 되돌릴 수 없습니다.</p>
       <div class="button-wrap">
         <button class="close-modal02-back">돌아가기</button>
-        <button class="submit-modal" type="submit">삭제하기</button>
+        <button class="submit-modal" type="submit" th:onclick="|deleteProject(${project.getId()})|">삭제하기</button>
       </div>
     </div>
   </div>
@@ -254,6 +254,22 @@
   <th:block th:replace="~{fragment/footer}"></th:block>
 </footer>
 <script>
+    // 프로젝트 삭제
+    function deleteProject(projectId){
+        $.ajax({
+            type: "DELETE",
+            url: "/api/project/" + projectId,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json"
+        }).done(res => { // HTTP 상태 코드 200번대일 때 호출됨
+            console.log("성공:", res);
+            alert("게시글이 성공적으로 삭제되었습니다."); // 서버에서 반환된 메시지 표시
+            window.location.replace(`/project`);
+        }).fail(error => { // HTTP 상태 코드 200번대가 아닐 때 호출됨
+            alert("게시글 삭제를 실패했습니다. 다시 시도해주세요."); // 서버에서 반환된 메시지 대신 고정 메시지 표시
+        });
+    }
+
     // 멤버추가버튼
     function memberInvite(memberId) {
         console.log(memberId);
