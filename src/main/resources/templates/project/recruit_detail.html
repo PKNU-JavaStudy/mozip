@@ -16,6 +16,9 @@
   <link rel="stylesheet" th:href="@{/css/common.css}">
   <link rel="stylesheet" th:href="@{/css/detail.css}">
   <!-- js -->
+  <!-- jquery -->
+  <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+          crossorigin="anonymous"></script>
   <script th:src="@{/js/index.js}"></script>
   <script th:src="@{/js/common.js}"></script>
   <!-- favicon -->
@@ -198,7 +201,9 @@
       </button>
       <!-- TODO : 북마크버튼 클릭 시 로그인한 유저가아니면 이동시켜야함 -->
       <button class="right-btn bookmark" onclick="loginWarning()"><i class="fa-regular fa-bookmark"></i>북마크</button>
-      <button class="right-btn confirm open-modal" th:if="${session.loginMember != null && session.loginMember.getId()==project.getOwnerId()}">모집완료
+      <button class="right-btn confirm open-modal"
+              th:if="${session.loginMember != null && session.loginMember.getId()==project.getOwnerId()}"
+      >모집완료
         하기
       </button>
 
@@ -224,7 +229,7 @@
       <h3>모집을 완료하시겠습니까?</h3>
       <div class="button-wrap">
         <button class="close-modal-back">돌아가기</button>
-        <button class="submit-modal" type="submit" th:onclick="'recruitDone(\'' + ${project.getId()} + '\')'">모집 완료하기
+        <button class="submit-modal" type="submit" th:onclick="|recruitDone(${project.getId()})|">모집 완료하기
         </button>
       </div>
     </div>
@@ -263,10 +268,13 @@
 
     // 프로젝트 모집완료
     function recruitDone(projectId) {
+
         console.log(projectId);
         $.ajax({
-            type: "get",
-            url: `/api/recruit/${projectId}`,
+            type: "post",
+            url: '/api/recruit/done',
+            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+            data: {"projectId":projectId},
             dataType: "json"
         }).done(res => {
             console.log(res);

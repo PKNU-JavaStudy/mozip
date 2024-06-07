@@ -20,14 +20,16 @@ import java.net.http.HttpResponse;
 public class ApiProjectController {
     private final ProjectService projectService;
 
-    @GetMapping("/recruit/{projectId}")
-    public ResponseEntity<?> recruitDone(@PathVariable("projectId") String projectId) {
+    // 프로젝트 모집 완료
+    @PostMapping("/recruit/done")
+    public ResponseEntity<?> recruitDone(@RequestBody String projectId) {
         System.out.println("===========================");
         System.out.println("projectId = " + projectId);
         System.out.println("===========================");
         return ResponseEntity.ok().body(new CMRespDto<>(1,"통신성공!",null));
     }
 
+    // 프로젝트 생성
     @PostMapping("/project/create")
     public ResponseEntity<?> createProject(@RequestBody ProjectCreateDto dto) {
         int projectId = projectService.createProject(dto);
