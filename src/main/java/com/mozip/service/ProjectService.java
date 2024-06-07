@@ -2,11 +2,13 @@ package com.mozip.service;
 
 import com.mozip.domain.project.ProjectRepository;
 import com.mozip.dto.req.ProjectCreateDto;
+import com.mozip.dto.req.ProjectLikeDto;
 import com.mozip.dto.resp.ProjectDetailDto;
 import com.mozip.dto.resp.ProjectListDto;
 import com.mozip.dto.resp.ProjectMemberDto;
 import com.mozip.dto.resp.RecruitListDto;
 import com.mozip.dto.resp.ShowListDto;
+import com.mozip.handler.ex.CustomApiException;
 import com.mozip.handler.ex.CustomException;
 import com.mozip.dto.resp.*;
 import com.mozip.util.Util;
@@ -98,9 +100,9 @@ public class ProjectService {
     }
 
     // 프로젝트자랑페이지 데이터 갖고오는 메서드
-    public List<ShowListDto> findAllShowProject(){
-        List<ShowListDto> allShows =  projectRepository.findAllShowProject();
-        for(ShowListDto show : allShows){
+    public List<ShowListDto> findAllShowProject() {
+        List<ShowListDto> allShows = projectRepository.findAllShowProject();
+        for (ShowListDto show : allShows) {
             show.setTeamName(projectRepository.findTeamName(show.getId()));
             show.setLikes(projectRepository.findLikeCount(show.getId()));
             show.setSkills(projectRepository.findProjectSkills(show.getId()));
@@ -109,9 +111,9 @@ public class ProjectService {
     }
 
     // 프로젝트자랑페이지 인기 데이터 갖고오는 메서드
-    public List<ShowListDto> findHotShow(){
-        List<ShowListDto> HotShows =  projectRepository.findHotShow();
-        for(ShowListDto show : HotShows) {
+    public List<ShowListDto> findHotShow() {
+        List<ShowListDto> HotShows = projectRepository.findHotShow();
+        for (ShowListDto show : HotShows) {
             show.setTeamName(projectRepository.findTeamName(show.getId()));
             show.setLikes(projectRepository.findLikeCount(show.getId()));
             show.setSkills(projectRepository.findProjectSkills(show.getId()));
@@ -148,14 +150,15 @@ public class ProjectService {
     }
 
     // 프로젝트작성페이지
-    public int createProject(ProjectCreateDto projectCreateDto){
+    @Transactional
+    public int createProject(ProjectCreateDto projectCreateDto) {
 
         // DTO 의 프로젝트네임으로 select 쿼리 날려서 값이 존재하지 않으면 아래 코드 실행
         // 존재한다면 아래 코드 실행
         String inputProjectName = projectCreateDto.getProjectName();
         String findProjectName = projectRepository.findProjectName(inputProjectName);
-        if(findProjectName != null)
-          throw new CustomException("프로젝트 명이 중복됩니다 !");
+        if (findProjectName != null)
+            throw new CustomException("프로젝트 명이 중복됩니다 !");
 
         // DB 실행
         projectRepository.createProject(projectCreateDto);
@@ -181,8 +184,26 @@ public class ProjectService {
         // 4. 프로젝트 ID 값을 Controller에 반환
         return projectId;
     }
-
+        // 조회 수 저장
+    @Transactional
     public int increaseView(int projectId) {
         return projectRepository.findViewCount(projectId);
+    }
+
+        // 좋아요 수 저장
+    @Transactional
+    public int likeValidation(ProjectLikeDto projectLikeDto) {
+            // 좋아요를 누른 기록에 projectId와 memberId가 존재하지 않으면
+        if (projectRepository.checkLike(projectLikeDto.getProjectId(), projectLikeDto.getMemberId()) != 0) {
+            projectRepository.deleteLike(projectLikeDto);
+            return -1; // 좋아요 취소 -1
+        } else {
+            projectRepository.addLike(projectLikeDto);
+            return 1; // 좋아요 취소
+        }
+    }
+        // 좋아요 수 가져오기
+    public int likeCount(int projectId) {
+        return projectRepository.findLikeCount(projectId);
     }
 }

@@ -900,3 +900,7 @@ ul.stack-icon li:nth-child(3n) {
 .show p.content {
     border: none;
 }
+
+#liveLike {
+    color: white;
+}
