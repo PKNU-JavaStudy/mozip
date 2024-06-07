@@ -13,13 +13,17 @@ import com.mozip.handler.ex.CustomException;
 import com.mozip.dto.resp.*;
 import com.mozip.util.Util;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.NClob;
 import java.sql.Timestamp;
 import java.text.ParseException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -184,13 +188,14 @@ public class ProjectService {
         // 4. 프로젝트 ID 값을 Controller에 반환
         return projectId;
     }
-        // 조회 수 저장
+
+    // 조회 수 저장
     @Transactional
     public int increaseView(int projectId) {
         return projectRepository.findViewCount(projectId);
     }
 
-        // 좋아요 수 저장
+    // 좋아요 수 저장
     @Transactional
     public int likeValidation(ProjectLikeDto projectLikeDto) {
             // 좋아요를 누른 기록에 projectId와 memberId가 존재하지 않으면
@@ -202,8 +207,16 @@ public class ProjectService {
             return 1; // 좋아요
         }
     }
-        // 좋아요 수 가져오기
+  
+    // 좋아요 수 가져오기
     public int likeCount(int projectId) {
         return projectRepository.findLikeCount(projectId);
+    }
+
+
+    // 프로젝트자랑 페이지 삭제
+    public void deleteProject(int projectId) {
+       projectRepository.deleteProject(projectId); // 프로젝트 삭제 로직
+
     }
 }

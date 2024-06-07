@@ -103,7 +103,8 @@ textarea {
 }
 
 .btn-write {
-  padding: 13px 35px;
+  display: inline-block;
+  padding: 15px 30px;
   border-radius: 6px;
   background-color: var(--main-color);
   border: none;
@@ -382,21 +383,13 @@ h3 {
 }
 
 /*직군 아이콘 설정*/
+
 .selected-skill,
-.select-programs {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  margin-bottom: 10px;
-  gap: 6px;
-  /* 항목들 사이의 간격 추가 */
-  width: 100%;
-
-}
-
-.selected-programs {
+.selected-role{
   display: flex;
   align-items: center;
+  margin-bottom: 10px;
+  margin-right:6px;
   padding: 5px 10px;
   border: 1px solid var(--main-color);
   border-radius: 15px;
@@ -420,7 +413,7 @@ h3 {
 
 /* 특정 컨테이너에만 적용하도록 조정 */
 #skill-container,
-#stack-container {
+#role-container {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
