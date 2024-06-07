@@ -507,6 +507,10 @@ select {
     flex: 0 0 auto; /* 아이템이 고정된 너비로 나타나도록 */
 }
 
+.span, .projectSkill {
+    color: white;
+}
+
 .remove-btn {
     margin-left: 5px;
     cursor: pointer;

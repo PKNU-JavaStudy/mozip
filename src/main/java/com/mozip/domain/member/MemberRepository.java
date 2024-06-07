@@ -3,6 +3,7 @@ package com.mozip.domain.member;
 import com.mozip.dto.req.MypageEditDto;
 import com.mozip.dto.req.UpdateMypageEditDto;
 import com.mozip.dto.resp.*;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -22,13 +23,15 @@ public interface MemberRepository {
     // 마이페이지: 스킬목록
     List<String> getUserSkill(int memberId);
 
-    // 마이페이지: 멤버 수정
+    // 마이페이지 수정: 멤버 정보
     MypageEditDto editUserInfo(int id);
-
+    // 마이페이지 수정: 스킬목록
     List<String> findSkill(int memberId);
-
-    UpdateMypageEditDto updateInfo(int id);
-
-    List<String> editSkill(int memberId);
+    // 마이페이지 수정: 수정 정보 업데이트
+    void updateInfo(UpdateMypageEditDto updateMypageEditDto);
+    // 마이페이지 수정: 스킬 삭제
+    void deleteSkills(int memberId);
+    // 마이페이지 수정: 스킬 삽입
+    void insertSkills(@Param("memberId") int memberId, @Param("skill") String skill);
 }
 

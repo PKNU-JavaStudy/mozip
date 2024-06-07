@@ -37,14 +37,15 @@
       <div class="form-container">
         <form id="profile-form">
           <input id="userId" name="id" th:value="${member.getId()}" style="display: none;"/>
-          <div class="edit-group">
-            <h2>이름</h2>
-            <input type="text" id="name" th:value="${member.username}" disabled>
-          </div>
-
-          <div class="input-group">
-            <h2>이메일</h2>
-            <input id="email" name="email" class="email" th:value="${member.email}">
+          <div class="form-group">
+            <div class="input-group">
+              <h2>이름</h2>
+              <input type="text" id="name" th:value="${member.username}" disabled>
+            </div>
+            <div class="input-group">
+              <h2>이메일</h2>
+              <input id="email" name="email" class="email" th:value="${member.email}">
+            </div>
           </div>
 
           <div class="form-group">
@@ -75,19 +76,22 @@
               </div>
               <select id="skill" th:switch="${member.position}" name="position">
                 <option value="">--선택--</option>
-                <option value="frontend" th:selected="${member.position == '프론트엔드'}">프론트엔드</option>
-                <option value="backend" th:selected="${member.position == '백엔드'}">백엔드</option>
-                <option value="designer" th:selected="${member.position == '디자이너'}">디자이너</option>
-                <option value="planner" th:selected="${member.position == '기획자'}">기획자</option>
+                <option value="프론트엔드" th:selected="${member.position == '프론트엔드'}">프론트엔드</option>
+                <option value="백엔드" th:selected="${member.position == '백엔드'}">백엔드</option>
+                <option value="디자이너" th:selected="${member.position == '디자이너'}">디자이너</option>
+                <option value="기획자" th:selected="${member.position == '기획자'}">기획자</option>
               </select>
             </div>
             <div class="input-group">
               <h2 class="section">기술스택</h2>
               <div class="select-programs" id="stack-container">
-                <div class="skill-tag" th:each="skill : ${member.getSkills()}">
-                  <div class="selected-item" th:text="${skill}"></div>
+                <!-- 통합된 스킬을 여기에 표시 -->
+                <div>
+<!--                  <div class="selected-item">-->
+<!--&lt;!&ndash;                    <span class="projectSkill"></span>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <span class="remove-btn" onclick="removeSkill(this)">x</span>&ndash;&gt;-->
+<!--                  </div>-->
                 </div>
-                <!--아이콘 들어가는 곳-->
               </div>
               <select id="stack">
                 <option value="">--선택--</option>
@@ -119,7 +123,7 @@
                       maxlength="150" placeholder="자기소개를 입력해주세요."></textarea>
           </div>
           <button id="mypage-button" type="button" class="complete">
-          수정 완료
+            수정 완료
           </button>
         </form>
       </div>
@@ -131,7 +135,7 @@
 </footer>
 <script>
     // 데이터 전송
-    document.querySelector("#mypage-button").addEventListener("click", function() {
+    document.querySelector("#mypage-button").addEventListener("click", function () {
         event.preventDefault(); // form 전송 막는 코드
         let formData = $("#profile-form").serializeArray();
         console.log(formData);
@@ -143,13 +147,41 @@
         let position = document.querySelector("#skill").value;
         let info = document.querySelector("#introduceInput").value;
 
-        console.log(id);
-        console.log(email);
-        console.log(career);
-        console.log(githubLink);
-        console.log(position);
-        console.log(info);
+        let jsonData = {};
+        jsonData.memberId = id;
+        jsonData.email = email;
+        jsonData.career = career;
+        jsonData.githubLink = githubLink;
+        jsonData.position = position;
+        jsonData.info = info;
+
+        let skills = [];
+
+        // for문을돌려서 리스트에 값을 다 넣으면됨.
+        document.querySelectorAll(".projectSkill").forEach(item => {
+            skills.push(item.textContent)
+            console.log(skills)
+        });
+
+        jsonData.skills = skills;
+
+        console.log(jsonData);
+
+        $.ajax({
+            type: "post",
+            url: "/api/member/edit",
+            data: JSON.stringify(jsonData),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json"
+        }).done(res => { // HttpStatus 200번대
+            console.log("성공", res);
+            window.location.href = "/member/" + id;
+
+        }).fail(error => { // HttpStatus 200번대가 아닐때
+            console.log("실패", error);
+        });
     });
+
 </script>
 </body>
 </html>

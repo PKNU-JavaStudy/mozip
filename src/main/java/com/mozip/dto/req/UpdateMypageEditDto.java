@@ -8,7 +8,7 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public class UpdateMypageEditDto {
-    private int id;
+    private int memberId;
     private String email;
     private int career;
     private String githubLink;

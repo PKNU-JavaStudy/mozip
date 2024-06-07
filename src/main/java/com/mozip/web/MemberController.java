@@ -34,12 +34,4 @@ public class MemberController {
         model.addAttribute("member", memberService.editUserInfo(memberId));
         return "member/mypage_edit";
     }
-
-    @PostMapping("/member/edit")
-    public String mypageComplete(@ModelAttribute UpdateMypageEditDto updateMypageEditDto) {
-
-        System.out.println("updateMypageEditDto = " + updateMypageEditDto);
-
-        return "redirect:/member/" + updateMypageEditDto.getId();
-    }
 }
