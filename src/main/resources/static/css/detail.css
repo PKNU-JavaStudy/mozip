@@ -80,11 +80,21 @@
     font-size: 0.815rem;
 }
 
+#topLiveLike {
+    font-size: 0.815rem;
+    color: #5d5d5d;
+    /*padding: 0 5px;*/
+}
+
 .info-wrap .count li {
     /* 카운터 폰트 크기 및 색상 맞추기 */
     font-size: 0.815rem;
     color: #5d5d5d;
     padding: 0 5px;
+}
+
+.count .fa-eye {
+    padding-right: 5px;
 }
 
 .info-wrap {

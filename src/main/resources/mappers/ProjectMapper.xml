@@ -316,25 +316,6 @@
         where ID = #{projectId}
     </update>
 
-    <!-- 좋아요 수 올리기 -->
-    <insert id="addLike" parameterType="com.mozip.dto.req.ProjectLikeDto">
-        INSERT INTO LIKES(ID, PROJECT_ID, MEMBER_ID)
-        VALUES (LIKE_SEQ.nextVal, #{dto.projectId}, #{dto.memberId})
-    </insert>
-
-    <!-- 좋아요 취소 -->
-    <delete id="deleteLike" parameterType="com.mozip.dto.req.ProjectLikeDto">
-        DELETE FROM LIKES
-        WHERE PROJECT_ID=#{dto.projectId} AND MEMBER_ID=#{dto.memberId}
-    </delete>
-
-    <!-- 좋아요 수 체크-->
-    <select id="checkLike" resultType="java.lang.Integer">
-        SELECT COUNT(*)
-        FROM LIKES
-        WHERE PROJECT_ID=#{projectId} AND MEMBER_ID=#{memberId}
-    </select>
-
     <!--  프로젝트자랑 삭제  -->
     <delete id="deleteProject" parameterType="int">
         DELETE FROM PROJECT WHERE id = #{projectId}

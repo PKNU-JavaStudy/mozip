@@ -46,10 +46,10 @@
             <li>
               <i class="fa-regular fa-thumbs-up"></i>
               <span id="topLiveLike">
-                <th:block th:text="${showDetail.getLikes()}"> 4개</th:block>
+                <th:block th:text="${showDetail.getLikes()} + '개'"> 4개</th:block>
               </span>
             </li>
-            <li><i class="fa-solid fa-eye"></i><th:block th:text="${showDetail.getViews()}"> 28회</th:block></li>
+            <li><i class="fa-solid fa-eye"></i><th:block th:text="${showDetail.getViews()} + '회'"> 28회</th:block></li>
           </ul>
           <a href="" class="share-Btn"><i class="fa-solid fa-share-nodes"></i>공유하기</a>
         </div>
@@ -215,7 +215,7 @@
       }).done(res=>{ // HttpStatus 200번대(로드 성공)
         let likeCount = res.data;// 서버에서 최종 세팅된 좋아요수
 
-        $("#topLiveLike").text(likeCount)
+        $("#topLiveLike").text(likeCount+'개')
         $("#liveLike").text(likeCount); // Id값이 liveLike 인 태그의 자식 요소에 text 값을 삽입
 
       }).fail(error=>{ // HttpStatus 200번대가 아닐때(로드 실패)

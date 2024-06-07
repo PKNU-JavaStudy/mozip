@@ -82,4 +82,59 @@
         FROM MEMBER_SKILL
         WHERE MEMBER_ID = #{memberId}
     </select>
+
+    <!-- 마이페이지 수정 -->
+
+    <resultMap id="editUserInfoDtoMap" type="com.mozip.dto.req.MypageEditDto">
+        <result property="id" column="ID"/>
+        <result property="email" column="EMAIL"/>
+        <result property="username" column="USERNAME"/>
+        <result property="career" column="CAREER"/>
+        <result property="info" column="INFO"/>
+        <result property="githubLink" column="GITHUB_LINK"/>
+        <result property="profileImage" column="PROFILE_IMAGE_URL"/>
+        <result property="position" column="POSITION"/>
+    </resultMap>
+
+    <select id="editUserInfo" resultMap="editUserInfoDtoMap">
+        SELECT ID,
+               EMAIL,
+               USERNAME,
+               CAREER,
+               INFO,
+               GITHUB_LINK,
+               PROFILE_IMAGE_URL,
+               POSITION
+        FROM MEMBER
+        WHERE ID = #{id}
+    </select>
+
+    <select id="findSkill" resultType="java.lang.String">
+        SELECT SKILL_NAME
+        FROM MEMBER_SKILL
+        WHERE MEMBER_ID = #{memberId}
+    </select>
+
+    <!-- 멤버 정보를 업데이트하는 쿼리 -->
+    <update id="updateInfo" parameterType="com.mozip.dto.req.UpdateMypageEditDto">
+        UPDATE MEMBER
+        SET EMAIL       = #{email},
+            CAREER      = #{career},
+            GITHUB_LINK = #{githubLink},
+            POSITION    = #{position},
+            INFO        = #{info},
+            IS_MODIFY   = 1
+        WHERE ID = #{memberId}
+    </update>
+
+    <!-- 기존 스킬을 삭제하는 쿼리 -->
+    <delete id="deleteSkills" parameterType="int">
+        DELETE FROM MEMBER_SKILL WHERE MEMBER_ID = #{memberId}
+    </delete>
+
+    <!-- 새로운 스킬을 삽입하는 쿼리 -->
+    <insert id="insertSkills">
+        INSERT INTO MEMBER_SKILL (ID, MEMBER_ID, SKILL_NAME)
+        VALUES (MEMBER_SKILL_SEQ.nextval, #{memberId}, #{skill})
+    </insert>
 </mapper>

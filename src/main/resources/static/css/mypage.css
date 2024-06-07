@@ -184,6 +184,7 @@ a.github-link:hover {
     text-align: center;
     background: #f3f3f3;
     border: 1px solid transparent;
+    margin-right: 5px;
 }
 
 /* 내가 만든 프로젝트, 북마크 헤더 색션 */
@@ -506,6 +507,10 @@ select {
     flex: 0 0 auto; /* 아이템이 고정된 너비로 나타나도록 */
 }
 
+.span, .projectSkill {
+    color: white;
+}
+
 .remove-btn {
     margin-left: 5px;
     cursor: pointer;
@@ -513,7 +518,7 @@ select {
 }
 
 /* 완료 버튼 색상 모양 설정 */
-#mypage-submit {
+#mypage-button {
     width: 100%;
     justify-content: center;
     background-color: var(--main-color);
@@ -527,6 +532,16 @@ select {
 }
 
 /* 버튼 호버시 색상 */
-#mypage-submit:hover {
+#mypage-button:hover {
     background-color: var(--main-hover-color);
+}
+
+.email {
+    width: 100%;
+    padding: 12px 8px;
+    border: 1px solid #D9D9D9;
+    border-radius: 10px;
+    box-sizing: border-box;
+    margin-top: 22px;
+    margin-bottom: 22px;
 }
