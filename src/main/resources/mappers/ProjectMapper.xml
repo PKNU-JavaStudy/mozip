@@ -361,4 +361,71 @@
         SET STATUS = 1
         WHERE ID = #{projectId}
     </update>
+
+    <!-- 프로젝트모집 수정 : 권한체크 -->
+    <select id="findOwnerId" resultType="int">
+        SELECT ID
+        FROM PROJECT
+        WHERE ID=#{projectId} AND OWNER_ID=#{memberId}
+    </select>
+
+    <!-- 프로젝트모집 수정 : 기존 데이터 갖고오기 -->
+    <select id="findProjectEditDetail" resultType="com.mozip.dto.resp.ProjectEditDto">
+        SELECT ID,
+               PROJECT_TYPE,
+               PROJECT_NAME,
+               SUBJECT,
+               RECRUIT_COUNT,
+               PROJECT_PURPOSE,
+               PROJECT_TIME,
+               PROJECT_PROCESS,
+               EXCEPT_DATE,
+               EXCEPT_TIME,
+               PROJECT_INFO
+        FROM PROJECT
+        WHERE ID = #{projectId}
+    </select>
+
+    <!-- 프로젝트모집 수정 : 프로젝트 데이터 수정 -->
+    <update id="updateRecruitProject" parameterType="com.mozip.dto.resp.ProjectEditDto">
+        UPDATE PROJECT
+        SET PROJECT_TYPE    = #{dto.projectType},
+            PROJECT_NAME    = #{dto.projectName},
+            SUBJECT         = #{dto.subject},
+            RECRUIT_COUNT   = #{dto.recruitCount},
+            PROJECT_PURPOSE = #{dto.projectPurpose},
+            PROJECT_TIME    = #{dto.projectTime},
+            PROJECT_PROCESS = #{dto.projectProcess},
+            EXCEPT_DATE     = #{dto.exceptDate},
+            EXCEPT_TIME     = #{dto.exceptTime},
+            PROJECT_INFO    = #{dto.projectInfo}
+        WHERE ID = #{dto.id}
+    </update>
+
+    <!-- 프로젝트모집 수정 : 프로젝트 스킬 -->
+    <insert id="updateProjectSkills">
+        INSERT INTO PROJECT_SKILL
+        VALUES (PROJECT_SKILL_SEQ.nextval, #{skill}, #{projectId})
+    </insert>
+
+    <!-- 프로젝트모집 수정 : 모집역할 -->
+    <insert id="updateProjectRecruitRoles">
+        INSERT INTO RECRUIT_ROLE
+        VALUES (RECRUIT_ROLE_SEQ.nextval, #{projectId}, #{role})
+    </insert>
+
+
+    <!-- 프로젝트 스킬 삭제 -->
+    <delete id="deleteProjectSkills" parameterType="int">
+        DELETE
+        FROM PROJECT_SKILL
+        WHERE PROJECT_ID = #{projectId}
+    </delete>
+
+    <!-- 프로젝트 모집역할 삭제 -->
+    <delete id="deleteProjectRecruitRoles" parameterType="int">
+        DELETE
+        FROM RECRUIT_ROLE
+        WHERE PROJECT_ID = #{projectId}
+    </delete>
 </mapper>

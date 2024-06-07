@@ -209,8 +209,7 @@
       >모집완료</button>
 
       <div class="edit-btn">
-        <!-- TODO : 프로젝트모집 수정 구현 시 컨트롤러 URL 입력 -->
-        <a th:href="@{/project/recruit_edit}">
+        <a th:href="@{/project/edit/{projectId}(projectId=${project.getId()})}">
           <button th:if="${session.loginMember!=null && session.loginMember.getId()==project.getOwnerId()}" class="right-btn mod_btn">수정</button>
         </a>
         <button th:if="${session.loginMember!=null && session.loginMember.getId()==project.getOwnerId()}" class="right-btn del_btn open-modal02">삭제

@@ -3,6 +3,7 @@ package com.mozip.web.api;
 import com.mozip.dto.CMRespDto;
 import com.mozip.dto.req.ProjectCreateDto;
 import com.mozip.dto.req.ProjectLikeDto;
+import com.mozip.dto.resp.ProjectEditDto;
 import com.mozip.service.ProjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -32,11 +33,19 @@ public class ApiProjectController {
     }
 
     // 프로젝트 생성
-    @PostMapping("/project/create")
+    @PostMapping("/project")
     public ResponseEntity<?> createProject(@RequestBody ProjectCreateDto dto) {
         int projectId = projectService.createProject(dto);
 
         return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공", projectId));
+    }
+
+    // 프로젝트 수정
+    @PatchMapping("/project/update")
+    public ResponseEntity<?> updateRecruitProject(@RequestBody ProjectEditDto dto) {
+        projectService.updateRecruitProject(dto);
+
+        return ResponseEntity.ok().body(new CMRespDto<>(1, "프로젝트 수정 성공!", dto.getId()));
     }
 
     @PostMapping("/like")

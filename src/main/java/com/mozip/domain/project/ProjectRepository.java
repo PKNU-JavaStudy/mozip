@@ -64,7 +64,7 @@ public interface ProjectRepository {
     int findLikeCount(@Param("projectId") int projectId);
 
 
-// == 프로젝트 자랑 상세페이지(show_detail) ==
+    // == 프로젝트 자랑 상세페이지(show_detail) ==
     // 프로젝트 정보 모두 가져오기(진행 멤버, 진행 방식, 모집 분야, 수행목적, 시작날짜, 종료날짜, 참여 시간, 기술 스택)
     ShowDetailDto findShowDetail(@Param("projectId") int projectId);
 
@@ -97,8 +97,6 @@ public interface ProjectRepository {
 
     int findViewCount(@Param("projectId") int projectId);
 
-    int findGetViewCount(int projectId);
-
     // 좋아요
     void addLike(@Param("dto") ProjectLikeDto dto);
 
@@ -108,6 +106,27 @@ public interface ProjectRepository {
     // 사용자가 해당 프로젝트에 좋아요를 누른적이 있는지 체크
     int checkLike(@Param("projectId") int projectId, @Param("memberId") int memberId);
 
-    // 프로젝트자랑페이지 : 프로젝트 삭제
+    // 프로젝트자랑&상세페이지 : 프로젝트 삭제
     void deleteProject(@Param("projectId") int projectId);
+
+    // 프로젝트모집 수정페이지 : 권한체크
+    int findOwnerId(@Param("projectId") int projectId, @Param("memberId") int memberId);
+
+    // 프로젝트모집 수정페이지 : 원본 데이터 가져오기
+    ProjectEditDto findProjectEditDetail(@Param("projectId") int projectId);
+
+    // 프로젝트모집 수정페이지 : 데이터 수정
+    void updateRecruitProject(@Param("dto") ProjectEditDto dto);
+
+    // 프로젝트모집 수정페이지 : 데이터 수정(프로젝트 스킬)
+    void updateProjectSkills(@Param("skill") String skill, @Param("projectId") int projectId);
+
+    // 프로젝트모집 수정페이지 : 데이터 수정(프로젝트 모집역할)
+    void updateProjectRecruitRoles(@Param("role") String role, @Param("projectId") int projectId);
+
+    // 프로젝트 스킬 삭제
+    void deleteProjectSkills(@Param("projectId") int projectId);
+
+    // 프로젝트 모집역할 삭제
+    void deleteProjectRecruitRoles(@Param("projectId") int projectId);
 }
