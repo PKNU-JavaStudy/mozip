@@ -164,6 +164,7 @@
         <div class="app-wrap">
           <div class="application-box" th:each="member : ${project.getMembers()}">
             <div class="profile-top">
+              <div style="display: none;" class="member-id-list" th:text="${member.getId()}"></div>
               <img th:src="@{/img/profile_sample.png}" alt="프로필이미지">
               <div>
                 <span class="work" th:text="${member.getPosition()}">프론트엔드</span>
@@ -197,16 +198,21 @@
         </div>
         <h3 th:text="${project.getOwnerInfo().getUsername()}"> 이윤지</h3>
       </div>
-      <button class="right-btn apply" th:if="${ session.loginMember!=null && session.loginMember.getId()!= project.getOwnerId()}">프로젝트 참여 신청
+      <button class="right-btn apply"
+              th:if="${ session.loginMember!=null && session.loginMember.getId()!= project.getOwnerId()}"
+              th:onclick="|projectJoin(${project.getId()})|"
+      >프로젝트 참여 신청
       </button>
       <!-- TODO : 북마크버튼 클릭 시 로그인한 유저가아니면 이동시켜야함 -->
       <button class="right-btn bookmark" onclick="loginWarning()"><i class="fa-regular fa-bookmark"></i>북마크</button>
       <button id="btnRecruitDone" class="right-btn confirm open-modal"
               th:if="${session.loginMember != null && session.loginMember.getId()==project.getOwnerId() && project.getStatus()==1}"
-      >모집완료 하기</button>
+      >모집완료 하기
+      </button>
       <button id="btnRecruitDone" class="right-btn confirm-done open-modal"
               th:if="${session.loginMember != null && session.loginMember.getId()==project.getOwnerId() && project.getStatus()==0}"
-      >모집완료</button>
+      >모집완료
+      </button>
 
       <div class="edit-btn">
         <a th:href="@{/project/edit/{projectId}(projectId=${project.getId()})}">
@@ -248,14 +254,73 @@
     </div>
   </div>
 </main>
-<th:block th:if="${session.loginMember != null}"><div class="loginMember" th:text="${session.loginMember.getId()}" style="display: none"></div></th:block>
-<th:block th:if="${session.loginMember == null}"><div class="loginMember" style="display: none">0</div></th:block>
+<th:block th:if="${session.loginMember != null}">
+  <div class="loginMember" th:text="${session.loginMember.getId()}" style="display: none"></div>
+</th:block>
+<th:block th:if="${session.loginMember == null}">
+  <div class="loginMember" style="display: none">0</div>
+</th:block>
 <footer>
   <th:block th:replace="~{fragment/footer}"></th:block>
 </footer>
 <script>
+    // 프로젝트 참여신청
+    function projectJoin(projectId){
+        // 현재 로그인한 유저의 ID
+        let loginMemberId = document.querySelector(".loginMember").textContent;
+        let logicCheck = -1;
+
+        // 신청자 목록에서 로그인한 멤버가 있다면 alert() 출력 후 함수 종료
+        document.querySelectorAll(".member-id-list").forEach(item=>{
+            if(item.textContent === loginMemberId)
+                logicCheck = 1;
+        });
+
+        if(logicCheck == 1)
+            alert("이미 신청하셨습니다 !");
+        else{
+            // 신청한 유저가 아니면 아래 로직이 실행됨.
+            $.ajax({
+                type:"POST",
+                url: "/api/project/join",
+                contentType: "application/x-www-form-urlencoded; charset=utr-8",
+                data: {"memberId":loginMemberId, "projectId":projectId},
+                dataType: "json"
+            }).done(res=>{
+                console.log("통신성공!", res);
+                let career;
+
+                if(res.data.career == '1') carrer='학생/취준생';
+                else if(res.data.career == '2') carrer='신입';
+                else if(res.data.career == '3') carrer='1~3년차';
+                else if(res.data.career == '4') carrer='3~5년차';
+                else if(res.data.career == '1') carrer='5년이상';
+                let item =
+                    `
+                    <div class='application-box'>
+                      <div class="profile-top">
+                        <div style="display: none;" class="member-id-list">${res.data.id}</div>
+                        <img src="/img/profile_sample.png" alt="프로필이미지">
+                        <div>
+                          <span class="work" >${res.data.position}</span>
+                          <span class="work" th:text="${career}">프론트엔드</span>
+                          <h3>${res.data.username}</h3>
+                        </div>
+                      </div>
+                      <p class="app-date">${res.data.createdAt}</p>
+                    </div>
+                    `;
+
+                $('.app-wrap').append(item);
+            }).fail(error=>{
+                console.log("통신실패!", error);
+            });
+        }
+    }
+
     // 프로젝트 삭제
-    function deleteProject(projectId){
+    // TODO : URL 변경 필요함(URL에 정보 노출 X)
+    function deleteProject(projectId) {
         $.ajax({
             type: "DELETE",
             url: "/api/project/" + projectId,
@@ -271,6 +336,7 @@
     }
 
     // 멤버추가버튼
+    // TODO : URL 변경 필요(URL에 정보 노출 X)
     function memberInvite(memberId) {
         console.log(memberId);
         $.ajax({
@@ -286,7 +352,6 @@
 
     // 프로젝트 모집완료
     function recruitDone(projectId) {
-
         console.log(projectId);
         $.ajax({
             type: "patch",
@@ -296,14 +361,14 @@
             dataType: "json"
         }).done(res => {
             console.log(res);
-            if(res.data == 1){
+            if (res.data == 1) {
                 // 모집완료
                 $("#btnRecruitDone").css("background-color", "var(--gray-font2)");
                 $("#btnRecruitDone").css("color", "color: #fff;");
                 $("#btnRecruitDone").text("모집완료");
                 document.querySelector(".modal-bg").classList.remove("visible");
                 document.querySelector(".modal").classList.remove("visible");
-            }else{
+            } else {
                 // 모집완료 취소
                 $("#btnRecruitDone").css("background-color", "var(--main-color)");
                 $("#btnRecruitDone").css("color", "color: #fff;");
@@ -319,11 +384,10 @@
     // TODO: 북마크 클릭 함수(기능 구현 필요)
     function loginWarning(member) {
         let memberId = document.querySelector(".loginMember").textContent;
-        if(memberId==0) {
+        if (memberId == 0) {
             alert("로그인이 필요합니다 !")
             window.location.assign('/auth/login');
-        }
-        else
+        } else
             alert("북마크 완료 !");
     }
 
