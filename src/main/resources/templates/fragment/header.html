@@ -15,7 +15,7 @@
     </nav>
     <!--    카카오 로그인 헤더 연결-->
     <div th:if="${session.userInfo != null}" style="display:flex; align-items: center;">
-      <span><span th:text="${session.userInfo['kakao_account']['profile_nickname']} +'님 반갑습니다!'"></span></span><br>
+      <span><span th:text="${session.userInfo['kakao_account']['profile']['nickname']} +'님 반갑습니다!'"></span></span><br>
 <!--      <span>휴대폰 번호: <span th:text="${session.userInfo['kakao_account']['phone_number']}"></span></span><br>-->
 <!--      <span>이메일: <span th:text="${session.userInfo['kakao_account']['email']}"></span></span><br>-->
       <img th:src="${session.userInfo['kakao_account']['profile']['thumbnail_image_url']}" alt="프로필 이미지" style="border-radius: 50%; width:60px;">
