@@ -1,120 +1,186 @@
-// 자기소개 글자 수 세기
-const introduceInput = document.getElementById('introduceInput');
-const introCount = document.getElementById('introCount');
+document.addEventListener('DOMContentLoaded', function () {
+    const stackSelect = document.getElementById('stack');
+    const memberSkills = Array.from(document.querySelectorAll("#stack-container .selected-item .projectSkill")).map(item => item.textContent.trim());
+    const removedOptions = [];
 
-introduceInput.addEventListener('input', () => {
-    const currentLength = introduceInput.value.length;
-    introCount.textContent = `${currentLength}/150`;
-    // 글자수가 넘어가면 border 색 교체
-    if (currentLength >= 150) {
-        introduceInput.style.border = "1px solid red";
-    } else {
-        introduceInput.style.border = "1px solid #D9D9D9";
-    }
-});
+    const options = Array.from(stackSelect.options);
+    memberSkills.forEach(skill => {
+        const optionToRemove = options.find(option => option.text.trim() === skill);
+        if (optionToRemove) {
+            removedOptions.push(optionToRemove.cloneNode(true));
+            stackSelect.removeChild(optionToRemove);
+        }
+    });
 
-// 깃허브 글자 수 세기
-const urlInput = document.getElementById('urlInput');
-const linkCount = document.getElementById('charCount');
+    const introduceInput = document.getElementById('introduceInput');
+    const introCount = document.getElementById('introCount');
+    const maxIntroLength = 150;
 
-urlInput.addEventListener('input', () => {
-    const currentLength = urlInput.value.length;
-    linkCount.textContent = `${currentLength}/50`;
-    if (currentLength >= 50) {
-        urlInput.style.border = "1px solid red";
-    } else {
-        urlInput.style.border = "1px solid #D9D9D9";
-    }
-});
+    const updateIntroCount = () => {
+        const currentLength = introduceInput.value.length;
+        introCount.textContent = `${currentLength}/${maxIntroLength}`;
+        if (currentLength >= maxIntroLength) {
+            introduceInput.style.border = "1px solid red";
+        } else {
+            introduceInput.style.border = "1px solid #D9D9D9";
+        }
+    };
 
-// 기술스택 동적으로 바꾸기
-document.addEventListener("DOMContentLoaded", () => {
-    const skillSelect = document.getElementById("skill");
-    const stackSelect = document.getElementById("stack");
-    const profileForm = document.getElementById("profile-form");
+    introduceInput.addEventListener('input', updateIntroCount);
+    updateIntroCount();
 
-    skillSelect.addEventListener("change", () => {
-        handleSelectChange(skillSelect, "skill-container");
+    const urlInput = document.getElementById('urlInput');
+    const charCount = document.getElementById('charCount');
+    const maxUrlLength = 50;
+
+    const updateUrlCount = () => {
+        const currentLength = urlInput.value.length;
+        charCount.textContent = `${currentLength}/${maxUrlLength}`;
+        if (currentLength >= maxUrlLength) {
+            urlInput.style.border = "1px solid red";
+        } else {
+            urlInput.style.border = "1px solid #D9D9D9";
+        }
+    };
+
+    urlInput.addEventListener('input', updateUrlCount);
+    updateUrlCount();
+
+    const submitButton = document.getElementById("mypage-button");
+
+    submitButton.addEventListener("click", function (event) {
+        event.preventDefault();
+        if (validateForm()) {
+            // 유효성 검사를 통과하면 AJAX 요청
+            sendFormData();
+        }
     });
 
     stackSelect.addEventListener("change", () => {
-        handleSelectChange(stackSelect, "stack-container");
+        handleStackSelectChange(stackSelect, "stack-container");
+    });
+});
+
+function handleStackSelectChange(selectElement, containerId) {
+    const selectedValue = selectElement.value;
+    const selectedText = selectElement.options[selectElement.selectedIndex].text;
+
+    if (selectedValue === "all" || selectedValue === "") return;
+
+    selectElement.remove(selectElement.selectedIndex);
+
+    const iconContainer = document.getElementById(containerId);
+    let outer = document.createElement('div');
+    outer.className = 'selected-item';
+
+    const icon = document.createElement('span');
+    icon.className = 'projectSkill';
+    icon.id = selectedValue;
+    icon.textContent = selectedText;
+
+    const removeBtn = document.createElement('span');
+    removeBtn.className = 'remove-btn';
+    removeBtn.textContent = ' x';
+    removeBtn.onclick = () => {
+        iconContainer.removeChild(outer);
+
+        const newOption = document.createElement('option');
+        newOption.value = selectedValue;
+        newOption.text = selectedText;
+
+        const existingOption = Array.from(selectElement.options).find(option => option.value === selectedValue);
+        if (!existingOption) {
+            selectElement.add(newOption);
+        }
+
+        selectElement.selectedIndex = 0;
+    };
+
+    outer.appendChild(icon);
+    outer.appendChild(removeBtn);
+    iconContainer.appendChild(outer);
+
+    selectElement.selectedIndex = 0;
+}
+
+function validateForm() {
+    const stackContainer = document.getElementById('stack-container');
+    const careerSelect = document.getElementById('experience-container');
+    const introduceInput = document.getElementById('introduceInput');
+    const urlInput = document.getElementById('urlInput');
+    const positionSelect = document.getElementById('skill');
+
+    let valid = true;
+
+    if (careerSelect.value === "") {
+        alert("경력을 선택해주세요.");
+        valid = false;
+    }
+
+    if (positionSelect.value === "") {
+        alert('직군을 선택해주세요.');
+        valid = false;
+    }
+
+    if (stackContainer.querySelectorAll('.selected-item').length === 0) {
+        alert('적어도 하나의 기술 스택을 선택해야 합니다.');
+        valid = false;
+    }
+
+    if (introduceInput.value.length >= 150) {
+        alert("자기소개는 150자 이내로 입력해주세요.");
+        introduceInput.style.border = "1px solid red";
+        valid = false;
+    }
+
+    if (urlInput.value.length >= 50) {
+        alert("깃허브 링크는 50자 이내로 입력해주세요.");
+        urlInput.style.border = "1px solid red";
+        valid = false;
+    }
+
+    return valid;
+}
+
+function sendFormData() {
+    let formData = $("#profile-form").serializeArray();
+    console.log(formData);
+
+    let id = document.querySelector("#userId").value;
+    let email = document.querySelector("#email").value;
+    let career = document.querySelector("#experience-container").value;
+    let githubLink = document.querySelector("#urlInput").value;
+    let position = document.querySelector("#skill").value;
+    let info = document.querySelector("#introduceInput").value;
+
+    let jsonData = {};
+    jsonData.memberId = id;
+    jsonData.email = email;
+    jsonData.career = career;
+    jsonData.githubLink = githubLink;
+    jsonData.position = position;
+    jsonData.info = info;
+
+    let skills = [];
+
+    document.querySelectorAll(".projectSkill").forEach(item => {
+        skills.push(item.textContent);
     });
 
-    profileForm.addEventListener("submit", validateForm);
+    jsonData.skills = skills;
 
-    function handleSelectChange(selectElement, containerId) {
-        const selectedValue = selectElement.value;
-        const selectedText = selectElement.options[selectElement.selectedIndex].text;
-        const selectedIndex = selectElement.selectedIndex;
+    console.log(jsonData);
 
-        if (selectedValue === "all" || selectedValue === "") return; // "전체" 또는 "기술스택 선택"은 처리하지 않음
-
-        // 기존 옵션 제거
-        selectElement.remove(selectElement.selectedIndex);
-
-        // 선택된 옵션을 컨테이너에 추가
-        const iconContainer = document.getElementById(containerId);
-        const icon = document.createElement('div');
-        icon.className = 'selected-item';
-        icon.id = selectedValue;
-        icon.textContent = selectedText;
-
-        const removeBtn = document.createElement('i');
-        removeBtn.className = 'remove-btn';
-        removeBtn.textContent = '<i class="fa-solid fa-xmark"></i>';
-        removeBtn.onclick = () => {
-            iconContainer.removeChild(icon);
-
-            // 옵션을 다시 select에 추가
-            const newOption = document.createElement('option');
-            newOption.value = selectedValue;
-            newOption.text = selectedText;
-
-            // 원래 위치에 다시 추가
-            if (selectedIndex >= selectElement.length) {
-                selectElement.add(newOption);
-            } else {
-                selectElement.add(newOption, selectedIndex);
-            }
-
-            // 셀렉트 박스 초기화
-            selectElement.selectedIndex = 0; // 첫 번째 옵션(기본값)으로 초기화
-        };
-
-        icon.appendChild(removeBtn);
-        iconContainer.appendChild(icon);
-
-        // 셀렉트 박스 초기화
-        selectElement.selectedIndex = 0; // 첫 번째 옵션(기본값)으로 초기화
-    }
-
-    function validateForm(event) {
-        // 폼 검증 로직을 여기에 추가합니다.
-        event.preventDefault();
-        alert("폼이 제출되었습니다.");
-    }
-
-
-    function validateForm(event) {
-        const skillContainer = document.getElementById('skill-container');
-        const stackContainer = document.getElementById('stack-container');
-        const careerSelect = document.getElementById('experience-container');
-
-        if (careerSelect.value === "") {
-            alert("경력을 선택해주세요.");
-            event.preventDefault();
-        }
-        else if (skillContainer.children.length === 0) {
-            alert('적어도 하나의 직군이 선택되어야 합니다.');
-            event.preventDefault();
-        }
-        else if (stackContainer.children.length === 0) {
-            alert('적어도 하나의 기술 스택을 선택해야 합니다.');
-            event.preventDefault();
-        }
-        else {
-            alert("수정이 완료되었습니다.");
-        }
-    }
-});
+    $.ajax({
+        type: "post",
+        url: "/api/member/edit",
+        data: JSON.stringify(jsonData),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json"
+    }).done(res => {
+        console.log("성공", res);
+        window.location.href = "/member/" + id;
+    }).fail(error => {
+        console.log("실패", error);
+    });
+}
