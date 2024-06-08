@@ -95,6 +95,7 @@ public class ProjectController {
         return "/project/show_list";
     }
 
+    // 프로젝트 자랑 수정 전 데이터 가져오기
     @GetMapping("/project/show_edit/{projectId}")
     public String showEditForm(@PathVariable("projectId") int projectId, Model model) {
         model.addAttribute("project", projectService.findProjectDetail(projectId));

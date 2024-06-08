@@ -62,7 +62,7 @@
         <div class="cont-flex">
           <div>
             <label for="startDate" class="s-title">시작날짜</label>
-            <input type="date" id="startDate">
+            <input type="date" id="startDate" th:value="${project.getProjectTime()}">
           </div>
           <div>
             <label for="endDate" class="s-title">종료날짜</label>
