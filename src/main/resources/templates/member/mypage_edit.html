@@ -87,10 +87,10 @@
               <div class="select-programs" id="stack-container">
                 <!-- 통합된 스킬을 여기에 표시 -->
                 <div>
-<!--                  <div class="selected-item">-->
-<!--&lt;!&ndash;                    <span class="projectSkill"></span>&ndash;&gt;-->
-<!--&lt;!&ndash;                    <span class="remove-btn" onclick="removeSkill(this)">x</span>&ndash;&gt;-->
-<!--                  </div>-->
+                  <!--                  <div class="selected-item">-->
+                  <!--&lt;!&ndash;                    <span class="projectSkill"></span>&ndash;&gt;-->
+                  <!--&lt;!&ndash;                    <span class="remove-btn" onclick="removeSkill(this)">x</span>&ndash;&gt;-->
+                  <!--                  </div>-->
                 </div>
               </div>
               <select id="stack">
@@ -133,55 +133,6 @@
 <footer>
   <th:block th:replace="~{fragment/footer}"></th:block>
 </footer>
-<script>
-    // 데이터 전송
-    document.querySelector("#mypage-button").addEventListener("click", function () {
-        event.preventDefault(); // form 전송 막는 코드
-        let formData = $("#profile-form").serializeArray();
-        console.log(formData);
-
-        let id = document.querySelector("#userId").value;
-        let email = document.querySelector("#email").value;
-        let career = document.querySelector("#experience-container").value;
-        let githubLink = document.querySelector("#urlInput").value;
-        let position = document.querySelector("#skill").value;
-        let info = document.querySelector("#introduceInput").value;
-
-        let jsonData = {};
-        jsonData.memberId = id;
-        jsonData.email = email;
-        jsonData.career = career;
-        jsonData.githubLink = githubLink;
-        jsonData.position = position;
-        jsonData.info = info;
-
-        let skills = [];
-
-        // for문을돌려서 리스트에 값을 다 넣으면됨.
-        document.querySelectorAll(".projectSkill").forEach(item => {
-            skills.push(item.textContent)
-            console.log(skills)
-        });
-
-        jsonData.skills = skills;
-
-        console.log(jsonData);
-
-        $.ajax({
-            type: "post",
-            url: "/api/member/edit",
-            data: JSON.stringify(jsonData),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json"
-        }).done(res => { // HttpStatus 200번대
-            console.log("성공", res);
-            window.location.href = "/member/" + id;
-
-        }).fail(error => { // HttpStatus 200번대가 아닐때
-            console.log("실패", error);
-        });
-    });
-
-</script>
+<!--ajax 02donggun.js로 옮김-->
 </body>
 </html>
