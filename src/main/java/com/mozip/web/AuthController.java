@@ -66,7 +66,6 @@ public class AuthController {
         // HTTP Session 이용
         return "redirect:/";
     }
-
     // logout
     @PostMapping("/auth/logout")
     public String logout(HttpServletRequest req) {
@@ -75,4 +74,5 @@ public class AuthController {
 
         return "redirect:/";
     }
+
 }
