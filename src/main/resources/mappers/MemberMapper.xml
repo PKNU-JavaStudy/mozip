@@ -137,4 +137,11 @@
         INSERT INTO MEMBER_SKILL (ID, MEMBER_ID, SKILL_NAME)
         VALUES (MEMBER_SKILL_SEQ.nextval, #{memberId}, #{skill})
     </insert>
+    
+    <!-- 프로필 이미지 등록 -->
+    <update id="updateProfileImg">
+        UPDATE MEMBER
+        SET PROFILE_IMAGE_URL=#{imageDir}
+        WHERE ID = ${memberId}
+    </update>
 </mapper>

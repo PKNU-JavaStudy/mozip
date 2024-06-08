@@ -143,6 +143,7 @@ function validateForm() {
 }
 
 var imageFile;
+
 document.getElementById('profileImage').addEventListener('click', function () {
     document.getElementById('fileInput').click();
 });
@@ -169,7 +170,8 @@ document.getElementById('fileInput').addEventListener('change', function (event)
 
 function sendFormData() {
     let jsonData = {};
-    jsonData.memberId = document.querySelector("#userId").value;
+    let memberId = document.querySelector("#userId").value;
+    jsonData.memberId = memberId;
     jsonData.email = document.querySelector("#email").value;
     jsonData.career = document.querySelector("#experience-container").value;
     jsonData.githubLink = document.querySelector("#urlInput").value;
@@ -181,21 +183,33 @@ function sendFormData() {
     document.querySelectorAll(".projectSkill").forEach(item => {
         skills.push(item.textContent);
     });
-
     jsonData.skills = skills;
-    jsonData.file = imageFile;
 
-    console.log(jsonData);
+    let formData = new FormData();
+    formData.append("file",imageFile);
 
     $.ajax({
         type: "post",
         url: "/api/member/edit",
+        contentType: "application/json; charset=utf-8",
         data: JSON.stringify(jsonData),
-        contentType: "multipart/form-data; boundary=----; charset=utf-8",
-        dataType: "json"
+        dataType: "json",
     }).done(res => {
         console.log("성공", res);
-        window.location.href = "/member/" + id;
+        $.ajax({
+            url: "/api/member/profile",
+            type: "post",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                console.log('Success:', response);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error('Error:', textStatus, errorThrown);
+            }
+        })
+        window.location.href = "/member/" + memberId;
     }).fail(error => {
         console.log("실패", error);
     });

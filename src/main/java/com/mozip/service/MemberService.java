@@ -89,7 +89,10 @@ public class MemberService {
         try {
             //write() 메서드는 실제 파일 경로와 실제 들어오는 파일을 Byte 로 바꾼것 , option 을 받는다.
             Files.write(imageFilePath, file.getBytes());
-            memberRepository.updateProfileImg(imageFilePath.toString(), memberId);
+            System.out.println("====================");
+            System.out.println(imageFilePath.toString());
+            System.out.println("====================");
+            memberRepository.updateProfileImg(imageFileName, memberId);
         } catch (Exception e) {
             e.printStackTrace();
         }
