@@ -14,32 +14,32 @@
       </ul>
     </nav>
     <!--    카카오 로그인 헤더 연결-->
-    <div th:if="${session.userInfo != null}" style="display:flex; align-items: center;">
-      <span><span th:text="${session.userInfo['kakao_account']['profile']['nickname']} +'님 반갑습니다!'"></span></span><br>
-<!--      <span>휴대폰 번호: <span th:text="${session.userInfo['kakao_account']['phone_number']}"></span></span><br>-->
-<!--      <span>이메일: <span th:text="${session.userInfo['kakao_account']['email']}"></span></span><br>-->
-      <img th:src="${session.userInfo['kakao_account']['profile']['thumbnail_image_url']}" alt="프로필 이미지" style="border-radius: 50%; width:60px;">
-    </div>
-    <div th:if="${session.userInfo == null}">
-      <span>로그인이 필요합니다.</span>
-    </div>
-<!--    <ul class="member">-->
-<!--      <li th:if="${session.loginMember == null}"><a th:href="@{/auth/login}">로그인</a></li>-->
-<!--      <li th:if="${session.loginMember == null}"><a th:href="@{/auth/join}">회원가입</a></li>-->
+<!--    <div th:if="${session.userInfo != null}" style="display:flex; align-items: center;">-->
+<!--      <span><span th:text="${session.userInfo['kakao_account']['profile']['nickname']} +'님 반갑습니다!'"></span></span><br>-->
+<!--&lt;!&ndash;      <span>휴대폰 번호: <span th:text="${session.userInfo['kakao_account']['phone_number']}"></span></span><br>&ndash;&gt;-->
+<!--&lt;!&ndash;      <span>이메일: <span th:text="${session.userInfo['kakao_account']['email']}"></span></span><br>&ndash;&gt;-->
+<!--      <img th:src="${session.userInfo['kakao_account']['profile']['thumbnail_image_url']}" alt="프로필 이미지" style="border-radius: 50%; width:60px;">-->
+<!--    </div>-->
+<!--    <div th:if="${session.userInfo == null}">-->
+<!--      <span>로그인이 필요합니다.</span>-->
+<!--    </div>-->
+    <ul class="member">
+      <li th:if="${session.loginMember == null}"><a th:href="@{/auth/login}">로그인</a></li>
+      <li th:if="${session.loginMember == null}"><a th:href="@{/auth/join}">회원가입</a></li>
 
-<!--      &lt;!&ndash;    <li th:if="${session.loginMember != null}"><span th:text="${session.loginMember.getUsername()}+'님 반갑습니다!'"></span></li>&ndash;&gt;-->
-<!--      &lt;!&ndash;    <li th:if="${session.loginMember != null}"><a th:href="@{/member/{memberId}(memberId=${session.loginMember.getId()})}">마이페이지</a></li>&ndash;&gt;-->
-<!--      &lt;!&ndash;    <li th:if="${session.loginMember != null}"><form th:action="@{/auth/logout}" method="post"><button>로그아웃</button></form>&ndash;&gt;-->
+      <!--    <li th:if="${session.loginMember != null}"><span th:text="${session.loginMember.getUsername()}+'님 반갑습니다!'"></span></li>-->
+      <!--    <li th:if="${session.loginMember != null}"><a th:href="@{/member/{memberId}(memberId=${session.loginMember.getId()})}">마이페이지</a></li>-->
+      <!--    <li th:if="${session.loginMember != null}"><form th:action="@{/auth/logout}" method="post"><button>로그아웃</button></form>-->
 
-<!--      <li class="welcome" th:if="${session.loginMember != null}"><span th:text="${session.loginMember.getUsername()}">이윤지</span>님 반갑습니다!-->
-<!--        <ul class="sub-member" th:if="${session.loginMember != null}">-->
-<!--          <li><a th:href="@{/member/{memberId}(memberId=${session.loginMember.getId()})}">내프로필</a></li>-->
-<!--          <li><a href="">프로필수정</a></li>-->
-<!--          <li><form th:action="@{/auth/logout}" method="post"><button>로그아웃</button></form></li>-->
-<!--        </ul>-->
-<!--      </li>-->
-<!--      <li th:if="${session.loginMember != null}"><a th:href="@{/member/{memberId}(memberId=${session.loginMember.getId()})}"><img th:src="@{/img/profile_sample.png}" alt=""></a></li>-->
-<!--    </ul>-->
+      <li class="welcome" th:if="${session.loginMember != null}"><span th:text="${session.loginMember.getUsername()}">이윤지</span>님 반갑습니다!
+        <ul class="sub-member" th:if="${session.loginMember != null}">
+          <li><a th:href="@{/member/{memberId}(memberId=${session.loginMember.getId()})}">내프로필</a></li>
+          <li><a href="">프로필수정</a></li>
+          <li><form th:action="@{/auth/logout}" method="post"><button>로그아웃</button></form></li>
+        </ul>
+      </li>
+      <li th:if="${session.loginMember != null}"><a th:href="@{/member/{memberId}(memberId=${session.loginMember.getId()})}"><img th:src="@{/img/profile_sample.png}" alt=""></a></li>
+    </ul>
   </div>
 </div>
 </html>
