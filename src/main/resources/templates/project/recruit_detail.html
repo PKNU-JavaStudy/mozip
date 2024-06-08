@@ -164,6 +164,7 @@
         <div class="app-wrap">
           <div class="application-box" th:each="member : ${project.getMembers()}">
             <div class="profile-top">
+              <div style="display: none;" class="member-id-list" th:text="${member.getId()}"></div>
               <img th:src="@{/img/profile_sample.png}" alt="프로필이미지">
               <div>
                 <span class="work" th:text="${member.getPosition()}">프론트엔드</span>
@@ -264,16 +265,30 @@
 </footer>
 <script>
     // 프로젝트 참여신청
-    function projectJoin(memberList, loginMemberId){
-        let findId;
-        memberList.forEach(member=>{
-            if(member.id == loginMemberId)
-                findId=loginMemberId;
+    function projectJoin(){
+        // 현재 로그인한 유저의 ID
+        let loginMemberId = document.querySelector(".loginMember").textContent;
+
+        // 신청자목록에서 ID를 담을 배열
+        let idList = [];
+
+        document.querySelectorAll(".member-id-list").forEach(id=>{
+            idList.push(id.textContent);
         })
-        if(findId==loginMemberId)
-            alert("이미 신청하셨습니다!");
-        else
-            alert("신청성공하였습니다!")
+
+        idList.forEach((id)=>{
+            if(loginMemberId==id) {
+                // 신청했었다면 알림창 띄우고 함수종료
+                alert("이미 신청하셨습니다!");
+                return;
+            }
+        });
+        // 신청한 유저가 아니면 아래 로직이 실행됨.
+        $.ajax({
+
+        })
+
+
     }
 
     // 프로젝트 삭제
