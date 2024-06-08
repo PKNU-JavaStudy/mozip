@@ -192,8 +192,14 @@ public class ProjectService {
 
     // 프로젝트자랑 페이지 삭제
     public void deleteProject(int projectId) {
-        projectRepository.deleteProject(projectId); // 프로젝트 삭제 로직
+       projectRepository.deleteProject(projectId); // 프로젝트 삭제 로직
+    }
 
+    // 프로젝트자랑 페이지 수정
+    public void patchProject(int projectId) {
+        projectRepository.patchProject(projectId);
+      
+        projectRepository.deleteProject(projectId); // 프로젝트 삭제 로직
     }
 
     // 프로젝트 모집 완료여부 체크 후 동작

@@ -3,7 +3,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.mozip.domain.project.ProjectRepository">
-
     <resultMap id="projectDtoMap" type="com.mozip.dto.resp.ProjectListDto">
         <result property="id" column="ID"/>
         <result property="projectName" column="PROJECT_NAME"/>
@@ -320,6 +319,21 @@
     <delete id="deleteProject" parameterType="int">
         DELETE FROM PROJECT WHERE id = #{projectId}
     </delete>
+
+    <!--  프로젝트자랑 수정  -->
+    <update id="updateProject" parameterType="com.mozip.dto.resp.ShowDetailDto">
+        UPDATE PROJECT
+        SET
+            PROJECT_TYPE = #{projectType},
+            SUBJECT = #{subject},
+            PROJECT_PURPOSE = #{projectPurpose},
+            PROJECT_TIME = #{projectTime},
+            RECRUIT_COUNT = #{recruitCount},
+            PROJECT_PROCESS = #{projectProcess},
+            PROJECT_INFO = #{projectInfo},
+            CREATED_AT = #{createdAt}
+        WHERE ID = #{id}
+    </update>
 
     <!-- 프로젝트모집 상세 : 모집완료 여부 체크 -->
     <select id="recruitDoneCheck" resultType="int">

@@ -17,6 +17,9 @@
 
   <script th:src="@{/js/common.js}"></script>
   <script defer th:src="@{/js/join_effect.js}"></script>
+  <!--  kakaoLogin  -->
+  <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"
+          integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4" crossorigin="anonymous"></script>
   <!-- favicon -->
   <link rel="icon" th:href="@{/img/favicon.ico}">
 </head>
@@ -41,8 +44,13 @@
       </div>
       <div class="separator">또는</div>
       <div class="kakaoLogin">
-        <input type="submit" value="카카오 로그인" class="kakao">
+        <a id="kakao-login-btn" href="javascript:loginWithKakao()">
+          <img src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg" width="222"
+               alt="카카오 로그인 버튼" />
+        </a>
       </div>
+      <p id="token-result"></p>
+      <button class="api-btn" onclick="requestUserInfo()">사용자 정보 가져오기</button>
       <div class="submit">아직 회원이 아니신가요??
         <span><a th:href="@{/auth/join}">가입하기</a></span>
         <br>
@@ -60,4 +68,98 @@
   <th:block th:replace="~{fragment/footer}"></th:block>
 </footer>
 </body>
+<script>
+  // SDK 초기화
+  Kakao.init('54c4773a1cf17a76f6d3d8dfdabeea35');
+
+  //로그인 리다이렉트
+  function loginWithKakao() {
+    Kakao.Auth.authorize({
+      redirectUri: 'http://localhost:8082/auth/login'
+    });
+  }
+
+  // 사용자 정보 서버로 전송
+  function requestUserInfo() {
+    Kakao.API.request({
+      url: '/v2/user/me'
+    }).then(function(res) {
+      sendUserInfoToServer(res);
+    }).catch(function(err) {
+      alert('사용자 정보 요청 실패 :  ' + JSON.stringify(err));
+    });
+  }
+
+  //서버에서 사용자 정보 받아오기
+  function sendUserInfoToServer(userInfo) {
+    fetch('/auth/kakao/userinfo', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(userInfo)
+    }).then(response => response.json())
+            .then(data => {
+              if (data.success) {
+                window.location.reload();
+              } else {
+                alert('서버로부터 사용자정보를 받아오는데 실패했습니다.');
+              }
+            });
+  }
+
+  // 쿠키
+  function getCookie(name) {
+    var parts = document.cookie.split(name + '=');
+    if (parts.length === 2) { return parts[1].split(';')[0]; }
+  }
+
+  function displayToken() {
+    var token = getCookie('authorize-access-token');
+    if (token) {
+      Kakao.Auth.setAccessToken(token);
+      document.querySelector('#token-result').innerText = '로그인 성공 !';
+      document.querySelector('button.api-btn').style.visibility = 'visible';
+    }
+  }
+
+  // 토큰 받아오기
+  function getAccessToken() {
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get('code');
+
+    if (code) {
+      fetch('https://kauth.kakao.com/oauth/token', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams({
+          grant_type: 'authorization_code',
+          // API키 입력하는 곳
+          client_id: 'c22a4ea62e97bb5c1b26bf3c678cc160',
+          redirect_uri: 'http://localhost:8082/auth/login',
+          code: code
+        })
+      })
+              .then(response => response.json())
+              .then(data => {
+                if (data.access_token) {
+                  Kakao.Auth.setAccessToken(data.access_token);
+                  document.cookie = 'authorize-access-token=' + data.access_token;
+                  displayToken();
+                } else {
+                  alert('토큰을 받아오기 실패 :  ' + JSON.stringify(data));
+                }
+              })
+              .catch(error => {
+                alert('Error during token fetch: ' + error);
+              });
+    }
+  }
+
+  // 초기 액세스 토큰 설정
+  getAccessToken();
+  displayToken();
+</script>
 </html>

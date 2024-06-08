@@ -94,4 +94,10 @@ public class ProjectController {
 
         return "/project/show_list";
     }
+
+    @GetMapping("/project/show_edit/{projectId}")
+    public String showEditForm(@PathVariable("projectId") int projectId, Model model) {
+        model.addAttribute("project", projectService.findProjectDetail(projectId));
+        return "project/show_edit";  // 실제 뷰 템플릿 이름
+    }
 }

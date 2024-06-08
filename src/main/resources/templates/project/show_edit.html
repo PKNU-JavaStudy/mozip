@@ -33,9 +33,9 @@
 <main>
   <div class="wrap flex">
     <div class="rc-input">
-      <form action="#" method="post">
-        <p class="data">사이드 프로젝트</p>
-        <input class="rc-title" type="text" placeholder="주제를 입력하세요" maxlength="50" />
+      <form id="editShow" th:onsubmit="|ajaxPatch(${project.getId()})|">
+        <p class="data" th:text="${project.getProjectType()}">사이드 프로젝트</p>
+        <input class="rc-title" type="text" id="projectName" th:value="*{project.getProjectName()}" placeholder="주제를 입력하세요" maxlength="50" />
         <!-- <div class="rc-summarize">
           <p class="s-title">주제</p>
           <textarea id="subject" rows="1" cols="20" placeholder="주제를 한 줄 이내로 간단하게 작성해주세요."></textarea>
@@ -43,27 +43,23 @@
         <div class="cont-flex">
           <div>
             <label for="" class="s-title">진행멤버</label>
-            <p class="data">4명</p>
+            <p class="data" th:text="${project.getProjectMemberCount()} + '명'">4명</p>
           </div>
           <div>
             <label for="" class="s-title">진행방식</label>
-            <p class="data">온라인</p>
+            <p class="data" th:text="${project.getProjectProcess()}">온라인</p>
           </div>
         </div>
         <div class="cont-flex">
           <div>
-            <label for="" class="s-title">모집분야</label>
+            <label for="" class="s-title">모집 분야</label>
             <ul class="ul-data">
-              <li>프론트엔드</li>
-              <li>백엔드</li>
-              <li>풀스택</li>
-              <li>디자인</li>
-              <li>기획</li>
+              <li th:each="role : ${project.getRecruitRoles()}" th:text="${role}">/li>
             </ul>
           </div>
           <div>
             <label for="" class="s-title">수행목적</label>
-            <p class="data">포트폴리오/직무 역량 강화</p>
+            <p class="data" th:text="${project.getProjectPurpose()}">포트폴리오/직무 역량 강화</p>
           </div>
         </div>
         <div class="cont-flex">
@@ -78,11 +74,11 @@
         </div>
         <div class="cont-flex">
           <div>
-            <label for="" class="s-title">참여시간</label>
-            <select name="" id="" class="data-time">
-              <option value="">매주 4시간 이하</option>
-              <option value="">매주 4 ~ 10시간</option>
-              <option value="">매주 10시간 이상</option>
+            <label class="s-title">참여시간</label>
+            <select id="projectTime" class="data-time">
+              <option value="1" th:selected="${project.getProjectTime() == 1}">매주 4시간 이하</option>
+              <option value="2" th:selected="${project.getProjectTime() == 2}">4시간 ~ 10시간</option>
+              <option value="3" th:selected="${project.getProjectTime() == 3}">10시간 이상</option>
             </select>
           </div>
           <div>
@@ -113,9 +109,9 @@
         </div>
         <div class="rc-project-info">
           <p class="s-title">소개</p>
-          <textarea cols="40" rows="15" placeholder="프로젝트 소개글을 작성하세요."></textarea>
+          <textarea cols="40" rows="15" placeholder="프로젝트 소개글을 작성하세요." th:value="${project.getProjectInfo()}" th:text="${project.getProjectInfo()}"></textarea>
         </div>
-        <button class="open-modal btn-write" type="button">수정완료</button>
+        <button class="open-modal btn-write" type="button">수정하기</button>
         <!-- 모달창 -->
         <div class="modal-bg"></div>
         <div class="modal">
@@ -126,8 +122,8 @@
           <div class="button-wrap">
             <button class="close-modal">돌아가기</button>
             <!-- TODO: <button class="submit-modal" type="submit"> 백엔드 연결 후 수정 -->
-            <button class="submit-modal">
-              수정하기
+            <button class="submit-modal" th:onclick="|ajaxPatch(${project.getId()})|">
+              수정완료
             </button>
           </div>
         </div>
@@ -138,6 +134,25 @@
     </div>
   </div>
   <script>
+    document.querySelector(".open-modal").addEventListener("click", function () {
+      document.querySelector(".modal-bg").classList.add("visible");
+      document.querySelector(".modal").classList.add("visible");
+    });
+
+    document.querySelector(".close-modal").addEventListener("click", function () {
+      document.querySelector(".modal-bg").classList.remove("visible");
+      document.querySelector(".modal").classList.remove("visible");
+    });
+
+    document.addEventListener("click", function (event) {
+      if (
+              !event.target.closest(".modal, .open-modal")
+      ) {
+        document.querySelector(".modal").classList.remove("visible");
+        document.querySelector(".modal-bg").classList.remove("visible");
+        document.body.classList.remove("modal-open");
+      }
+    });
     // 프로젝트 주제(textarea) : 1줄만 쓰게 제한
     document.getElementById('subject').addEventListener('keydown', function (event) {
       if (event.key === 'Enter') {
@@ -152,25 +167,21 @@
       }
     });
 
-    document.querySelector(".open-modal").addEventListener("click", function () {
-      document.querySelector(".modal-bg").classList.add("visible");
-      document.querySelector(".modal").classList.add("visible");
-    });
-
-    document.querySelector(".close-modal").addEventListener("click", function () {
-      document.querySelector(".modal-bg").classList.remove("visible");
-      document.querySelector(".modal").classList.remove("visible");
-    });
-
-    document.addEventListener("click", function (event) {
-      if (
-              !event.target.closest(".modal, .open-modal, .open-modal02, .open-modal03")
-      ) {
-        document.querySelector(".modal").classList.remove("visible");
-        document.querySelector(".modal-bg").classList.remove("visible");
-        document.body.classList.remove("modal-open");
-      }
-    });
+    //프로젝트 자랑 수정
+    function ajaxPatch(projectId) {
+      $.ajax({
+        type: "PATCH",
+        url: "/api/show/" + projectId,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json"
+      }).done(res => { // HTTP 상태 코드 200번대일 때 호출됨
+        console.log("성공:", res);
+        alert("게시글이 성공적으로 수정되었습니다."); // 서버에서 반환된 메시지 표시
+        window.location.replace(`/project/show`);
+      }).fail(error => { // HTTP 상태 코드 200번대가 아닐 때 호출됨
+        alert("게시글 수정을 실패했습니다. 다시 시도해주세요."); // 서버에서 반환된 메시지 대신 고정 메시지 표시
+      });
+    }
   </script>
 </main>
 </body>

@@ -153,7 +153,7 @@
       <th:block th:if="${showDetail.getGithubLink() == null}"><a style="display:none;" th:href="@{/{github}(github=${showDetail.getGithubLink()})}"><button class="right-btn github"><i class="fa-brands fa-github"></i>깃허브</button></a></th:block>
       <th:block th:if="${showDetail.getGithubLink() != null}"><a th:href="@{/{github}(github=${showDetail.getGithubLink()})}"><button class="right-btn github"><i class="fa-brands fa-github"></i>깃허브</button></a></th:block>
       <div class="edit-btn" th:if="${session.loginMember != null && session.loginMember.getId()==showDetail.getOwnerId()}">
-        <a href="#">
+        <a th:href="@{/project/show_edit/{projectId}(projectId=${showDetail.getId()})}">
           <button class="right-btn mod_btn">수정</button>
         </a>
         <button class="right-btn del_btn open-modal">삭제</button>
@@ -254,7 +254,7 @@
     function ajaxDelete(projectId) {
       $.ajax({
         type: "DELETE",
-        url: "/api/project/" + projectId,
+        url: "/api/show/" + projectId,
         contentType: "application/json; charset=utf-8",
         dataType: "json"
       }).done(res => { // HTTP 상태 코드 200번대일 때 호출됨

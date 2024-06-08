@@ -60,11 +60,17 @@ public class ApiProjectController {
     }
 
     // 프로젝트 삭제 메서드
-    @DeleteMapping("/project/{projectId}")
+    @DeleteMapping("/show/{projectId}")
     public ResponseEntity<?> deleteProject(@PathVariable("projectId") int projectId) {
-
         projectService.deleteProject(projectId); // 프로젝트 삭제 로직
-
         return ResponseEntity.ok().body(new CMRespDto<>(1,"통신성공",projectId));
     }
+
+    // 프로젝트 자랑 수정
+    @PatchMapping("/show/{projectId}")
+    public ResponseEntity<?> patchProject(@PathVariable("projectId") int projectId) {
+        projectService.patchProject(projectId);
+        return ResponseEntity.ok().body(new CMRespDto<>(1,"통신성공",projectId));
+    }
+
 }
