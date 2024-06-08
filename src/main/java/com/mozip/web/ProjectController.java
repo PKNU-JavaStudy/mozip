@@ -2,6 +2,7 @@ package com.mozip.web;
 
 import com.mozip.domain.member.Member;
 
+import com.mozip.dto.resp.ShowEditDto;
 import com.mozip.handler.ex.CustomException;
 import com.mozip.service.MemberService;
 import com.mozip.service.ProjectService;
@@ -97,8 +98,9 @@ public class ProjectController {
 
     // 프로젝트 자랑 수정 전 데이터 가져오기
     @GetMapping("/project/show_edit/{projectId}")
-    public String showEditForm(@PathVariable("projectId") int projectId, Model model) {
-        model.addAttribute("project", projectService.findProjectDetail(projectId));
+    public String editSelectShow(@PathVariable("projectId") int projectId, Model model) {
+        ShowEditDto attributeValue = projectService.editSelectShow(projectId);
+        model.addAttribute("project", attributeValue);
         return "project/show_edit";  // 실제 뷰 템플릿 이름
     }
 }
