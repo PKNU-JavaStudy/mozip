@@ -32,6 +32,15 @@
     overflow: hidden;
     margin-bottom: 40px;
 }
+
+.profile-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 이미지가 잘리지 않고, 요소의 크기에 맞춰서 비율을 유지하며 채워지도록 함 */
+    object-position: center; /* 이미지가 중앙에 위치하도록 설정 */
+    cursor: pointer;
+}
+
 /* 마이페이지 수정 버튼 추가_5.22 */
 .profile-section .edit-btn {
     position: absolute;
@@ -499,9 +508,9 @@ select {
     display: flex;
     align-items: center;
     padding: 5px 10px;
-    border: 1px solid #00dada;
+    border: var(--main-color);
     border-radius: 15px;
-    background-color: #00dada;
+    background-color: var(--main-color);
     color: #ffffff;
     margin-right: 10px;
     flex: 0 0 auto; /* 아이템이 고정된 너비로 나타나도록 */

@@ -32,7 +32,8 @@
   <div class="wrap">
     <div class="edit-section">
       <div class="profile-img">
-        <img th:src="@{/img/cinnamoroll.jpeg}" alt="Profile Image">
+        <img id="profileImage" th:src="@{/img/cinnamoroll.jpeg}" alt="Profile Image" style="cursor: pointer;">
+        <input type="file" id="fileInput" style="display: none;" accept="image/*"/>
       </div>
       <div class="form-container">
         <form id="profile-form">
@@ -133,6 +134,5 @@
 <footer>
   <th:block th:replace="~{fragment/footer}"></th:block>
 </footer>
-<!--ajax 02donggun.js로 옮김-->
 </body>
 </html>

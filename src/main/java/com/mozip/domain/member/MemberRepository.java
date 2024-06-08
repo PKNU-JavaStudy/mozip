@@ -5,6 +5,7 @@ import com.mozip.dto.req.UpdateMypageEditDto;
 import com.mozip.dto.resp.*;
 import org.apache.ibatis.annotations.Param;
 
+import java.nio.file.Path;
 import java.util.List;
 
 public interface MemberRepository {
@@ -33,5 +34,7 @@ public interface MemberRepository {
     void deleteSkills(int memberId);
     // 마이페이지 수정: 스킬 삽입
     void insertSkills(@Param("memberId") int memberId, @Param("skill") String skill);
+
+    void updateProfileImg(@Param("imageDir") String imageDir, @Param("memberId") int memberId);
 }
 

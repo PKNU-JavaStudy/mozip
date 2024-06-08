@@ -16,7 +16,7 @@ import java.util.Map;
 public class ApiEmailController {
     private final EmailService emailService;
 
-
+    // TODO : 메일은 POST 로 바꿔야함
     @GetMapping("/email/{memberId}")
     public ResponseEntity<?> getEmail(@PathVariable int memberId) {
         emailService.emailSender(memberId);
