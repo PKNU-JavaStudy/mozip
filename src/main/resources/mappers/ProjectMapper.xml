@@ -3,7 +3,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.mozip.domain.project.ProjectRepository">
-
     <resultMap id="projectDtoMap" type="com.mozip.dto.resp.ProjectListDto">
         <result property="id" column="ID"/>
         <result property="projectName" column="PROJECT_NAME"/>

@@ -100,6 +100,9 @@ public interface ProjectRepository {
     // 프로젝트자랑페이지 : 프로젝트 삭제
     void deleteProject(@Param("projectId") int projectId);
 
+    // 프로젝트자랑페이지 : 프로젝트 수정
+    void patchProject(@Param("projectId") int projectId);
+
     // 프로젝트모집 수정페이지 : 권한체크
     int findOwnerId(@Param("projectId") int projectId, @Param("memberId") int memberId);
 
