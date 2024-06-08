@@ -3,7 +3,7 @@ package com.mozip.service;
 import com.mozip.domain.member.AuthRepository;
 import com.mozip.domain.member.Member;
 import com.mozip.dto.req.LoginDto;
-import com.mozip.dto.resp.JoinMemberDto;
+import com.mozip.dto.req.JoinMemberDto;
 import com.mozip.handler.ex.CustomException;
 import lombok.RequiredArgsConstructor;
 import org.mindrot.jbcrypt.BCrypt;

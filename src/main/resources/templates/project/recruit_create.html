@@ -33,8 +33,8 @@
 <main>
   <div class="wrap flex">
     <div class="rc-input">
-        <form  id="createProject" th:onsubmit="'memberInvite(\'' +event+ '\')'">
-<!--        <span class="pj-type pj">사이드 프로젝트</span>-->
+      <form id="createProject">
+        <!--        <span class="pj-type pj">사이드 프로젝트</span>-->
         <select name="projectType" class="project-type">
           <option value="사이드 프로젝트">사이드 프로젝트</option>
           <option value="모집/스터디">모집/스터디</option>
@@ -112,7 +112,7 @@
             <div class="select-programs" id="skill-container">
               <!--아이콘 들어가는 곳-->
             </div>
-            <select  id="skill">
+            <select id="skill">
               <option value="all">기술스택 선택</option>
               <option value="Java">Java</option>
               <option value="Python">Python</option>
@@ -126,6 +126,7 @@
               <option value="Flask">Flask</option>
               <option value="Node.js">Node.js</option>
               <option value="TypeScript">TypeScript</option>
+              <!-- TODO : 기술스택 목록 수정해야함. recruit_detail.html 참고 -->
             </select>
           </div>
           <div>
@@ -144,7 +145,7 @@
         </div>
         <div class="rc-project-info">
           <p class="s-title">소개</p>
-          <textarea cols="40" rows="15"  name="projectInfo" placeholder="프로젝트 소개글을 작성하세요."></textarea>
+          <textarea cols="40" rows="15" name="projectInfo" placeholder="프로젝트 소개글을 작성하세요."></textarea>
         </div>
         <div class="open-modal btn-write">작성완료</div>
         <!-- 모달창 -->
@@ -157,7 +158,7 @@
           <div class="button-wrap">
             <button class="close-modal">돌아가기</button>
             <!-- TODO: <button class="submit-modal" type="submit"> 백엔드 연결 후 수정 -->
-            <button  class="submit-modal" type="button">
+            <button class="submit-modal" type="button">
               등록하기
             </button>
           </div>
@@ -197,7 +198,7 @@
     <th:block th:replace="~{fragment/footer}"></th:block>
   </footer>
   <script>
-    let ownerId = document.querySelector(".owner-id").textContent;
+      let ownerId = document.querySelector(".owner-id").textContent;
       // 프로젝트 주제(textarea) : 1줄만 쓰게 제한
       document.getElementById('subject').addEventListener('keydown', function (event) {
           if (event.key === 'Enter') {
@@ -223,59 +224,69 @@
       });
 
       // 데이터 전송
-      document.querySelector(".submit-modal").addEventListener("click", function() {
-        event.preventDefault(); // form 전송 막는 코드
+      document.querySelector(".submit-modal").addEventListener("click", function () {
+          event.preventDefault(); // form 전송 막는 코드
 
-        let formData = $("#createProject").serializeArray();
-        let jsonData = {};
+          let formData = $("#createProject").serializeArray();
+          let jsonData = {};
 
-        $(formData).each(function (index, obj) {
-          jsonData[obj.name] = obj.value;
-        });
+          $(formData).each(function (index, obj) {
+              jsonData[obj.name] = obj.value;
+          });
 
-        jsonData.skills = [];
+          // 날짜가 오늘 날짜보다 적으면 안됨.
+          let selectDate = new Date(jsonData.exceptTime);
+          let today = new Date();
+          today.setHours(0, 0, 0, 0);
+          if (selectDate < today) {
+              alert('선택하신 날짜는 오늘 날짜보다 이전입니다 !');
+              document.querySelector(".modal-bg").classList.remove("visible");
+              document.querySelector(".modal").classList.remove("visible");
+          } else {
+              jsonData.skills = [];
 
-        document.querySelectorAll(".selected-skill").forEach((skill) => {
-          jsonData.skills.push(skill.id);
-        })
+              document.querySelectorAll(".selected-skill").forEach((skill) => {
+                  jsonData.skills.push(skill.id);
+              })
 
-        jsonData.recruitRole = [];
-        document.querySelectorAll(".selected-role").forEach((role) => {
-          jsonData.recruitRole.push(role.id);
-        })
+              jsonData.recruitRole = [];
+              document.querySelectorAll(".selected-role").forEach((role) => {
+                  jsonData.recruitRole.push(role.id);
+              })
 
-        jsonData.ownerId = ownerId;
+              jsonData.ownerId = ownerId;
 
-        $.ajax({
-          type : "post",
-          url : "/api/project/create",
-          data : JSON.stringify(jsonData),
-          contentType : "application/json; charset=utf-8",
-          dataType : "json"
-        }).done(res=>{ // HttpStatus 200번대
-          console.log("성공",res);
-          let projectId = res.data;
-          alert("멤버 모집이 정상적으로 등록되었습니다.")
+              $.ajax({
+                  type: "post",
+                  url: "/api/project",
+                  data: JSON.stringify(jsonData),
+                  contentType: "application/json; charset=utf-8",
+                  dataType: "json"
+              }).done(res => { // HttpStatus 200번대
+                  console.log("성공", res);
+                  let projectId = res.data;
+                  alert("멤버 모집이 정상적으로 등록되었습니다.")
 
-          window.location.assign(`/project/${projectId}`);
-        }).fail(error=>{ // HttpStatus 200번대가 아닐때
-          alert("프로젝트 작성에 실패하였습니다!")
-        });
+                  window.location.assign(`/project/${projectId}`);
+              }).fail(error => { // HttpStatus 200번대가 아닐때
+                  alert("프로젝트 작성에 실패하였습니다!")
+              });
+          }
       });
+
       document.addEventListener("click", function (event) {
-        if (
-                !event.target.closest(".modal, .open-modal, .open-modal02, .open-modal03")
-        ) {
-          document.querySelector(".modal").classList.remove("visible");
-          document.querySelector(".modal-bg").classList.remove("visible");
-          document.body.classList.remove("modal-open");
-        }
+          if (
+              !event.target.closest(".modal, .open-modal, .open-modal02, .open-modal03")
+          ) {
+              document.querySelector(".modal").classList.remove("visible");
+              document.querySelector(".modal-bg").classList.remove("visible");
+              document.body.classList.remove("modal-open");
+          }
 
       });
 
 
-
-</script>
+  </script>
 </main>
 </body>
 </html>
