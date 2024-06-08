@@ -1,7 +1,6 @@
 package com.mozip.domain.project;
 
 import com.mozip.dto.req.ProjectCreateDto;
-import com.mozip.dto.req.ProjectLikeDto;
 import com.mozip.dto.resp.*;
 import org.apache.ibatis.annotations.Param;
 
@@ -121,7 +120,12 @@ public interface ProjectRepository {
     // 프로젝트 모집역할 삭제
     void deleteProjectRecruitRoles(@Param("projectId") int projectId);
 
+    // 프로젝트자랑페이지 : 프로젝트 수정전 불러오기
+    ShowEditDto editSelectShow(@Param("projectId") int projectId);
+
     // 프로젝트자랑페이지 : 프로젝트 수정
+    void updateShow(@Param("dto") ShowEditDto dto);
+
     void patchProject(@Param("projectId") int projectId);
 
     // 프로젝트모집 : 프로젝트참여

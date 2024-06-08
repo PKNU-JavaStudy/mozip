@@ -2,7 +2,6 @@ package com.mozip.service;
 
 import com.mozip.domain.project.ProjectRepository;
 import com.mozip.dto.req.ProjectCreateDto;
-import com.mozip.dto.req.ProjectLikeDto;
 import com.mozip.dto.resp.ProjectDetailDto;
 import com.mozip.dto.resp.ProjectListDto;
 import com.mozip.dto.resp.ProjectMemberDto;
@@ -16,10 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.NClob;
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.text.ParseException;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Transactional(readOnly = true)
@@ -196,9 +192,38 @@ public class ProjectService {
 
     }
 
+    // 프로젝트 자랑 수정 전 불러오기
+    public ShowEditDto editSelectShow(int projectId) {
+        ShowEditDto project = projectRepository.editSelectShow(projectId);
+
+        project.setSkills(projectRepository.findProjectSkills(projectId));
+        project.setRecruitRole(projectRepository.findRecruitRoles(projectId));
+        project.setProjectInfo(Util.clobToString((NClob) project.getProjectInfo()));
+        // LocalDateTime -> String 변환
+        project.setCreatedChangeAt(Util.formatLocalDateTime(project.getCreatedAt()));
+        project.setModifiedChangeAt(Util.formatLocalDateTime(project.getModifiedShow()));
+        return project;
+    }
+
     // 프로젝트자랑 페이지 수정
-    public void patchProject(int projectId) {
-        projectRepository.patchProject(projectId);
+    @Transactional
+    public void updateShow(ShowEditDto dto, int projectId) {
+        dto.setId(projectId);
+        dto.setCreatedAt(Util.stringToLocalDateTime(dto.getCreatedChangeAt()));
+        dto.setModifiedShow(Util.stringToLocalDateTime(dto.getModifiedChangeAt()));
+
+        projectRepository.updateShow(dto);
+
+        projectRepository.deleteProjectSkills(dto.getId());
+        projectRepository.deleteProjectRecruitRoles(dto.getId());
+
+        dto.getSkills().forEach(skill -> {
+            projectRepository.updateProjectSkills(skill, dto.getId());
+        });
+
+        dto.getRecruitRole().forEach(role -> {
+            projectRepository.updateProjectRecruitRoles(role, dto.getId());
+        });
     }
 
     // 프로젝트 모집 완료여부 체크 후 동작

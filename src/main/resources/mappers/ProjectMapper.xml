@@ -46,6 +46,7 @@
         <result property="projectInfo" column="PROJECT_INFO"/>
         <result property="ownerId" column="OWNER_ID"/>
     </resultMap>
+
     <select id="findNewProject" resultMap="projectDtoMap">
         <![CDATA[
         SELECT ID, PROJECT_NAME, PROJECT_TYPE, PROJECT_INFO, VIEWS
@@ -320,19 +321,35 @@
         DELETE FROM PROJECT WHERE id = #{projectId}
     </delete>
 
-    <!--  프로젝트자랑 수정  -->
-    <update id="updateProject" parameterType="com.mozip.dto.resp.ShowDetailDto">
+    <!-- 프로젝트자랑 수정 : 기존 데이터 갖고오기 -->
+    <select id="editSelectShow" resultType="com.mozip.dto.resp.ShowEditDto">
+        SELECT ID,
+               PROJECT_TYPE,
+               PROJECT_NAME,
+               CREATED_AT,
+               MODIFIED_SHOW,
+               RECRUIT_COUNT,
+               PROJECT_PROCESS,
+               PROJECT_PURPOSE,
+               PROJECT_TIME,
+               PROJECT_INFO
+        FROM PROJECT
+        WHERE ID = #{projectId}
+    </select>
+
+    <!-- 프로젝트자랑 수정 : 프로젝트 데이터 수정 -->
+    <update id="updateShow" parameterType="com.mozip.dto.resp.ShowEditDto">
         UPDATE PROJECT
-        SET
-            PROJECT_TYPE = #{projectType},
-            SUBJECT = #{subject},
-            PROJECT_PURPOSE = #{projectPurpose},
-            PROJECT_TIME = #{projectTime},
-            RECRUIT_COUNT = #{recruitCount},
-            PROJECT_PROCESS = #{projectProcess},
-            PROJECT_INFO = #{projectInfo},
-            CREATED_AT = #{createdAt}
-        WHERE ID = #{id}
+        SET PROJECT_TYPE    = #{dto.projectType},
+            PROJECT_NAME    = #{dto.projectName},
+            CREATED_AT      = #{dto.createdAt},
+            MODIFIED_SHOW   = #{dto.modifiedShow},
+            RECRUIT_COUNT   = #{dto.recruitCount},
+            PROJECT_PROCESS = #{dto.projectProcess},
+            PROJECT_PURPOSE = #{dto.projectPurpose},
+            PROJECT_TIME    = #{dto.projectTime},
+            PROJECT_INFO    = #{dto.projectInfo}
+        WHERE ID = #{dto.id}
     </update>
 
     <!-- 프로젝트모집 상세 : 모집완료 여부 체크 -->

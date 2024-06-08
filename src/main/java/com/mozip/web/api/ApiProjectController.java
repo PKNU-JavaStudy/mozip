@@ -5,6 +5,7 @@ import com.mozip.dto.CMRespDto;
 import com.mozip.dto.req.ProjectCreateDto;
 import com.mozip.dto.req.ProjectLikeDto;
 import com.mozip.dto.resp.ProjectEditDto;
+import com.mozip.dto.resp.ShowEditDto;
 import com.mozip.dto.resp.ProjectMemberDto;
 import com.mozip.service.LikesService;
 import com.mozip.service.ProjectService;
@@ -70,9 +71,9 @@ public class ApiProjectController {
 
     // 프로젝트 자랑 수정
     @PatchMapping("/show/{projectId}")
-    public ResponseEntity<?> patchProject(@PathVariable("projectId") int projectId) {
-        projectService.patchProject(projectId);
-        return ResponseEntity.ok().body(new CMRespDto<>(1,"통신성공",projectId));
+    public ResponseEntity<?> editSelectShow(@RequestBody ShowEditDto dto, @PathVariable("projectId") int projectId) {
+        projectService.updateShow(dto, projectId);
+        return ResponseEntity.ok().body(new CMRespDto<>(1,"통신성공",dto.getId()));
     }
 
     // 프로젝트 참여 신청
@@ -80,5 +81,4 @@ public class ApiProjectController {
     public ResponseEntity<?> projectJoin(@RequestParam("memberId") int memberId, @RequestParam("projectId") int projectId){
         return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공", projectService.projectJoin(memberId,projectId)));
     }
-
 }
