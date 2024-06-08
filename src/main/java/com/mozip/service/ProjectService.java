@@ -195,6 +195,7 @@ public class ProjectService {
         projectRepository.deleteProject(projectId); // 프로젝트 삭제 로
 
     }
+
     // 프로젝트자랑 페이지 수정
     public void patchProject(int projectId) {
         projectRepository.patchProject(projectId);
@@ -236,6 +237,7 @@ public class ProjectService {
         return project;
     }
 
+    // 프로젝트모집 수정
     @Transactional
     public void updateRecruitProject(ProjectEditDto dto) {
         dto.setExceptTime(Util.stringToLocalDateTime(dto.getExceptChangeTime()));
@@ -254,4 +256,15 @@ public class ProjectService {
         });
     }
 
+    // 프로젝트모집 참여 신청
+    @Transactional
+    public ProjectMemberDto projectJoin(int memberId, int projectId) {
+        projectRepository.projectJoin(memberId, projectId);
+
+        // 참여 완료 시 실시간으로 참가신청자 목록에 추가하기 위한 데이터
+        ProjectMemberDto  memberInfo = projectRepository.findOneJoinMember(memberId, projectId);
+        memberInfo.setCreatedAt(Util.formatTimestamp(Timestamp.valueOf(memberInfo.getCreatedAt())));
+
+        return memberInfo;
+    }
 }

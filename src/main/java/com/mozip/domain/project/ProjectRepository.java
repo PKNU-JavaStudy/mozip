@@ -123,4 +123,10 @@ public interface ProjectRepository {
 
     // 프로젝트자랑페이지 : 프로젝트 수정
     void patchProject(@Param("projectId") int projectId);
+
+    // 프로젝트모집 : 프로젝트참여
+    void projectJoin(@Param("memberId") int memberId, @Param("projectId") int projectId);
+
+    // 프로젝트모집: 프로젝트참여 멤버 1명 가져오기
+    ProjectMemberDto findOneJoinMember(@Param("memberId") int memberId, @Param("projectId") int projectId);
 }

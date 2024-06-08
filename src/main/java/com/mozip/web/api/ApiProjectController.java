@@ -5,6 +5,7 @@ import com.mozip.dto.CMRespDto;
 import com.mozip.dto.req.ProjectCreateDto;
 import com.mozip.dto.req.ProjectLikeDto;
 import com.mozip.dto.resp.ProjectEditDto;
+import com.mozip.dto.resp.ProjectMemberDto;
 import com.mozip.service.LikesService;
 import com.mozip.service.ProjectService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.http.HttpResponse;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -71,6 +73,12 @@ public class ApiProjectController {
     public ResponseEntity<?> patchProject(@PathVariable("projectId") int projectId) {
         projectService.patchProject(projectId);
         return ResponseEntity.ok().body(new CMRespDto<>(1,"통신성공",projectId));
+    }
+
+    // 프로젝트 참여 신청
+    @PostMapping("/project/join")
+    public ResponseEntity<?> projectJoin(@RequestParam("memberId") int memberId, @RequestParam("projectId") int projectId){
+        return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공", projectService.projectJoin(memberId,projectId)));
     }
 
 }

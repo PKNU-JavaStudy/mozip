@@ -423,4 +423,19 @@
         FROM RECRUIT_ROLE
         WHERE PROJECT_ID = #{projectId}
     </delete>
+
+    <!-- 프로젝트모집 프로젝트 신청 -->
+    <insert id="projectJoin">
+        INSERT INTO SUBSCRIBE
+        VALUES (SUBSCRIBE_SEQ.nextval, #{projectId}, #{memberId}, TO_CHAR(SYSDATE, 'YYYY-MM-DD HH:MI:SS'))
+    </insert>
+
+    <!-- 프로젝트모집 프로젝트 신청 멤버 가져오기 -->
+    <select id="findOneJoinMember" resultType="com.mozip.dto.resp.ProjectMemberDto">
+        SELECT m.ID, m.USERNAME, m.POSITION, m.CAREER, m.CREATED_AT
+        FROM SUBSCRIBE s
+                 INNER JOIN MEMBER m ON s.MEMBER_ID = m.ID
+        WHERE PROJECT_ID = #{projectId}
+          AND MEMBER_ID = #{memberId}
+    </select>
 </mapper>
