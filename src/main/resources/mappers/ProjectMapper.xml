@@ -3,6 +3,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.mozip.domain.project.ProjectRepository">
+
     <resultMap id="projectDtoMap" type="com.mozip.dto.resp.ProjectListDto">
         <result property="id" column="ID"/>
         <result property="projectName" column="PROJECT_NAME"/>
@@ -93,7 +94,8 @@
     <!--  메인페이지 : 신청자 카운트  -->
     <select id="findSubscribeCount" resultType="java.lang.Integer">
         SELECT COUNT(*)
-        FROM SUBSCRIBE INNER JOIN PROJECT ON SUBSCRIBE.PROJECT_ID = PROJECT.ID
+        FROM SUBSCRIBE
+                 INNER JOIN PROJECT ON SUBSCRIBE.PROJECT_ID = PROJECT.ID
         WHERE PROJECT.ID = #{projectId}
     </select>
 
@@ -107,7 +109,8 @@
     <!--  프로젝트자랑페이지 : 팀네임  -->
     <select id="findTeamName" resultType="java.lang.String">
         SELECT TEAM_NAME
-        FROM TEAM_NOTE INNER JOIN PROJECT ON TEAM_NOTE.PROJECT_ID = PROJECT.ID
+        FROM TEAM_NOTE
+                 INNER JOIN PROJECT ON TEAM_NOTE.PROJECT_ID = PROJECT.ID
         WHERE PROJECT_ID = #{projectId}
     </select>
 
@@ -128,10 +131,11 @@
     <!--  프로젝트자랑페이지 : 좋아요 카운트  -->
     <select id="findLikeCount" resultType="java.lang.Integer">
         SELECT COUNT(*)
-        FROM LIKES INNER JOIN PROJECT ON LIKES.PROJECT_ID = PROJECT.ID
+        FROM LIKES
+                 INNER JOIN PROJECT ON LIKES.PROJECT_ID = PROJECT.ID
         WHERE PROJECT_ID = #{projectId}
     </select>
-  
+
     <select id="findProjectDetail" resultMap="projectDetailMap">
         SELECT ID,
                PROJECT_TYPE,
@@ -225,13 +229,14 @@
                OWNER_ID,
                GITHUB_LINK
         FROM PROJECT
-        WHERE ID =#{projectId}
+        WHERE ID = #{projectId}
     </select>
 
     <!-- 좋아요 카운트 -->
     <select id="findShowLikeCount" resultType="java.lang.Integer">
         SELECT COUNT(*)
-        FROM LIKES INNER JOIN PROJECT ON LIKES.PROJECT_ID = PROJECT.ID
+        FROM LIKES
+                 INNER JOIN PROJECT ON LIKES.PROJECT_ID = PROJECT.ID
         WHERE PROJECT_ID = #{projectId}
     </select>
 
@@ -240,44 +245,50 @@
         SELECT COUNT(*)
         FROM MEMBER
         WHERE ID IN (SELECT pm.MEMBER_ID
-                     FROM PROJECT p INNER JOIN PROJECT_MEMBER pm ON p.ID = pm.PROJECT_ID
+                     FROM PROJECT p
+                              INNER JOIN PROJECT_MEMBER pm ON p.ID = pm.PROJECT_ID
                      WHERE P.ID = #{projectId})
     </select>
 
     <!-- 작성자 프로필 정보 가져오기 / !! 프로필 url 추가 해야함 !! -->
     <select id="findShowOwnerInfo" resultType="com.mozip.dto.resp.ProjectMemberDto">
         SELECT p.ID, USERNAME, POSITION, CAREER, m.CREATED_AT
-        FROM MEMBER m INNER JOIN PROJECT p ON m.ID = p.OWNER_ID
-        WHERE p.Id = #{projectId} AND p.OWNER_ID=#{ownerId}
+        FROM MEMBER m
+                 INNER JOIN PROJECT p ON m.ID = p.OWNER_ID
+        WHERE p.Id = #{projectId}
+          AND p.OWNER_ID = #{ownerId}
     </select>
 
     <!-- 기술 스택 가져오기 -->
     <select id="findShowSkills" resultType="java.lang.String">
         SELECT ps.SKILL_NAME
-        FROM PROJECT p INNER JOIN PROJECT_SKILL ps ON p.ID = ps.PROJECT_ID
+        FROM PROJECT p
+                 INNER JOIN PROJECT_SKILL ps ON p.ID = ps.PROJECT_ID
         WHERE p.ID = #{projectId}
     </select>
 
     <!-- 모집 분야 가져오기 -->
     <select id="findShowRecruitRoles" resultType="java.lang.String">
         SELECT r.ROLE_NAME
-        FROM PROJECT p INNER JOIN RECRUIT_ROLE r ON p.ID = r.PROJECT_ID
+        FROM PROJECT p
+                 INNER JOIN RECRUIT_ROLE r ON p.ID = r.PROJECT_ID
         WHERE p.ID = #{projectId}
     </select>
 
     <insert id="createProject" parameterType="com.mozip.dto.req.ProjectCreateDto">
-        INSERT INTO PROJECT (ID, PROJECT_NAME,PROJECT_TYPE, SUBJECT,
-                             RECRUIT_COUNT,PROJECT_PURPOSE, PROJECT_TIME,
-                             PROJECT_PROCESS,EXCEPT_DATE,EXCEPT_TIME,OWNER_ID,PROJECT_INFO, STATUS, CREATED_AT, VIEWS)
+        INSERT INTO PROJECT (ID, PROJECT_NAME, PROJECT_TYPE, SUBJECT,
+                             RECRUIT_COUNT, PROJECT_PURPOSE, PROJECT_TIME,
+                             PROJECT_PROCESS, EXCEPT_DATE, EXCEPT_TIME, OWNER_ID, PROJECT_INFO, STATUS, CREATED_AT,
+                             VIEWS)
         VALUES (PROJECT_SEQ.nextval, #{dto.projectName}, #{dto.projectType}, #{dto.subject},
                 #{dto.recruitCount}, #{dto.projectPurpose}, #{dto.projectTime},
                 #{dto.projectProcess}, #{dto.exceptDate}, TO_TIMESTAMP(#{dto.exceptTime}), #{dto.ownerId},
-                TO_NCLOB(#{dto.projectInfo}),1, TO_CHAR(SYSDATE, 'YYYY-MM-DD HH:MI:SS'), 0)
+                TO_NCLOB(#{dto.projectInfo}), 1, TO_CHAR(SYSDATE, 'YYYY-MM-DD HH:MI:SS'), 0)
     </insert>
 
     <insert id="createProjectSkill">
-            INSERT INTO PROJECT_SKILL (ID, SKILL_NAME, PROJECT_ID)
-            VALUES (PROJECT_SKILL_SEQ.nextval, #{skill}, #{id})
+        INSERT INTO PROJECT_SKILL (ID, SKILL_NAME, PROJECT_ID)
+        VALUES (PROJECT_SKILL_SEQ.nextval, #{skill}, #{id})
 
     </insert>
 
@@ -300,7 +311,9 @@
 
     <!-- 조회수 올리기 -->
     <update id="findViewCount" parameterType="int">
-        UPDATE PROJECT SET VIEWS = VIEWS + 1 where ID = #{projectId}
+        UPDATE PROJECT
+        SET VIEWS = VIEWS + 1
+        where ID = #{projectId}
     </update>
 
     <!--  프로젝트자랑 삭제  -->
@@ -323,4 +336,92 @@
         WHERE ID = #{id}
     </update>
 
+    <!-- 프로젝트모집 상세 : 모집완료 여부 체크 -->
+    <select id="recruitDoneCheck" resultType="int">
+        SELECT STATUS
+        FROM PROJECT
+        WHERE ID=#{projectId}
+    </select>
+
+    <!-- 프로젝트모집 상세 : 모집완료 -->
+    <update id="recruitDoneSuccess" parameterType="int">
+        UPDATE PROJECT
+        SET STATUS = 0
+        WHERE ID = #{projectId}
+    </update>
+
+
+    <!-- 프로젝트모집 상세 : 모집완료 취소 -->
+    <update id="recruitDoneCancle" parameterType="int">
+        UPDATE PROJECT
+        SET STATUS = 1
+        WHERE ID = #{projectId}
+    </update>
+
+    <!-- 프로젝트모집 수정 : 권한체크 -->
+    <select id="findOwnerId" resultType="int">
+        SELECT ID
+        FROM PROJECT
+        WHERE ID=#{projectId} AND OWNER_ID=#{memberId}
+    </select>
+
+    <!-- 프로젝트모집 수정 : 기존 데이터 갖고오기 -->
+    <select id="findProjectEditDetail" resultType="com.mozip.dto.resp.ProjectEditDto">
+        SELECT ID,
+               PROJECT_TYPE,
+               PROJECT_NAME,
+               SUBJECT,
+               RECRUIT_COUNT,
+               PROJECT_PURPOSE,
+               PROJECT_TIME,
+               PROJECT_PROCESS,
+               EXCEPT_DATE,
+               EXCEPT_TIME,
+               PROJECT_INFO
+        FROM PROJECT
+        WHERE ID = #{projectId}
+    </select>
+
+    <!-- 프로젝트모집 수정 : 프로젝트 데이터 수정 -->
+    <update id="updateRecruitProject" parameterType="com.mozip.dto.resp.ProjectEditDto">
+        UPDATE PROJECT
+        SET PROJECT_TYPE    = #{dto.projectType},
+            PROJECT_NAME    = #{dto.projectName},
+            SUBJECT         = #{dto.subject},
+            RECRUIT_COUNT   = #{dto.recruitCount},
+            PROJECT_PURPOSE = #{dto.projectPurpose},
+            PROJECT_TIME    = #{dto.projectTime},
+            PROJECT_PROCESS = #{dto.projectProcess},
+            EXCEPT_DATE     = #{dto.exceptDate},
+            EXCEPT_TIME     = #{dto.exceptTime},
+            PROJECT_INFO    = #{dto.projectInfo}
+        WHERE ID = #{dto.id}
+    </update>
+
+    <!-- 프로젝트모집 수정 : 프로젝트 스킬 -->
+    <insert id="updateProjectSkills">
+        INSERT INTO PROJECT_SKILL
+        VALUES (PROJECT_SKILL_SEQ.nextval, #{skill}, #{projectId})
+    </insert>
+
+    <!-- 프로젝트모집 수정 : 모집역할 -->
+    <insert id="updateProjectRecruitRoles">
+        INSERT INTO RECRUIT_ROLE
+        VALUES (RECRUIT_ROLE_SEQ.nextval, #{projectId}, #{role})
+    </insert>
+
+
+    <!-- 프로젝트 스킬 삭제 -->
+    <delete id="deleteProjectSkills" parameterType="int">
+        DELETE
+        FROM PROJECT_SKILL
+        WHERE PROJECT_ID = #{projectId}
+    </delete>
+
+    <!-- 프로젝트 모집역할 삭제 -->
+    <delete id="deleteProjectRecruitRoles" parameterType="int">
+        DELETE
+        FROM RECRUIT_ROLE
+        WHERE PROJECT_ID = #{projectId}
+    </delete>
 </mapper>

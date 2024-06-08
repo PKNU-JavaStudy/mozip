@@ -80,10 +80,10 @@
               </ul>
               <ul class="pj-info">
                 <li><i class="fa-solid fa-eye"></i>
-                  <th:block th:text="${project.getViews()}">16회</th:block>
+                  <th:block th:text="${project.getViews()} + '회'">16회</th:block>
                 </li>
                 <li><i class="fa-regular fa-bookmark"></i>
-                  <th:block th:text="${project.getBookmarkCount()}">5회</th:block>
+                  <th:block th:text="${project.getBookmarkCount()} + '개'">5회</th:block>
                 </li>
               </ul>
             </div>
@@ -128,10 +128,10 @@
               </ul>
               <ul class="pj-info">
                 <li><i class="fa-solid fa-eye"></i>
-                  <th:block th:text="${project.getViews()}">16회</th:block>
+                  <th:block th:text="${project.getViews()} + '회'">16회</th:block>
                 </li>
                 <li><i class="fa-regular fa-bookmark"></i>
-                  <th:block th:text="${project.getBookmarkCount()}">5회</th:block>
+                  <th:block th:text="${project.getBookmarkCount()} + '개'">5회</th:block>
                 </li>
               </ul>
             </div>

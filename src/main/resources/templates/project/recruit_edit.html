@@ -33,93 +33,90 @@
 <main>
   <div class="wrap flex">
     <div class="rc-input">
-      <form action="#" method="post">
+      <form id="editProject">
+        <input name="id" style="display: none" th:value="${project.getId()}"/>
         <select name="projectType" class="project-type">
-          <option value="사이드 프로젝트">사이드 프로젝트</option>
-          <option value="모집/스터디">모집/스터디</option>
+          <option th:value="'사이드 프로젝트'" th:text="'사이드 프로젝트'" th:selected="${project.getProjectType() == '사이드 프로젝트'}"></option>
+          <option th:value="'모집/스터디'" th:text="'모집/스터디'" th:selected="${project.getProjectType() == '모집/스터디'}"></option>
         </select>
-        <input class="rc-title" type="text" placeholder="제목을 입력하세요" maxlength="50" />
+        <input class="rc-title" name="projectName" th:value="${project.getProjectName()}" type="text" placeholder="제목을 입력하세요" maxlength="50"/>
         <div class="rc-summarize">
           <p class="s-title">주제</p>
-          <textarea id="subject" rows="1" cols="20" placeholder="주제를 한 줄 이내로 간단하게 작성해주세요."></textarea>
+          <textarea id="subject" th:text="${project.getSubject()}" name="subject" rows="1" cols="20"
+                    placeholder="주제를 한 줄 이내로 간단하게 작성해주세요."></textarea>
         </div>
         <div class="cont-flex">
           <div>
             <label class="s-title">모집인원</label>
-            <select name="">
-              <option value="">인원 미정</option>
-              <option value="">1명</option>
-              <option value="">2명</option>
-              <option value="">3명</option>
-              <option value="">4명</option>
-              <option value="">5명</option>
-              <option value="">6명</option>
-              <option value="">7명</option>
-              <option value="">8명</option>
-              <option value="">9명</option>
+            <select name="recruitCount">
+              <option th:value="0" th:selected="${project.getRecruitCount() == '0'}">인원 미정</option>
+              <option th:value="1" th:selected="${project.getRecruitCount() == '1'}">1명</option>
+              <option th:value="2" th:selected="${project.getRecruitCount() == '2'}">2명</option>
+              <option th:value="3" th:selected="${project.getRecruitCount() == '3'}">3명</option>
+              <option th:value="4" th:selected="${project.getRecruitCount() == '4'}">4명</option>
+              <option th:value="5" th:selected="${project.getRecruitCount() == '5'}">5명</option>
+              <option th:value="6" th:selected="${project.getRecruitCount() == '6'}">6명</option>
+              <option th:value="7" th:selected="${project.getRecruitCount() == '7'}">7명</option>
+              <option th:value="8" th:selected="${project.getRecruitCount() == '8'}">8명</option>
+              <option th:value="9" th:selected="${project.getRecruitCount() == '9'}">9명</option>
             </select>
           </div>
           <div>
             <label class="s-title">수행목적</label>
-            <select name="">
-              <option value="">포트폴리오/직무 역량 강화</option>
-              <option value="">창업/수익 창출</option>
-              <option value="">재미/네트워킹</option>
+            <select name="projectPurpose">
+              <option th:value="'포트폴리오/직무 역량 강화'" th:selected="${project.getProjectPurpose()== '포트폴리오/직무 역량 강화'}"> 포트폴리오/직무 역량 강화</option>
+              <option th:value="'창업/수익 창출'" th:selected="${project.getProjectPurpose()== '창업/수익 창출'}">창업/수익 창출</option>
+              <option th:value="'재미/네트워킹'" th:selected="${project.getProjectPurpose()== '재미/네트워킹'}">재미/네트워킹</option>
             </select>
           </div>
         </div>
         <div class="cont-flex">
           <div>
             <label class="s-title">참여시간</label>
-            <select name="">
-              <option value="">매주 4시간 이하</option>
-              <option value="">매주 4 ~ 10시간</option>
-              <option value="">매주 10시간 이상</option>
+            <select name="projectTime">
+              <option th:value="1" th:selected="${project.getProjectTime() == '1'}">매주 4시간 이하</option>
+              <option th:value="2" th:selected="${project.getProjectTime() == '2'}">매주 4 ~ 10시간</option>
+              <option th:value="3" th:selected="${project.getProjectTime() == '3'}">매주 10시간 이상</option>
             </select>
           </div>
           <div>
             <label class="s-title">진행방식</label>
-            <select name="">
-              <option value="">온라인</option>
-              <option value="">오프라인</option>
-              <option value="">온/오프라인</option>
+            <select name="projectProcess">
+              <option th:value="'온라인'" th:selected="${project.getProjectProcess() == '온라인'}">온라인</option>
+              <option th:value="'오프라인'" th:selected="${project.getProjectProcess() == '오프라인'}">오프라인</option>
+              <option th:value="'온/오프라인'" th:selected="${project.getProjectProcess() == '온/오프라인'}">온/오프라인</option>
             </select>
           </div>
         </div>
         <div class="cont-flex">
           <div>
             <label class="s-title">예상기간</label>
-            <select name="">
-              <option value="">1개월 이하</option>
-              <option value="">2개월</option>
-              <option value="">3개월</option>
-              <option value="">4개월</option>
-              <option value="">5개월</option>
-              <option value="">6개월</option>
-              <option value="">7개월</option>
-              <option value="">장기</option>
+            <select name="exceptDate">
+              <option th:value="1" th:selected="${project.getExceptDate() == '1'}">1개월 이하</option>
+              <option th:value="2" th:selected="${project.getExceptDate() == '2'}">2개월</option>
+              <option th:value="3" th:selected="${project.getExceptDate() == '3'}">3개월</option>
+              <option th:value="4" th:selected="${project.getExceptDate() == '4'}">4개월</option>
+              <option th:value="5" th:selected="${project.getExceptDate() == '5'}">5개월</option>
+              <option th:value="6" th:selected="${project.getExceptDate() == '6'}">6개월</option>
+              <option th:value="7" th:selected="${project.getExceptDate() == '7'}">7개월</option>
+              <option th:value="8" th:selected="${project.getExceptDate() == '8'}">장기</option>
             </select>
           </div>
           <div>
             <label class="s-title">시작예정</label>
-            <input type="date">
+            <input type="date" name="exceptChangeTime" th:value="${project.getExceptChangeTime()}">
           </div>
         </div>
         <div class="cont-flex">
           <div>
-            <label for="stack" class="s-title">기술스택</label>
-            <div class="select-programs" id="stack-container">
-              <!--아이콘 들어가는 곳-->
+            <label for="skill" class="s-title">기술스택</label>
+            <div class="select-programs" id="skill-container">
             </div>
-            <select name="stack" id="stack">
+            <select id="skill">
               <option value="all">기술스택 선택</option>
               <option value="Java">Java</option>
-              <option value="C++">C++</option>
-              <option value="C#">C#</option>
               <option value="Python">Python</option>
               <option value="Spring">Spring</option>
-              <option value="HTML">HTML</option>
-              <option value="CSS">CSS</option>
               <option value="JS">JS</option>
               <option value="React">React</option>
               <option value="Vue.js">Vue.js</option>
@@ -129,25 +126,26 @@
               <option value="Flask">Flask</option>
               <option value="Node.js">Node.js</option>
               <option value="TypeScript">TypeScript</option>
+              <!-- TODO : 기술스택 목록 수정해야함. recruit_detail.html 참고 -->
             </select>
           </div>
           <div>
-            <label for="skill" class="s-title">모집분야</label>
-            <div class="select-skills" id="skill-container">
+            <label for="role" class="s-title">모집분야</label>
+            <div class="select-programs" id="role-container">
               <!--아이콘 들어가는 곳-->
             </div>
-            <select name="skill" id="skill">
+            <select id="role">
               <option value="all">전체</option>
-              <option value="frontend">프론트엔드</option>
-              <option value="backend">백엔드</option>
-              <option value="design">디자인</option>
-              <option value="opp">기회</option>
+              <option value="프론트엔드">프론트엔드</option>
+              <option value="백엔드">백엔드</option>
+              <option value="디자인">디자인</option>
+              <option value="기획">기획</option>
             </select>
           </div>
         </div>
         <div class="rc-project-info">
           <p class="s-title">소개</p>
-          <textarea cols="40" rows="15" placeholder="프로젝트 소개글을 작성하세요."></textarea>
+          <textarea cols="40" rows="15" th:text="${project.getProjectInfo()}" name="projectInfo" placeholder="프로젝트 소개글을 작성하세요."></textarea>
         </div>
         <button class="open-modal btn-write" type="button">수정완료</button>
         <!-- 모달창 -->
@@ -159,7 +157,6 @@
           <h3>모집글을 수정하시겠습니까?</h3>
           <div class="button-wrap">
             <button class="close-modal">돌아가기</button>
-            <!-- TODO: <button class="submit-modal" type="submit"> 백엔드 연결 후 수정 -->
             <button class="submit-modal">
               수정하기
             </button>
@@ -172,39 +169,86 @@
     </div>
   </div>
   <script>
-    // 프로젝트 주제(textarea) : 1줄만 쓰게 제한
-    document.getElementById('subject').addEventListener('keydown', function (event) {
-      if (event.key === 'Enter') {
-        event.preventDefault();
-      }
-    });
+      document.querySelector('.submit-modal').addEventListener("click", function () {
+          event.preventDefault(); // form 전송 막는 코드
+          let formData = $("#editProject").serializeArray();
+          let jsonData = {};
 
-    // 프로젝트 주제(textarea) 입력 칸 : 20자 글자 제한
-    document.getElementById('subject').addEventListener('input', function () {
-      if (this.value.length > 20) {
-        this.value = this.value.slice(0, 20);
-      }
-    });
+          $(formData).each(function (index, obj) {
+              jsonData[obj.name] = obj.value;
+          })
 
-    document.querySelector(".open-modal").addEventListener("click", function () {
-      document.querySelector(".modal-bg").classList.add("visible");
-      document.querySelector(".modal").classList.add("visible");
-    });
+          // 날짜가 오늘 날짜보다 적으면 안됨.
+          let selectDate = new Date(jsonData.exceptChangeTime);
+          let today = new Date();
+          today.setHours(0, 0, 0, 0);
+          if (selectDate < today) {
+              alert('선택하신 날짜는 오늘 날짜보다 이전입니다 !');
+              document.querySelector(".modal-bg").classList.remove("visible");
+              document.querySelector(".modal").classList.remove("visible");
+          } else {
+              jsonData.skills = [];
 
-    document.querySelector(".close-modal").addEventListener("click", function () {
-      document.querySelector(".modal-bg").classList.remove("visible");
-      document.querySelector(".modal").classList.remove("visible");
-    });
+              document.querySelectorAll(".selected-skill").forEach((skill) => {
+                  jsonData.skills.push(skill.id);
+              })
 
-    document.addEventListener("click", function (event) {
-      if (
+              jsonData.recruitRole = [];
+              document.querySelectorAll(".selected-role").forEach((role) => {
+                  jsonData.recruitRole.push(role.id);
+              })
+
+
+              $.ajax({
+                  type: "patch",
+                  url: `/api/project/update`,
+                  data: JSON.stringify(jsonData),
+                  contentType: "application/json; charset=utf-8",
+                  dataType: "json"
+              }).done(res => {
+                  console.log("통신성공", res);
+                  alert("데이터 수정완료!");
+                  let projectId = res.data;
+                  window.location.assign(`/project/${projectId}`);
+              }).fail(err => {
+                  console.log("통신실패", err);
+              })
+          }
+      })
+
+      // 프로젝트 주제(textarea) : 1줄만 쓰게 제한
+      document.getElementById('subject').addEventListener('keydown', function (event) {
+          if (event.key === 'Enter') {
+              event.preventDefault();
+          }
+      });
+
+      // 프로젝트 주제(textarea) 입력 칸 : 20자 글자 제한
+      document.getElementById('subject').addEventListener('input', function () {
+          if (this.value.length > 20) {
+              this.value = this.value.slice(0, 20);
+          }
+      });
+
+      document.querySelector(".open-modal").addEventListener("click", function () {
+          document.querySelector(".modal-bg").classList.add("visible");
+          document.querySelector(".modal").classList.add("visible");
+      });
+
+      document.querySelector(".close-modal").addEventListener("click", function () {
+          document.querySelector(".modal-bg").classList.remove("visible");
+          document.querySelector(".modal").classList.remove("visible");
+      });
+
+      document.addEventListener("click", function (event) {
+          if (
               !event.target.closest(".modal, .open-modal, .open-modal02, .open-modal03")
-      ) {
-        document.querySelector(".modal").classList.remove("visible");
-        document.querySelector(".modal-bg").classList.remove("visible");
-        document.body.classList.remove("modal-open");
-      }
-    });
+          ) {
+              document.querySelector(".modal").classList.remove("visible");
+              document.querySelector(".modal-bg").classList.remove("visible");
+              document.body.classList.remove("modal-open");
+          }
+      });
   </script>
 </main>
 </body>

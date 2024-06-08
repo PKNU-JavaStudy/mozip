@@ -16,6 +16,9 @@
   <link rel="stylesheet" th:href="@{/css/common.css}">
   <link rel="stylesheet" th:href="@{/css/detail.css}">
   <!-- js -->
+  <!-- jquery -->
+  <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+          crossorigin="anonymous"></script>
   <script th:src="@{/js/index.js}"></script>
   <script th:src="@{/js/common.js}"></script>
   <!-- favicon -->
@@ -171,10 +174,9 @@
                 <span class="career" th:if="${member.getCareer() == 5}">5년이상</span>
                 <h3 th:text="${member.getUsername()}">👑 이윤지</h3>
               </div>
-              <!-- th:onclick="'myFunction(\'' + ${member.getId()} + '\')'"-->
               <button th:if="${session.loginMember!=null && session.loginMember.getId() == project.getOwnerId()}" class="addmem-button add"
-                      th:onclick="'memberInvite(\'' +
-              ${member.getId()} + '\')'">멤버 추가
+                      th:onclick="'memberInvite(\'' + ${member.getId()} + '\')'">
+                멤버 추가
               </button>
             </div>
             <p class="app-date" th:text="${member.getCreatedAt()}">2024년 4월 30일</p>
@@ -197,16 +199,21 @@
       </div>
       <button class="right-btn apply" th:if="${ session.loginMember!=null && session.loginMember.getId()!= project.getOwnerId()}">프로젝트 참여 신청
       </button>
+      <!-- TODO : 북마크버튼 클릭 시 로그인한 유저가아니면 이동시켜야함 -->
       <button class="right-btn bookmark" onclick="loginWarning()"><i class="fa-regular fa-bookmark"></i>북마크</button>
-      <button class="right-btn confirm open-modal" th:if="${session.loginMember != null && session.loginMember.getId()==project.getOwnerId()}">모집완료
-        하기
-      </button>
+      <button id="btnRecruitDone" class="right-btn confirm open-modal"
+              th:if="${session.loginMember != null && session.loginMember.getId()==project.getOwnerId() && project.getStatus()==1}"
+      >모집완료 하기</button>
+      <button id="btnRecruitDone" class="right-btn confirm-done open-modal"
+              th:if="${session.loginMember != null && session.loginMember.getId()==project.getOwnerId() && project.getStatus()==0}"
+      >모집완료</button>
 
-      <div class="edit-btn" th:if="${session.loginMember != null && session.loginMember.getId()==project.getOwnerId()}">
-        <a th:href="@{/project/recruit_edit}">
-          <button class="right-btn mod_btn">수정</button>
+      <div class="edit-btn">
+        <a th:href="@{/project/edit/{projectId}(projectId=${project.getId()})}">
+          <button th:if="${session.loginMember!=null && session.loginMember.getId()==project.getOwnerId()}" class="right-btn mod_btn">수정</button>
         </a>
-        <button class="right-btn del_btn open-modal02">삭제</button>
+        <button th:if="${session.loginMember!=null && session.loginMember.getId()==project.getOwnerId()}" class="right-btn del_btn open-modal02">삭제
+        </button>
       </div>
 
       <p class="current-mem">👩‍👦‍👦 현재 참여 인원 <span th:text="${project.getProjectMemberCount()}">5</span>명</p>
@@ -222,7 +229,8 @@
       <h3>모집을 완료하시겠습니까?</h3>
       <div class="button-wrap">
         <button class="close-modal-back">돌아가기</button>
-        <button class="submit-modal" type="submit">모집 완료하기</button>
+        <button class="submit-modal" type="submit" th:onclick="|recruitDone(${project.getId()})|">모집 완료하기
+        </button>
       </div>
     </div>
     <div class="modal-bg bg02">
@@ -235,15 +243,33 @@
       <p>삭제 후에는 게시글을 되돌릴 수 없습니다.</p>
       <div class="button-wrap">
         <button class="close-modal02-back">돌아가기</button>
-        <button class="submit-modal" type="submit">삭제하기</button>
+        <button class="submit-modal" type="submit" th:onclick="|deleteProject(${project.getId()})|">삭제하기</button>
       </div>
     </div>
   </div>
 </main>
+<th:block th:if="${session.loginMember != null}"><div class="loginMember" th:text="${session.loginMember.getId()}" style="display: none"></div></th:block>
+<th:block th:if="${session.loginMember == null}"><div class="loginMember" style="display: none">0</div></th:block>
 <footer>
   <th:block th:replace="~{fragment/footer}"></th:block>
 </footer>
 <script>
+    // 프로젝트 삭제
+    function deleteProject(projectId){
+        $.ajax({
+            type: "DELETE",
+            url: "/api/project/" + projectId,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json"
+        }).done(res => { // HTTP 상태 코드 200번대일 때 호출됨
+            console.log("성공:", res);
+            alert("게시글이 성공적으로 삭제되었습니다."); // 서버에서 반환된 메시지 표시
+            window.location.replace(`/project`);
+        }).fail(error => { // HTTP 상태 코드 200번대가 아닐 때 호출됨
+            alert("게시글 삭제를 실패했습니다. 다시 시도해주세요."); // 서버에서 반환된 메시지 대신 고정 메시지 표시
+        });
+    }
+
     // 멤버추가버튼
     function memberInvite(memberId) {
         console.log(memberId);
@@ -256,6 +282,49 @@
         }).fail(error => {
             console.log("통신실패!", error);
         });
+    }
+
+    // 프로젝트 모집완료
+    function recruitDone(projectId) {
+
+        console.log(projectId);
+        $.ajax({
+            type: "patch",
+            url: '/api/recruit/done',
+            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+            data: {"projectId": projectId},
+            dataType: "json"
+        }).done(res => {
+            console.log(res);
+            if(res.data == 1){
+                // 모집완료
+                $("#btnRecruitDone").css("background-color", "var(--gray-font2)");
+                $("#btnRecruitDone").css("color", "color: #fff;");
+                $("#btnRecruitDone").text("모집완료");
+                document.querySelector(".modal-bg").classList.remove("visible");
+                document.querySelector(".modal").classList.remove("visible");
+            }else{
+                // 모집완료 취소
+                $("#btnRecruitDone").css("background-color", "var(--main-color)");
+                $("#btnRecruitDone").css("color", "color: #fff;");
+                $("#btnRecruitDone").text("모집완료 하기");
+                document.querySelector(".modal-bg").classList.remove("visible");
+                document.querySelector(".modal").classList.remove("visible");
+            }
+        }).fail(error => {
+            console.log("통신실패!", error);
+        })
+    }
+
+    // TODO: 북마크 클릭 함수(기능 구현 필요)
+    function loginWarning(member) {
+        let memberId = document.querySelector(".loginMember").textContent;
+        if(memberId==0) {
+            alert("로그인이 필요합니다 !")
+            window.location.assign('/auth/login');
+        }
+        else
+            alert("북마크 완료 !");
     }
 
     // 모집완료 모달

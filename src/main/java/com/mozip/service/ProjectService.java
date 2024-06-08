@@ -2,6 +2,7 @@ package com.mozip.service;
 
 import com.mozip.domain.project.ProjectRepository;
 import com.mozip.dto.req.ProjectCreateDto;
+import com.mozip.dto.req.ProjectLikeDto;
 import com.mozip.dto.resp.ProjectDetailDto;
 import com.mozip.dto.resp.ProjectListDto;
 import com.mozip.dto.resp.ProjectMemberDto;
@@ -17,9 +18,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.NClob;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.ParseException;
-import java.util.HashMap;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -102,9 +104,9 @@ public class ProjectService {
     }
 
     // 프로젝트자랑페이지 데이터 갖고오는 메서드
-    public List<ShowListDto> findAllShowProject(){
-        List<ShowListDto> allShows =  projectRepository.findAllShowProject();
-        for(ShowListDto show : allShows){
+    public List<ShowListDto> findAllShowProject() {
+        List<ShowListDto> allShows = projectRepository.findAllShowProject();
+        for (ShowListDto show : allShows) {
             show.setTeamName(projectRepository.findTeamName(show.getId()));
             show.setLikes(projectRepository.findLikeCount(show.getId()));
             show.setSkills(projectRepository.findProjectSkills(show.getId()));
@@ -113,9 +115,9 @@ public class ProjectService {
     }
 
     // 프로젝트자랑페이지 인기 데이터 갖고오는 메서드
-    public List<ShowListDto> findHotShow(){
-        List<ShowListDto> HotShows =  projectRepository.findHotShow();
-        for(ShowListDto show : HotShows) {
+    public List<ShowListDto> findHotShow() {
+        List<ShowListDto> HotShows = projectRepository.findHotShow();
+        for (ShowListDto show : HotShows) {
             show.setTeamName(projectRepository.findTeamName(show.getId()));
             show.setLikes(projectRepository.findLikeCount(show.getId()));
             show.setSkills(projectRepository.findProjectSkills(show.getId()));
@@ -152,14 +154,15 @@ public class ProjectService {
     }
 
     // 프로젝트작성페이지
-    public int createProject(ProjectCreateDto projectCreateDto){
+    @Transactional
+    public int createProject(ProjectCreateDto projectCreateDto) {
 
         // DTO 의 프로젝트네임으로 select 쿼리 날려서 값이 존재하지 않으면 아래 코드 실행
         // 존재한다면 아래 코드 실행
         String inputProjectName = projectCreateDto.getProjectName();
         String findProjectName = projectRepository.findProjectName(inputProjectName);
-        if(findProjectName != null)
-          throw new CustomException("프로젝트 명이 중복됩니다 !");
+        if (findProjectName != null)
+            throw new CustomException("프로젝트 명이 중복됩니다 !");
 
         // DB 실행
         projectRepository.createProject(projectCreateDto);
@@ -167,16 +170,14 @@ public class ProjectService {
         // 1. DTO의 projectName으로 SELECT 쿼리를 날려서 해당 프로젝트 ID 값을 가져온다.
         String projectName = projectCreateDto.getProjectName();
         int projectId = projectRepository.findProjectId(projectName);
-        System.out.println("===========================");
-        System.out.println("projectId = " + projectId);
-        System.out.println("===========================");
 
         // 2. 프로젝트 ID값으로 기술스택 테이블 데이터 세팅
-        // 3. 프로젝트 ID값으로 모집역할 테이블 데이터 세팅
         List<String> skills = projectCreateDto.getSkills();
         for (String skill : skills) {
             projectRepository.createProjectSkill(skill, projectId);
         }
+
+        // 3. 프로젝트 ID값으로 모집역할 테이블 데이터 세팅
         List<String> roles = projectCreateDto.getRecruitRole();
         for (String role : roles) {
             projectRepository.createRecruitRole(role, projectId);
@@ -186,18 +187,74 @@ public class ProjectService {
         return projectId;
     }
 
-    // 조회수 카운트
+    // 조회 수 저장
+    @Transactional
     public int increaseView(int projectId) {
         return projectRepository.findViewCount(projectId);
     }
 
     // 프로젝트자랑 페이지 삭제
     public void deleteProject(int projectId) {
-       projectRepository.deleteProject(projectId); // 프로젝트 삭제 로직
+        projectRepository.deleteProject(projectId); // 프로젝트 삭제 로직
     }
 
     // 프로젝트자랑 페이지 수정
     public void patchProject(int projectId) {
         projectRepository.patchProject(projectId);
     }
+
+    // 프로젝트 모집 완료여부 체크 후 동작
+    @Transactional
+    public int recruitIsDone(int projectId) {
+        // 모집완료 여부 체크
+        int projectStatus = projectRepository.recruitDoneCheck(projectId);
+        if (projectStatus == 1) {
+            // 모집완료 등록
+            projectRepository.recruitDoneSuccess(projectId);
+            return 1;
+        } else {
+            // 모집완료 해제
+            projectRepository.recruitDoneCancle(projectId);
+            return -1;
+        }
+    }
+
+    // 프로젝트 수정 페이지 요청 시 프로젝트 작성자와 로그인 멤버가 일치하는지 체크
+    public boolean ownerCheck(int projectId, int memberid) {
+        if (projectRepository.findOwnerId(projectId, memberid) != projectId)
+            return false;
+
+        return true;
+    }
+
+    // 프로젝트 수정 페이지에 원본 데이터 갖고오는 메서드
+    public ProjectEditDto findOriginProjectInfo(int projectId) {
+        ProjectEditDto project = projectRepository.findProjectEditDetail(projectId);
+        project.setSkills(projectRepository.findProjectSkills(projectId));
+        project.setRecruitRole(projectRepository.findRecruitRoles(projectId));
+        project.setProjectInfo(Util.clobToString((NClob) project.getProjectInfo()));
+        // LocalDateTime -> String 변환
+        project.setExceptChangeTime(Util.formatLocalDateTime(project.getExceptTime()));
+
+        return project;
+    }
+
+    @Transactional
+    public void updateRecruitProject(ProjectEditDto dto) {
+        dto.setExceptTime(Util.stringToLocalDateTime(dto.getExceptChangeTime()));
+
+        projectRepository.updateRecruitProject(dto);
+
+        projectRepository.deleteProjectSkills(dto.getId());
+        projectRepository.deleteProjectRecruitRoles(dto.getId());
+
+        dto.getSkills().forEach(skill -> {
+            projectRepository.updateProjectSkills(skill, dto.getId());
+        });
+
+        dto.getRecruitRole().forEach(role -> {
+            projectRepository.updateProjectRecruitRoles(role, dto.getId());
+        });
+    }
+
 }
