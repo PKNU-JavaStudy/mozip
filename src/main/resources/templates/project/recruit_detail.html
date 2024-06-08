@@ -197,16 +197,21 @@
         </div>
         <h3 th:text="${project.getOwnerInfo().getUsername()}"> 이윤지</h3>
       </div>
-      <button class="right-btn apply" th:if="${ session.loginMember!=null && session.loginMember.getId()!= project.getOwnerId()}">프로젝트 참여 신청
+      <button class="right-btn apply"
+              th:if="${ session.loginMember!=null && session.loginMember.getId()!= project.getOwnerId()}"
+              th:onclick="|projectJoin(${session.loginMember?.getId()})|"
+      >프로젝트 참여 신청
       </button>
       <!-- TODO : 북마크버튼 클릭 시 로그인한 유저가아니면 이동시켜야함 -->
       <button class="right-btn bookmark" onclick="loginWarning()"><i class="fa-regular fa-bookmark"></i>북마크</button>
       <button id="btnRecruitDone" class="right-btn confirm open-modal"
               th:if="${session.loginMember != null && session.loginMember.getId()==project.getOwnerId() && project.getStatus()==1}"
-      >모집완료 하기</button>
+      >모집완료 하기
+      </button>
       <button id="btnRecruitDone" class="right-btn confirm-done open-modal"
               th:if="${session.loginMember != null && session.loginMember.getId()==project.getOwnerId() && project.getStatus()==0}"
-      >모집완료</button>
+      >모집완료
+      </button>
 
       <div class="edit-btn">
         <a th:href="@{/project/edit/{projectId}(projectId=${project.getId()})}">
@@ -248,14 +253,31 @@
     </div>
   </div>
 </main>
-<th:block th:if="${session.loginMember != null}"><div class="loginMember" th:text="${session.loginMember.getId()}" style="display: none"></div></th:block>
-<th:block th:if="${session.loginMember == null}"><div class="loginMember" style="display: none">0</div></th:block>
+<th:block th:if="${session.loginMember != null}">
+  <div class="loginMember" th:text="${session.loginMember.getId()}" style="display: none"></div>
+</th:block>
+<th:block th:if="${session.loginMember == null}">
+  <div class="loginMember" style="display: none">0</div>
+</th:block>
 <footer>
   <th:block th:replace="~{fragment/footer}"></th:block>
 </footer>
 <script>
+    // 프로젝트 참여신청
+    function projectJoin(memberList, loginMemberId){
+        let findId;
+        memberList.forEach(member=>{
+            if(member.id == loginMemberId)
+                findId=loginMemberId;
+        })
+        if(findId==loginMemberId)
+            alert("이미 신청하셨습니다!");
+        else
+            alert("신청성공하였습니다!")
+    }
+
     // 프로젝트 삭제
-    function deleteProject(projectId){
+    function deleteProject(projectId) {
         $.ajax({
             type: "DELETE",
             url: "/api/project/" + projectId,
@@ -296,14 +318,14 @@
             dataType: "json"
         }).done(res => {
             console.log(res);
-            if(res.data == 1){
+            if (res.data == 1) {
                 // 모집완료
                 $("#btnRecruitDone").css("background-color", "var(--gray-font2)");
                 $("#btnRecruitDone").css("color", "color: #fff;");
                 $("#btnRecruitDone").text("모집완료");
                 document.querySelector(".modal-bg").classList.remove("visible");
                 document.querySelector(".modal").classList.remove("visible");
-            }else{
+            } else {
                 // 모집완료 취소
                 $("#btnRecruitDone").css("background-color", "var(--main-color)");
                 $("#btnRecruitDone").css("color", "color: #fff;");
@@ -319,11 +341,10 @@
     // TODO: 북마크 클릭 함수(기능 구현 필요)
     function loginWarning(member) {
         let memberId = document.querySelector(".loginMember").textContent;
-        if(memberId==0) {
+        if (memberId == 0) {
             alert("로그인이 필요합니다 !")
             window.location.assign('/auth/login');
-        }
-        else
+        } else
             alert("북마크 완료 !");
     }
 
