@@ -192,9 +192,10 @@
         <div class="right-tag">
           <span class="work right" th:text="${project.getOwnerInfo().getPosition()}">백엔드</span>
           <span class="career right" th:if="${project.getOwnerInfo().getCareer() ==1}">신입/취준생</span>
-          <span class="career right" th:if="${project.getOwnerInfo().getCareer() ==2}">1~3년차</span>
-          <span class="career right" th:if="${project.getOwnerInfo().getCareer() ==3}">3~5년차</span>
-          <span class="career right" th:if="${project.getOwnerInfo().getCareer() ==4}">5년차이상</span>
+          <span class="career right" th:if="${project.getOwnerInfo().getCareer() ==2}">신입</span>
+          <span class="career right" th:if="${project.getOwnerInfo().getCareer() ==3}">1~3년차</span>
+          <span class="career right" th:if="${project.getOwnerInfo().getCareer() ==4}">3~5년차</span>
+          <span class="career right" th:if="${project.getOwnerInfo().getCareer() ==5}">5년차이상</span>
         </div>
         <h3 th:text="${project.getOwnerInfo().getUsername()}"> 이윤지</h3>
       </div>
