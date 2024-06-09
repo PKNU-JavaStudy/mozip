@@ -49,12 +49,13 @@ public class ProjectController {
     // recruit_detail 페이지
     @GetMapping("/project/{projectId}")
     public String recruitDetailForm(@PathVariable("projectId") int projectId, Model model,
-                                    @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember){
+                                    @SessionAttribute(name= SessionConst.LOGIN_MEMBER, required=false) Member loginMember){
         // 조회수 증가
         projectService.increaseView(projectId);
         model.addAttribute("project", projectService.findProjectDetail(projectId));
         // 북마크
-        model.addAttribute("isBookmark", keepService.keepCount(projectId, loginMember.getId()));
+        if (loginMember != null)
+            model.addAttribute("isBookmark", keepService.keepCount(projectId, loginMember.getId()));
         return "/project/recruit_detail";
     }
 
@@ -68,12 +69,14 @@ public class ProjectController {
     // show_detail 페이지
     @GetMapping("/project/show/{projectId}")
     public String showDetailForm(@PathVariable("projectId") int projectId, Model model,
-                                 @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember){
+                                 @SessionAttribute(name= SessionConst.LOGIN_MEMBER, required=false) Member loginMember){
         // 조회수 증가
         projectService.increaseView(projectId);
         model.addAttribute("showDetail", projectService.findShowDetail(projectId));
         // 북마크
-        model.addAttribute("isBookmark", keepService.keepCount(projectId, loginMember.getId()));
+        if (loginMember != null)
+            model.addAttribute("isBookmark", keepService.keepCount(projectId, loginMember.getId()));
+
         return "/project/show_detail";
     }
 

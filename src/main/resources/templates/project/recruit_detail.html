@@ -199,16 +199,25 @@
       </div>
       <button class="right-btn apply" th:if="${ session.loginMember!=null && session.loginMember.getId()!= project.getOwnerId()}">프로젝트 참여 신청
       </button>
-      <!-- 북마크 안했을때 -->
-      <button th:if="${isBookmark == 0}" style="border: 1px solid var(--main-color); color: var(--main-color); background-color: white;"
-              class="right-btn keep" th:onclick="|projectBookmark(${project.getId()})|">
-        <i class="fa-regular fa-bookmark" style="color: var(--main-color);"></i>북마크
-      </button>
-      <!-- 북마크 했을때 -->
-      <button th:if="${isBookmark == 1}" style="border: 1px solid var(--main-color); color: white; background-color: var(--main-color);"
-              class="right-btn keep" th:onclick="|projectBookmark(${project.getId()})|">
-        <i class="fa-regular fa-bookmark" style="color: white;"></i>북마크
-      </button>
+      <th:block th:if="${session.loginMember == null}">
+        <!-- 북마크 안했을때 -->
+        <button style="border: 1px solid var(--main-color); color: var(--main-color); background-color: white;"
+                class="right-btn keep" th:onclick="|projectBookmark(${project.getId()})|">
+          <i class="fa-regular fa-bookmark" style="color: var(--main-color);"></i>북마크
+        </button>
+      </th:block>
+      <th:block th:if="${session.loginMember != null}">
+        <!-- 북마크 안했을때 -->
+        <button th:if="${isBookmark == 0}" style="border: 1px solid var(--main-color); color: var(--main-color); background-color: white;"
+                class="right-btn keep" th:onclick="|projectBookmark(${project.getId()})|">
+          <i class="fa-regular fa-bookmark" style="color: var(--main-color);"></i>북마크
+        </button>
+        <!-- 북마크 했을때 -->
+        <button th:if="${isBookmark == 1}" style="border: 1px solid var(--main-color); color: white; background-color: var(--main-color);"
+                class="right-btn keep" th:onclick="|projectBookmark(${project.getId()})|">
+          <i class="fa-regular fa-bookmark" style="color: white;"></i>북마크
+        </button>
+      </th:block>
       <button class="right-btn confirm open-modal" th:if="${session.loginMember != null && session.loginMember.getId()==project.getOwnerId()}">모집완료
         하기
       </button>
