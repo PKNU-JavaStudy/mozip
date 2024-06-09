@@ -34,7 +34,7 @@
       <li class="welcome" th:if="${session.loginMember != null}"><span th:text="${session.loginMember.getUsername()}">이윤지</span>님 반갑습니다!
         <ul class="sub-member" th:if="${session.loginMember != null}">
           <li><a th:href="@{/member/{memberId}(memberId=${session.loginMember.getId()})}">내프로필</a></li>
-          <li><a href="">프로필수정</a></li>
+          <li><a href="">회원탈퇴</a></li>
           <li><form th:action="@{/auth/logout}" method="post"><button>로그아웃</button></form></li>
         </ul>
       </li>
