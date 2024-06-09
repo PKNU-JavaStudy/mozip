@@ -10,13 +10,15 @@ public class ProjectMemberDto {
     private String username;
     private String position;
     private int career;
+    private String profileImageUrl;
     private String createdAt;
 
-    public ProjectMemberDto(int id, String username, String position, int career, String createdAt) {
+    public ProjectMemberDto(int id, String username, String position, int career, String profileImageUrl, String createdAt) {
         this.id = id;
         this.username = username;
         this.position = position;
         this.career = career;
+        this.profileImageUrl = profileImageUrl;
         this.createdAt = createdAt;
     }
 }

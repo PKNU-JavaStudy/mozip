@@ -2,12 +2,14 @@ package com.mozip.web;
 
 import com.mozip.domain.member.Member;
 
+import com.mozip.dto.resp.ShowEditDto;
 import com.mozip.handler.ex.CustomException;
 import com.mozip.service.KeepService;
 import com.mozip.service.MemberService;
 import com.mozip.service.ProjectService;
 import com.mozip.util.SessionConst;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -66,6 +68,19 @@ public class ProjectController {
         return "/project/recruit_list";
     }
 
+    // recruit_edit 페이지
+    @GetMapping("/project/edit/{projectId}")
+    public String recruitEditForm(@PathVariable("projectId") int projectId,
+                                  @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
+                                  Model model) {
+        // Project의 OwnerId만 접근가능하게 해야함.
+        if (!projectService.ownerCheck(projectId, loginMember.getId()))
+            throw new CustomException("접근 권한이 없습니다 !");
+        model.addAttribute("project", projectService.findOriginProjectInfo(projectId));
+        model.addAttribute("projectId", projectId);
+        return "/project/recruit_edit";
+    }
+
     // show_detail 페이지
     @GetMapping("/project/show/{projectId}")
     public String showDetailForm(@PathVariable("projectId") int projectId, Model model,
@@ -82,12 +97,20 @@ public class ProjectController {
 
     // show_list 페이지
     @GetMapping("/project/show")
-    public String showListForm(Model model){
+    public String showListForm(Model model) {
         // 모든 프로젝트 자랑
         model.addAttribute("allShows", projectService.findAllShowProject());
         // 인기 프로젝트 자랑
         model.addAttribute("HotShows", projectService.findHotShow());
 
         return "/project/show_list";
+    }
+
+    // 프로젝트 자랑 수정 전 데이터 가져오기
+    @GetMapping("/project/show_edit/{projectId}")
+    public String editSelectShow(@PathVariable("projectId") int projectId, Model model) {
+        ShowEditDto attributeValue = projectService.editSelectShow(projectId);
+        model.addAttribute("project", attributeValue);
+        return "project/show_edit";  // 실제 뷰 템플릿 이름
     }
 }

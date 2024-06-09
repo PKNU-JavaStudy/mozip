@@ -158,7 +158,9 @@
           <a class="swiper-slide" th:href="@{/member/{membetId}(membetId=${member.getId()})}" th:each="member : ${newMember}">
             <div class="member-box">
               <div class="profile-top">
-                <div class="profile-img"></div>
+                <div class="profile-img">
+                  <img th:src="@{/upload/{url}(url=${member.getProfileImageUrl()})}"/>
+                </div>
                 <div class="profile-info">
                   <h6 th:text="${member.getUsername()}">이윤지</h6>
                   <p th:text="${member.getPosition()}">프론트엔드 개발자</p>

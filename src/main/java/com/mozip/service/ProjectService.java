@@ -163,16 +163,14 @@ public class ProjectService {
         // 1. DTO의 projectName으로 SELECT 쿼리를 날려서 해당 프로젝트 ID 값을 가져온다.
         String projectName = projectCreateDto.getProjectName();
         int projectId = projectRepository.findProjectId(projectName);
-        System.out.println("===========================");
-        System.out.println("projectId = " + projectId);
-        System.out.println("===========================");
 
         // 2. 프로젝트 ID값으로 기술스택 테이블 데이터 세팅
-        // 3. 프로젝트 ID값으로 모집역할 테이블 데이터 세팅
         List<String> skills = projectCreateDto.getSkills();
         for (String skill : skills) {
             projectRepository.createProjectSkill(skill, projectId);
         }
+
+        // 3. 프로젝트 ID값으로 모집역할 테이블 데이터 세팅
         List<String> roles = projectCreateDto.getRecruitRole();
         for (String role : roles) {
             projectRepository.createRecruitRole(role, projectId);
@@ -190,7 +188,121 @@ public class ProjectService {
 
     // 프로젝트자랑 페이지 삭제
     public void deleteProject(int projectId) {
-       projectRepository.deleteProject(projectId); // 프로젝트 삭제 로직
+        projectRepository.deleteProject(projectId); // 프로젝트 삭제 로
 
     }
+
+    // 프로젝트 자랑 수정 전 불러오기
+    public ShowEditDto editSelectShow(int projectId) {
+        ShowEditDto project = projectRepository.editSelectShow(projectId);
+
+        project.setSkills(projectRepository.findProjectSkills(projectId));
+        project.setRecruitRole(projectRepository.findRecruitRoles(projectId));
+        project.setProjectInfo(Util.clobToString((NClob) project.getProjectInfo()));
+        // LocalDateTime -> String 변환
+        project.setCreatedChangeAt(Util.formatLocalDateTime(project.getCreatedAt()));
+        project.setModifiedChangeAt(Util.formatLocalDateTime(project.getModifiedShow()));
+        return project;
+    }
+
+    // 프로젝트자랑 페이지 수정
+    @Transactional
+    public void updateShow(ShowEditDto dto, int projectId) {
+        dto.setId(projectId);
+        dto.setCreatedAt(Util.stringToLocalDateTime(dto.getCreatedChangeAt()));
+        dto.setModifiedShow(Util.stringToLocalDateTime(dto.getModifiedChangeAt()));
+
+        projectRepository.updateShow(dto);
+
+        projectRepository.deleteProjectSkills(dto.getId());
+        projectRepository.deleteProjectRecruitRoles(dto.getId());
+
+        dto.getSkills().forEach(skill -> {
+            projectRepository.updateProjectSkills(skill, dto.getId());
+        });
+
+        dto.getRecruitRole().forEach(role -> {
+            projectRepository.updateProjectRecruitRoles(role, dto.getId());
+        });
+    }
+
+    // 프로젝트 모집 완료여부 체크 후 동작
+    @Transactional
+    public int recruitIsDone(int projectId) {
+        // 모집완료 여부 체크
+        int projectStatus = projectRepository.recruitDoneCheck(projectId);
+        if (projectStatus == 1) {
+            // 모집완료 등록
+            projectRepository.recruitDoneSuccess(projectId);
+            return 1;
+        } else {
+            // 모집완료 해제
+            projectRepository.recruitDoneCancle(projectId);
+            return -1;
+        }
+    }
+
+    // 프로젝트 수정 페이지 요청 시 프로젝트 작성자와 로그인 멤버가 일치하는지 체크
+    public boolean ownerCheck(int projectId, int memberid) {
+        if (projectRepository.findOwnerId(projectId, memberid) != projectId)
+            return false;
+
+        return true;
+    }
+
+    // 프로젝트 수정 페이지에 원본 데이터 갖고오는 메서드
+    public ProjectEditDto findOriginProjectInfo(int projectId) {
+        ProjectEditDto project = projectRepository.findProjectEditDetail(projectId);
+        project.setSkills(projectRepository.findProjectSkills(projectId));
+        project.setRecruitRole(projectRepository.findRecruitRoles(projectId));
+        project.setProjectInfo(Util.clobToString((NClob) project.getProjectInfo()));
+        // LocalDateTime -> String 변환
+        project.setExceptChangeTime(Util.formatLocalDateTime(project.getExceptTime()));
+
+        return project;
+    }
+
+    // 프로젝트모집 수정
+    @Transactional
+    public void updateRecruitProject(ProjectEditDto dto) {
+        dto.setExceptTime(Util.stringToLocalDateTime(dto.getExceptChangeTime()));
+
+        projectRepository.updateRecruitProject(dto);
+
+        projectRepository.deleteProjectSkills(dto.getId());
+        projectRepository.deleteProjectRecruitRoles(dto.getId());
+
+        dto.getSkills().forEach(skill -> {
+            projectRepository.updateProjectSkills(skill, dto.getId());
+        });
+
+        dto.getRecruitRole().forEach(role -> {
+            projectRepository.updateProjectRecruitRoles(role, dto.getId());
+        });
+    }
+
+    // 프로젝트모집 참여 신청
+    @Transactional
+    public ProjectMemberDto projectJoin(int memberId, int projectId) {
+        projectRepository.projectJoin(memberId, projectId);
+
+        // 참여 완료 시 실시간으로 참가신청자 목록에 추가하기 위한 데이터
+        ProjectMemberDto  memberInfo = projectRepository.findOneJoinMember(memberId, projectId);
+        memberInfo.setCreatedAt(Util.formatTimestamp(Timestamp.valueOf(memberInfo.getCreatedAt())));
+
+        return memberInfo;
+    }
+
+    // 멤버모집 검색
+    public List<RecruitListDto> searchProject(String keyword) {
+        List<RecruitListDto> recruitListDtos = projectRepository.searchProject(keyword);
+        for (RecruitListDto recruitListDto : recruitListDtos) {
+            recruitListDto.setRoleNames(projectRepository.findRecruitRoles(recruitListDto.getId()));
+            recruitListDto.setCreateTime(Util.formatTimestamp(Timestamp.valueOf(recruitListDto.getCreateTime())));
+            recruitListDto.setSubscribe(projectRepository.findSubscribeCount(recruitListDto.getId()));
+            recruitListDto.setProjectInfo(Util.clobToString((NClob) recruitListDto.getProjectInfo()));
+        }
+        return recruitListDtos;
+    }
+
 }

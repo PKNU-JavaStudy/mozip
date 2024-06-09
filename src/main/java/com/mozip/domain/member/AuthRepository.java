@@ -1,6 +1,6 @@
 package com.mozip.domain.member;
 
-import com.mozip.dto.resp.JoinMemberDto;
+import com.mozip.dto.req.JoinMemberDto;
 
 import java.util.Optional;
 

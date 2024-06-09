@@ -69,13 +69,16 @@
 .search button {
   position: absolute;
   top: 50%;
-  right: 15px;
   transform: translateY(-50%);
+
+}
+.search-on{
+  right: 15px;
   background: none;
   border: none;
 }
 
-.search button i {
+.search-on i {
   font-size: 0.815rem;
   color: var(--gray-font);
 }
@@ -554,4 +557,19 @@ ul.count li i {
   grid-template-columns: repeat(3, 1fr);
   margin: 55px 0;
   justify-content: space-between;
+}
+.search-remove{
+  right: 45px;
+  background: #f1f1f1;
+  border-radius: 50%;
+  border:none;
+}
+.search-remove i{
+  font-size:0.75rem;
+}
+.search-null{
+  text-align: center;
+  padding: 60px 0;
+  font-size: 1.2rem;
+  color: #666;
 }

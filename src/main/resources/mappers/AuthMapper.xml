@@ -28,4 +28,10 @@
         WHERE ID = #{memberId}
     </select>
 
+    <update id="updateProfileImg">
+        UPDATE MEMBER
+        SET PROFILE_IMAGE_URL=#{imageDir}
+        WHERE ID=#{memberId}
+    </update>
+
 </mapper>
