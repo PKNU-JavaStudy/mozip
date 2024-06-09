@@ -57,13 +57,12 @@
     </select>
 
     <select id="getUserProject" resultMap="myProjectDtoMap">
-        SELECT
-            P.ID,
-            P.PROJECT_NAME,
-            P.PROJECT_TYPE,
-            P.STATUS,
-            P.PROJECT_TIME,
-            P.CREATED_AT
+        SELECT P.ID,
+               P.PROJECT_NAME,
+               P.PROJECT_TYPE,
+               P.STATUS,
+               P.PROJECT_TIME,
+               P.CREATED_AT
         FROM MEMBER M
                  JOIN PROJECT_MEMBER MP ON M.ID = MP.MEMBER_ID
                  JOIN PROJECT P ON MP.PROJECT_ID = P.ID
@@ -129,7 +128,9 @@
 
     <!-- 기존 스킬을 삭제하는 쿼리 -->
     <delete id="deleteSkills" parameterType="int">
-        DELETE FROM MEMBER_SKILL WHERE MEMBER_ID = #{memberId}
+        DELETE
+        FROM MEMBER_SKILL
+        WHERE MEMBER_ID = #{memberId}
     </delete>
 
     <!-- 새로운 스킬을 삽입하는 쿼리 -->
@@ -137,7 +138,7 @@
         INSERT INTO MEMBER_SKILL (ID, MEMBER_ID, SKILL_NAME)
         VALUES (MEMBER_SKILL_SEQ.nextval, #{memberId}, #{skill})
     </insert>
-    
+
     <!-- 프로필 이미지 등록 -->
     <update id="updateProfileImg">
         UPDATE MEMBER

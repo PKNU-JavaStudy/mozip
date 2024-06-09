@@ -103,4 +103,11 @@ public class ProjectController {
         model.addAttribute("project", attributeValue);
         return "project/show_edit";  // 실제 뷰 템플릿 이름
     }
+
+    // 사용자 초대 버튼 클릭
+    @GetMapping("/email/suceess")
+    public String emailView(){
+
+        return "/project/EmailView";
+    }
 }

@@ -176,7 +176,8 @@
                 <h3 th:text="${member.getUsername()}">👑 이윤지</h3>
               </div>
               <button th:if="${session.loginMember!=null && session.loginMember.getId() == project.getOwnerId()}" class="addmem-button add"
-                      th:onclick="'memberInvite(\'' + ${member.getId()} + '\')'">
+                      th:onclick="|memberInvite(${member.getId()}, ${project.getId()})|">
+                <th:block></th:block>
                 멤버 추가
               </button>
             </div>
@@ -237,7 +238,8 @@
       <h3 id="modalTitle" class="modal-title" th:if="${project.getStatus()==0}">모집완료를 취소하시겠습니까?</h3>
       <div class="button-wrap">
         <button class="close-modal-back">돌아가기</button>
-        <button id="modalBtn" th:if="${project.getStatus()==1}" class="submit-modal" type="submit" th:onclick="|recruitDone(${project.getId()})|">모집 완료하기
+        <button id="modalBtn" th:if="${project.getStatus()==1}" class="submit-modal" type="submit" th:onclick="|recruitDone(${project.getId()})|">모집
+          완료하기
         </button>
         <button id="modalBtn" th:if="${project.getStatus()==0}" class="submit-modal" type="submit"
                 th:onclick="|recruitDone(${project.getId()})|">모집완료 취소하기
@@ -342,16 +344,20 @@
 
     // 멤버추가버튼
     // TODO : URL 변경 필요(URL에 정보 노출 X)
-    function memberInvite(memberId) {
-        console.log(memberId);
+    function memberInvite(memberId, projectId) {
         $.ajax({
-            type: "get",
-            url: "/api/email/" + memberId,
+            type: "post",
+            url: "/api/email",
+            contentType: "application/x-www-form-urlencoded; charset=utr-8",
+            data: {"memberId": memberId, "projectId":projectId},
             dataType: "json",
         }).done(res => {
+            alert("멤버초대 이메일을 전송하였습니다 !")
             console.log(res);
+            let id = res.data;
         }).fail(error => {
             console.log("통신실패!", error);
+            alert("멤버초대를 실패하셨습니다 !");
         });
     }
 
@@ -390,16 +396,6 @@
         }).fail(error => {
             console.log("통신실패!", error);
         })
-    }
-
-    // TODO: 북마크 클릭 함수(기능 구현 필요)
-    function loginWarning(member) {
-        let memberId = document.querySelector(".loginMember").textContent;
-        if (memberId == 0) {
-            alert("로그인이 필요합니다 !")
-            window.location.assign('/auth/login');
-        } else
-            alert("북마크 완료 !");
     }
 
     // 모집완료 모달

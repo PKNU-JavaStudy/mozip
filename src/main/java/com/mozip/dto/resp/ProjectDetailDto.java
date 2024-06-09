@@ -27,6 +27,7 @@ public class ProjectDetailDto {
     private List<String> skills; // 프로젝트 사용하는 기술스택(project_skill 테이블과 조인)
     private List<String> recruitRoles; // 프로젝트 모집분야(recruit_role 테이블과 조인)
     private int projectMemberCount; // 현재 프로젝트에 참여중인 멤버수
+    private List<Integer> projectMemberIds;
 
     public ProjectDetailDto(int id, String projectType, int status, String projectName, String createdAt, int recruitCount, int views, String projectProcess,
                             String projectPurpose, String exceptTime, int exceptDate, int projectTime, Object projectInfo, int ownerId) {

@@ -34,4 +34,16 @@
         WHERE ID=#{memberId}
     </update>
 
+    <!-- 유저네임 찾기 -->
+    <select id="findToUsername" resultType="java.lang.String">
+        SELECT USERNAME
+        FROM MEMBER
+        WHERE ID = #{memberId}
+    </select>
+
+    <!-- 프로젝트 멤버 추가 -->
+    <insert id="projectJoin">
+        INSERT INTO PROJECT_MEMBER
+        VALUES (PROJECT_MEMBER_SEQ.nextval,#{projectId}, #{memberId})
+    </insert>
 </mapper>

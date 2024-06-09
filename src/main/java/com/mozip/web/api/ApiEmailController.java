@@ -16,12 +16,11 @@ import java.util.Map;
 public class ApiEmailController {
     private final EmailService emailService;
 
-    // TODO : 메일은 POST 로 바꿔야함
-    @GetMapping("/email/{memberId}")
-    public ResponseEntity<?> getEmail(@PathVariable int memberId) {
-        emailService.emailSender(memberId);
-
-        return new ResponseEntity<>(new CMRespDto<>(1,"통신성공!",null), HttpStatus.OK);
+    // 메일 보내는 컨트롤러
+    @PostMapping("/email")
+    public ResponseEntity<?> getEmail(@RequestParam("memberId") int memberId, @RequestParam("projectId") int projectId) {
+        emailService.emailSender(memberId, projectId);
+        return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공!", memberId));
     }
 
     //카카오 로그인 컨트롤러 (일단 임시로 여기 넣음)
