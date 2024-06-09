@@ -165,7 +165,7 @@
           <div class="application-box" th:each="member : ${project.getMembers()}">
             <div class="profile-top">
               <div style="display: none;" class="member-id-list" th:text="${member.getId()}"></div>
-              <img th:src="@{/img/profile_sample.png}" alt="프로필이미지">
+              <img th:src="@{/upload/{img}(img=${member.getPr})" alt="프로필이미지">
               <div>
                 <span class="work" th:text="${member.getPosition()}">프론트엔드</span>
                 <span class="career" th:if="${member.getCareer() == 1}">학생/취준생</span>
@@ -233,10 +233,14 @@
       <div class="modal-header">
         <a href="#" class="close-modal"><i class="fa-solid fa-xmark"></i></a>
       </div>
-      <h3>모집을 완료하시겠습니까?</h3>
+      <h3 id="modalTitle" class="modal-title" th:if="${project.getStatus()==1}">모집을 완료하시겠습니까?</h3>
+      <h3 id="modalTitle" class="modal-title" th:if="${project.getStatus()==0}">모집완료를 취소하시겠습니까?</h3>
       <div class="button-wrap">
         <button class="close-modal-back">돌아가기</button>
-        <button class="submit-modal" type="submit" th:onclick="|recruitDone(${project.getId()})|">모집 완료하기
+        <button id="modalBtn" th:if="${project.getStatus()==1}" class="submit-modal" type="submit" th:onclick="|recruitDone(${project.getId()})|">모집 완료하기
+        </button>
+        <button id="modalBtn" th:if="${project.getStatus()==0}" class="submit-modal" type="submit"
+                th:onclick="|recruitDone(${project.getId()})|">모집완료 취소하기
         </button>
       </div>
     </div>
@@ -266,36 +270,36 @@
 </footer>
 <script>
     // 프로젝트 참여신청
-    function projectJoin(projectId){
+    function projectJoin(projectId) {
         // 현재 로그인한 유저의 ID
         let loginMemberId = document.querySelector(".loginMember").textContent;
         let logicCheck = -1;
 
         // 신청자 목록에서 로그인한 멤버가 있다면 alert() 출력 후 함수 종료
-        document.querySelectorAll(".member-id-list").forEach(item=>{
-            if(item.textContent === loginMemberId)
+        document.querySelectorAll(".member-id-list").forEach(item => {
+            if (item.textContent === loginMemberId)
                 logicCheck = 1;
         });
 
-        if(logicCheck == 1)
+        if (logicCheck == 1)
             alert("이미 신청하셨습니다 !");
-        else{
+        else {
             // 신청한 유저가 아니면 아래 로직이 실행됨.
             $.ajax({
-                type:"POST",
+                type: "POST",
                 url: "/api/project/join",
                 contentType: "application/x-www-form-urlencoded; charset=utr-8",
-                data: {"memberId":loginMemberId, "projectId":projectId},
+                data: {"memberId": loginMemberId, "projectId": projectId},
                 dataType: "json"
-            }).done(res=>{
+            }).done(res => {
                 console.log("통신성공!", res);
                 let career;
 
-                if(res.data.career == '1') carrer='학생/취준생';
-                else if(res.data.career == '2') carrer='신입';
-                else if(res.data.career == '3') carrer='1~3년차';
-                else if(res.data.career == '4') carrer='3~5년차';
-                else if(res.data.career == '1') carrer='5년이상';
+                if (res.data.career == '1') carrer = '학생/취준생';
+                else if (res.data.career == '2') carrer = '신입';
+                else if (res.data.career == '3') carrer = '1~3년차';
+                else if (res.data.career == '4') carrer = '3~5년차';
+                else if (res.data.career == '1') carrer = '5년이상';
                 let item =
                     `
                     <div class='application-box'>
@@ -313,7 +317,7 @@
                     `;
 
                 $('.app-wrap').append(item);
-            }).fail(error=>{
+            }).fail(error => {
                 console.log("통신실패!", error);
             });
         }
@@ -367,6 +371,9 @@
                 $("#btnRecruitDone").css("background-color", "var(--gray-font2)");
                 $("#btnRecruitDone").css("color", "color: #fff;");
                 $("#btnRecruitDone").text("모집완료");
+                $(".state-ing").text("모집완료")
+                $("#modalTitle").html("모집완료를 취소하시겠습니까?");
+                $("#modalBtn").html("모집완료 취소하기");
                 document.querySelector(".modal-bg").classList.remove("visible");
                 document.querySelector(".modal").classList.remove("visible");
             } else {
@@ -374,6 +381,9 @@
                 $("#btnRecruitDone").css("background-color", "var(--main-color)");
                 $("#btnRecruitDone").css("color", "color: #fff;");
                 $("#btnRecruitDone").text("모집완료 하기");
+                $(".state-ing").text("모집 중")
+                $("#modalTitle").html("모집을 완료하시겠습니까?");
+                $("#modalBtn").html("모집 완료하기");
                 document.querySelector(".modal-bg").classList.remove("visible");
                 document.querySelector(".modal").classList.remove("visible");
             }
