@@ -57,17 +57,10 @@
     </select>
 
     <select id="getUserProject" resultMap="myProjectDtoMap">
-        SELECT
-            P.ID,
-            P.PROJECT_NAME,
-            P.PROJECT_TYPE,
-            P.STATUS,
-            P.PROJECT_TIME,
-            P.CREATED_AT
-        FROM MEMBER M
-                 JOIN PROJECT_MEMBER MP ON M.ID = MP.MEMBER_ID
-                 JOIN PROJECT P ON MP.PROJECT_ID = P.ID
-        WHERE M.ID = ${memberId}
+        SELECT p.ID, p.PROJECT_NAME, p.PROJECT_TYPE, p.STATUS, p.PROJECT_TIME, p.CREATED_AT
+        FROM MEMBER m
+                 INNER JOIN PROJECT p ON m.ID = p.OWNER_ID
+        WHERE p.OWNER_ID = #{memberId}
     </select>
 
     <select id="getUserBookmarks" resultMap="bookmarkListDtoMap">

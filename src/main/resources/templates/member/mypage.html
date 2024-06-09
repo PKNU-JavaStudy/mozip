@@ -71,7 +71,7 @@
             <option>프로젝트 자랑</option>
           </select>
         </div>
-        <a th:each="project : ${member.myProjectList}" th:href="@{/project/projectId}" class="pj-content">
+        <a th:each="project : ${member.myProjectList}" th:href="@{/project/{id}(id=${project.getId()})}" class="pj-content">
           <div class="project-info">
             <div class="pj-type pj" th:text="${project.projectType}">사이드 프로젝트</div>
             <span class="time-commitment" th:if="${project.projectTime == 1}">매주 4일 10시간</span>
@@ -96,18 +96,18 @@
             <option>프로젝트 자랑</option>
           </select>
         </div>
-        <a th:each="project : ${member.myProjectList}" th:href="@{/project/projectId}" class="pj-content">
+        <a th:each="bookmark : ${member.getBookmarks()}" th:href="@{/project/{id}(id=${bookmark.getId()})}" class="pj-content">
           <div class="project-info">
-            <div class="pj-type pj" th:text="${project.projectType}">사이드 프로젝트</div>
-            <span class="time-commitment" th:if="${project.projectTime == 1}">매주 4일 10시간</span>
-            <span class="time-commitment" th:if="${project.projectTime == 2}">주 4시간 ~ 10시간</span>
-            <span class="time-commitment" th:if="${project.projectTime == 3}">주 10시간 이상</span>
+            <div class="pj-type pj" th:text="${bookmark.projectType}">사이드 프로젝트</div>
+            <span class="time-commitment" th:if="${bookmark.projectTime == 1}">매주 4일 10시간</span>
+            <span class="time-commitment" th:if="${bookmark.projectTime == 2}">주 4시간 ~ 10시간</span>
+            <span class="time-commitment" th:if="${bookmark.projectTime == 3}">주 10시간 이상</span>
           </div>
           <p class="title">
-            <strong class="state-ing" th:text="${project.getStatus() == 1 ? '모집 중' : '모집완료'}">모집 중</strong><span th:text="${project.projectName}">엘리스 SW 4기
+            <strong class="state-ing" th:text="${bookmark.getStatus() == 1 ? '모집 중' : '모집완료'}">모집 중</strong><span th:text="${bookmark.projectName}">엘리스 SW 4기
             모집합니다!</span>
           </p>
-          <span class="date" th:text="${project.createdAt}">2024년 4월 30일 오후 3:50:44</span>
+          <span class="date" th:text="${bookmark.createdAt}">2024년 4월 30일 오후 3:50:44</span>
         </a>
       </div>
     </div>

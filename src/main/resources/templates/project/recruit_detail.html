@@ -223,9 +223,12 @@
           <i class="fa-regular fa-bookmark" style="color: white;"></i>북마크
         </button>
       </th:block>
-      <button class="right-btn confirm open-modal" th:if="${session.loginMember != null && session.loginMember.getId()==project.getOwnerId()}">모집완료
-        하기
-      </button>
+      <button id="btnRecruitDone" class="right-btn confirm open-modal"
+              th:if="${session.loginMember != null && session.loginMember.getId()==project.getOwnerId() && project.getStatus()==1}"
+      >모집완료 하기</button>
+      <button id="btnRecruitDone" class="right-btn confirm-done open-modal"
+              th:if="${session.loginMember != null && session.loginMember.getId()==project.getOwnerId() && project.getStatus()==0}"
+      >모집완료</button>
 
       <div class="edit-btn">
         <a th:href="@{/project/edit/{projectId}(projectId=${project.getId()})}">
@@ -337,7 +340,7 @@
     function deleteProject(projectId) {
         $.ajax({
             type: "DELETE",
-            url: "/api/project/" + projectId,
+            url: "/api/show/" + projectId,
             contentType: "application/json; charset=utf-8",
             dataType: "json"
         }).done(res => { // HTTP 상태 코드 200번대일 때 호출됨
