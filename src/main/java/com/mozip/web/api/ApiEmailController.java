@@ -19,8 +19,10 @@ public class ApiEmailController {
     // 메일 보내는 컨트롤러
     @PostMapping("/email")
     public ResponseEntity<?> getEmail(@RequestParam("memberId") int memberId, @RequestParam("projectId") int projectId) {
-        emailService.emailSender(memberId, projectId);
-        return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공!", memberId));
+        int resultCode = emailService.emailValidation(memberId, projectId);
+        if(resultCode != 1)
+            emailService.emailSender(memberId, projectId);
+        return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공!", resultCode));
     }
 
     //카카오 로그인 컨트롤러 (일단 임시로 여기 넣음)

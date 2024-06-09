@@ -141,5 +141,5 @@ public interface ProjectRepository {
     List<RecruitListDto> searchProject(@Param("keyword") String keyword);
 
     // 프로젝트모집 상세 : 프로젝트 참여자 ID값 데이터
-    List<Integer> findProjectMemberIdList(int projectId);
+    List<Integer> findProjectMemberIdList(@Param("projectId") int projectId);
 }

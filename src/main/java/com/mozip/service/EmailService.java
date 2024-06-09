@@ -1,6 +1,7 @@
 package com.mozip.service;
 
 import com.mozip.domain.member.AuthRepository;
+import com.mozip.domain.project.ProjectRepository;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -9,11 +10,14 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
 public class EmailService {
     private final AuthRepository authRepository;
+    private final ProjectRepository projectRepository;
     private final JavaMailSender mailSender;
 
     @Transactional
@@ -62,6 +66,12 @@ public class EmailService {
                               line-height: 1.5rem;
                               color: #888;
                               font-weight: 300;">가입 신청하신 프로젝트에서 작성자의 승인이 완료되었습니다.</p>
+                              <a href="http://localhost:8082/project/
+                              """
+                              +projectId+
+                              """
+                              " style="    text-decoration: underline;
+                              font-size: 0.875rem;">
                               <button style="    padding: 14px 25px;
                               display: block;
                               margin: 35px auto 20px;
@@ -71,8 +81,7 @@ public class EmailService {
                               color: #fff;
                               font-size:1.2rem;
                           ">프로젝트 가입</button>
-                              <a href="http://localhost:8082/" style="    text-decoration: underline;
-                              font-size: 0.875rem;">모집 사이트 바로가기</a>
+                              </a>
                             </div>
                           </div>
                         </body>
@@ -96,5 +105,15 @@ public class EmailService {
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    // 초대할려는 멤버가 이미 프로젝트 멤버인 경우
+    public int emailValidation(int memberId, int projectId) {
+        List<Integer> ids = projectRepository.findProjectMemberIdList(projectId);
+        for (Integer id : ids) {
+            if (memberId == id)
+                return 1;
+        }
+        return -1;
     }
 }

@@ -467,7 +467,8 @@
     </select>
 
     <select id="findProjectMemberIdList" resultType="java.lang.Integer">
-            SELECT ID
-            FROM PROJECT_MEMBER pm INNER JOIN PROJECT p ON pm.PROJECT_ID=p.ID
+        SELECT MEMBER_ID
+        FROM PROJECT_MEMBER
+        WHERE PROJECT_ID = #{projectId}
     </select>
 </mapper>
