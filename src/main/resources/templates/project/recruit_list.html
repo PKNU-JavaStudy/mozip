@@ -54,15 +54,15 @@
     <div class="list-top">
       <div class="tapmenu">
         <ul>
-          <li class="on"><a href="">전체</a></li>
-          <li><a href="">사이드 프로젝트</a></li>
-          <li><a href="">스터디/모임</a></li>
+          <li id="typeAll" class="on"><a href="#" onclick="projectTypeAllFilter()">전체</a></li>
+          <li id="typeSide"><a href="#" onclick="projectTypeSideFilter()">사이드 프로젝트</a></li>
+          <li id="typeStudy"><a href="#" onclick="projectTypeSudyFilter()">스터디/모임</a></li>
         </ul>
       </div>
       <select class="select" onchange="handleSelectFilter(event)">
-        <option value="all" onclick="selectFilter()">전체 모집 글</option>
-        <option value="1" onclick="selectFilter()">모집 중</option>
-        <option value="0" onclick="selectFilter()">모집 완료</option>
+        <option value="all">전체 모집 글</option>
+        <option value="1" >모집 중</option>
+        <option value="0" >모집 완료</option>
       </select>
     </div>
 
@@ -115,6 +115,102 @@
             window.location.assign("/project/create");
         }
     }
+
+    // 프로젝트 타입(사이드, 스터디모임) 필터
+    function projectTypeAllFilter(){
+        window.location.reload();
+    }
+
+    function projectTypeSideFilter(){
+        let filter="사이드 프로젝트";
+        $.ajax({
+            url: `api/project/type/${filter}`,
+            type: "get",
+            dataType: "json"
+        }).done(res=>{
+            console.log("성공", res);
+            $('.lists').empty();
+            $('#typeAll').removeClass();
+            $('#typeStudy').removeClass();
+            $('#typeSide').addClass('on');
+            if (res.data.length === 0) {
+                $('.lists').append('<p class="search-null">프로젝트가 존재하지 않습니다. 다시 검색해주세요.</p>');
+            } else {
+                // 새로운 프로젝트 리스트를 추가합니다.
+                res.data.forEach(project => {
+                    $('.lists').append(`
+              <a href="/project/${project.id}" class="project-box">
+                <span class="pj-type ${project.projectType == '사이드 프로젝트' ? 'pj' : 'study'}">${project.projectType}</span>
+                <p class="title">
+                  <strong class="state-ing">${project.status == 1 ? '모집 중' : '모집완료'}</strong>
+                  <span>${project.projectName}</span>
+                </p>
+                <div class="cont-wrap">
+                  <p class="content">${project.projectInfo}</p>
+                </div>
+                <ul class="pj-work">
+                  ${project.roleNames.map(role => `<li>${role}</li>`).join('')}
+                </ul>
+                <ul class="count">
+                  <li>${project.createTime}</li>
+                  <li><i class="fa-regular fa-hand"></i> ${project.subscribe}명</li>
+                  <li><i class="fa-solid fa-eye"></i> ${project.views}회</li>
+                </ul>
+              </a>
+            `);
+                });
+            }
+        }).fail(error=>{
+            console.log("실패", error);
+        });
+    }
+    function projectTypeSudyFilter(){
+        let filter = "스터디모집"
+        $.ajax({
+            url: `api/project/type/${filter}`,
+            type: "get",
+            dataType: "json"
+        }).done(res=>{
+            console.log("성공", res);
+            $('.lists').empty();
+            $('#typeAll').removeClass();
+            $('#typeSide').removeClass();
+            $('#typeStudy').addClass('on');
+            if (res.data.length === 0) {
+                $('.lists').append('<p class="search-null">프로젝트가 존재하지 않습니다. 다시 검색해주세요.</p>');
+            } else {
+                // 새로운 프로젝트 리스트를 추가합니다.
+                res.data.forEach(project => {
+                    $('.lists').append(`
+              <a href="/project/${project.id}" class="project-box">
+                <span class="pj-type ${project.projectType == '사이드 프로젝트' ? 'pj' : 'study'}">${project.projectType}</span>
+                <p class="title">
+                  <strong class="state-ing">${project.status == 1 ? '모집 중' : '모집완료'}</strong>
+                  <span>${project.projectName}</span>
+                </p>
+                <div class="cont-wrap">
+                  <p class="content">${project.projectInfo}</p>
+                </div>
+                <ul class="pj-work">
+                  ${project.roleNames.map(role => `<li>${role}</li>`).join('')}
+                </ul>
+                <ul class="count">
+                  <li>${project.createTime}</li>
+                  <li><i class="fa-regular fa-hand"></i> ${project.subscribe}명</li>
+                  <li><i class="fa-solid fa-eye"></i> ${project.views}회</li>
+                </ul>
+              </a>
+            `);
+                });
+            }
+        }).fail(error=>{
+            console.log("실패", error);
+        });
+    }
+
+
+
+
 
     // 셀렉트 필터(전체모집글, 모집중, 모집완료)
     function handleSelectFilter(event) {

@@ -341,4 +341,21 @@ public class ProjectService {
         }
         return recruitListDtos;
     }
+
+    // 프로젝트 타입 필터
+    public List<RecruitListDto> projectSelectTypeFilter(String filter) {
+        List<Integer> projectFilterId = projectRepository.projectTypeFilter(filter);
+
+        List<RecruitListDto> recruitListDtos = new ArrayList<>();
+        for (Integer projectId : projectFilterId) {
+            recruitListDtos.add(projectRepository.findOneRecruit(projectId));
+        }
+        for (RecruitListDto dto : recruitListDtos) {
+            dto.setRoleNames(projectRepository.findRecruitRoles(dto.getId()));
+            dto.setCreateTime(Util.formatTimestamp(Timestamp.valueOf(dto.getCreateTime())));
+            dto.setSubscribe(projectRepository.findSubscribeCount(dto.getId()));
+            dto.setProjectInfo(Util.clobToString((NClob) dto.getProjectInfo()));
+        }
+        return recruitListDtos;
+    }
 }

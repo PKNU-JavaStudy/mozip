@@ -148,5 +148,10 @@ public interface ProjectRepository {
     // 프로젝트모집 : 셀렉트 필터
     List<Integer> selectFilter(@Param("filter") Integer filter);
 
+    // 프로젝트모집 : 타입 필터
+    List<Integer> projectTypeFilter(@Param("filter") String filter);
+
     RecruitListDto findOneRecruit(@Param("projectId") int projectId);
+
+
 }

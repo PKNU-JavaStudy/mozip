@@ -112,4 +112,12 @@ public class ApiProjectController {
     public ResponseEntity<?> selectFilterProject(@PathVariable("filter") String filter){
         return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공", projectService.projectSelectFilterSearch(filter)));
     }
+
+    // 프로젝트모집 타입 필터
+    @GetMapping("/project/type/{filter}")
+    public ResponseEntity<?> selectProjectTypeFilter(@PathVariable("filter") String filter){
+        if(filter.equals("스터디모집"))
+            filter="모집/스터디";
+        return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공", projectService.projectSelectTypeFilter(filter)));
+    }
 }

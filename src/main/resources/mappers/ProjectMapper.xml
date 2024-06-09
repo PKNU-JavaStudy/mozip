@@ -464,6 +464,7 @@
         FROM PROJECT P
         WHERE P.PROJECT_NAME LIKE '%' || #{keyword} || '%'
            OR P.PROJECT_INFO LIKE '%' || #{keyword} || '%'
+        ORDER BY CREATED_AT DESC
     </select>
 
     <select id="findProjectMemberIdList" resultType="java.lang.Integer">
@@ -478,6 +479,7 @@
         FROM PROJECT p
                  INNER JOIN RECRUIT_ROLE pr ON p.ID = pr.PROJECT_ID
         WHERE ROLE_NAME LIKE '%' || #{filter} || '%'
+        ORDER BY CREATED_AT DESC
     </select>
 
     <!-- 각 셀렉트 필터에 따른 검색 쿼리 -->
@@ -485,11 +487,22 @@
         SELECT ID
         FROM PROJECT
         WHERE STATUS = #{filter}
+        ORDER BY CREATED_AT DESC
     </select>
+
+    <!-- 프로젝트타입(사이드, 스터디or모입)에 따른 검색 쿼리 -->
+    <select id="projectTypeFilter" resultType="java.lang.Integer">
+        SELECT ID
+        FROM PROJECT
+        WHERE PROJECT_TYPE = #{filter}
+        ORDER BY CREATED_AT DESC
+    </select>
+
 
     <select id="findOneRecruit" resultMap="recruitDtoMap">
         SELECT ID, PROJECT_NAME, PROJECT_TYPE, PROJECT_INFO, VIEWS, STATUS, CREATED_AT
         FROM PROJECT
         WHERE ID = #{projectId}
     </select>
+
 </mapper>
