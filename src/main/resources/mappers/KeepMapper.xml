@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mozip.domain.keep.KeepRepository">
+
+    <!-- 북마크 하기 -->
+    <insert id="addBookmark" parameterType="com.mozip.domain.keep.Keep">
+        INSERT INTO BOOKMARK(ID, PROJECT_ID, MEMBER_ID)
+        VALUES (BOOKMARK_SEQ.nextVal, #{dto.projectId}, #{dto.memberId})
+    </insert>
+
+    <!-- 북마크 취소 -->
+    <delete id="deleteBookmark" parameterType="com.mozip.domain.keep.Keep">
+        DELETE FROM BOOKMARK
+        WHERE PROJECT_ID=#{dto.projectId} AND MEMBER_ID=#{dto.memberId}
+    </delete>
+
+    <!-- member의 북마크 유무 체크(해당 게시물에 이미 북마크 한 memberId가 있는지 체크) -->
+    <select id="checkBookmark" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM BOOKMARK
+        WHERE PROJECT_ID=#{projectId} AND MEMBER_ID=#{memberId}
+    </select>
+
+    <!-- 북마크 수 가져오기 -->
+    <select id="keepCount" resultType="java.lang.Integer">
+    SELECT COUNT(*)
+    FROM BOOKMARK
+    WHERE PROJECT_ID = #{projectId} AND MEMBER_ID = #{memberId}
+    </select>
+
+</mapper>

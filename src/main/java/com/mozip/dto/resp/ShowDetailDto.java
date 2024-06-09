@@ -43,5 +43,6 @@ public class ShowDetailDto {
     private List<String> recruitRoles; // 프로젝트 모집 분야(프론트, 백엔드 등)(recruit_role 테이블과 조인)
     private int projectMemberCount; // 현재 프로젝트에 참여한 멤버수
     private int likes; // 좋아요 수 카운터
+    private int bookmark;   // 북마크 수 카운터
 
 }

@@ -88,9 +88,8 @@ public interface ProjectRepository {
 
     String findProjectName(@Param("projectName") String projectName);
 
+    // 좋아요
     int findViewCount(@Param("projectId") int projectId);
-
-    int findGetViewCount(int projectId);
 
     // 프로젝트자랑페이지 : 프로젝트 삭제
     void deleteProject(@Param("projectId") int projectId);

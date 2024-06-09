@@ -3,6 +3,7 @@ package com.mozip.web;
 import com.mozip.domain.member.Member;
 
 import com.mozip.handler.ex.CustomException;
+import com.mozip.service.KeepService;
 import com.mozip.service.MemberService;
 import com.mozip.service.ProjectService;
 import com.mozip.util.SessionConst;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 public class ProjectController {
     private final ProjectService projectService;
     private final MemberService memberService;
+    private final KeepService keepService;
 
     // 메인페이지
     @GetMapping("/")
@@ -46,10 +48,13 @@ public class ProjectController {
 
     // recruit_detail 페이지
     @GetMapping("/project/{projectId}")
-    public String recruitDetailForm(@PathVariable("projectId") int projectId, Model model){
+    public String recruitDetailForm(@PathVariable("projectId") int projectId, Model model,
+                                    @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember){
         // 조회수 증가
         projectService.increaseView(projectId);
         model.addAttribute("project", projectService.findProjectDetail(projectId));
+        // 북마크
+        model.addAttribute("isBookmark", keepService.keepCount(projectId, loginMember.getId()));
         return "/project/recruit_detail";
     }
 
@@ -62,10 +67,13 @@ public class ProjectController {
 
     // show_detail 페이지
     @GetMapping("/project/show/{projectId}")
-    public String showDetailForm(@PathVariable("projectId") int projectId, Model model){
+    public String showDetailForm(@PathVariable("projectId") int projectId, Model model,
+                                 @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember){
         // 조회수 증가
         projectService.increaseView(projectId);
         model.addAttribute("showDetail", projectService.findShowDetail(projectId));
+        // 북마크
+        model.addAttribute("isBookmark", keepService.keepCount(projectId, loginMember.getId()));
         return "/project/show_detail";
     }
 

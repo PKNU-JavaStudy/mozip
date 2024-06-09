@@ -2,28 +2,21 @@ package com.mozip.service;
 
 import com.mozip.domain.project.ProjectRepository;
 import com.mozip.dto.req.ProjectCreateDto;
-import com.mozip.dto.req.ProjectLikeDto;
 import com.mozip.dto.resp.ProjectDetailDto;
 import com.mozip.dto.resp.ProjectListDto;
 import com.mozip.dto.resp.ProjectMemberDto;
 import com.mozip.dto.resp.RecruitListDto;
 import com.mozip.dto.resp.ShowListDto;
-import com.mozip.handler.ex.CustomApiException;
 import com.mozip.handler.ex.CustomException;
 import com.mozip.dto.resp.*;
 import com.mozip.util.Util;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.NClob;
 import java.sql.Timestamp;
-import java.text.ParseException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
