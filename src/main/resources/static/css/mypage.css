@@ -32,6 +32,15 @@
     overflow: hidden;
     margin-bottom: 40px;
 }
+
+.profile-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 이미지가 잘리지 않고, 요소의 크기에 맞춰서 비율을 유지하며 채워지도록 함 */
+    object-position: center; /* 이미지가 중앙에 위치하도록 설정 */
+    cursor: pointer;
+}
+
 /* 마이페이지 수정 버튼 추가_5.22 */
 .profile-section .edit-btn {
     position: absolute;
@@ -184,6 +193,7 @@ a.github-link:hover {
     text-align: center;
     background: #f3f3f3;
     border: 1px solid transparent;
+    margin-right: 5px;
 }
 
 /* 내가 만든 프로젝트, 북마크 헤더 색션 */
@@ -498,12 +508,16 @@ select {
     display: flex;
     align-items: center;
     padding: 5px 10px;
-    border: 1px solid #00dada;
+    border: var(--main-color);
     border-radius: 15px;
-    background-color: #00dada;
+    background-color: var(--main-color);
     color: #ffffff;
     margin-right: 10px;
     flex: 0 0 auto; /* 아이템이 고정된 너비로 나타나도록 */
+}
+
+.span, .projectSkill {
+    color: white;
 }
 
 .remove-btn {
@@ -513,7 +527,7 @@ select {
 }
 
 /* 완료 버튼 색상 모양 설정 */
-#mypage-submit {
+#mypage-button {
     width: 100%;
     justify-content: center;
     background-color: var(--main-color);
@@ -527,6 +541,16 @@ select {
 }
 
 /* 버튼 호버시 색상 */
-#mypage-submit:hover {
+#mypage-button:hover {
     background-color: var(--main-hover-color);
+}
+
+.email {
+    width: 100%;
+    padding: 12px 8px;
+    border: 1px solid #D9D9D9;
+    border-radius: 10px;
+    box-sizing: border-box;
+    margin-top: 22px;
+    margin-bottom: 22px;
 }

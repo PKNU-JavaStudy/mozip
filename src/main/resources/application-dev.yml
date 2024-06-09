@@ -27,3 +27,10 @@ server:
       enabled: true
     session:
       tracking-modes: cookie
+    multipart:
+      enabled: true
+      max-file-size: 2MB
+
+# TODO : 이미지 저장 경로 /upload 왼쪽 경로는 각자 경로를 적어줘야 한다.
+file:
+  path: /Users/jaeyoung/Desktop/upload/

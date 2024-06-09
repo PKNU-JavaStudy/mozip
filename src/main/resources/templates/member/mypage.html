@@ -27,10 +27,12 @@
   <div class="wrap">
     <div class="profile-container">
       <div class="profile-section">
-        <a th:href="@{/member/edit/memberId}" class="edit-btn">마이페이지 수정</a>
-        <a href="#" class="img-wrap">
-          <img th:src="@{/img/cinnamoroll.jpeg}" alt="Profile Image" class="profile-image">
-        </a>
+        <div class="profile-img">
+          <a th:href="@{/member/edit/{memberId}(memberId=${member.getId()})}" class="edit-btn">마이페이지 수정</a>
+          <a href="#" class="img-wrap">
+            <img th:src="@{/upload/{url}(url=${member.getProfileImage()})}" alt="Profile Image" class="profile-image">
+          </a>
+        </div>
         <span class="career" th:if="${member.career == 1}">학생 / 취업준비생</span>
         <span class="career" th:if="${member.career == 2}">신입</span>
         <span class="career" th:if="${member.career == 3}">1 ~ 3년차</span>

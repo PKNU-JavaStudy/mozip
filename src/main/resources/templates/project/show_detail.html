@@ -34,7 +34,8 @@
     <div class="content show">
       <div class="main-contents">
         <div class="title-wrap">
-          <span class="pj-type pj" th:classappend="${showDetail.getProjectType() == '사이드 프로젝트'? 'pj' : 'study'}" th:text="${showDetail.getProjectType()}">사이드 프로젝트</span>
+          <span class="pj-type pj" th:classappend="${showDetail.getProjectType() == '사이드 프로젝트'? 'pj' : 'study'}"
+                th:text="${showDetail.getProjectType()}">사이드 프로젝트</span>
           <p class="title">
             <th:block th:text="${showDetail.getProjectName()}">엘리스 SW 4기 모집합니다!</th:block>
           </p>
@@ -106,7 +107,7 @@
                       <img th:case="'Svelte'" src="/img/svelte.svg" alt="Svelte"/>
                       <img th:case="'TypeScript'" src="/img/typescript.svg" alt="TypeScript"/>
                       <img th:case="'Vue'" src="/img/vue.svg" alt="Vue"/>
-                      <!-- 추가적인 스킬에 대한 case를 여기에 추가 -->
+                      <!-- TODO : 추가적인 스킬에 대한 case를 여기에 추가 -->
                       <span th:case="*">[[${skill}]]</span>
                     </th:block>
                   </li>
@@ -118,7 +119,7 @@
         <div class="pj-intro">
           <h2 class="title-contents">프로젝트 소개</h2>
           <p class="content bottom" th:text="${showDetail.getProjectInfo()}">
-           내용이다 바보야
+            내용이다 바보야
           </p>
         </div>
       </div>
@@ -136,7 +137,7 @@
     </div>
     <div class="right-box">
       <div class="profile-box">
-        <img th:src="@{/img/profile_sample.png}" alt="프로필이미지">
+        <img th:src="@{/upload/{url}(url=${showDetail.getOwnerInfo().getProfileImageUrl()})}" alt="프로필이미지">
         <div class="right-tag">
           <!--/*@thymesVar id="member" type=""*/-->
           <span class="work right" th:text="${showDetail.getOwnerInfo().getPosition()}">백엔드</span>
@@ -162,7 +163,7 @@
       <th:block th:if="${showDetail.getGithubLink() == null}"><a style="display:none;" th:href="@{/{github}(github=${showDetail.getGithubLink()})}"><button class="right-btn github"><i class="fa-brands fa-github"></i>깃허브</button></a></th:block>
       <th:block th:if="${showDetail.getGithubLink() != null}"><a th:href="@{/{github}(github=${showDetail.getGithubLink()})}"><button class="right-btn github"><i class="fa-brands fa-github"></i>깃허브</button></a></th:block>
       <div class="edit-btn" th:if="${session.loginMember != null && session.loginMember.getId()==showDetail.getOwnerId()}">
-        <a href="#">
+        <a th:href="@{/project/show_edit/{projectId}(projectId=${showDetail.getId()})}">
           <button class="right-btn mod_btn">수정</button>
         </a>
         <button class="right-btn del_btn open-modal">삭제</button>
@@ -177,11 +178,24 @@
       </div>
       <h3>게시글을 삭제하시겠습니까?</h3>
       <p>삭제 후에는 게시글을 되돌릴 수 없습니다.</p>
-      <div class="button-wrap" >
-        <button class="close-modal02-back">돌아가기</button>
+      <div class="button-wrap">
+        <button class="close-modal-back">돌아가기</button>
         <button class="submit-modal" type="submit" th:onclick="|ajaxDelete(${showDetail.getId()})|">삭제하기</button>
       </div>
     </div>
+<!--    <div class="modal-bg bg02">-->
+<!--    </div>-->
+<!--    <div class="modal02">-->
+<!--      <div class="modal-header">-->
+<!--        <a href="#" class="close-modal02"><i class="fa-solid fa-xmark"></i></a>-->
+<!--      </div>-->
+<!--      <h3>게시글을 삭제하시겠습니까?</h3>-->
+<!--      <p>삭제 후에는 게시글을 되돌릴 수 없습니다.</p>-->
+<!--      <div class="button-wrap" >-->
+<!--        <button class="close-modal02-back">돌아가기</button>-->
+<!--        <button class="submit-modal" type="submit" th:onclick="|ajaxDelete(${showDetail.getId()})|">삭제하기</button>-->
+<!--      </div>-->
+<!--    </div>-->
   </div>
 </main>
 <!-- 로그인 유무 -->
@@ -294,12 +308,12 @@
             document.body.classList.remove("modal-open");
         }
     });
-  
+
     // 프로젝트 자랑 삭제
     function ajaxDelete(projectId) {
       $.ajax({
         type: "DELETE",
-        url: "/api/project/" + projectId,
+        url: "/api/show/" + projectId,
         contentType: "application/json; charset=utf-8",
         dataType: "json"
       }).done(res => { // HTTP 상태 코드 200번대일 때 호출됨

@@ -1,9 +1,9 @@
 package com.mozip.domain.project;
 
 import com.mozip.dto.req.ProjectCreateDto;
-import com.mozip.dto.req.ProjectLikeDto;
 import com.mozip.dto.resp.*;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -38,6 +38,13 @@ public interface ProjectRepository {
     // 프로젝트모집 상세페이지 : 프로젝트 모집분야
     List<String> findProjectRecruitRoles(@Param("projectId") int projectId);
 
+    // 프로젝트모집 상세페이지 : 프로젝트 모집 완료
+    int recruitDoneCheck(@Param("projectId") int projectId);
+
+    void recruitDoneSuccess(int projectId);
+
+    void recruitDoneCancle(int projectId);
+
     // 리스트페이지 : 전체 모집글 데이터 쿼리
     List<RecruitListDto> findAllProject();
 
@@ -57,7 +64,7 @@ public interface ProjectRepository {
     int findLikeCount(@Param("projectId") int projectId);
 
 
-// == 프로젝트 자랑 상세페이지(show_detail) ==
+    // == 프로젝트 자랑 상세페이지(show_detail) ==
     // 프로젝트 정보 모두 가져오기(진행 멤버, 진행 방식, 모집 분야, 수행목적, 시작날짜, 종료날짜, 참여 시간, 기술 스택)
     ShowDetailDto findShowDetail(@Param("projectId") int projectId);
 
@@ -93,4 +100,43 @@ public interface ProjectRepository {
 
     // 프로젝트자랑페이지 : 프로젝트 삭제
     void deleteProject(@Param("projectId") int projectId);
+
+    // 프로젝트모집 수정페이지 : 권한체크
+    int findOwnerId(@Param("projectId") int projectId, @Param("memberId") int memberId);
+
+    // 프로젝트모집 수정페이지 : 원본 데이터 가져오기
+    ProjectEditDto findProjectEditDetail(@Param("projectId") int projectId);
+
+    // 프로젝트모집 수정페이지 : 데이터 수정
+    void updateRecruitProject(@Param("dto") ProjectEditDto dto);
+
+    // 프로젝트모집 수정페이지 : 데이터 수정(프로젝트 스킬)
+    void updateProjectSkills(@Param("skill") String skill, @Param("projectId") int projectId);
+
+    // 프로젝트모집 수정페이지 : 데이터 수정(프로젝트 모집역할)
+    void updateProjectRecruitRoles(@Param("role") String role, @Param("projectId") int projectId);
+
+    // 프로젝트 스킬 삭제
+    void deleteProjectSkills(@Param("projectId") int projectId);
+
+    // 프로젝트 모집역할 삭제
+    void deleteProjectRecruitRoles(@Param("projectId") int projectId);
+
+    // 프로젝트자랑페이지 : 프로젝트 수정전 불러오기
+    ShowEditDto editSelectShow(@Param("projectId") int projectId);
+
+    // 프로젝트자랑페이지 : 프로젝트 수정
+    void updateShow(@Param("dto") ShowEditDto dto);
+
+    void patchProject(@Param("projectId") int projectId);
+
+    // 프로젝트모집 : 프로젝트참여
+    void projectJoin(@Param("memberId") int memberId, @Param("projectId") int projectId);
+
+    // 프로젝트모집: 프로젝트참여 멤버 1명 가져오기
+    ProjectMemberDto findOneJoinMember(@Param("memberId") int memberId, @Param("projectId") int projectId);
+
+    // 멤버모집 : 검색
+
+    List<RecruitListDto> searchProject(@Param("keyword") String keyword);
 }

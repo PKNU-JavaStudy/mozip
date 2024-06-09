@@ -2,12 +2,14 @@ package com.mozip.web;
 
 import com.mozip.domain.member.Member;
 
+import com.mozip.dto.resp.ShowEditDto;
 import com.mozip.handler.ex.CustomException;
 import com.mozip.service.KeepService;
 import com.mozip.service.MemberService;
 import com.mozip.service.ProjectService;
 import com.mozip.util.SessionConst;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +41,7 @@ public class ProjectController {
 
     // recruit_create 페이지: 로그인한 유저만 접근
     @GetMapping("/project/create")
-    public String recruitCreateForm(@SessionAttribute(name= SessionConst.LOGIN_MEMBER, required=false) Member loginMember) {
+    public String recruitCreateForm(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember) {
         if (loginMember == null) {
             throw new CustomException("로그인이 필요합니다");
         }
@@ -60,16 +62,29 @@ public class ProjectController {
 
     // recruit_list 페이지
     @GetMapping("/project")
-    public String recruitListForm(Model model){
+    public String recruitListForm(Model model) {
+        // 가져온 데이터를 모델에 추가하여 타임리프 템플릿에서 사용할 수 있게 함
         model.addAttribute("allProject", projectService.findAllProject());
         return "/project/recruit_list";
+    }
+
+    // recruit_edit 페이지
+    @GetMapping("/project/edit/{projectId}")
+    public String recruitEditForm(@PathVariable("projectId") int projectId,
+                                  @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
+                                  Model model) {
+        // Project의 OwnerId만 접근가능하게 해야함.
+        if (!projectService.ownerCheck(projectId, loginMember.getId()))
+            throw new CustomException("접근 권한이 없습니다 !");
+        model.addAttribute("project", projectService.findOriginProjectInfo(projectId));
+        model.addAttribute("projectId", projectId);
+        return "/project/recruit_edit";
     }
 
     // show_detail 페이지
     @GetMapping("/project/show/{projectId}")
     public String showDetailForm(@PathVariable("projectId") int projectId, Model model,
                                  @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember){
-        // 조회수 증가
         projectService.increaseView(projectId);
         model.addAttribute("showDetail", projectService.findShowDetail(projectId));
         // 북마크
@@ -79,12 +94,20 @@ public class ProjectController {
 
     // show_list 페이지
     @GetMapping("/project/show")
-    public String showListForm(Model model){
+    public String showListForm(Model model) {
         // 모든 프로젝트 자랑
         model.addAttribute("allShows", projectService.findAllShowProject());
         // 인기 프로젝트 자랑
         model.addAttribute("HotShows", projectService.findHotShow());
 
         return "/project/show_list";
+    }
+
+    // 프로젝트 자랑 수정 전 데이터 가져오기
+    @GetMapping("/project/show_edit/{projectId}")
+    public String editSelectShow(@PathVariable("projectId") int projectId, Model model) {
+        ShowEditDto attributeValue = projectService.editSelectShow(projectId);
+        model.addAttribute("project", attributeValue);
+        return "project/show_edit";  // 실제 뷰 템플릿 이름
     }
 }

@@ -3,7 +3,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.mozip.domain.project.ProjectRepository">
-
     <resultMap id="projectDtoMap" type="com.mozip.dto.resp.ProjectListDto">
         <result property="id" column="ID"/>
         <result property="projectName" column="PROJECT_NAME"/>
@@ -47,6 +46,7 @@
         <result property="projectInfo" column="PROJECT_INFO"/>
         <result property="ownerId" column="OWNER_ID"/>
     </resultMap>
+
     <select id="findNewProject" resultMap="projectDtoMap">
         <![CDATA[
         SELECT ID, PROJECT_NAME, PROJECT_TYPE, PROJECT_INFO, VIEWS
@@ -169,6 +169,7 @@
                USERNAME,
                DECODE(POSITION, NULL, '수정필요!', POSITION),
                DECODE(CAREER, NULL, 0, CAREER),
+               PROFILE_IMAGE_URL,
                CREATED_AT
         FROM MEMBER
         WHERE ID = #{ownerId}
@@ -189,7 +190,7 @@
     </select>
 
     <select id="findProjectMembers" resultType="com.mozip.dto.resp.ProjectMemberDto">
-        SELECT MEMBER_ID, USERNAME, DECODE(POSITION, NULL, '수정필요!', POSITION), DECODE(CAREER, NULL, 0, CAREER), STIME
+        SELECT MEMBER_ID, USERNAME, DECODE(POSITION, NULL, '수정필요!', POSITION), DECODE(CAREER, NULL, 0, CAREER), PROFILE_IMAGE_URL, STIME
         FROM (SELECT SUBSCRIBE.MEMBER_ID, SUBSCRIBE.CREATED_AT AS STIME
               FROM SUBSCRIBE
                        INNER JOIN PROJECT ON PROJECT.ID = SUBSCRIBE.PROJECT_ID
@@ -252,7 +253,7 @@
 
     <!-- 작성자 프로필 정보 가져오기 / !! 프로필 url 추가 해야함 !! -->
     <select id="findShowOwnerInfo" resultType="com.mozip.dto.resp.ProjectMemberDto">
-        SELECT p.ID, USERNAME, POSITION, CAREER, m.CREATED_AT
+        SELECT p.ID, USERNAME, POSITION, CAREER, m.PROFILE_IMAGE_URL, m.CREATED_AT
         FROM MEMBER m
                  INNER JOIN PROJECT p ON m.ID = p.OWNER_ID
         WHERE p.Id = #{projectId}
@@ -320,4 +321,148 @@
     <delete id="deleteProject" parameterType="int">
         DELETE FROM PROJECT WHERE id = #{projectId}
     </delete>
+
+    <!-- 프로젝트자랑 수정 : 기존 데이터 갖고오기 -->
+    <select id="editSelectShow" resultType="com.mozip.dto.resp.ShowEditDto">
+        SELECT ID,
+               PROJECT_TYPE,
+               PROJECT_NAME,
+               CREATED_AT,
+               MODIFIED_SHOW,
+               RECRUIT_COUNT,
+               PROJECT_PROCESS,
+               PROJECT_PURPOSE,
+               PROJECT_TIME,
+               PROJECT_INFO
+        FROM PROJECT
+        WHERE ID = #{projectId}
+    </select>
+
+    <!-- 프로젝트자랑 수정 : 프로젝트 데이터 수정 -->
+    <update id="updateShow" parameterType="com.mozip.dto.resp.ShowEditDto">
+        UPDATE PROJECT
+        SET PROJECT_TYPE    = #{dto.projectType},
+            PROJECT_NAME    = #{dto.projectName},
+            CREATED_AT      = #{dto.createdAt},
+            MODIFIED_SHOW   = #{dto.modifiedShow},
+            RECRUIT_COUNT   = #{dto.recruitCount},
+            PROJECT_PROCESS = #{dto.projectProcess},
+            PROJECT_PURPOSE = #{dto.projectPurpose},
+            PROJECT_TIME    = #{dto.projectTime},
+            PROJECT_INFO    = #{dto.projectInfo}
+        WHERE ID = #{dto.id}
+    </update>
+
+    <!-- 프로젝트모집 상세 : 모집완료 여부 체크 -->
+    <select id="recruitDoneCheck" resultType="int">
+        SELECT STATUS
+        FROM PROJECT
+        WHERE ID=#{projectId}
+    </select>
+
+    <!-- 프로젝트모집 상세 : 모집완료 -->
+    <update id="recruitDoneSuccess" parameterType="int">
+        UPDATE PROJECT
+        SET STATUS = 0
+        WHERE ID = #{projectId}
+    </update>
+
+
+    <!-- 프로젝트모집 상세 : 모집완료 취소 -->
+    <update id="recruitDoneCancle" parameterType="int">
+        UPDATE PROJECT
+        SET STATUS = 1
+        WHERE ID = #{projectId}
+    </update>
+
+    <!-- 프로젝트모집 수정 : 권한체크 -->
+    <select id="findOwnerId" resultType="int">
+        SELECT ID
+        FROM PROJECT
+        WHERE ID=#{projectId} AND OWNER_ID=#{memberId}
+    </select>
+
+    <!-- 프로젝트모집 수정 : 기존 데이터 갖고오기 -->
+    <select id="findProjectEditDetail" resultType="com.mozip.dto.resp.ProjectEditDto">
+        SELECT ID,
+               PROJECT_TYPE,
+               PROJECT_NAME,
+               SUBJECT,
+               RECRUIT_COUNT,
+               PROJECT_PURPOSE,
+               PROJECT_TIME,
+               PROJECT_PROCESS,
+               EXCEPT_DATE,
+               EXCEPT_TIME,
+               PROJECT_INFO
+        FROM PROJECT
+        WHERE ID = #{projectId}
+    </select>
+
+    <!-- 프로젝트모집 수정 : 프로젝트 데이터 수정 -->
+    <update id="updateRecruitProject" parameterType="com.mozip.dto.resp.ProjectEditDto">
+        UPDATE PROJECT
+        SET PROJECT_TYPE    = #{dto.projectType},
+            PROJECT_NAME    = #{dto.projectName},
+            SUBJECT         = #{dto.subject},
+            RECRUIT_COUNT   = #{dto.recruitCount},
+            PROJECT_PURPOSE = #{dto.projectPurpose},
+            PROJECT_TIME    = #{dto.projectTime},
+            PROJECT_PROCESS = #{dto.projectProcess},
+            EXCEPT_DATE     = #{dto.exceptDate},
+            EXCEPT_TIME     = #{dto.exceptTime},
+            PROJECT_INFO    = #{dto.projectInfo}
+        WHERE ID = #{dto.id}
+    </update>
+
+    <!-- 프로젝트모집 수정 : 프로젝트 스킬 -->
+    <insert id="updateProjectSkills">
+        INSERT INTO PROJECT_SKILL
+        VALUES (PROJECT_SKILL_SEQ.nextval, #{skill}, #{projectId})
+    </insert>
+
+    <!-- 프로젝트모집 수정 : 모집역할 -->
+    <insert id="updateProjectRecruitRoles">
+        INSERT INTO RECRUIT_ROLE
+        VALUES (RECRUIT_ROLE_SEQ.nextval, #{projectId}, #{role})
+    </insert>
+
+
+    <!-- 프로젝트 스킬 삭제 -->
+    <delete id="deleteProjectSkills" parameterType="int">
+        DELETE
+        FROM PROJECT_SKILL
+        WHERE PROJECT_ID = #{projectId}
+    </delete>
+
+    <!-- 프로젝트 모집역할 삭제 -->
+    <delete id="deleteProjectRecruitRoles" parameterType="int">
+        DELETE
+        FROM RECRUIT_ROLE
+        WHERE PROJECT_ID = #{projectId}
+    </delete>
+
+    <!-- 프로젝트모집 프로젝트 신청 -->
+    <insert id="projectJoin">
+        INSERT INTO SUBSCRIBE
+        VALUES (SUBSCRIBE_SEQ.nextval, #{projectId}, #{memberId}, TO_CHAR(SYSDATE, 'YYYY-MM-DD HH:MI:SS'))
+    </insert>
+
+    <!-- 프로젝트모집 프로젝트 신청 멤버 가져오기 -->
+    <select id="findOneJoinMember" resultType="com.mozip.dto.resp.ProjectMemberDto">
+        SELECT m.ID, m.USERNAME, m.POSITION, m.CAREER, m.PROFILE_IMAGE_URL, m.CREATED_AT
+        FROM SUBSCRIBE s
+                 INNER JOIN MEMBER m ON s.MEMBER_ID = m.ID
+        WHERE PROJECT_ID = #{projectId}
+          AND MEMBER_ID = #{memberId}
+    </select>
+
+    <!--  멤버모집리스트 검색하기  -->
+    <select id="searchProject" resultMap="recruitDtoMap">
+        SELECT P.ID, P.PROJECT_NAME, P.PROJECT_TYPE,
+               P.PROJECT_INFO, P.VIEWS, P.STATUS, P.CREATED_AT
+        FROM PROJECT P
+        WHERE P.PROJECT_NAME LIKE '%' || #{keyword} || '%'
+           OR P.PROJECT_INFO LIKE '%' || #{keyword} || '%'
+    </select>
 </mapper>
