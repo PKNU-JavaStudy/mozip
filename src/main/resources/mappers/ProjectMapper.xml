@@ -480,6 +480,13 @@
         WHERE ROLE_NAME LIKE '%' || #{filter} || '%'
     </select>
 
+    <!-- 각 셀렉트 필터에 따른 검색 쿼리 -->
+    <select id="selectFilter" resultType="java.lang.Integer">
+        SELECT ID
+        FROM PROJECT
+        WHERE STATUS = #{filter}
+    </select>
+
     <select id="findOneRecruit" resultMap="recruitDtoMap">
         SELECT ID, PROJECT_NAME, PROJECT_TYPE, PROJECT_INFO, VIEWS, STATUS, CREATED_AT
         FROM PROJECT

@@ -145,5 +145,8 @@ public interface ProjectRepository {
     // 프로젝트모집 : 필터
     List<Integer> filterSearch(@Param("filter") String filter);
 
+    // 프로젝트모집 : 셀렉트 필터
+    List<Integer> selectFilter(@Param("filter") Integer filter);
+
     RecruitListDto findOneRecruit(@Param("projectId") int projectId);
 }
