@@ -43,12 +43,13 @@
       <li><a href="#">기타</a></li>
     </ul>
     <button class="btn-write" onclick="createValidation()">모집글 작성하기</button>
-    <div class="hidden-session"th:text="${session.loginMember}" style="display: none"></div>
+    <div class="hidden-session" th:text="${session.loginMember}" style="display: none"></div>
   </div>
   <div class="project-list">
     <div class="search">
-      <input type="text" placeholder="제목, 내용으로 검색" class="recruit-ipt"/>
-      <button><i class="fa-solid fa-magnifying-glass"></i></button>
+      <input type="text" placeholder="제목, 내용으로 검색" class="recruit-ipt" onkeydown="handleKeyDown(event)"/>
+      <button class="search-remove" onclick="clearSearch()"><i class="fa-solid fa-xmark"></i></button>
+      <button class="search-on" onclick="searchProjects()"><i class="fa-solid fa-magnifying-glass"></i></button>
     </div>
     <div class="list-top">
       <div class="tapmenu">
@@ -79,7 +80,6 @@
             개발자가 인재들을 모집합니다.열심히 코딩해서 멋진 개발자가
             인재들을 모집합니다.열심히 코딩해서 멋진 개발자가 인재들을
             모집합니다.열심히 코딩해서 멋진 개발자가 인재들을
-            모집합니다.열심히 코딩해서 멋진 개발자가 인재들을
             모집합니다.열심히 코딩해서 멋진 개발자가 인재들을 모집합니다.
           </p>
         </div>
@@ -90,7 +90,7 @@
         </ul>
         <ul class="count">
           <li th:text="${project.getCreateTime()}">2024.05.30</li>
-          <li><i class="fa-regular fa-hand"></i></i>
+          <li><i class="fa-regular fa-hand"></i>
             <th:block th:text="${project.getSubscribe()} + '명'">8개</th:block></li>
           <li><i class="fa-solid fa-eye"></i>
             <th:block th:text="${project.getViews()} + '회'">16회</th:block>
@@ -115,5 +115,65 @@
     }
   }
 
+  function searchProjects() {
+    let keyword = document.querySelector(".recruit-ipt").value;
+    $.ajax({
+      url: "/api/project/search",
+      type: "GET",
+      data: { "keyword": keyword },
+      success: function(response) {
+        // 기존 프로젝트 리스트를 비웁니다.
+        $('.lists').empty();
+        // 검색 결과가 없을 때 메시지 표시
+        if (response.data.length === 0) {
+          $('.lists').append('<p class="search-null">프로젝트가 존재하지 않습니다. 다시 검색해주세요.</p>');
+        } else {
+          // 새로운 프로젝트 리스트를 추가합니다.
+          response.data.forEach(project => {
+            $('.lists').append(`
+              <a href="/project/${project.id}" class="project-box">
+                <span class="pj-type ${project.projectType == '사이드 프로젝트' ? 'pj' : 'study'}">${project.projectType}</span>
+                <p class="title">
+                  <strong class="state-ing">${project.status == 1 ? '모집 중' : '모집완료'}</strong>
+                  <span>${project.projectName}</span>
+                </p>
+                <div class="cont-wrap">
+                  <p class="content">${project.projectInfo}</p>
+                </div>
+                <ul class="pj-work">
+                  ${project.roleNames.map(role => `<li>${role}</li>`).join('')}
+                </ul>
+                <ul class="count">
+                  <li>${project.createTime}</li>
+                  <li><i class="fa-regular fa-hand"></i> ${project.subscribe}명</li>
+                  <li><i class="fa-solid fa-eye"></i> ${project.views}회</li>
+                </ul>
+              </a>
+            `);
+          });
+        }
+      },
+      error: function(error) {
+        console.log("Error: ", error);
+      }
+    });
+  }
+
+  function clearSearch() {
+    document.querySelector(".recruit-ipt").value = '';
+    searchProjects(); // 검색어를 비운 상태로 searchProjects 호출
+  }
+
+  function handleKeyDown(event) {
+    if (event.key === 'Enter') {
+      searchProjects();
+    }
+  }
+
+  document.querySelector(".recruit-ipt").addEventListener("keydown", handleKeyDown);
+
+  // 페이지 로드 시 전체 프로젝트 로드
+  window.onload = searchProjects;
 </script>
+
 </html>

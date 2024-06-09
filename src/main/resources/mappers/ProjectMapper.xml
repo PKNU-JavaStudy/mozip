@@ -455,4 +455,13 @@
         WHERE PROJECT_ID = #{projectId}
           AND MEMBER_ID = #{memberId}
     </select>
+
+    <!--  멤버모집리스트 검색하기  -->
+    <select id="searchProject" resultMap="recruitDtoMap">
+        SELECT P.ID, P.PROJECT_NAME, P.PROJECT_TYPE,
+               P.PROJECT_INFO, P.VIEWS, P.STATUS, P.CREATED_AT
+        FROM PROJECT P
+        WHERE P.PROJECT_NAME LIKE '%' || #{keyword} || '%'
+           OR P.PROJECT_INFO LIKE '%' || #{keyword} || '%'
+    </select>
 </mapper>
