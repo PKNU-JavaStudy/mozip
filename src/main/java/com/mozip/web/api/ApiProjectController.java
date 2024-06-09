@@ -4,6 +4,7 @@ import com.mozip.domain.likes.Likes;
 import com.mozip.dto.CMRespDto;
 import com.mozip.dto.req.ProjectCreateDto;
 import com.mozip.dto.resp.ProjectEditDto;
+import com.mozip.dto.resp.RecruitListDto;
 import com.mozip.dto.resp.ShowEditDto;
 import com.mozip.service.LikesService;
 import com.mozip.service.ProjectService;
@@ -72,5 +73,12 @@ public class ApiProjectController {
     @PostMapping("/project/join")
     public ResponseEntity<?> projectJoin(@RequestParam("memberId") int memberId, @RequestParam("projectId") int projectId){
         return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공", projectService.projectJoin(memberId,projectId)));
+    }
+
+    // 멤버모집 리스트 검색
+    @GetMapping("/project/search")
+    @ResponseBody
+    public ResponseEntity<?> searchProject(@RequestParam("keyword") String keyword) {
+        return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공", projectService.searchProject(keyword)));
     }
 }

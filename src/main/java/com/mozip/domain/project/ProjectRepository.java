@@ -3,6 +3,7 @@ package com.mozip.domain.project;
 import com.mozip.dto.req.ProjectCreateDto;
 import com.mozip.dto.resp.*;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -133,4 +134,8 @@ public interface ProjectRepository {
 
     // 프로젝트모집: 프로젝트참여 멤버 1명 가져오기
     ProjectMemberDto findOneJoinMember(@Param("memberId") int memberId, @Param("projectId") int projectId);
+
+    // 멤버모집 : 검색
+
+    List<RecruitListDto> searchProject(@Param("keyword") String keyword);
 }

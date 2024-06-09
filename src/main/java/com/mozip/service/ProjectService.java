@@ -292,4 +292,17 @@ public class ProjectService {
 
         return memberInfo;
     }
+
+    // 멤버모집 검색
+    public List<RecruitListDto> searchProject(String keyword) {
+        List<RecruitListDto> recruitListDtos = projectRepository.searchProject(keyword);
+        for (RecruitListDto recruitListDto : recruitListDtos) {
+            recruitListDto.setRoleNames(projectRepository.findRecruitRoles(recruitListDto.getId()));
+            recruitListDto.setCreateTime(Util.formatTimestamp(Timestamp.valueOf(recruitListDto.getCreateTime())));
+            recruitListDto.setSubscribe(projectRepository.findSubscribeCount(recruitListDto.getId()));
+            recruitListDto.setProjectInfo(Util.clobToString((NClob) recruitListDto.getProjectInfo()));
+        }
+        return recruitListDtos;
+    }
+
 }
