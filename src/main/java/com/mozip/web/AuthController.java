@@ -92,6 +92,5 @@ public class AuthController {
             return "<script>alert('일치하는 정보가 없습니다.'); window.location='/auth/findId';</script>";
         }
     }
-
 }
 
