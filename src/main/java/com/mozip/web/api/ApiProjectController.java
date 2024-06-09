@@ -100,4 +100,10 @@ public class ApiProjectController {
 
         return ResponseEntity.ok().body(new CMRespDto<>(1,"통신성공", keepService.keepCount(keep.getProjectId(), keep.getMemberId())));
     }
+
+    //projectFilterSearch
+    @PostMapping("/project/filter")
+    public ResponseEntity<?> filterProject(@RequestParam("filter") String filter){
+        return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공", projectService.projectFilterSearch(filter)));
+    }
 }

@@ -471,4 +471,18 @@
         FROM PROJECT_MEMBER
         WHERE PROJECT_ID = #{projectId}
     </select>
+
+    <!-- 각 필터에 따른 검색 쿼리 -->
+    <select id="filterSearch" resultType="java.lang.Integer">
+        SELECT p.ID
+        FROM PROJECT p
+                 INNER JOIN RECRUIT_ROLE pr ON p.ID = pr.PROJECT_ID
+        WHERE ROLE_NAME LIKE '%' || #{filter} || '%'
+    </select>
+
+    <select id="findOneRecruit" resultMap="recruitDtoMap">
+        SELECT ID, PROJECT_NAME, PROJECT_TYPE, PROJECT_INFO, VIEWS, STATUS, CREATED_AT
+        FROM PROJECT
+        WHERE ID = #{projectId}
+    </select>
 </mapper>

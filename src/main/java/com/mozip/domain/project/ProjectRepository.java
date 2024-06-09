@@ -137,9 +137,13 @@ public interface ProjectRepository {
     ProjectMemberDto findOneJoinMember(@Param("memberId") int memberId, @Param("projectId") int projectId);
 
     // 멤버모집 : 검색
-
     List<RecruitListDto> searchProject(@Param("keyword") String keyword);
 
     // 프로젝트모집 상세 : 프로젝트 참여자 ID값 데이터
     List<Integer> findProjectMemberIdList(@Param("projectId") int projectId);
+
+    // 프로젝트모집 : 필터
+    List<Integer> filterSearch(@Param("filter") String filter);
+
+    RecruitListDto findOneRecruit(@Param("projectId") int projectId);
 }

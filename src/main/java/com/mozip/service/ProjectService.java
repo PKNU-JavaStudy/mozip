@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.NClob;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 @Transactional(readOnly = true)
@@ -305,6 +306,22 @@ public class ProjectService {
             recruitListDto.setCreateTime(Util.formatTimestamp(Timestamp.valueOf(recruitListDto.getCreateTime())));
             recruitListDto.setSubscribe(projectRepository.findSubscribeCount(recruitListDto.getId()));
             recruitListDto.setProjectInfo(Util.clobToString((NClob) recruitListDto.getProjectInfo()));
+        }
+        return recruitListDtos;
+    }
+
+    // 멤버모집 필터
+    public List<RecruitListDto> projectFilterSearch(String filter){
+        List<Integer> projectFilterId = projectRepository.filterSearch(filter);
+        List<RecruitListDto> recruitListDtos = new ArrayList<>();
+        for (Integer projectId : projectFilterId) {
+            recruitListDtos.add(projectRepository.findOneRecruit(projectId));
+        }
+        for (RecruitListDto dto : recruitListDtos) {
+            dto.setRoleNames(projectRepository.findRecruitRoles(dto.getId()));
+            dto.setCreateTime(Util.formatTimestamp(Timestamp.valueOf(dto.getCreateTime())));
+            dto.setSubscribe(projectRepository.findSubscribeCount(dto.getId()));
+            dto.setProjectInfo(Util.clobToString((NClob) dto.getProjectInfo()));
         }
         return recruitListDtos;
     }
