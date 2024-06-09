@@ -383,6 +383,7 @@ ul.stack-icon li:nth-child(3n) {
     width: 60px;
     height: 60px;
     margin-right: 13px;
+    border-radius: 50%;
 }
 
 .application-box .profile-top h3 {
@@ -619,6 +620,15 @@ ul.stack-icon li:nth-child(3n) {
     background-color: #f3f3f3;
     padding: 30px 40px;
     text-align: center;
+}
+
+.right-box .profile-box img{
+    width: 97px;
+    height: 97px;
+    object-fit: cover; /* 이미지가 잘리지 않고, 요소의 크기에 맞춰서 비율을 유지하며 채워지도록 함 */
+    object-position: center; /* 이미지가 중앙에 위치하도록 설정 */
+    cursor: pointer;
+    border-radius: 50%;
 }
 
 .right-box .profile-box h3 {

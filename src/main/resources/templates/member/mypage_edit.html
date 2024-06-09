@@ -32,7 +32,7 @@
   <div class="wrap">
     <div class="edit-section">
       <div class="profile-img">
-        <img id="profileImage" th:src="@{/img/cinnamoroll.jpeg}" alt="Profile Image" style="cursor: pointer;">
+        <img id="profileImage" th:src="@{/upload/{url}(url=${member.getProfileImage()})}" alt="Profile Image" style="cursor: pointer;">
         <input type="file" id="fileInput" style="display: none;" accept="image/*"/>
       </div>
       <div class="form-container">

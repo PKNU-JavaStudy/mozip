@@ -169,6 +169,7 @@
                USERNAME,
                DECODE(POSITION, NULL, '수정필요!', POSITION),
                DECODE(CAREER, NULL, 0, CAREER),
+               PROFILE_IMAGE_URL,
                CREATED_AT
         FROM MEMBER
         WHERE ID = #{ownerId}
@@ -189,7 +190,7 @@
     </select>
 
     <select id="findProjectMembers" resultType="com.mozip.dto.resp.ProjectMemberDto">
-        SELECT MEMBER_ID, USERNAME, DECODE(POSITION, NULL, '수정필요!', POSITION), DECODE(CAREER, NULL, 0, CAREER), STIME
+        SELECT MEMBER_ID, USERNAME, DECODE(POSITION, NULL, '수정필요!', POSITION), DECODE(CAREER, NULL, 0, CAREER), PROFILE_IMAGE_URL, STIME
         FROM (SELECT SUBSCRIBE.MEMBER_ID, SUBSCRIBE.CREATED_AT AS STIME
               FROM SUBSCRIBE
                        INNER JOIN PROJECT ON PROJECT.ID = SUBSCRIBE.PROJECT_ID
@@ -252,7 +253,7 @@
 
     <!-- 작성자 프로필 정보 가져오기 / !! 프로필 url 추가 해야함 !! -->
     <select id="findShowOwnerInfo" resultType="com.mozip.dto.resp.ProjectMemberDto">
-        SELECT p.ID, USERNAME, POSITION, CAREER, m.CREATED_AT
+        SELECT p.ID, USERNAME, POSITION, CAREER, m.PROFILE_IMAGE_URL, m.CREATED_AT
         FROM MEMBER m
                  INNER JOIN PROJECT p ON m.ID = p.OWNER_ID
         WHERE p.Id = #{projectId}
@@ -449,7 +450,7 @@
 
     <!-- 프로젝트모집 프로젝트 신청 멤버 가져오기 -->
     <select id="findOneJoinMember" resultType="com.mozip.dto.resp.ProjectMemberDto">
-        SELECT m.ID, m.USERNAME, m.POSITION, m.CAREER, m.CREATED_AT
+        SELECT m.ID, m.USERNAME, m.POSITION, m.CAREER, m.PROFILE_IMAGE_URL, m.CREATED_AT
         FROM SUBSCRIBE s
                  INNER JOIN MEMBER m ON s.MEMBER_ID = m.ID
         WHERE PROJECT_ID = #{projectId}

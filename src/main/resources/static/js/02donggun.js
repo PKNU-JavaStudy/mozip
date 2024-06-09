@@ -185,32 +185,49 @@ function sendFormData() {
     });
     jsonData.skills = skills;
 
-    let formData = new FormData();
-    formData.append("file",imageFile);
+    if (imageFile != null) {
+        let formData = new FormData();
+        formData.append("file", imageFile);
 
-    $.ajax({
-        type: "post",
-        url: "/api/member/edit",
-        contentType: "application/json; charset=utf-8",
-        data: JSON.stringify(jsonData),
-        dataType: "json",
-    }).done(res => {
-        console.log("성공", res);
         $.ajax({
-            url: "/api/member/profile",
             type: "post",
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function (response) {
-                console.log('Success:', response);
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.error('Error:', textStatus, errorThrown);
-            }
-        })
-        window.location.href = "/member/" + memberId;
-    }).fail(error => {
-        console.log("실패", error);
-    });
+            url: "/api/member/edit",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(jsonData),
+            dataType: "json",
+        }).done(res => {
+            console.log("성공", res);
+            $.ajax({
+                url: "/api/member/profile",
+                type: "post",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    console.log('Success:', response);
+                    alert("정보 수정 완료 !");
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error('Error:', textStatus, errorThrown);
+                }
+            })
+            window.location.assign(`/`);
+        }).fail(error => {
+            console.log("실패", error);
+        });
+    } else {
+        $.ajax({
+            type: "post",
+            url: "/api/member/edit",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(jsonData),
+            dataType: "json",
+        }).done(res => {
+            console.log("성공", res);
+            alert("정보 수정 완료 !");
+            window.location.replace(`/member/${memberId}`);
+        }).fail(error => {
+            console.log("실패", error);
+        });
+    }
 }

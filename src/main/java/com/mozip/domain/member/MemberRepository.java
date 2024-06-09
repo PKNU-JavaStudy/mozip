@@ -35,6 +35,7 @@ public interface MemberRepository {
     // 마이페이지 수정: 스킬 삽입
     void insertSkills(@Param("memberId") int memberId, @Param("skill") String skill);
 
+
     void updateProfileImg(@Param("imageDir") String imageDir, @Param("memberId") int memberId);
 }
 

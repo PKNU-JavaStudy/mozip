@@ -10,4 +10,5 @@ public class NewMemberListDto {
     private String username;
     private String position;
     private Object info;
+    private String profileImageUrl;
 }

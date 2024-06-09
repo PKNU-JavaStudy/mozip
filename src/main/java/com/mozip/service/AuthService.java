@@ -10,6 +10,8 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
@@ -41,5 +43,9 @@ public class AuthService {
         // 비밀번호 암호화
         joinMemberDto.setPassword(BCrypt.hashpw(joinMemberDto.getPassword(), BCrypt.gensalt()));
         authRepository.joinMember(joinMemberDto);
+    }
+
+    public Optional<Member> findMember(int id) {
+        return authRepository.findLoginMember(authRepository.findById(id));
     }
 }

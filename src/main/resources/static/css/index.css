@@ -223,6 +223,13 @@ p.pj-use i {
   margin-right: 15px;
 }
 
+.profile-img img{
+  width: 100%;
+  height: 100%;
+  margin-right: 13px;
+  border-radius: 50%;
+}
+
 .profile-top h6 {
   cursor: pointer;
   font-weight: 400;

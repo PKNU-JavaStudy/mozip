@@ -137,7 +137,7 @@
     </div>
     <div class="right-box">
       <div class="profile-box">
-        <img th:src="@{/img/profile_sample.png}" alt="프로필이미지">
+        <img th:src="@{/upload/{url}(url=${showDetail.getOwnerInfo().getProfileImageUrl()})}" alt="프로필이미지">
         <div class="right-tag">
           <!--/*@thymesVar id="member" type=""*/-->
           <span class="work right" th:text="${showDetail.getOwnerInfo().getPosition()}">백엔드</span>

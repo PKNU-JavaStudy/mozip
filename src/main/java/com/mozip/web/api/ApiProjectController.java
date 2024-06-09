@@ -3,27 +3,19 @@ package com.mozip.web.api;
 import com.mozip.domain.likes.Likes;
 import com.mozip.dto.CMRespDto;
 import com.mozip.dto.req.ProjectCreateDto;
-import com.mozip.dto.req.ProjectLikeDto;
 import com.mozip.dto.resp.ProjectEditDto;
 import com.mozip.dto.resp.ShowEditDto;
-import com.mozip.dto.resp.ProjectMemberDto;
 import com.mozip.service.LikesService;
 import com.mozip.service.ProjectService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.http.HttpResponse;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @RequiredArgsConstructor
 @RequestMapping("/api")

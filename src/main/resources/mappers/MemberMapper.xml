@@ -36,7 +36,7 @@
     <select id="newMemberList" resultType="com.mozip.dto.resp.NewMemberListDto">
         <![CDATA[
         SELECT *
-        FROM (SELECT ID, USERNAME, POSITION, INFO
+        FROM (SELECT ID, USERNAME, POSITION, INFO, PROFILE_IMAGE_URL
               FROM MEMBER
               WHERE IS_MODIFY = 1
               ORDER BY CREATED_AT DESC)
