@@ -49,7 +49,7 @@
             <a th:href="${member.githubLink}" th:text="${member.githubLink}">https://github.com/devuoon</a>
           </div>
           <div class="skill-flex">
-            <i class="fa-solid fa-book-bookmark"></i>
+            <i class="fa-solid fa-book-keep"></i>
             <div class="tags skills">
               <span class="work" th:text="${member.position}">프론트엔드</span>
             </div>
@@ -71,7 +71,7 @@
             <option>프로젝트 자랑</option>
           </select>
         </div>
-        <a th:each="project : ${member.myProjectList}" th:href="@{/project/projectId}" class="pj-content">
+        <a th:each="project : ${member.myProjectList}" th:href="@{/project/{id}(id=${project.getId()})}" class="pj-content">
           <div class="project-info">
             <div class="pj-type pj" th:text="${project.projectType}">사이드 프로젝트</div>
             <span class="time-commitment" th:if="${project.projectTime == 1}">매주 4일 10시간</span>
@@ -87,7 +87,7 @@
 
       </div>
 
-      <div class="bookmark">
+      <div class="keep">
         <div class="header-flex">
           <h2>🏷️ 북마크한 글 <span class="highlight" th:text="${member.getBookmarks().size()}">4</span></h2>
           <select class="dropdown">
@@ -96,7 +96,7 @@
             <option>프로젝트 자랑</option>
           </select>
         </div>
-        <a th:each="bookmark : ${member.bookmarks}" th:href="@{/project/projectId}" class="pj-content">
+        <a th:each="bookmark : ${member.getBookmarks()}" th:href="@{/project/{id}(id=${bookmark.getId()})}" class="pj-content">
           <div class="project-info">
             <div class="pj-type pj" th:text="${bookmark.projectType}">사이드 프로젝트</div>
             <span class="time-commitment" th:if="${bookmark.projectTime == 1}">매주 4일 10시간</span>

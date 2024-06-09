@@ -1,5 +1,6 @@
 package com.mozip.domain.member;
 
+import com.mozip.dto.req.FindEmailDto;
 import com.mozip.dto.req.JoinMemberDto;
 import org.apache.ibatis.annotations.Param;
 
@@ -24,4 +25,7 @@ public interface AuthRepository {
 
     // 프로젝트 멤버 추가
     void projectJoin(@Param("memberId") int memberId, @Param("projectId") int projectId);
+
+    String findMemberEmail(FindEmailDto findEmailDto);
+
 }

@@ -1,6 +1,5 @@
 package com.mozip.domain.likes;
 
-import com.mozip.dto.req.ProjectLikeDto;
 import org.apache.ibatis.annotations.Param;
 
 public interface LikesRepository {

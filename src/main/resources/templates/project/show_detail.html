@@ -149,7 +149,25 @@
         </div>
         <h3 th:text="${showDetail.getOwnerInfo().getUsername()}">👑 이윤지</h3>
       </div>
-      <button class="right-btn bookmark"><i class="fa-regular fa-bookmark"></i>북마크</button>
+      <th:block th:if="${session.loginMember == null}">
+        <!-- 북마크 안했을때 -->
+        <button style="border: 1px solid var(--main-color); color: var(--main-color); background-color: white;"
+                class="right-btn keep" th:onclick="|projectBookmark(${showDetail.getId()})|">
+          <i class="fa-regular fa-bookmark" style="color: var(--main-color);"></i>북마크
+        </button>
+      </th:block>
+      <th:block th:if="${session.loginMember != null}">
+        <!-- 북마크 안했을때 -->
+        <button th:if="${isBookmark == 0}" style="border: 1px solid var(--main-color); color: var(--main-color); background-color: white;"
+                class="right-btn keep" th:onclick="|projectBookmark(${showDetail.getId()})|">
+          <i class="fa-regular fa-bookmark" style="color: var(--main-color);"></i>북마크
+        </button>
+        <!-- 북마크 했을때 -->
+        <button th:if="${isBookmark == 1}" style="border: 1px solid var(--main-color); color: white; background-color: var(--main-color);"
+                class="right-btn keep" th:onclick="|projectBookmark(${showDetail.getId()})|">
+          <i class="fa-regular fa-bookmark" style="color: white;"></i>북마크
+        </button>
+      </th:block>
       <th:block th:if="${showDetail.getGithubLink() == null}"><a style="display:none;" th:href="@{/{github}(github=${showDetail.getGithubLink()})}"><button class="right-btn github"><i class="fa-brands fa-github"></i>깃허브</button></a></th:block>
       <th:block th:if="${showDetail.getGithubLink() != null}"><a th:href="@{/{github}(github=${showDetail.getGithubLink()})}"><button class="right-btn github"><i class="fa-brands fa-github"></i>깃허브</button></a></th:block>
       <div class="edit-btn" th:if="${session.loginMember != null && session.loginMember.getId()==showDetail.getOwnerId()}">
@@ -188,6 +206,7 @@
 <!--    </div>-->
   </div>
 </main>
+<!-- 로그인 유무 -->
 <th:block th:if="${session.loginMember != null}"><div class="loginMember" th:text="${session.loginMember.getId()}" style="display: none"></div></th:block>
 <th:block th:if="${session.loginMember == null}"><div class="loginMember" style="display: none">0</div></th:block>
 <footer>
@@ -224,6 +243,54 @@
       });
     }
   }
+
+    // 북마크 눌렀을 때 실시간으로 색이 변하게 하는 로직(북마크 중이면 main_color, 북마크를 안하면 색 없음 / 비동기 방식)
+    function projectBookmark(projectId){
+      let memberId = document.querySelector(".loginMember").textContent;
+      console.log("memberId:", memberId); // memberId가 올바르게 설정되었는지 확인
+      let data = {};
+      data.memberId = memberId;
+      data.projectId = projectId;
+      // data.key = value -> data{ key: value}
+
+      if(memberId == 0)   // 로그인이 되어있지 않을 때
+        alert("로그인이 필요합니다 !");
+      else{       // 로그인이 되어있을 때
+        // 북마크 로직 시작
+        $.ajax({
+          type : "POST",
+          url : "/api/keep",
+          data : JSON.stringify(data),
+          contentType : "application/json; charset=utf-8",
+          dataType : "json"
+        }).done(res=>{ // HttpStatus 200번대(로드 성공)
+          console.log("성공");
+
+          if (res.data == 1) { // 서버 응답에 북마크 상태 포함한다고 가정
+            // 북마크가 추가된 경우
+            $(".keep").css("background-color", "var(--main-color)");
+            $(".keep").css("border", "1px solid var(--main-color)");
+            $(".keep").css("color", "white");
+            $(".keep").html('<i class="fa-regular fa-bookmark" style="color: white;"></i> 북마크');
+            alert("북마크가 추가되었습니다!");
+          } else if (res.data == 0) {
+            // 북마크가 취소된 경우
+            $(".keep").css("background-color", "white");
+            $(".keep").css("color", "var(--main-color)");
+            $(".keep").css("border", "1px solid var(--main-color)");
+            $(".keep").html('<i class="fa-regular fa-bookmark" style="color: var(--main-color);"></i> 북마크');
+
+            alert("북마크가 취소되었습니다!");
+          }
+
+        }).fail(error=>{ // HttpStatus 200번대가 아닐때(로드 실패)
+
+          console.log(error);
+          alert("실패..");
+        });
+      }
+    }
+
     document.querySelector(".open-modal").addEventListener("click", function () {
         document.querySelector(".modal-bg").classList.add("visible");
         document.querySelector(".modal").classList.add("visible");

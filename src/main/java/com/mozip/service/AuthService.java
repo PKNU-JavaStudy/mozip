@@ -2,6 +2,7 @@ package com.mozip.service;
 
 import com.mozip.domain.member.AuthRepository;
 import com.mozip.domain.member.Member;
+import com.mozip.dto.req.FindEmailDto;
 import com.mozip.dto.req.LoginDto;
 import com.mozip.dto.req.JoinMemberDto;
 import com.mozip.handler.ex.CustomException;
@@ -47,5 +48,10 @@ public class AuthService {
 
     public Optional<Member> findMember(int id) {
         return authRepository.findLoginMember(authRepository.findById(id));
+    }
+
+
+    public String findMemberEmail(FindEmailDto findEmailDto) {
+        return authRepository.findMemberEmail(findEmailDto);
     }
 }

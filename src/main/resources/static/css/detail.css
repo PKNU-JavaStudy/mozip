@@ -610,6 +610,11 @@ ul.stack-icon li:nth-child(3n) {
     font-weight: 600;
     color: var(--main-color);
 }
+.right-box .keep {
+    border: 1px solid var(--main-color);
+    color: var(--main-color);
+    background-color: white;
+}
 
 /* ----------------------------------------- */
 

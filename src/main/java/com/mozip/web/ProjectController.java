@@ -4,6 +4,7 @@ import com.mozip.domain.member.Member;
 
 import com.mozip.dto.resp.ShowEditDto;
 import com.mozip.handler.ex.CustomException;
+import com.mozip.service.KeepService;
 import com.mozip.service.MemberService;
 import com.mozip.service.ProjectService;
 import com.mozip.util.SessionConst;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 public class ProjectController {
     private final ProjectService projectService;
     private final MemberService memberService;
+    private final KeepService keepService;
 
     // 메인페이지
     @GetMapping("/")
@@ -39,7 +41,7 @@ public class ProjectController {
 
     // recruit_create 페이지: 로그인한 유저만 접근
     @GetMapping("/project/create")
-    public String recruitCreateForm(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember) {
+    public String recruitCreateForm(@SessionAttribute(name= SessionConst.LOGIN_MEMBER, required=false) Member loginMember) {
         if (loginMember == null) {
             throw new CustomException("로그인이 필요합니다");
         }
@@ -48,17 +50,20 @@ public class ProjectController {
 
     // recruit_detail 페이지
     @GetMapping("/project/{projectId}")
-    public String recruitDetailForm(@PathVariable("projectId") int projectId, Model model) {
+    public String recruitDetailForm(@PathVariable("projectId") int projectId, Model model,
+                                    @SessionAttribute(name= SessionConst.LOGIN_MEMBER, required=false) Member loginMember){
         // 조회수 증가
         projectService.increaseView(projectId);
         model.addAttribute("project", projectService.findProjectDetail(projectId));
+        // 북마크
+        if (loginMember != null)
+            model.addAttribute("isBookmark", keepService.keepCount(projectId, loginMember.getId()));
         return "/project/recruit_detail";
     }
 
     // recruit_list 페이지
     @GetMapping("/project")
-    public String recruitListForm(Model model) {
-        // 가져온 데이터를 모델에 추가하여 타임리프 템플릿에서 사용할 수 있게 함
+    public String recruitListForm(Model model){
         model.addAttribute("allProject", projectService.findAllProject());
         return "/project/recruit_list";
     }
@@ -78,10 +83,15 @@ public class ProjectController {
 
     // show_detail 페이지
     @GetMapping("/project/show/{projectId}")
-    public String showDetailForm(@PathVariable("projectId") int projectId, Model model) {
-        // 조회수 증가w
+    public String showDetailForm(@PathVariable("projectId") int projectId, Model model,
+                                 @SessionAttribute(name= SessionConst.LOGIN_MEMBER, required=false) Member loginMember){
+        // 조회수 증가
         projectService.increaseView(projectId);
         model.addAttribute("showDetail", projectService.findShowDetail(projectId));
+        // 북마크
+        if (loginMember != null)
+            model.addAttribute("isBookmark", keepService.keepCount(projectId, loginMember.getId()));
+
         return "/project/show_detail";
     }
 

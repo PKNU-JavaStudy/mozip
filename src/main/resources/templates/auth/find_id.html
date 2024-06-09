@@ -1,55 +1,67 @@
 <!doctype html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>모집(mo.zip) - 아이디 찾기</title>
   <!-- font awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
   <!-- 직접 구현한 CSS -->
-  <link rel="stylesheet" th:href="@{/css/reset.css}"/>
-  <link rel="stylesheet" th:href="@{/css/common.css}"/>
-  <link rel="stylesheet" th:href="@{/css/user.css}"/>
-
-  <script th:src="@{/js/common.js}"></script>
+  <link rel="stylesheet" href="/css/reset.css"/>
+  <link rel="stylesheet" href="/css/common.css"/>
+  <link rel="stylesheet" href="/css/user.css"/>
+  <script src="/js/common.js"></script>
+  <!-- jQuery CDN -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5+5hb7P1y5b+TEYz9K9o56+Ov3+5FA5HEm5yXK9q" crossorigin="anonymous"></script>
   <!-- favicon -->
-  <link rel="icon" th:href="@{/img/favicon.ico}">
+  <link rel="icon" href="/img/favicon.ico">
 </head>
 <body>
 <header id="header">
-  <th:block th:replace="~{fragment/header}"></th:block>
+  <!-- 헤더 블록 -->
 </header>
 <main>
   <div class="wrap flex user-title">
     <h1>아이디 찾기</h1>
-    <form class="submit-box">
+    <form class="submit-box" action="/auth/findId" method="post" id="findIdForm">
       <div class="input-group">
-        <h2 for="name">이름</h2>
-        <input type="text" id="name" class="input-padding" placeholder="이름을 입력해주세요." minlength="2" maxlength="5"
-               required>
+        <h2 for="username">이름</h2>
+        <input type="text" id="username" name="username" class="input-padding" placeholder="이름을 입력해주세요." minlength="2" maxlength="5" required>
       </div>
       <div class="input-group">
-        <h2 for="phoneNumber">전화번호</h2>
-        <input type="text" id="phone" class="input-padding" placeholder="전화번호를 입력해주세요(-제외)" maxlength="11" required>
+        <h2 for="phone">전화번호</h2>
+        <input type="text" id="phone" name="phone" class="input-padding" placeholder="전화번호를 입력해주세요(-제외)" maxlength="11" required>
       </div>
       <div class="inputFind">
         <input type="submit" value="아이디 찾기" class="find-submit">
       </div>
       <div class="submit">아직 회원이 아니신가요??
-        <span><a th:href="@{/auth/join}">가입하기</a></span> <!-- 회원가입 페이지 링크 수정 -->
+        <span><a href="/auth/join">가입하기</a></span>
       </div>
       <div class="forgot">
-        <a th:href="@{/auth/findPw}">비밀번호 찾기</a></span>
+        <a href="/auth/findPw">비밀번호 찾기</a>
       </div>
     </form>
   </div>
 </main>
 <footer>
-  <th:block th:replace="~{fragment/footer}"></th:block>
+  <!-- 푸터 블록 -->
+  <script>
+      $(document).ready(function() {
+          $('#findIdForm').on('submit', function(e) {
+              e.preventDefault();
+              $.ajax({
+                  type: 'POST',
+                  url: '/auth/findId',
+                  data: $(this).serialize(),
+                  success: function(response) {
+                      $('body').html(response);  // 서버로부터 받은 스크립트를 실행
+                  }
+              });
+          });
+      });
+  </script>
 </footer>
 </body>
 </html>

@@ -2,7 +2,6 @@ package com.mozip.service;
 
 import com.mozip.domain.likes.Likes;
 import com.mozip.domain.likes.LikesRepository;
-import com.mozip.dto.req.ProjectLikeDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
