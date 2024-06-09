@@ -47,38 +47,21 @@
 </main>
 <footer>
   <!-- 푸터 블록 -->
+  <script>
+      $(document).ready(function() {
+          $('#findIdForm').on('submit', function(e) {
+              e.preventDefault();
+              $.ajax({
+                  type: 'POST',
+                  url: '/auth/findId',
+                  data: $(this).serialize(),
+                  success: function(response) {
+                      $('body').html(response);  // 서버로부터 받은 스크립트를 실행
+                  }
+              });
+          });
+      });
+  </script>
 </footer>
-
-<script>
-    $(document).ready(function() {
-        $('#findIdForm').on('submit', function(event) {
-            event.preventDefault();
-
-            const username = $('#username').val();
-            const phone = $('#phone').val();
-
-            $.ajax({
-                url: '/auth/findId',
-                type: 'POST',
-                data: {
-                    username: username,
-                    phone: phone
-                },
-                success: function(response) {
-                    if (response.includes("일치하는 정보가 없습니다.")) {
-                        alert(response);
-                    } else {
-                        alert("찾으시는 이메일은 : " + response + " 입니다.");
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error:', error);
-                    alert('An error occurred while fetching member data.');
-                }
-            });
-        });
-    });
-</script>
-
 </body>
 </html>

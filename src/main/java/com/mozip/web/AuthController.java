@@ -85,12 +85,13 @@ public class AuthController {
         FindEmailDto findEmailDto = new FindEmailDto(username, phone);
         String email = authService.findMemberEmail(findEmailDto);
         log.info("findId 결과: email={}", email != null ? email : "일치하는 정보가 없습니다.");
+
         if (email != null) {
-            return "찾으시는 이메일은 " + email + " 입니다.";
+            return "<script>alert('찾으시는 이메일은 " + email + " 입니다.'); window.location='/auth/login';</script>";
         } else {
-            String script = "<script>alert('일치하는 정보가 없습니다.');</script>";
-            return script;
+            return "<script>alert('일치하는 정보가 없습니다.'); window.location='/auth/findId';</script>";
         }
     }
+
 }
 
