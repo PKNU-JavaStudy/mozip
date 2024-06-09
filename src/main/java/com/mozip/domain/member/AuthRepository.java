@@ -1,6 +1,8 @@
 package com.mozip.domain.member;
 
+import com.mozip.dto.req.FindEmailDto;
 import com.mozip.dto.req.JoinMemberDto;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.Optional;
 
@@ -17,4 +19,7 @@ public interface AuthRepository {
 
     // memberId로 Email 찾는 메서드
     String findById(int memberId);
+
+    String findMemberEmail(FindEmailDto findEmailDto);
+
 }

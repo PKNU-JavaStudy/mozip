@@ -19,7 +19,7 @@
     <select id="findByEmail" resultType="java.lang.String">
         SELECT EMAIL
         FROM MEMBER
-        WHERE EMAIL=#{email}
+        WHERE EMAIL = #{email}
     </select>
 
     <select id="findById" resultType="java.lang.String">
@@ -31,7 +31,14 @@
     <update id="updateProfileImg">
         UPDATE MEMBER
         SET PROFILE_IMAGE_URL=#{imageDir}
-        WHERE ID=#{memberId}
+        WHERE ID = #{memberId}
     </update>
+
+
+    <select id="findMemberEmail" parameterType="com.mozip.dto.req.FindEmailDto" resultType="java.lang.String">
+        SELECT EMAIL
+        FROM MEMBER
+        WHERE USERNAME = #{username} AND PHONE = #{phone}
+    </select>
 
 </mapper>
