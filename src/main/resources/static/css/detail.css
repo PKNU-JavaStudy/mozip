@@ -45,15 +45,15 @@
     padding-right: 20px;
 }
 
-.title-wrap strong.state-ing:before {
-    /* 모집중 | 기준으로 스타일 설정 */
-    content: "|";
-    position: absolute;
-    top: 3px;
-    left: 75px;
-    color: var(--gray-font);
-    font-weight: 500;
-}
+/*.title-wrap strong.state-ing:before {*/
+/*    !* 모집중 | 기준으로 스타일 설정 *!*/
+/*    content: "|";*/
+/*    position: absolute;*/
+/*    top: 3px;*/
+/*    left: 75px;*/
+/*    color: var(--gray-font);*/
+/*    font-weight: 500;*/
+/*}*/
 
 .title-wrap strong.state-done:before {
     /* 모집 완료 | 기준으로 스타일 설정 */

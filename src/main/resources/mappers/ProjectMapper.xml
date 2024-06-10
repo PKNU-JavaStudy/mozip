@@ -103,7 +103,7 @@
     <select id="findAllShowProject" resultMap="ShowListDtoMap">
         SELECT ID, PROJECT_NAME, PROJECT_TYPE, OWNER_ID, VIEWS, IS_SHOW
         FROM PROJECT
-        WHERE IS_SHOW = 1
+        WHERE IS_SHOW = 0
     </select>
 
     <!--  프로젝트자랑페이지 : 팀네임  -->
@@ -121,7 +121,7 @@
         FROM (
                  SELECT ID, PROJECT_NAME, PROJECT_TYPE, VIEWS, IS_SHOW
                  FROM PROJECT
-                 WHERE IS_SHOW = 1
+                 WHERE IS_SHOW = 0
                  ORDER BY VIEWS DESC
              )
         WHERE ROWNUM <= 3

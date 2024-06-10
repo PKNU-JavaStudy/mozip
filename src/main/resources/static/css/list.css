@@ -220,14 +220,14 @@
   padding-right: 20px;
 }
 
-.project-box strong.state-ing:before {
-  content: "|";
-  position: absolute;
-  top: 2px;
-  left: 66px;
-  color: var(--gray-font);
-  font-weight: 400;
-}
+/*.project-box strong.state-ing:before {*/
+/*  content: "|";*/
+/*  position: absolute;*/
+/*  top: 2px;*/
+/*  left: 66px;*/
+/*  color: var(--gray-font);*/
+/*  font-weight: 400;*/
+/*}*/
 
 .project-box strong.state-done:before {
   content: "|";
