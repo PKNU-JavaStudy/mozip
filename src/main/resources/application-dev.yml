@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: oracle.jdbc.driver.OracleDriver
-    url: jdbc:oracle:thin:@192.168.0.39:1521:xe
+    url: jdbc:oracle:thin:@210.119.14.56:1521:xe
     username: mozip
-    password: mozip1234
+    password: mozip_p@ss
   # Mail
   mail:
     host: smtp.gmail.com
