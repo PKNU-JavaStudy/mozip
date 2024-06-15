@@ -129,6 +129,12 @@
             dataType: "json"
         }).done(res=>{
             console.log("성공", res);
+            $('#all').addClass('on');
+            $('#backend').removeClass();
+            $('#design').removeClass();
+            $('#manager').removeClass();
+            $('#etc').removeClass();
+
             $('.lists').empty();
             $('#typeAll').removeClass();
             $('#typeStudy').removeClass();
@@ -172,6 +178,12 @@
             dataType: "json"
         }).done(res=>{
             console.log("성공", res);
+            $('#all').addClass('on');
+            $('#backend').removeClass();
+            $('#design').removeClass();
+            $('#manager').removeClass();
+            $('#etc').removeClass();
+
             $('.lists').empty();
             $('#typeAll').removeClass();
             $('#typeSide').removeClass();
@@ -226,6 +238,17 @@
                 dataType: "json"
             }).done(res => {
                 console.log("성공", res);
+                $('#all').addClass('on');
+                $('#typeAll').addClass('on');
+
+                $('#all').addClass('on');
+                $('#backend').removeClass();
+                $('#design').removeClass();
+                $('#manager').removeClass();
+                $('#etc').removeClass();
+                $('#typeSide').removeClass();
+                $('#typeStudy').removeClass();
+
                 $('.lists').empty();
                 if (res.data.length === 0) {
                     $('.lists').append('<p class="search-null">프로젝트가 존재하지 않습니다. 다시 검색해주세요.</p>');
@@ -275,6 +298,9 @@
         }).done(res => {
             console.log("성공", res);
             $('.lists').empty();
+            $('#typeAll').addClass('on');
+            $('#typeSide').removeClass();
+            $('#typeStudy').removeClass();
 
             $('#all').removeClass();
             $('#backend').removeClass();
@@ -326,6 +352,9 @@
         }).done(res => {
             console.log("성공", res);
             $('.lists').empty();
+            $('#typeAll').addClass('on');
+            $('#typeSide').removeClass();
+            $('#typeStudy').removeClass();
 
             $('#all').removeClass();
             $('#frontend').removeClass();
@@ -377,6 +406,10 @@
             console.log("성공", res);
             $('.lists').empty();
 
+            $('#typeAll').addClass('on');
+            $('#typeSide').removeClass();
+            $('#typeStudy').removeClass();
+
             $('#all').removeClass();
             $('#backend').removeClass();
             $('#frontend').removeClass();
@@ -426,6 +459,10 @@
         }).done(res => {
             console.log("성공", res);
             $('.lists').empty();
+
+            $('#typeAll').addClass('on');
+            $('#typeSide').removeClass();
+            $('#typeStudy').removeClass();
 
             $('#all').removeClass();
             $('#backend').removeClass();
@@ -477,6 +514,10 @@
             console.log("성공", res);
             $('.lists').empty();
 
+            $('#typeAll').addClass('on');
+            $('#typeSide').removeClass();
+            $('#typeStudy').removeClass();
+
             $('#all').removeClass();
             $('#backend').removeClass();
             $('#design').removeClass();
@@ -525,6 +566,18 @@
             success: function (response) {
                 // 기존 프로젝트 리스트를 비웁니다.
                 $('.lists').empty();
+
+                $('#typeAll').addClass('on');
+                $('#typeSide').removeClass();
+                $('#typeStudy').removeClass();
+
+                $('#all').addClass('on');
+                $('#backend').removeClass();
+                $('#design').removeClass();
+                $('#manager').removeClass();
+                $('#etc').removeClass();
+
+                $('#all').addClass('on');
                 // 검색 결과가 없을 때 메시지 표시
                 if (response.data.length === 0) {
                     $('.lists').append('<p class="search-null">프로젝트가 존재하지 않습니다. 다시 검색해주세요.</p>');
