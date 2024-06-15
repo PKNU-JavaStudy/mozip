@@ -6,7 +6,8 @@
     <insert id="joinMember">
         INSERT INTO MEMBER(ID, EMAIL, PASSWORD, USERNAME, PHONE, CAREER, INFO, GITHUB_LINK, PROFILE_IMAGE_URL, POSITION,
                            IS_MODIFY, CREATED_AT)
-        VALUES (MEMBER_SEQ.NEXTVAL, #{email}, #{password}, #{username}, #{phone}, 0, '수정필요!', '수정필요!', '수정필요!', 0, 0,
+        VALUES (MEMBER_SEQ.NEXTVAL, #{email}, #{password}, #{username}, #{phone}, 0, '수정필요!', '수정필요!',
+                'profile_sample.png', 0, 0,
                 TO_CHAR(SYSDATE, 'YYYY-MM-DD HH:MI:SS'))
     </insert>
 
