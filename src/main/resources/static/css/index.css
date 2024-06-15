@@ -33,7 +33,6 @@ h5 {
 
 .cont-box {
   max-width: 500px;
-  margin-top: 100px;
   border: 1px solid var(--border-color);
   border-radius: 10px;
   padding: 23px 26px;
@@ -65,7 +64,7 @@ h5 {
 
 .pj-tag {
   color: #fff;
-  font-size: 0.813rem;
+  font-size: 0.65rem;
   font-weight: 500;
   border-radius: 3px;
   padding: 4px 7px;
@@ -116,6 +115,7 @@ h1.pj-title:hover {
 
 p.pj-content {
   width: 425px;
+  min-height:53px;
   font-size: 0.875rem;
   padding-top: 15px;
   display: -webkit-box;
@@ -159,22 +159,30 @@ p.pj-use i {
   padding-left: 4px;
 }
 
-.cont-swiper>.swiper-button-prev {
+.cont-swiper>.swiper-button-prev1
+.cont-swiper>.swiper-button-prev2{
   left: 0px;
 }
 
-.cont-swiper>.swiper-button-next {
+.cont-swiper>.swiper-button-next1
+.cont-swiper>.swiper-button-next2{
   left: 50px;
 }
 
-.cont-swiper>.swiper-button-next,
-.swiper-button-prev {
+.swiper-button-next1,
+.swiper-button-prev1,
+.swiper-button-next2,
+.swiper-button-prev2{
   top: 18%;
 }
 
 .cont-swiper>.swiper-button-next:after,
 .cont-swiper>.swiper-button-prev:after {
   display: none;
+}
+.swiper-position{
+  position:relative;
+  margin-top:100px;
 }
 
 .ps-l {
@@ -183,8 +191,8 @@ p.pj-use i {
 
 .all-page {
   position: absolute;
-  right: 0px;
-  top: 50px;
+  right: 10px;
+  top: -35px;
   z-index: 9;
 }
 
@@ -197,7 +205,6 @@ p.pj-use i {
   border-radius: 10px;
   padding: 27px 30px;
   width: 330px;
-  margin-top: 100px;
 }
 
 .member-box:hover {
@@ -247,6 +254,7 @@ p.pj-use i {
 
 .profile-cont {
   padding-top: 15px;
+  min-height:92px;
   font-size: 0.875rem;
   overflow: hidden;
   display: -webkit-box;
@@ -255,21 +263,21 @@ p.pj-use i {
   line-height: 1.2rem;
 }
 
-.member-swiper>.swiper-button-prev {
+.swiper-button-prev {
   left: 0px;
 }
 
-.member-swiper>.swiper-button-next {
+.swiper-button-next {
   left: 50px;
 }
 
-.member-swiper>.swiper-button-next,
+.swiper-button-next,
 .swiper-button-prev {
-  top: 18%;
+  top: -12%;
 }
 
-.member-swiper>.swiper-button-next:after,
-.member-swiper>.swiper-button-prev:after {
+.swiper-position .swiper-button-next:after,
+.swiper-position .swiper-button-prev:after {
   display: none;
 }
 
