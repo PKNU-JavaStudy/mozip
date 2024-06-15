@@ -168,8 +168,10 @@
           <i class="fa-regular fa-bookmark" style="color: white;"></i>북마크
         </button>
       </th:block>
-      <th:block th:if="${showDetail.getGithubLink() == null}"><a style="display:none;" th:href="@{/{github}(github=${showDetail.getGithubLink()})}"><button class="right-btn github"><i class="fa-brands fa-github"></i>깃허브</button></a></th:block>
-      <th:block th:if="${showDetail.getGithubLink() != null}"><a th:href="@{/{github}(github=${showDetail.getGithubLink()})}"><button class="right-btn github"><i class="fa-brands fa-github"></i>깃허브</button></a></th:block>
+      <th:block th:if="${showDetail.getGithubLink() == null}"><a style="display:none;"
+                                                                 th:href="@{https://{github}(github=${showDetail.getGithubLink()})}"><button
+              class="right-btn github"><i class="fa-brands fa-github"></i>깃허브</button></a></th:block>
+      <th:block th:if="${showDetail.getGithubLink() != null}"><a th:href="@{https://{github}(github=${showDetail.getGithubLink()})}"><button class="right-btn github"><i class="fa-brands fa-github"></i>깃허브</button></a></th:block>
       <div class="edit-btn" th:if="${session.loginMember != null && session.loginMember.getId()==showDetail.getOwnerId()}">
         <a th:href="@{/project/show_edit/{projectId}(projectId=${showDetail.getId()})}">
           <button class="right-btn mod_btn">수정</button>
