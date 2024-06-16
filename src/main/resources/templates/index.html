@@ -68,7 +68,7 @@
                 <h1 class="pj-title" th:text="${project.getProjectName()}">
                   한달살기 프로젝트 - 백엔드 개발자님 추가 모집 중
                 </h1>
-                <p class="pj-content" th:text="${project.getProjectInfo()}">
+                <p class="pj-content" th:utext="${#strings.replace(project.getProjectInfo(), '\n', '<br/>')}">
                   현재 웹, 구글플레이스토어, 앱스토어에 출시되어있습니다.
                   도시별 한달살기 정보제공 플랫폼을 만들고 있습니다.
                   수익창출을 목표로 실행 중이며, 창업에 관심있는 분을 찾고
