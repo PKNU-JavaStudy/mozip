@@ -1,17 +1,15 @@
 spring:
   datasource:
     driver-class-name: oracle.jdbc.driver.OracleDriver
-    url: jdbc:oracle:thin:@localhost:1521:XE
-    # url: ${secrets.datasource.url}
-    username: mozip
-    password: mozip1234
-  # password: ${secrets.datasource.password}
+    url: ${secrets.datasource.url}
+    username: ${secrets.datasource.username}
+    password: ${secrets.datasource.password}
   # Mail
   mail:
     host: smtp.gmail.com
     port: 587
-    username: chlwodud19970327@gmail.com
-    password: wpiavganhaqabkem
+    username: ${secrets.mail.username}
+    password: ${secrets.mail.password}
     properties:
       mail:
         smtp:
@@ -34,4 +32,4 @@ server:
 
 # TODO : 이미지 저장 경로 /upload 왼쪽 경로는 각자 경로를 적어줘야 한다.
 file:
-  path: /Users/yoonji/git/pj-img/
+  path: ${secrets.file.path}
