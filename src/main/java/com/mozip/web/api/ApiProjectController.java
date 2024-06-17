@@ -94,12 +94,15 @@ public class ApiProjectController {
 
     // 북마크
     @PostMapping("/keep")
-    public ResponseEntity<?> keepProject(@RequestBody Keep keep){
+    public ResponseEntity<?> keepProject(@RequestBody Keep keep) {
         // 북마크, 북마크 취소 구분하여 처리
         keepService.keepValidation(keep);
 
-        return ResponseEntity.ok().body(new CMRespDto<>(1,"통신성공", keepService.keepCount(keep.getProjectId(), keep.getMemberId())));
+        // 북마크 상태 반환 (1: 추가됨, 0: 취소됨)
+        int bookmarkStatus = keepService.keepCount(keep.getProjectId(), keep.getMemberId());
+        return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공", bookmarkStatus));
     }
+
 
     // 프로젝트모집 카테고리 필터
     @PostMapping("/project/filter")
