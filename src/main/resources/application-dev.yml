@@ -2,10 +2,8 @@ spring:
   datasource:
     driver-class-name: oracle.jdbc.driver.OracleDriver
     url: ${secrets.datasource.url}
-    #    url: ${secrets.datasource.url}
     username: ${secrets.datasource.username}
     password: ${secrets.datasource.password}
-#    password: ${secrets.datasource.password}
   # Mail
   mail:
     host: smtp.gmail.com

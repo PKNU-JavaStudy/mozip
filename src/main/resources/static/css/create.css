@@ -44,6 +44,7 @@ textarea {
   resize: none;
   padding: 17px 20px;
   overflow-y: scroll;
+  white-space: pre-line;
 }
 
 /* 추가수정 */

@@ -118,7 +118,7 @@
         </div>
         <div class="pj-intro">
           <h2 class="title-contents">프로젝트 소개</h2>
-          <p class="content bottom" th:text="${showDetail.getProjectInfo()}">
+          <p class="content bottom" th:utext="${#strings.replace(showDetail.getProjectInfo(), '\n', '<br/>')}">
             내용이다 바보야
           </p>
         </div>

@@ -41,8 +41,12 @@
     /* 제목 타이틀 글자 스타일 설정*/
     position: relative;
     font-size: 1.5rem;
-    font-weight: 900;
+    font-weight: 600;
     padding-right: 20px;
+}
+
+.title-wrap strong.state-done {
+    color: var(--lightgray-font);
 }
 
 /*.title-wrap strong.state-ing:before {*/
@@ -55,15 +59,6 @@
 /*    font-weight: 500;*/
 /*}*/
 
-.title-wrap strong.state-done:before {
-    /* 모집 완료 | 기준으로 스타일 설정 */
-    content: "|";
-    position: absolute;
-    top: 2px;
-    left: 82px;
-    color: var(--gray-font);
-    font-weight: 500;
-}
 
 .title-wrap strong.state-ing {
     /* 모집 중 글자 색 맞추기 */
@@ -769,7 +764,7 @@ ul.stack-icon li:nth-child(3n) {
 
 .modal h3 {
     /* 모달창 안내문구 폰트 설정 */
-    padding-bottom: 10px;
+    padding-bottom: 50px;
     font-size: 20px;
 }
 
@@ -785,7 +780,7 @@ ul.stack-icon li:nth-child(3n) {
 
 .button-wrap .close-modal-back {
     /* 모달창 버튼 간격두기 */
-    margin-bottom: 40px;
+    margin-bottom: 15px;
     border: 1px solid var(--tag-bgcolor);
 }
 

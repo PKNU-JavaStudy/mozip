@@ -113,7 +113,7 @@
               <!--아이콘 들어가는 곳-->
             </div>
             <select id="skill">
-              <option value="" selected disabled hidden>기술스택</option>
+              <option value="all">기술스택</option>
               <option value="AWS">AWS</option>
               <option value="Docker">Docker</option>
               <option value="Figma">Figma</option>
@@ -238,7 +238,11 @@
           let jsonData = {};
 
           $(formData).each(function (index, obj) {
-              jsonData[obj.name] = obj.value;
+            // 줄바꿈을 <br>로 변환
+            if (obj.name === "projectInfo") {
+              obj.value = obj.value.replace(/\n/g, "<br />");
+            }
+            jsonData[obj.name] = obj.value;
           });
 
           // 날짜가 오늘 날짜보다 적으면 안됨.

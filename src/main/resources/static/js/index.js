@@ -11,10 +11,24 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // main - cont 스와이퍼
-  var swiper = new Swiper(".cont-swiper", {
+  var swiper = new Swiper(".new-swiper", {
     navigation: {
-      nextEl: ".swiper-button-next",
-      prevEl: ".swiper-button-prev",
+      nextEl: ".swiper-button-next1",
+      prevEl: ".swiper-button-prev1",
+    },
+    slidesPerView: 2, // 한 화면에 슬라이드 2개씩
+    spaceBetween: 20, // 슬라이드 간 간격
+    autoplay: {
+      delay: 20000, // 시간 설정
+      disableOnInteraction: false,
+    },
+  });
+
+  // main - 인기 프로젝트 스와이퍼
+  var swiper = new Swiper(".hot-swiper", {
+    navigation: {
+      nextEl: ".swiper-button-next2",
+      prevEl: ".swiper-button-prev2",
     },
     slidesPerView: 2, // 한 화면에 슬라이드 2개씩
     spaceBetween: 20, // 슬라이드 간 간격

@@ -69,18 +69,14 @@
     <div class="lists">
       <a th:href="@{/project/{project}(project=${project.getId()})}" th:each="project : ${allProject}" class="project-box">
         <span class="pj-type" th:classappend="${project.getProjectType() == '사이드 프로젝트'? 'pj' : 'study'}" th:text="${project.getProjectType()}"></span>
-        <p class="title">
-          <strong class="state-ing" th:text="${project.getStatus() == 1 ? '모집 중' : '모집완료' }">모집 중</strong>
-          <span th:text="${project.getProjectName()}">엘리스 SW 4기 모집합니다!</span>
+        <p th:class="title">
+          <strong th:classappend="${project.status == 1 ? 'state-ing' : 'state-done'}" th:text="${project.status == 1 ? '모집 중' : '모집완료'}"></strong>
+          <span th:classappend="project-name" th:text="${project.getProjectName()}">엘리스 SW 4기 모집합니다!</span>
         </p>
         <div class="cont-wrap">
-          <p class="content" th:text="${project.getProjectInfo()}">
+          <p class="content" th:utext="${#strings.replace(project.getProjectInfo(), '\n', '<br/>')}">
             열심히 코딩해서 멋진 개발자가 인재들을 모집합니다.열심히
-            코딩해서 멋진 개발자가 인재 들을 모집합니다.열심히 코딩해서 멋진
-            개발자가 인재들을 모집합니다.열심히 코딩해서 멋진 개발자가
-            인재들을 모집합니다.열심히 코딩해서 멋진 개발자가 인재들을
-            모집합니다.열심히 코딩해서 멋진 개발자가 인재들을
-            모집합니다.열심히 코딩해서 멋진 개발자가 인재들을 모집합니다.
+            코딩해서 멋진 개발자가 인재 들을 모집합니다.
           </p>
         </div>
         <ul class="pj-work">
@@ -149,7 +145,7 @@
                 <span class="pj-type ${project.projectType == '사이드 프로젝트' ? 'pj' : 'study'}">${project.projectType}</span>
                 <p class="title">
                   <strong class="state-ing">${project.status == 1 ? '모집 중' : '모집완료'}</strong>
-                  <span>${project.projectName}</span>
+                   <span th:classappend="project-name" th:text="${project.getProjectName()}">엘리스 SW 4기 모집합니다!</span>
                 </p>
                 <div class="cont-wrap">
                   <p class="content">${project.projectInfo}</p>
@@ -198,7 +194,7 @@
                 <span class="pj-type ${project.projectType == '사이드 프로젝트' ? 'pj' : 'study'}">${project.projectType}</span>
                 <p class="title">
                   <strong class="state-ing">${project.status == 1 ? '모집 중' : '모집완료'}</strong>
-                  <span>${project.projectName}</span>
+                   <span th:classappend="project-name" th:text="${project.getProjectName()}">엘리스 SW 4기 모집합니다!</span>
                 </p>
                 <div class="cont-wrap">
                   <p class="content">${project.projectInfo}</p>
@@ -260,7 +256,7 @@
                 <span class="pj-type ${project.projectType == '사이드 프로젝트' ? 'pj' : 'study'}">${project.projectType}</span>
                 <p class="title">
                   <strong class="state-ing">${project.status == 1 ? '모집 중' : '모집완료'}</strong>
-                  <span>${project.projectName}</span>
+                   <span th:classappend="project-name" th:text="${project.getProjectName()}">엘리스 SW 4기 모집합니다!</span>
                 </p>
                 <div class="cont-wrap">
                   <p class="content">${project.projectInfo}</p>
@@ -319,7 +315,7 @@
                 <span class="pj-type ${project.projectType == '사이드 프로젝트' ? 'pj' : 'study'}">${project.projectType}</span>
                 <p class="title">
                   <strong class="state-ing">${project.status == 1 ? '모집 중' : '모집완료'}</strong>
-                  <span>${project.projectName}</span>
+                   <span th:classappend="project-name" th:text="${project.getProjectName()}">엘리스 SW 4기 모집합니다!</span>
                 </p>
                 <div class="cont-wrap">
                   <p class="content">${project.projectInfo}</p>
@@ -373,7 +369,7 @@
                 <span class="pj-type ${project.projectType == '사이드 프로젝트' ? 'pj' : 'study'}">${project.projectType}</span>
                 <p class="title">
                   <strong class="state-ing">${project.status == 1 ? '모집 중' : '모집완료'}</strong>
-                  <span>${project.projectName}</span>
+                   <span th:classappend="project-name" th:text="${project.getProjectName()}">엘리스 SW 4기 모집합니다!</span>
                 </p>
                 <div class="cont-wrap">
                   <p class="content">${project.projectInfo}</p>
@@ -427,7 +423,7 @@
                 <span class="pj-type ${project.projectType == '사이드 프로젝트' ? 'pj' : 'study'}">${project.projectType}</span>
                 <p class="title">
                   <strong class="state-ing">${project.status == 1 ? '모집 중' : '모집완료'}</strong>
-                  <span>${project.projectName}</span>
+                   <span th:classappend="project-name" th:text="${project.getProjectName()}">엘리스 SW 4기 모집합니다!</span>
                 </p>
                 <div class="cont-wrap">
                   <p class="content">${project.projectInfo}</p>
@@ -481,7 +477,7 @@
                 <span class="pj-type ${project.projectType == '사이드 프로젝트' ? 'pj' : 'study'}">${project.projectType}</span>
                 <p class="title">
                   <strong class="state-ing">${project.status == 1 ? '모집 중' : '모집완료'}</strong>
-                  <span>${project.projectName}</span>
+                   <span th:classappend="project-name" th:text="${project.getProjectName()}">엘리스 SW 4기 모집합니다!</span>
                 </p>
                 <div class="cont-wrap">
                   <p class="content">${project.projectInfo}</p>
@@ -535,10 +531,10 @@
                 <span class="pj-type ${project.projectType == '사이드 프로젝트' ? 'pj' : 'study'}">${project.projectType}</span>
                 <p class="title">
                   <strong class="state-ing">${project.status == 1 ? '모집 중' : '모집완료'}</strong>
-                  <span>${project.projectName}</span>
+                   <span th:classappend="project-name" th:text="${project.getProjectName()}">엘리스 SW 4기 모집합니다!</span>
                 </p>
                 <div class="cont-wrap">
-                  <p class="content">${project.projectInfo}</p>
+                  <p class="content"></p>
                 </div>
                 <ul class="pj-work">
                   ${project.roleNames.map(role => `<li>${role}</li>`).join('')}
@@ -614,20 +610,19 @@
     }
 
     function clearSearch() {
-        document.querySelector(".recruit-ipt").value = '';
-        searchProjects(); // 검색어를 비운 상태로 searchProjects 호출
+      document.querySelector(".recruit-ipt").value = '';
+      searchProjects(); // 검색어를 비운 상태로 searchProjects 호출
     }
 
-    function handleKeyDown(event) {
-        if (event.key === 'Enter') {
-            searchProjects();
-        }
+    function handleInput() {
+      searchProjects();
     }
 
-    document.querySelector(".recruit-ipt").addEventListener("keydown", handleKeyDown);
+    document.querySelector(".recruit-ipt").addEventListener("input", handleInput);
 
     // 페이지 로드 시 전체 프로젝트 로드
     window.onload = searchProjects;
+
 </script>
 
 </html>
