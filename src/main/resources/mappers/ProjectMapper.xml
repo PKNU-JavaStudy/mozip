@@ -50,10 +50,9 @@
     <select id="findNewProject" resultMap="projectDtoMap">
         <![CDATA[
         SELECT ID, PROJECT_NAME, PROJECT_TYPE, PROJECT_INFO, VIEWS
-        FROM (SELECT ID, PROJECT_NAME, PROJECT_TYPE, PROJECT_INFO, VIEWS
-              FROM PROJECT
-              ORDER BY CREATED_AT DESC)
-        WHERE ROWNUM <= 6
+        FROM PROJECT
+        ORDER BY CREATED_AT DESC
+            LIMIT 6
         ]]>
     </select>
 
@@ -61,10 +60,9 @@
     <select id="findHotProject" resultMap="projectDtoMap">
         <![CDATA[
         SELECT ID, PROJECT_NAME, PROJECT_TYPE, PROJECT_INFO, VIEWS
-        FROM (SELECT ID, PROJECT_NAME, PROJECT_TYPE, PROJECT_INFO, VIEWS
-              FROM PROJECT
-              ORDER BY VIEWS DESC)
-        WHERE ROWNUM <= 6
+        FROM PROJECT
+        ORDER BY VIEWS DESC
+            LIMIT 6
         ]]>
     </select>
 
@@ -118,13 +116,10 @@
     <select id="findHotShow" resultMap="ShowListDtoMap">
         <![CDATA[
         SELECT ID, PROJECT_NAME, PROJECT_TYPE, VIEWS, IS_SHOW
-        FROM (
-                 SELECT ID, PROJECT_NAME, PROJECT_TYPE, VIEWS, IS_SHOW
-                 FROM PROJECT
-                 WHERE IS_SHOW = 0
-                 ORDER BY VIEWS DESC
-             )
-        WHERE ROWNUM <= 3
+        FROM PROJECT
+        WHERE IS_SHOW = 0
+        ORDER BY VIEWS DESC
+            LIMIT 3
         ]]>
     </select>
 
@@ -167,8 +162,8 @@
     <select id="findOwnerInfo" resultType="com.mozip.dto.resp.ProjectMemberDto">
         SELECT ID,
                USERNAME,
-               DECODE(POSITION, NULL, '수정필요!', POSITION),
-               DECODE(CAREER, NULL, 0, CAREER),
+               IFNULL(POSITION, '수정필요!'),
+               IFNULL(CAREER, 0),
                PROFILE_IMAGE_URL,
                CREATED_AT
         FROM MEMBER
@@ -190,7 +185,7 @@
     </select>
 
     <select id="findProjectMembers" resultType="com.mozip.dto.resp.ProjectMemberDto">
-        SELECT MEMBER_ID, USERNAME, DECODE(POSITION, NULL, '수정필요!', POSITION), DECODE(CAREER, NULL, 0, CAREER), PROFILE_IMAGE_URL, STIME
+        SELECT MEMBER_ID, USERNAME, IFNULL(POSITION, '수정필요!'), IFNULL(CAREER, 0), PROFILE_IMAGE_URL, STIME
         FROM (SELECT SUBSCRIBE.MEMBER_ID, SUBSCRIBE.CREATED_AT AS STIME
               FROM SUBSCRIBE
                        INNER JOIN PROJECT ON PROJECT.ID = SUBSCRIBE.PROJECT_ID
@@ -277,25 +272,25 @@
     </select>
 
     <insert id="createProject" parameterType="com.mozip.dto.req.ProjectCreateDto">
-        INSERT INTO PROJECT (ID, PROJECT_NAME, PROJECT_TYPE, SUBJECT,
+        INSERT INTO PROJECT (PROJECT_NAME, PROJECT_TYPE, SUBJECT,
                              RECRUIT_COUNT, PROJECT_PURPOSE, PROJECT_TIME,
                              PROJECT_PROCESS, EXCEPT_DATE, EXCEPT_TIME, OWNER_ID, PROJECT_INFO, STATUS, CREATED_AT,
                              VIEWS)
-        VALUES (PROJECT_SEQ.nextval, #{dto.projectName}, #{dto.projectType}, #{dto.subject},
+        VALUES (#{dto.projectName}, #{dto.projectType}, #{dto.subject},
                 #{dto.recruitCount}, #{dto.projectPurpose}, #{dto.projectTime},
-                #{dto.projectProcess}, #{dto.exceptDate}, TO_TIMESTAMP(#{dto.exceptTime}), #{dto.ownerId},
-                TO_NCLOB(#{dto.projectInfo}), 1, TO_CHAR(SYSDATE, 'YYYY-MM-DD HH:MI:SS'), 0)
+                #{dto.projectProcess}, #{dto.exceptDate}, #{dto.exceptTime}, #{dto.ownerId},
+                #{dto.projectInfo}, 1, NOW(), 0)
     </insert>
 
     <insert id="createProjectSkill">
-        INSERT INTO PROJECT_SKILL (ID, SKILL_NAME, PROJECT_ID)
-        VALUES (PROJECT_SKILL_SEQ.nextval, #{skill}, #{id})
+        INSERT INTO PROJECT_SKILL (SKILL_NAME, PROJECT_ID)
+        VALUES (#{skill}, #{id})
 
     </insert>
 
     <insert id="createRecruitRole">
-        INSERT INTO RECRUIT_ROLE (ID, PROJECT_ID, ROLE_NAME)
-        VALUES (RECRUIT_ROLE_SEQ.nextval, #{id}, #{role})
+        INSERT INTO RECRUIT_ROLE (PROJECT_ID, ROLE_NAME)
+        VALUES (#{id}, #{role})
     </insert>
 
     <select id="findProjectId" resultType="java.lang.Integer">
@@ -314,7 +309,7 @@
     <update id="findViewCount" parameterType="int">
         UPDATE PROJECT
         SET VIEWS = VIEWS + 1
-        where ID = #{projectId}
+        WHERE ID = #{projectId}
     </update>
 
     <!--  프로젝트자랑 삭제  -->
@@ -367,7 +362,6 @@
         WHERE ID = #{projectId}
     </update>
 
-
     <!-- 프로젝트모집 상세 : 모집완료 취소 -->
     <update id="recruitDoneCancle" parameterType="int">
         UPDATE PROJECT
@@ -417,16 +411,15 @@
 
     <!-- 프로젝트모집 수정 : 프로젝트 스킬 -->
     <insert id="updateProjectSkills">
-        INSERT INTO PROJECT_SKILL
-        VALUES (PROJECT_SKILL_SEQ.nextval, #{skill}, #{projectId})
+        INSERT INTO PROJECT_SKILL (SKILL_NAME, PROJECT_ID)
+        VALUES (#{skill}, #{projectId})
     </insert>
 
     <!-- 프로젝트모집 수정 : 모집역할 -->
     <insert id="updateProjectRecruitRoles">
-        INSERT INTO RECRUIT_ROLE
-        VALUES (RECRUIT_ROLE_SEQ.nextval, #{projectId}, #{role})
+        INSERT INTO RECRUIT_ROLE (PROJECT_ID, ROLE_NAME)
+        VALUES (#{projectId}, #{role})
     </insert>
-
 
     <!-- 프로젝트 스킬 삭제 -->
     <delete id="deleteProjectSkills" parameterType="int">
@@ -444,8 +437,8 @@
 
     <!-- 프로젝트모집 프로젝트 신청 -->
     <insert id="projectJoin">
-        INSERT INTO SUBSCRIBE
-        VALUES (SUBSCRIBE_SEQ.nextval, #{projectId}, #{memberId}, TO_CHAR(SYSDATE, 'YYYY-MM-DD HH:MI:SS'))
+        INSERT INTO SUBSCRIBE (PROJECT_ID, MEMBER_ID, CREATED_AT)
+        VALUES (#{projectId}, #{memberId}, NOW())
     </insert>
 
     <!-- 프로젝트모집 프로젝트 신청 멤버 가져오기 -->
@@ -462,8 +455,8 @@
         SELECT P.ID, P.PROJECT_NAME, P.PROJECT_TYPE,
                P.PROJECT_INFO, P.VIEWS, P.STATUS, P.CREATED_AT
         FROM PROJECT P
-        WHERE P.PROJECT_NAME LIKE '%' || #{keyword} || '%'
-           OR P.PROJECT_INFO LIKE '%' || #{keyword} || '%'
+        WHERE P.PROJECT_NAME LIKE CONCAT('%', #{keyword}, '%')
+           OR P.PROJECT_INFO LIKE CONCAT('%', #{keyword}, '%')
         ORDER BY CREATED_AT DESC
     </select>
 
@@ -478,7 +471,7 @@
         SELECT p.ID
         FROM PROJECT p
                  INNER JOIN RECRUIT_ROLE pr ON p.ID = pr.PROJECT_ID
-        WHERE ROLE_NAME LIKE '%' || #{filter} || '%'
+        WHERE ROLE_NAME LIKE CONCAT('%', #{filter}, '%')
         ORDER BY CREATED_AT DESC
     </select>
 
@@ -497,7 +490,6 @@
         WHERE PROJECT_TYPE = #{filter}
         ORDER BY CREATED_AT DESC
     </select>
-
 
     <select id="findOneRecruit" resultMap="recruitDtoMap">
         SELECT ID, PROJECT_NAME, PROJECT_TYPE, PROJECT_INFO, VIEWS, STATUS, CREATED_AT

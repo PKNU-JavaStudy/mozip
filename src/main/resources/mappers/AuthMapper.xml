@@ -3,12 +3,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.mozip.domain.member.AuthRepository">
+    <!--회원가입-->
     <insert id="joinMember">
-        INSERT INTO MEMBER(ID, EMAIL, PASSWORD, USERNAME, PHONE, CAREER, INFO, GITHUB_LINK, PROFILE_IMAGE_URL, POSITION,
-                           IS_MODIFY, CREATED_AT)
-        VALUES (MEMBER_SEQ.NEXTVAL, #{email}, #{password}, #{username}, #{phone}, 0, '수정필요!', '수정필요!',
-                'profile_sample.png', 0, 0,
-                TO_CHAR(SYSDATE, 'YYYY-MM-DD HH:MI:SS'))
+        INSERT INTO MEMBER (EMAIL, PASSWORD, USERNAME, PHONE, CAREER, INFO, GITHUB_LINK, PROFILE_IMAGE_URL, POSITION,
+                            IS_MODIFY, CREATED_AT)
+        VALUES (#{email}, #{password}, #{username}, #{phone}, 0, '수정필요!', '수정필요!',
+                'profile_sample.png', 0, 0, NOW())
     </insert>
 
     <select id="findLoginMember" resultType="com.mozip.domain.member.Member">
@@ -28,7 +28,7 @@
         FROM MEMBER
         WHERE ID = #{memberId}
     </select>
-
+    <!--프로필 이미지-->
     <update id="updateProfileImg">
         UPDATE MEMBER
         SET PROFILE_IMAGE_URL=#{imageDir}
@@ -44,10 +44,10 @@
 
     <!-- 프로젝트 멤버 추가 -->
     <insert id="projectJoin">
-        INSERT INTO PROJECT_MEMBER
-        VALUES (PROJECT_MEMBER_SEQ.nextval,#{projectId}, #{memberId})
+        INSERT INTO PROJECT_MEMBER (PROJECT_ID, MEMBER_ID)
+        VALUES (#{projectId}, #{memberId})
     </insert>
-
+    <!--이메일 찾기-->
     <select id="findMemberEmail" parameterType="com.mozip.dto.req.FindEmailDto" resultType="java.lang.String">
         SELECT EMAIL
         FROM MEMBER

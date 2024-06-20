@@ -6,8 +6,8 @@
 
     <!-- 좋아요 수 올리기 -->
     <insert id="addLike" parameterType="com.mozip.domain.likes.Likes">
-        INSERT INTO LIKES(ID, PROJECT_ID, MEMBER_ID)
-        VALUES (LIKE_SEQ.nextVal, #{dto.projectId}, #{dto.memberId})
+        INSERT INTO LIKES (PROJECT_ID, MEMBER_ID)
+        VALUES (#{dto.projectId}, #{dto.memberId})
     </insert>
 
     <!-- 좋아요 취소 -->
@@ -27,7 +27,6 @@
     <select id="likeCount" resultType="java.lang.Integer">
         SELECT COUNT(*)
         FROM LIKES
-                 INNER JOIN PROJECT ON LIKES.PROJECT_ID = PROJECT.ID
         WHERE PROJECT_ID = #{projectId}
     </select>
 

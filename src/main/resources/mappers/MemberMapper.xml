@@ -2,7 +2,7 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.mozip.domain.member.MemberRepository"> <!-- namespace 에는 repository 클래스의 경로를 입력 -->
+<mapper namespace="com.mozip.domain.member.MemberRepository">
     <!-- 사용자 기본 정보 가져오기 -->
     <resultMap id="mypageDtoMap" type="com.mozip.dto.resp.MypageDto">
         <result property="id" column="ID"/>
@@ -14,14 +14,13 @@
         <result property="githubLink" column="GITHUB_LINK"/>
     </resultMap>
 
-
     <resultMap id="bookmarkListDtoMap" type="com.mozip.dto.resp.MyBookmarkListDto">
         <result property="id" column="ID"/>
         <result property="projectName" column="PROJECT_NAME"/>
         <result property="projectType" column="PROJECT_TYPE"/>
         <result property="status" column="STATUS"/>
         <result property="projectTime" column="PROJECT_TIME"/>
-        <result property="createdAt" column="CREATE_AT"/>
+        <result property="createdAt" column="CREATED_AT"/>
     </resultMap>
 
     <resultMap id="myProjectDtoMap" type="com.mozip.dto.resp.MyProjectDto">
@@ -35,12 +34,11 @@
 
     <select id="newMemberList" resultType="com.mozip.dto.resp.NewMemberListDto">
         <![CDATA[
-        SELECT *
-        FROM (SELECT ID, USERNAME, POSITION, INFO, PROFILE_IMAGE_URL
-              FROM MEMBER
-              WHERE IS_MODIFY = 1
-              ORDER BY CREATED_AT DESC)
-        WHERE ROWNUM <= 6
+        SELECT ID, USERNAME, POSITION, INFO, PROFILE_IMAGE_URL
+        FROM MEMBER
+        WHERE IS_MODIFY = 1
+        ORDER BY CREATED_AT DESC
+            LIMIT 6
         ]]>
     </select>
 
@@ -77,7 +75,6 @@
     </select>
 
     <!-- 마이페이지 수정 -->
-
     <resultMap id="editUserInfoDtoMap" type="com.mozip.dto.req.MypageEditDto">
         <result property="id" column="ID"/>
         <result property="email" column="EMAIL"/>
@@ -129,14 +126,14 @@
 
     <!-- 새로운 스킬을 삽입하는 쿼리 -->
     <insert id="insertSkills">
-        INSERT INTO MEMBER_SKILL (ID, MEMBER_ID, SKILL_NAME)
-        VALUES (MEMBER_SKILL_SEQ.nextval, #{memberId}, #{skill})
+        INSERT INTO MEMBER_SKILL (MEMBER_ID, SKILL_NAME)
+        VALUES (#{memberId}, #{skill})
     </insert>
 
     <!-- 프로필 이미지 등록 -->
     <update id="updateProfileImg">
         UPDATE MEMBER
         SET PROFILE_IMAGE_URL=#{imageDir}
-        WHERE ID = ${memberId}
+        WHERE ID = #{memberId}
     </update>
 </mapper>
