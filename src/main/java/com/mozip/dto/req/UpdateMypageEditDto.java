@@ -14,7 +14,7 @@ public class UpdateMypageEditDto {
     private int career;
     private String githubLink;
     private String position;
-    private Object info;
+    private String info;
 
     private List<String> skills;
 }

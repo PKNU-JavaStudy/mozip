@@ -9,12 +9,12 @@ public class MypageDto {
     private int id;
     private String name;
     private Integer career;
-    private Object info;
+    private String info;
     private String position;
     private String profileImage;
     private String githubLink;
 
-    public MypageDto(int id, String name, Integer career, Object info, String position, String profileImage, String githubLink) {
+    public MypageDto(int id, String name, Integer career, String info, String position, String profileImage, String githubLink) {
         this.id = id;
         this.name = name;
         this.career = career;

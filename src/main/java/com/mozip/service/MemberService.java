@@ -15,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.NClob;
 import java.util.List;
 import java.util.UUID;
 
@@ -31,7 +30,8 @@ public class MemberService {
     public List<NewMemberListDto> newMemberList() {
         List<NewMemberListDto> newMembers = memberRepository.newMemberList();
         for (NewMemberListDto newMember : newMembers) {
-            newMember.setInfo(Util.clobToString((NClob) newMember.getInfo()));
+            newMember.setInfo(newMember.getInfo());
+
         }
         return newMembers;
     }
@@ -42,7 +42,8 @@ public class MemberService {
         findMember.setBookmarks(memberRepository.getUserBookmarks(findMember.getId()));
         findMember.setMyProjectList(memberRepository.getUserProject(findMember.getId()));
         findMember.setSkills(memberRepository.getUserSkill(findMember.getId()));
-        findMember.setInfo(Util.clobToString((NClob) findMember.getInfo()));
+        findMember.setInfo(findMember.getInfo());
+
 
         return findMember;
     }
@@ -50,7 +51,7 @@ public class MemberService {
     // 마이페이지 수정: 유저 정보를 가져오는 메서드
     public MypageEditDto editUserInfo(int id) {
         MypageEditDto editMember = memberRepository.editUserInfo(id);
-        editMember.setInfo(Util.clobToString((NClob) editMember.getInfo()));
+        editMember.setInfo(editMember.getInfo());
         editMember.setSkills(memberRepository.findSkill(editMember.getId()));
 
         return memberRepository.editUserInfo(id);

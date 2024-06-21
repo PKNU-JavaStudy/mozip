@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.NClob;
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +35,8 @@ public class ProjectService {
             // 각 project의 각 ID를 통해 북마크수, 조회수를 가져와서 추가해줘야 한다.
             project.setRoleNames(projectRepository.findRecruitRoles(project.getId()));
             project.setBookmarkCount(projectRepository.findBookmarkCount(project.getId()));
-            project.setProjectInfo(Util.clobToString((NClob) project.getProjectInfo())); // NCLOB -> String 변환
+            project.setProjectInfo(project.getProjectInfo());
+
         }
         return newProjects;
     }
@@ -47,7 +48,7 @@ public class ProjectService {
         for (ProjectListDto project : hotProjects) {
             project.setRoleNames(projectRepository.findRecruitRoles(project.getId()));
             project.setBookmarkCount(projectRepository.findBookmarkCount(project.getId()));
-            project.setProjectInfo(Util.clobToString((NClob) project.getProjectInfo())); // NCLOB -> String 변환
+            project.setProjectInfo(project.getProjectInfo());
         }
         return hotProjects;
     }
@@ -56,8 +57,9 @@ public class ProjectService {
     public ProjectDetailDto findProjectDetail(int projectId) {
         ProjectDetailDto findProject = projectRepository.findProjectDetail(projectId);
 
-        // 프로젝트소개 타입 변경: NCLOB -> String
-        findProject.setProjectInfo(Util.clobToString((NClob) findProject.getProjectInfo()));
+        // 프로젝트소개
+        findProject.setProjectInfo(findProject.getProjectInfo());
+
 
         // 시작예정, 생성일 타입 변경
         findProject.setCreatedAt(Util.formatTimestamp(Timestamp.valueOf(findProject.getCreatedAt())));
@@ -96,7 +98,7 @@ public class ProjectService {
             project.setRoleNames(projectRepository.findRecruitRoles(project.getId()));
             project.setCreateTime(Util.formatTimestamp(Timestamp.valueOf(project.getCreateTime())));
             project.setSubscribe(projectRepository.findSubscribeCount(project.getId()));
-            project.setProjectInfo(Util.clobToString((NClob) project.getProjectInfo())); // NCLOB -> String 변환
+            project.setProjectInfo(project.getProjectInfo());
         }
         return allProjects;
     }
@@ -128,7 +130,7 @@ public class ProjectService {
         ShowDetailDto findShowDetail = projectRepository.findShowDetail(projectId);
 
         // 프로젝트 소개 가져오기
-        findShowDetail.setProjectInfo(Util.clobToString((NClob) findShowDetail.getProjectInfo()));
+        findShowDetail.setProjectInfo(findShowDetail.getProjectInfo());
 
         // 좋아요 수 카운트
         findShowDetail.setLikes(projectRepository.findShowLikeCount(findShowDetail.getId()));
@@ -192,6 +194,8 @@ public class ProjectService {
     }
 
     // 프로젝트자랑 페이지 삭제
+    // TODO: 읽기 전용 방지를 위한 어노테이션 -> 없으면 게시글 삭제 안됨
+    @Transactional(readOnly = false)
     public void deleteProject(int projectId) {
         projectRepository.deleteProject(projectId); // 프로젝트 삭제 로
 
@@ -203,7 +207,7 @@ public class ProjectService {
 
         project.setSkills(projectRepository.findProjectSkills(projectId));
         project.setRecruitRole(projectRepository.findRecruitRoles(projectId));
-        project.setProjectInfo(Util.clobToString((NClob) project.getProjectInfo()));
+        project.setProjectInfo(project.getProjectInfo());
         // LocalDateTime -> String 변환
         project.setCreatedChangeAt(Util.formatLocalDateTime(project.getCreatedAt()));
         project.setModifiedChangeAt(Util.formatLocalDateTime(project.getModifiedShow()));
@@ -260,7 +264,7 @@ public class ProjectService {
         ProjectEditDto project = projectRepository.findProjectEditDetail(projectId);
         project.setSkills(projectRepository.findProjectSkills(projectId));
         project.setRecruitRole(projectRepository.findRecruitRoles(projectId));
-        project.setProjectInfo(Util.clobToString((NClob) project.getProjectInfo()));
+        project.setProjectInfo(project.getProjectInfo());
         // LocalDateTime -> String 변환
         project.setExceptChangeTime(Util.formatLocalDateTime(project.getExceptTime()));
 
@@ -305,7 +309,7 @@ public class ProjectService {
             recruitListDto.setRoleNames(projectRepository.findRecruitRoles(recruitListDto.getId()));
             recruitListDto.setCreateTime(Util.formatTimestamp(Timestamp.valueOf(recruitListDto.getCreateTime())));
             recruitListDto.setSubscribe(projectRepository.findSubscribeCount(recruitListDto.getId()));
-            recruitListDto.setProjectInfo(Util.clobToString((NClob) recruitListDto.getProjectInfo()));
+            recruitListDto.setProjectInfo(recruitListDto.getProjectInfo());
         }
         return recruitListDtos;
     }
@@ -321,7 +325,7 @@ public class ProjectService {
             dto.setRoleNames(projectRepository.findRecruitRoles(dto.getId()));
             dto.setCreateTime(Util.formatTimestamp(Timestamp.valueOf(dto.getCreateTime())));
             dto.setSubscribe(projectRepository.findSubscribeCount(dto.getId()));
-            dto.setProjectInfo(Util.clobToString((NClob) dto.getProjectInfo()));
+            dto.setProjectInfo(dto.getProjectInfo());
         }
         return recruitListDtos;
     }
@@ -337,7 +341,7 @@ public class ProjectService {
             dto.setRoleNames(projectRepository.findRecruitRoles(dto.getId()));
             dto.setCreateTime(Util.formatTimestamp(Timestamp.valueOf(dto.getCreateTime())));
             dto.setSubscribe(projectRepository.findSubscribeCount(dto.getId()));
-            dto.setProjectInfo(Util.clobToString((NClob) dto.getProjectInfo()));
+            dto.setProjectInfo(dto.getProjectInfo());
         }
         return recruitListDtos;
     }
@@ -354,7 +358,7 @@ public class ProjectService {
             dto.setRoleNames(projectRepository.findRecruitRoles(dto.getId()));
             dto.setCreateTime(Util.formatTimestamp(Timestamp.valueOf(dto.getCreateTime())));
             dto.setSubscribe(projectRepository.findSubscribeCount(dto.getId()));
-            dto.setProjectInfo(Util.clobToString((NClob) dto.getProjectInfo()));
+            dto.setProjectInfo(dto.getProjectInfo());
         }
         return recruitListDtos;
     }

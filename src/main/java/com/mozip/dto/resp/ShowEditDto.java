@@ -16,7 +16,7 @@ public class ShowEditDto {
     private String projectProcess; // 진행방식PROJECT(온/오프)
     private String projectPurpose; // 프로젝트 목적
     private int projectTime; // 프로젝트 참여시간
-    private Object projectInfo; // 프로젝트 소개
+    private String projectInfo; // 프로젝트 소개
 
     private String createdChangeAt;
     private String modifiedChangeAt;

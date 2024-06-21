@@ -14,7 +14,7 @@ public class RecruitListDto {
     private int id;
     private String projectName;
     private String projectType;
-    private Object projectInfo;
+    private String projectInfo;
     private int views;
     private int status;
     private String createTime;

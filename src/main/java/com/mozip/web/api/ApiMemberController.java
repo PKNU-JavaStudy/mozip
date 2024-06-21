@@ -32,7 +32,7 @@ public class ApiMemberController {
     }
 
     @PostMapping("/api/member/profile")
-    public ResponseEntity<?> profileImg(MultipartFile file,
+    public ResponseEntity<?> profileImg(@RequestParam("file") MultipartFile file,
                                         @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
                                         HttpSession session) {
         // 이미지가 첨부되지 않았다면 에러

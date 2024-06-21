@@ -16,12 +16,12 @@ public class ShowDetailDto {
     private String projectProcess; // 진행방식PROJECT(온/오프)
     private String projectPurpose; // 프로젝트 목적
     private int projectTime; // 프로젝트 참여시간
-    private Object projectInfo; // 프로젝트 소개
+    private String projectInfo; // 프로젝트 소개
     private int ownerId; // 작성자 아이디
     private String githubLink; // 깃허브 링크 가져오기
 
     public ShowDetailDto(int id, String projectType, String projectName, String createdAt, String modifiedShow, int views, String projectProcess,
-                         String projectPurpose, int projectTime, int recruitCount, Object projectInfo, int ownerId, String githubLink) {
+                         String projectPurpose, int projectTime, int recruitCount, String projectInfo, int ownerId, String githubLink) {
         this.id = id;
         this.projectType = projectType;
         this.projectName = projectName;

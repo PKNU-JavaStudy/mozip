@@ -6,9 +6,9 @@ import lombok.Data;
 public class TeamnoteListDto {
     private int id;
     private String projectSubject;
-    private Object projectInfo;
+    private String projectInfo;
 
-    public TeamnoteListDto(int id, String projectSubject, Object projectInfo) {
+    public TeamnoteListDto(int id, String projectSubject, String projectInfo) {
         this.id = id;
         this.projectSubject = projectSubject;
         this.projectInfo = projectInfo;

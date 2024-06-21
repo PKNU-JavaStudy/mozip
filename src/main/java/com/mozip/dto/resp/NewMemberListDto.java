@@ -9,6 +9,6 @@ public class NewMemberListDto {
     private int id;
     private String username;
     private String position;
-    private Object info;
+    private String info;
     private String profileImageUrl;
 }

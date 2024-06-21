@@ -19,7 +19,7 @@ public class ProjectEditDto {
     private String projectProcess;
     private String exceptDate;
     private LocalDateTime exceptTime;
-    private Object projectInfo;
+    private String projectInfo;
 
     private String exceptChangeTime; // LocalDateTime 을 String 으로 바꿔서 input태그(date속성)에 담을 수 있음
     private List<String> skills;

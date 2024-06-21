@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.mozip.domain.project.ProjectRepository">
     <resultMap id="projectDtoMap" type="com.mozip.dto.resp.ProjectListDto">
@@ -29,7 +29,6 @@
         <result property="isShow" column="IS_SHOW"/>
     </resultMap>
 
-    <!--  메인페이지 : 새로운 프로젝트  -->
     <resultMap id="projectDetailMap" type="com.mozip.dto.resp.ProjectDetailDto">
         <result property="id" column="ID"/>
         <result property="projectType" column="PROJECT_TYPE"/>
@@ -47,6 +46,7 @@
         <result property="ownerId" column="OWNER_ID"/>
     </resultMap>
 
+    <!--  메인페이지 : 새로운 프로젝트  -->
     <select id="findNewProject" resultMap="projectDtoMap">
         <![CDATA[
         SELECT ID, PROJECT_NAME, PROJECT_TYPE, PROJECT_INFO, VIEWS
@@ -68,18 +68,18 @@
 
     <!--  메인페이지 : 모집역활  -->
     <select id="findRecruitRoles" resultType="java.lang.String">
-        SELECT r.ROLE_NAME
-        FROM PROJECT p
-                 INNER JOIN RECRUIT_ROLE r ON p.ID = r.PROJECT_ID
+        SELECT R.ROLE_NAME
+        FROM PROJECT P
+                 INNER JOIN RECRUIT_ROLE R ON P.ID = R.PROJECT_ID
         WHERE PROJECT_ID = #{projectId}
     </select>
 
     <!--  메인페이지 : 북마크 카운트  -->
     <select id="findBookmarkCount" resultType="int">
         SELECT COUNT(*)
-        FROM PROJECT p
-                 INNER JOIN BOOKMARK b ON p.ID = b.PROJECT_ID
-        WHERE b.PROJECT_ID = #{projectId}
+        FROM PROJECT P
+                 INNER JOIN BOOKMARK B ON P.ID = B.PROJECT_ID
+        WHERE B.PROJECT_ID = #{projectId}
     </select>
 
     <!--  리스트페이지 : 모든 프로젝트  -->
@@ -153,9 +153,9 @@
     <select id="findProjectMemberCount" resultType="int">
         SELECT COUNT(*)
         FROM MEMBER
-        WHERE ID IN (SELECT pm.MEMBER_ID
-                     FROM PROJECT p
-                              INNER JOIN PROJECT_MEMBER pm ON p.ID = pm.PROJECT_ID
+        WHERE ID IN (SELECT PM.MEMBER_ID
+                     FROM PROJECT P
+                              INNER JOIN PROJECT_MEMBER PM ON P.ID = PM.PROJECT_ID
                      WHERE P.ID = #{projectId})
     </select>
 
@@ -170,28 +170,30 @@
         WHERE ID = #{ownerId}
     </select>
 
+
     <select id="findProjectSkills" resultType="java.lang.String">
-        SELECT ps.SKILL_NAME
-        FROM PROJECT p
-                 INNER JOIN PROJECT_SKILL ps ON p.ID = ps.PROJECT_ID
-        WHERE p.ID = #{projectId}
+        SELECT PS.SKILL_NAME
+        FROM PROJECT P
+                 INNER JOIN PROJECT_SKILL PS ON P.ID = PS.PROJECT_ID
+        WHERE P.ID = #{projectId}
     </select>
 
     <select id="findProjectRecruitRoles" resultType="java.lang.String">
-        SELECT r.ROLE_NAME
-        FROM PROJECT p
-                 INNER JOIN RECRUIT_ROLE r ON p.ID = r.PROJECT_ID
-        WHERE p.ID = #{projectId}
+        SELECT R.ROLE_NAME
+        FROM PROJECT P
+                 INNER JOIN RECRUIT_ROLE R ON P.ID = R.PROJECT_ID
+        WHERE P.ID = #{projectId}
     </select>
 
     <select id="findProjectMembers" resultType="com.mozip.dto.resp.ProjectMemberDto">
-        SELECT MEMBER_ID, USERNAME, IFNULL(POSITION, '수정필요!'), IFNULL(CAREER, 0), PROFILE_IMAGE_URL, STIME
+        SELECT SUB.MEMBER_ID, USERNAME, IFNULL(M.POSITION, '수정필요!') AS POSITION, IFNULL(M.CAREER, 0) AS CAREER, M.PROFILE_IMAGE_URL, SUB.STIME
         FROM (SELECT SUBSCRIBE.MEMBER_ID, SUBSCRIBE.CREATED_AT AS STIME
               FROM SUBSCRIBE
                        INNER JOIN PROJECT ON PROJECT.ID = SUBSCRIBE.PROJECT_ID
-              WHERE PROJECT_ID = #{projectId})
-                 INNER JOIN MEMBER ON MEMBER_ID = MEMBER.ID
+              WHERE PROJECT_ID = #{projectId}) AS SUB
+    INNER JOIN MEMBER M ON SUB.MEMBER_ID = M.ID
     </select>
+
 
     <!-- 프로젝트 자랑 상세페이지(show_detail) -->
     <resultMap id="ShowDetailDtoMap" type="com.mozip.dto.resp.ShowDetailDto">
@@ -240,35 +242,35 @@
     <select id="findShowMemberCount" resultType="int">
         SELECT COUNT(*)
         FROM MEMBER
-        WHERE ID IN (SELECT pm.MEMBER_ID
-                     FROM PROJECT p
-                              INNER JOIN PROJECT_MEMBER pm ON p.ID = pm.PROJECT_ID
+        WHERE ID IN (SELECT PM.MEMBER_ID
+                     FROM PROJECT P
+                              INNER JOIN PROJECT_MEMBER PM ON p.ID = PM.PROJECT_ID
                      WHERE P.ID = #{projectId})
     </select>
 
     <!-- 작성자 프로필 정보 가져오기 / !! 프로필 url 추가 해야함 !! -->
     <select id="findShowOwnerInfo" resultType="com.mozip.dto.resp.ProjectMemberDto">
-        SELECT p.ID, USERNAME, POSITION, CAREER, m.PROFILE_IMAGE_URL, m.CREATED_AT
-        FROM MEMBER m
-                 INNER JOIN PROJECT p ON m.ID = p.OWNER_ID
-        WHERE p.Id = #{projectId}
-          AND p.OWNER_ID = #{ownerId}
+        SELECT P.ID, USERNAME, POSITION, CAREER, M.PROFILE_IMAGE_URL, M.CREATED_AT
+        FROM MEMBER M
+                 INNER JOIN PROJECT P ON M.ID = P.OWNER_ID
+        WHERE P.Id = #{projectId}
+          AND P.OWNER_ID = #{ownerId}
     </select>
 
     <!-- 기술 스택 가져오기 -->
     <select id="findShowSkills" resultType="java.lang.String">
-        SELECT ps.SKILL_NAME
-        FROM PROJECT p
-                 INNER JOIN PROJECT_SKILL ps ON p.ID = ps.PROJECT_ID
-        WHERE p.ID = #{projectId}
+        SELECT PS.SKILL_NAME
+        FROM PROJECT P
+                 INNER JOIN PROJECT_SKILL PS ON P.ID = PS.PROJECT_ID
+        WHERE P.ID = #{projectId}
     </select>
 
     <!-- 모집 분야 가져오기 -->
     <select id="findShowRecruitRoles" resultType="java.lang.String">
-        SELECT r.ROLE_NAME
-        FROM PROJECT p
-                 INNER JOIN RECRUIT_ROLE r ON p.ID = r.PROJECT_ID
-        WHERE p.ID = #{projectId}
+        SELECT R.ROLE_NAME
+        FROM PROJECT P
+                 INNER JOIN RECRUIT_ROLE R ON P.ID = R.PROJECT_ID
+        WHERE P.ID = #{projectId}
     </select>
 
     <insert id="createProject" parameterType="com.mozip.dto.req.ProjectCreateDto">
@@ -285,7 +287,6 @@
     <insert id="createProjectSkill">
         INSERT INTO PROJECT_SKILL (SKILL_NAME, PROJECT_ID)
         VALUES (#{skill}, #{id})
-
     </insert>
 
     <insert id="createRecruitRole">
@@ -314,7 +315,7 @@
 
     <!--  프로젝트자랑 삭제  -->
     <delete id="deleteProject" parameterType="int">
-        DELETE FROM PROJECT WHERE id = #{projectId}
+        DELETE FROM PROJECT WHERE ID = #{projectId}
     </delete>
 
     <!-- 프로젝트자랑 수정 : 기존 데이터 갖고오기 -->
@@ -443,9 +444,9 @@
 
     <!-- 프로젝트모집 프로젝트 신청 멤버 가져오기 -->
     <select id="findOneJoinMember" resultType="com.mozip.dto.resp.ProjectMemberDto">
-        SELECT m.ID, m.USERNAME, m.POSITION, m.CAREER, m.PROFILE_IMAGE_URL, m.CREATED_AT
-        FROM SUBSCRIBE s
-                 INNER JOIN MEMBER m ON s.MEMBER_ID = m.ID
+        SELECT M.ID, M.USERNAME, M.POSITION, M.CAREER, M.PROFILE_IMAGE_URL, M.CREATED_AT
+        FROM SUBSCRIBE S
+                 INNER JOIN MEMBER M ON S.MEMBER_ID = M.ID
         WHERE PROJECT_ID = #{projectId}
           AND MEMBER_ID = #{memberId}
     </select>
@@ -468,9 +469,9 @@
 
     <!-- 각 필터에 따른 검색 쿼리 -->
     <select id="filterSearch" resultType="java.lang.Integer">
-        SELECT p.ID
-        FROM PROJECT p
-                 INNER JOIN RECRUIT_ROLE pr ON p.ID = pr.PROJECT_ID
+        SELECT P.ID
+        FROM PROJECT P
+                 INNER JOIN RECRUIT_ROLE PR ON P.ID = PR.PROJECT_ID
         WHERE ROLE_NAME LIKE CONCAT('%', #{filter}, '%')
         ORDER BY CREATED_AT DESC
     </select>

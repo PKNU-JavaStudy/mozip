@@ -19,7 +19,7 @@ public class ProjectDetailDto {
     private String exceptTime; // 시작예정
     private int exceptDate; // 예상기간
     private int projectTime; // 프로젝트 참여시간
-    private Object projectInfo;
+    private String projectInfo;
     private int ownerId; // 작성자 아이디
 
     private List<ProjectMemberDto> members; // 참여지원자(project_member테이블과 조인) 정보 데이터
@@ -30,7 +30,7 @@ public class ProjectDetailDto {
     private List<Integer> projectMemberIds;
 
     public ProjectDetailDto(int id, String projectType, int status, String projectName, String createdAt, int recruitCount, int views, String projectProcess,
-                            String projectPurpose, String exceptTime, int exceptDate, int projectTime, Object projectInfo, int ownerId) {
+                            String projectPurpose, String exceptTime, int exceptDate, int projectTime, String projectInfo, int ownerId) {
         this.id = id;
         this.projectType = projectType;
         this.status = status;

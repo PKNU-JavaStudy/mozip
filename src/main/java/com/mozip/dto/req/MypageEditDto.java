@@ -10,7 +10,7 @@ public class MypageEditDto {
     private String email;
     private String username;
     private int career;
-    private Object info;
+    private String info;
     private String githubLink;
     private String profileImage;
     private String position;
@@ -18,7 +18,7 @@ public class MypageEditDto {
     private List<String> skills;
 
 
-    public MypageEditDto(int id, String email, String username, int career, Object info, String githubLink, String profileImage, String position) {
+    public MypageEditDto(int id, String email, String username, int career, String info, String githubLink, String profileImage, String position) {
         this.id = id;
         this.email = email;
         this.username = username;
