@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,10 +46,11 @@ public class AuthController {
 
     // 회원가입 처리
     @PostMapping("/auth/join")
-    public String join(@ModelAttribute JoinMemberDto joinMemberDto) {
-        authService.joinUser(joinMemberDto);
-        return "redirect:/auth/login";
+    public ResponseEntity<?> join(@RequestBody JoinMemberDto joinMemberDto) {
+            authService.joinUser(joinMemberDto);
+            return ResponseEntity.ok().body("{\"success\":true}");
     }
+
 
     // login 페이지
     @GetMapping("/auth/login")
