@@ -9,28 +9,43 @@ import com.mozip.service.MemberService;
 import com.mozip.util.SessionConst;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
 public class ApiMemberController {
 
-    private static final Logger log = LoggerFactory.getLogger(ApiMemberController.class);
     private final MemberService memberService;
-    private final AuthService authService;
 
     // 회원정보 수정
     @PostMapping("/api/member/edit")
-    public ResponseEntity<?> memberEdit(@RequestBody UpdateMypageEditDto updateMypageEditDto) {
+    public ResponseEntity<?> memberEdit(@Valid @RequestBody UpdateMypageEditDto updateMypageEditDto,
+                                        BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){ // Validation 후 error 가 있다면
+            Map<String, String> errorMap = new HashMap<>();
+
+            for (FieldError error : bindingResult.getFieldErrors()) {
+                errorMap.put(error.getField(),error.getDefaultMessage());
+            }
+            throw new CustomValidationException("유효성 검사 실패함",errorMap);
+        }
+
         memberService.updateMemberInfo(updateMypageEditDto);
         return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공", null));
     }
 
+    // 회원프로필 이미지
     @PostMapping("/api/member/profile")
     public ResponseEntity<?> profileImg(@RequestParam("file") MultipartFile file,
                                         @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
