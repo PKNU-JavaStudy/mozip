@@ -51,7 +51,16 @@ public class AuthController {
 
     // 회원가입 처리
     @PostMapping("/auth/join")
-    public String join(@ModelAttribute JoinMemberDto joinMemberDto) {
+    public String join(@Valid @ModelAttribute JoinMemberDto joinMemberDto, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){ // Validation 후 error 가 있다면
+            Map<String, String> errorMap = new HashMap<>();
+
+            for (FieldError error : bindingResult.getFieldErrors()) {
+                errorMap.put(error.getField(),error.getDefaultMessage());
+            }
+            throw new CustomValidationException("유효성 검사 실패함",errorMap);
+        }
+
         authService.joinUser(joinMemberDto);
         return "redirect:/auth/login";
     }
@@ -97,11 +106,18 @@ public class AuthController {
     // 아이디 찾기
     @PostMapping("/auth/findId")
     @ResponseBody
-    public String findId(@RequestParam("username") String username, @RequestParam("phone") String phone, HttpServletRequest request) {
-        log.info("findId 요청: username={}, phone={}", username, phone);
-        FindEmailDto findEmailDto = new FindEmailDto(username, phone);
+    public String findId(@Valid @ModelAttribute FindEmailDto findEmailDto,
+                         BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){ // Validation 후 error 가 있다면
+            Map<String, String> errorMap = new HashMap<>();
+
+            for (FieldError error : bindingResult.getFieldErrors()) {
+                errorMap.put(error.getField(),error.getDefaultMessage());
+            }
+            throw new CustomValidationException("유효성 검사 실패함",errorMap);
+        }
+
         String email = authService.findMemberEmail(findEmailDto);
-        log.info("findId 결과: email={}", email != null ? email : "일치하는 정보가 없습니다.");
 
         if (email != null) {
             return "<script>alert('찾으시는 이메일은 " + email + " 입니다.'); window.location='/auth/login';</script>";
