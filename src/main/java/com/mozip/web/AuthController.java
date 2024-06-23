@@ -4,15 +4,21 @@ import com.mozip.domain.member.Member;
 import com.mozip.dto.req.FindEmailDto;
 import com.mozip.dto.req.LoginDto;
 import com.mozip.dto.req.JoinMemberDto;
+import com.mozip.handler.ex.CustomValidationException;
 import com.mozip.service.AuthService;
 import com.mozip.util.SessionConst;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -58,8 +64,19 @@ public class AuthController {
 
     // login 처리
     @PostMapping("/auth/login")
-    public String login(@RequestParam("email") String email, @RequestParam("password") String password, HttpServletRequest req) {
-        Member loginMember = authService.login(new LoginDto(email, password));
+    public String login(@Valid @ModelAttribute LoginDto dto,
+                        BindingResult bindingResult,
+                        HttpServletRequest req) {
+        if(bindingResult.hasErrors()){ // Validation 후 error 가 있다면
+            Map<String, String> errorMap = new HashMap<>();
+
+            for (FieldError error : bindingResult.getFieldErrors()) {
+                errorMap.put(error.getField(),error.getDefaultMessage());
+            }
+            throw new CustomValidationException("유효성 검사 실패함",errorMap);
+        }
+
+        Member loginMember = authService.login(dto);
         if (loginMember != null) {
             HttpSession session = req.getSession();
             session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);

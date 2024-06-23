@@ -33,10 +33,4 @@ public class MemberController {
         model.addAttribute("member", memberService.editUserInfo(memberId));
         return "member/mypage_edit";
     }
-
-    // 헤더 이미지 초기화를 위한 컨트롤러
-    @GetMapping("/header")
-    public String headerReload(){
-        return "/fragment/header";
-    }
 }
