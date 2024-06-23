@@ -4,16 +4,21 @@ import com.mozip.domain.keep.Keep;
 import com.mozip.domain.likes.Likes;
 import com.mozip.dto.CMRespDto;
 import com.mozip.dto.req.ProjectCreateDto;
+import com.mozip.handler.ex.CustomValidationApiException;
+import com.mozip.handler.ex.CustomValidationException;
 import com.mozip.service.KeepService;
 import com.mozip.dto.resp.ProjectEditDto;
 import com.mozip.dto.resp.RecruitListDto;
 import com.mozip.dto.resp.ShowEditDto;
 import com.mozip.service.LikesService;
 import com.mozip.service.ProjectService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,7 +46,14 @@ public class ApiProjectController {
 
     // 프로젝트 생성
     @PostMapping("/project")
-    public ResponseEntity<?> createProject(@RequestBody ProjectCreateDto dto) {
+    public ResponseEntity<?> createProject(@Valid @RequestBody ProjectCreateDto dto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errorMap = new HashMap<>();
+            for (FieldError error : bindingResult.getFieldErrors()) {
+                errorMap.put(error.getField(), error.getDefaultMessage());
+            }
+            throw new CustomValidationApiException("유효성 검사 실패함", errorMap);
+        }
         int projectId = projectService.createProject(dto);
 
         return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공", projectId));
