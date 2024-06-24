@@ -3,6 +3,7 @@ package com.mozip.web.api;
 import com.mozip.domain.member.Member;
 import com.mozip.dto.CMRespDto;
 import com.mozip.dto.req.UpdateMypageEditDto;
+import com.mozip.handler.ex.CustomValidationApiException;
 import com.mozip.handler.ex.CustomValidationException;
 import com.mozip.service.AuthService;
 import com.mozip.service.MemberService;
@@ -32,15 +33,6 @@ public class ApiMemberController {
     @PostMapping("/api/member/edit")
     public ResponseEntity<?> memberEdit(@Valid @RequestBody UpdateMypageEditDto updateMypageEditDto,
                                         BindingResult bindingResult) {
-        if(bindingResult.hasErrors()){ // Validation 후 error 가 있다면
-            Map<String, String> errorMap = new HashMap<>();
-
-            for (FieldError error : bindingResult.getFieldErrors()) {
-                errorMap.put(error.getField(),error.getDefaultMessage());
-            }
-            throw new CustomValidationException("유효성 검사 실패함",errorMap);
-        }
-
         memberService.updateMemberInfo(updateMypageEditDto);
         return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공", null));
     }

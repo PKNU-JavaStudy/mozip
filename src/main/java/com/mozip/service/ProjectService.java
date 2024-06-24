@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -209,8 +210,7 @@ public class ProjectService {
         project.setRecruitRole(projectRepository.findRecruitRoles(projectId));
         project.setProjectInfo(project.getProjectInfo());
         // LocalDateTime -> String 변환
-        project.setCreatedChangeAt(Util.formatLocalDateTime(project.getCreatedAt()));
-        project.setModifiedChangeAt(Util.formatLocalDateTime(project.getModifiedShow()));
+        project.setCreatedChangeAt(Util.formatTimestamp(project.getCreatedAt()));
         return project;
     }
 
@@ -218,8 +218,12 @@ public class ProjectService {
     @Transactional
     public void updateShow(ShowEditDto dto, int projectId) {
         dto.setId(projectId);
-        dto.setCreatedAt(Util.stringToLocalDateTime(dto.getCreatedChangeAt()));
-        dto.setModifiedShow(Util.stringToLocalDateTime(dto.getModifiedChangeAt()));
+        try {
+            dto.setCreatedAt(Util.stringToTimestamp(dto.getCreatedChangeAt()));
+            dto.setModifiedShow(Util.stringToTimestamp(dto.getModifiedChangeAt()));
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
 
         projectRepository.updateShow(dto);
 
@@ -296,7 +300,7 @@ public class ProjectService {
         projectRepository.projectJoin(memberId, projectId);
 
         // 참여 완료 시 실시간으로 참가신청자 목록에 추가하기 위한 데이터
-        ProjectMemberDto  memberInfo = projectRepository.findOneJoinMember(memberId, projectId);
+        ProjectMemberDto memberInfo = projectRepository.findOneJoinMember(memberId, projectId);
         memberInfo.setCreatedAt(Util.formatTimestamp(Timestamp.valueOf(memberInfo.getCreatedAt())));
 
         return memberInfo;
@@ -315,7 +319,7 @@ public class ProjectService {
     }
 
     // 멤버모집 필터
-    public List<RecruitListDto> projectFilterSearch(String filter){
+    public List<RecruitListDto> projectFilterSearch(String filter) {
         List<Integer> projectFilterId = projectRepository.filterSearch(filter);
         List<RecruitListDto> recruitListDtos = new ArrayList<>();
         for (Integer projectId : projectFilterId) {

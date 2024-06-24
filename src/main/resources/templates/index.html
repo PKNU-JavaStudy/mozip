@@ -64,7 +64,7 @@
             <a class="swiper-slide" th:href="@{/project/{project}(project=${project.getId()})}"  th:each="project : ${newProject}">
               <div class="cont-box">
                 <span class="pj-type pj" th:text="${project.getProjectType()}">사이드 프로젝트</span>
-                <span class="pj-tag fire">🍞 따끈따끈 새 글</span><!-- TODO: 추후에 넣어야함 🔥 마감 코 앞 -->
+                <span class="pj-tag fire">🍞 따끈따끈 새 글</span>
                 <h1 class="pj-title" th:text="${project.getProjectName()}">
                   한달살기 프로젝트 - 백엔드 개발자님 추가 모집 중
                 </h1>

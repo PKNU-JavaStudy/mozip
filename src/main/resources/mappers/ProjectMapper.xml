@@ -153,10 +153,10 @@
     <select id="findProjectMemberCount" resultType="int">
         SELECT COUNT(*)
         FROM MEMBER
-        WHERE ID IN (SELECT PM.MEMBER_ID
-                     FROM PROJECT P
-                              INNER JOIN PROJECT_MEMBER PM ON P.ID = PM.PROJECT_ID
-                     WHERE P.ID = #{projectId})
+        WHERE ID IN (SELECT PROJECT_MEMBER.MEMBER_ID
+                     FROM PROJECT
+                              INNER JOIN PROJECT_MEMBER  ON PROJECT.ID = PROJECT_MEMBER.PROJECT_ID
+                     WHERE PROJECT.ID = #{projectId})
     </select>
 
     <select id="findOwnerInfo" resultType="com.mozip.dto.resp.ProjectMemberDto">
@@ -242,10 +242,10 @@
     <select id="findShowMemberCount" resultType="int">
         SELECT COUNT(*)
         FROM MEMBER
-        WHERE ID IN (SELECT PM.MEMBER_ID
-                     FROM PROJECT P
-                              INNER JOIN PROJECT_MEMBER PM ON p.ID = PM.PROJECT_ID
-                     WHERE P.ID = #{projectId})
+        WHERE ID IN (SELECT PROJECT_MEMBER.MEMBER_ID
+                     FROM PROJECT
+                              INNER JOIN PROJECT_MEMBER  ON PROJECT.ID = PROJECT_MEMBER.PROJECT_ID
+                     WHERE PROJECT.ID = #{projectId})
     </select>
 
     <!-- 작성자 프로필 정보 가져오기 / !! 프로필 url 추가 해야함 !! -->
@@ -253,7 +253,7 @@
         SELECT P.ID, USERNAME, POSITION, CAREER, M.PROFILE_IMAGE_URL, M.CREATED_AT
         FROM MEMBER M
                  INNER JOIN PROJECT P ON M.ID = P.OWNER_ID
-        WHERE P.Id = #{projectId}
+        WHERE P.ID = #{projectId}
           AND P.OWNER_ID = #{ownerId}
     </select>
 

@@ -52,15 +52,6 @@ public class AuthController {
     // 회원가입 처리
     @PostMapping("/auth/join")
     public String join(@Valid @ModelAttribute JoinMemberDto joinMemberDto, BindingResult bindingResult) {
-        if(bindingResult.hasErrors()){ // Validation 후 error 가 있다면
-            Map<String, String> errorMap = new HashMap<>();
-
-            for (FieldError error : bindingResult.getFieldErrors()) {
-                errorMap.put(error.getField(),error.getDefaultMessage());
-            }
-            throw new CustomValidationException("유효성 검사 실패함",errorMap);
-        }
-
         authService.joinUser(joinMemberDto);
         return "redirect:/auth/login";
     }
@@ -76,15 +67,6 @@ public class AuthController {
     public String login(@Valid @ModelAttribute LoginDto dto,
                         BindingResult bindingResult,
                         HttpServletRequest req) {
-        if(bindingResult.hasErrors()){ // Validation 후 error 가 있다면
-            Map<String, String> errorMap = new HashMap<>();
-
-            for (FieldError error : bindingResult.getFieldErrors()) {
-                errorMap.put(error.getField(),error.getDefaultMessage());
-            }
-            throw new CustomValidationException("유효성 검사 실패함",errorMap);
-        }
-
         Member loginMember = authService.login(dto);
         if (loginMember != null) {
             HttpSession session = req.getSession();
@@ -108,14 +90,6 @@ public class AuthController {
     @ResponseBody
     public String findId(@Valid @ModelAttribute FindEmailDto findEmailDto,
                          BindingResult bindingResult) {
-        if(bindingResult.hasErrors()){ // Validation 후 error 가 있다면
-            Map<String, String> errorMap = new HashMap<>();
-
-            for (FieldError error : bindingResult.getFieldErrors()) {
-                errorMap.put(error.getField(),error.getDefaultMessage());
-            }
-            throw new CustomValidationException("유효성 검사 실패함",errorMap);
-        }
 
         String email = authService.findMemberEmail(findEmailDto);
 

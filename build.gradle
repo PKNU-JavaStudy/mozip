@@ -47,6 +47,8 @@ dependencies {
 
 	implementation 'com.squareup.okhttp3:okhttp:4.9.0'
 
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-aop
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop', version: '3.2.1'
 }
 
 tasks.named('test') {

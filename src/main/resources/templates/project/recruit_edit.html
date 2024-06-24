@@ -217,8 +217,9 @@
                   alert("데이터 수정완료!");
                   let projectId = res.data;
                   window.location.assign(`/project/${projectId}`);
-              }).fail(err => {
-                  console.log("통신실패", err);
+              }).fail(error => {
+                  let errors = Object.values(JSON.parse(JSON.stringify(error.responseJSON.data))).join('\n');
+                  alert(errors);
               })
           }
       })
