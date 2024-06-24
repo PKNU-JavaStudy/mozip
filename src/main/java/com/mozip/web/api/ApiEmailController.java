@@ -25,17 +25,4 @@ public class ApiEmailController {
         return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공!", resultCode));
     }
 
-    //카카오 로그인 컨트롤러 (일단 임시로 여기 넣음)
-    @RestController
-    @RequestMapping("/auth/kakao")
-    public static class KakaoController {
-
-        @PostMapping("/userinfo")
-        public Map<String, Object> receiveUserInfo(@RequestBody Map<String, Object> userInfo, HttpSession session) {
-            // 세션에 사용자 정보 저장
-            System.out.println("UserInfo received: " + userInfo); // 응답을 로그로 출력
-            session.setAttribute("userInfo", userInfo);
-            return Map.of("success", true);
-        }
-    }
 }

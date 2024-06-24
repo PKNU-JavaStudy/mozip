@@ -130,7 +130,7 @@
           <div class="application-box" th:each="member : ${project.getMembers()}">
             <div class="profile-top">
               <div style="display: none;" class="member-id-list" th:text="${member.getId()}"></div>
-              <img th:src="@{/upload/{img}(img=${member.getProfileImageUrl()})}" alt="프로필이미지">
+              <img th:src="@{|/upload/${member.getProfileImageUrl()}|}" alt="프로필이미지">
               <div>
                 <span class="work" th:text="${member.getPosition()}">프론트엔드</span>
                 <span class="career" th:if="${member.getCareer() == 1}">학생/취준생</span>
@@ -140,7 +140,8 @@
                 <span class="career" th:if="${member.getCareer() == 5}">5년이상</span>
                 <h3 th:text="${member.getUsername()}">👑 이윤지</h3>
               </div>
-              <button th:if="${session.loginMember!=null && session.loginMember.getId() == project.getOwnerId()}"
+              <button
+                      th:if="${#authentication.getPrincipal()!='anonymousUser' && #authentication.getPrincipal().getMember().getId() == project.getOwnerId()}"
                       class="addmem-button add"
                       th:onclick="|memberInvite(${member.getId()}, ${project.getId()})|">
                 멤버 추가
@@ -154,7 +155,7 @@
     </div>
     <div class="right-box">
       <div class="profile-box">
-        <img th:src="@{/upload/{img}(img=${project.getOwnerInfo().getProfileImageUrl()})}" alt="프로필이미지">
+        <img th:src="@{|/upload/${project.getOwnerInfo().getProfileImageUrl()}|}" alt="프로필이미지">
         <div class="right-tag">
           <span class="work right" th:text="${project.getOwnerInfo().getPosition()}">백엔드</span>
           <span class="career right" th:if="${project.getOwnerInfo().getCareer() ==1}">신입/취준생</span>
@@ -166,18 +167,19 @@
         <h3 th:text="${project.getOwnerInfo().getUsername()}"> 이윤지</h3>
       </div>
       <button class="right-btn apply"
-              th:if="${ session.loginMember!=null && session.loginMember.getId()!= project.getOwnerId()}"
+              th:if="${#authentication.getPrincipal()!='anonymousUser' && #authentication.getPrincipal().getMember().getId()!= project.getOwnerId()}"
               th:onclick="|projectJoin(${project.getId()})|"
       >프로젝트 참여 신청
       </button>
-      <th:block th:if="${session.loginMember == null}">
+
+      <th:block th:if="${#authentication.getPrincipal()=='anonymousUser'}">
         <!-- 북마크 안했을때 -->
         <button style="border: 1px solid var(--main-color); color: var(--main-color); background-color: white;"
                 class="right-btn keep" th:onclick="|projectBookmark(${project.getId()})|">
           <i class="fa-regular fa-bookmark" style="color: var(--main-color);"></i>북마크
         </button>
       </th:block>
-      <th:block th:if="${session.loginMember != null}">
+      <th:block th:if="${#authentication.getPrincipal()!='anonymousUser'}">
         <!-- 북마크 안했을때 -->
         <button th:if="${isBookmark == 0}" style="border: 1px solid var(--main-color); color: var(--main-color); background-color: white;"
                 class="right-btn keep" th:onclick="|projectBookmark(${project.getId()})|">
@@ -190,19 +192,19 @@
         </button>
       </th:block>
       <button id="btnRecruitDone" class="right-btn confirm open-modal"
-              th:if="${session.loginMember != null && session.loginMember.getId()==project.getOwnerId() && project.getStatus()==1}"
+              th:if="${#authentication.getPrincipal()!='anonymousUser' && #authentication.getPrincipal().getMember().getId()==project.getOwnerId() && project.getStatus()==1}"
       >모집완료 하기
       </button>
       <button id="btnRecruitDone" class="right-btn confirm-done open-modal"
-              th:if="${session.loginMember != null && session.loginMember.getId()==project.getOwnerId() && project.getStatus()==0}"
+              th:if="${#authentication.getPrincipal()!='anonymousUser' && #authentication.getPrincipal().getMember().getId()==project.getOwnerId() && project.getStatus()==0}"
       >모집완료
       </button>
 
       <div class="edit-btn">
-        <a th:href="@{/project/edit/{projectId}(projectId=${project.getId()})}">
-          <button th:if="${session.loginMember!=null && session.loginMember.getId()==project.getOwnerId()}" class="right-btn mod_btn">수정</button>
+        <a th:href="@{|/project/edit/${project.getId()}|}">
+          <button th:if="${#authentication.getPrincipal()!='anonymousUser' && #authentication.getPrincipal().getMember().getId()==project.getOwnerId()}" class="right-btn mod_btn">수정</button>
         </a>
-        <button th:if="${session.loginMember!=null && session.loginMember.getId()==project.getOwnerId()}" class="right-btn del_btn open-modal02">삭제
+        <button th:if="${#authentication.getPrincipal()!='anonymousUser' && #authentication.getPrincipal().getMember().getId()==project.getOwnerId()}" class="right-btn del_btn open-modal02">삭제
         </button>
       </div>
 
@@ -244,10 +246,10 @@
   </div>
 </main>
 <!-- 로그인 유무 -->
-<th:block th:if="${session.loginMember != null}">
-  <div class="loginMember" th:text="${session.loginMember.getId()}" style="display: none"></div>
+<th:block th:if="${#authentication.getPrincipal()!='anonymousUser'}">
+  <div class="loginMember" th:text="${#authentication.getPrincipal().getMember().getId()}" style="display: none"></div>
 </th:block>
-<th:block th:if="${session.loginMember == null}">
+<th:block th:if="${#authentication.getPrincipal()=='anonymousUser'}">
   <div class="loginMember" style="display: none">0</div>
 </th:block>
 <footer>
@@ -309,6 +311,7 @@
     }
 
     // 프로젝트 삭제
+    // TODO : URL 변경 필요함(URL에 정보 노출 X)
     function deleteProject(projectId) {
         $.ajax({
             type: "DELETE",
@@ -340,7 +343,7 @@
             if(receiveId == 1)
                 alert("이미 초대한 멤버입니다!");
             else
-              alert("멤버초대 이메일을 전송하였습니다 !")
+                alert("멤버초대 이메일을 전송하였습니다 !")
         }).fail(error => {
             console.log("통신실패!", error);
             alert("멤버초대를 실패하셨습니다 !");
@@ -388,15 +391,15 @@
     function projectBookmark(projectId) {
         let memberId = document.querySelector(".loginMember").textContent;
         console.log("memberId:", memberId); // memberId가 올바르게 설정되었는지 확인
-        let data = {};
-        data.memberId = memberId;
-        data.projectId = projectId;
-        // data.key = value -> data{ key: value}
+        let data = {
+            memberId: memberId,
+            projectId: projectId
+        };
 
-        if (memberId == 0)   // 로그인이 되어있지 않을 때
+        if (memberId == 0) { // 로그인이 되어있지 않을 때
             alert("로그인이 필요합니다 !");
-        else {       // 로그인이 되어있을 때
-            // 북마크 로직 시작
+        } else { // 로그인이 되어있을 때
+            // 서버에 북마크 추가/취소 요청
             $.ajax({
                 type: "POST",
                 url: "/api/keep",
@@ -404,28 +407,56 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json"
             }).done(res => { // HttpStatus 200번대(로드 성공)
-                console.log("성공");
+                console.log("성공", res);
 
                 if (res.data == 1) { // 서버 응답에 북마크 상태 포함한다고 가정
                     // 북마크가 추가된 경우
-                    $(".keep").css("background-color", "var(--main-color)");
-                    $(".keep").css("border", "1px solid var(--main-color)");
-                    $(".keep").css("color", "white");
-                    $(".keep").html('<i class="fa-regular fa-bookmark" style="color: white;"></i> 북마크');
-                    alert("북마크가 추가되었습니다!");
+                    if (confirm("북마크를 추가하시겠습니까?")) {
+                        $(".keep").css("background-color", "var(--main-color)");
+                        $(".keep").css("border", "1px solid var(--main-color)");
+                        $(".keep").css("color", "white");
+                        $(".keep").html('<i class="fa-regular fa-bookmark" style="color: white;"></i> 북마크');
+                        alert("북마크가 추가되었습니다!");
+                    } else {
+                        // 추가 요청을 취소했을 경우, 서버에 취소 요청을 보내야 할 수 있습니다.
+                        reverseBookmark(data);
+                    }
                 } else if (res.data == 0) {
                     // 북마크가 취소된 경우
-                    $(".keep").css("background-color", "white");
-                    $(".keep").css("color", "var(--main-color)");
-                    $(".keep").css("border", "1px solid var(--main-color)");
-                    $(".keep").html('<i class="fa-regular fa-bookmark" style="color: var(--main-color);"></i> 북마크');
-                    alert("북마크가 취소되었습니다!");
+                    if (confirm("북마크를 취소하시겠습니까?")) {
+                        $(".keep").css("background-color", "white");
+                        $(".keep").css("color", "var(--main-color)");
+                        $(".keep").css("border", "1px solid var(--main-color)");
+                        $(".keep").html('<i class="fa-regular fa-bookmark" style="color: var(--main-color);"></i> 북마크');
+                        alert("북마크가 취소되었습니다!");
+                    } else {
+                        // 취소 요청을 취소했을 경우, 서버에 추가 요청을 보내야 할 수 있습니다.
+                        reverseBookmark(data);
+                    }
                 }
             }).fail(error => { // HttpStatus 200번대가 아닐때(로드 실패)
                 console.log(error);
                 alert("실패..");
             });
         }
+    }
+
+    // 북마크 추가/취소 요청을 반대로 처리하는 함수
+    function reverseBookmark(data) {
+        data.addBookmark = data.addBookmark ? false : true;
+
+        $.ajax({
+            type: "POST",
+            url: "/api/keep",
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json"
+        }).done(res => {
+            console.log("반대 작업 성공", res);
+        }).fail(error => {
+            console.log("반대 작업 실패", error);
+            alert("작업을 되돌리는 중 실패했습니다.");
+        });
     }
 
     // 모집완료 모달

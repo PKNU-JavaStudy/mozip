@@ -1,5 +1,6 @@
 package com.mozip.web;
 
+import com.mozip.config.auth.PrincipalDetails;
 import com.mozip.domain.member.Member;
 
 import com.mozip.dto.resp.ProjectDetailDto;
@@ -12,6 +13,7 @@ import com.mozip.service.ProjectService;
 import com.mozip.util.SessionConst;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -43,59 +45,59 @@ public class ProjectController {
         return "index";
     }
 
-    // recruit_create 페이지: 로그인한 유저만 접근
+    // 프로젝트모집 생성 페이지
     @GetMapping("/project/create")
-    public String recruitCreateForm(@SessionAttribute(name= SessionConst.LOGIN_MEMBER, required=false) Member loginMember) {
-        if (loginMember == null) {
+    public String recruitCreateForm(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+        if (principalDetails == null) {
             throw new CustomException("로그인이 필요합니다");
         }
         return "/project/recruit_create";
     }
 
-    // recruit_detail 페이지
+    // 프로젝트모집 상세 페이지
     @GetMapping("/project/{projectId}")
     public String recruitDetailForm(@PathVariable("projectId") int projectId, Model model,
-                                    @SessionAttribute(name= SessionConst.LOGIN_MEMBER, required=false) Member loginMember){
+                                    @AuthenticationPrincipal PrincipalDetails principalDetails){
         // 조회수 증가
         projectService.increaseView(projectId);
         model.addAttribute("project",projectService.findProjectDetail(projectId));
 
         // 북마크
-        if (loginMember != null)
-            model.addAttribute("isBookmark", keepService.keepCount(projectId, loginMember.getId()));
+        if (principalDetails != null)
+            model.addAttribute("isBookmark", keepService.keepCount(projectId, principalDetails.getMember().getId()));
         return "/project/recruit_detail";
     }
 
-    // recruit_list 페이지
+    // 프로젝트모집 목록 페이지
     @GetMapping("/project")
     public String recruitListForm(Model model){
         model.addAttribute("allProject", projectService.findAllProject());
         return "/project/recruit_list";
     }
 
-    // recruit_edit 페이지
+    // 프로젝트모집 수정 페이지
     @GetMapping("/project/edit/{projectId}")
     public String recruitEditForm(@PathVariable("projectId") int projectId,
-                                  @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
+                                  @AuthenticationPrincipal PrincipalDetails principalDetails,
                                   Model model) {
         // Project의 OwnerId만 접근가능하게 해야함.
-        if (!projectService.ownerCheck(projectId, loginMember.getId()))
+        if (!projectService.ownerCheck(projectId, principalDetails.getMember().getId()))
             throw new CustomException("접근 권한이 없습니다 !");
         model.addAttribute("project", projectService.findOriginProjectInfo(projectId));
         model.addAttribute("projectId", projectId);
         return "/project/recruit_edit";
     }
 
-    // show_detail 페이지
+    // 프로젝트자랑 상세 페이지
     @GetMapping("/project/show/{projectId}")
     public String showDetailForm(@PathVariable("projectId") int projectId, Model model,
-                                 @SessionAttribute(name= SessionConst.LOGIN_MEMBER, required=false) Member loginMember){
+                                 @AuthenticationPrincipal PrincipalDetails principalDetails){
         // 조회수 증가
         projectService.increaseView(projectId);
         model.addAttribute("showDetail", projectService.findShowDetail(projectId));
         // 북마크
-        if (loginMember != null)
-            model.addAttribute("isBookmark", keepService.keepCount(projectId, loginMember.getId()));
+        if (principalDetails != null)
+            model.addAttribute("isBookmark", keepService.keepCount(projectId, principalDetails.getMember().getId()));
 
         return "/project/show_detail";
     }

@@ -3,16 +3,17 @@ package com.mozip.domain.member;
 import com.mozip.dto.req.FindEmailDto;
 import com.mozip.dto.req.JoinMemberDto;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.security.core.parameters.P;
 
 import java.util.Optional;
 
 
 public interface AuthRepository {
     // 로그인 페이지: 새로 가입한 맴버 쿼리
-    void joinMember(JoinMemberDto joinMemberDto);
+    void joinMember(@Param("dto") JoinMemberDto dto, @Param("role") String role);
 
     // 이메일로 사용자 정보 갖고와서 로그인 검증
-    Optional<Member> findLoginMember(@Param("email") String email);
+    Optional<Member> findMember(@Param("email") String email);
 
     // Email 찾는 메서드
     String findByEmail(@Param("email") String email);

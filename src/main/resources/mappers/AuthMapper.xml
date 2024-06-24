@@ -6,12 +6,13 @@
     <!--회원가입-->
     <insert id="joinMember">
         INSERT INTO MEMBER (EMAIL, PASSWORD, USERNAME, PHONE, CAREER, INFO, GITHUB_LINK, PROFILE_IMAGE_URL, POSITION,
+                            ROLE,
                             IS_MODIFY, CREATED_AT)
-        VALUES (#{email}, #{password}, #{username}, #{phone}, 0, '수정필요!', '수정필요!',
-                'profile_sample.png', 0, 0, NOW())
+        VALUES (#{dto.email}, #{dto.password}, #{dto.username}, #{dto.phone}, 0, '수정필요!', '수정필요!',
+                'profile_sample.png', 0, #{role}, 0, NOW())
     </insert>
 
-    <select id="findLoginMember" resultType="com.mozip.domain.member.Member">
+    <select id="findMember" resultType="com.mozip.domain.member.Member">
         SELECT *
         FROM MEMBER
         WHERE EMAIL = #{email}

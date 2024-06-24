@@ -62,28 +62,7 @@ public class AuthController {
         return "auth/login";
     }
 
-    // login 처리
-    @PostMapping("/auth/login")
-    public String login(@Valid @ModelAttribute LoginDto dto,
-                        BindingResult bindingResult,
-                        HttpServletRequest req) {
-        Member loginMember = authService.login(dto);
-        if (loginMember != null) {
-            HttpSession session = req.getSession();
-            session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
-        }
-        // HTTP Session 이용
-        return "redirect:/";
-    }
 
-    // logout
-    @PostMapping("/auth/logout")
-    public String logout(HttpServletRequest req) {
-        HttpSession session = req.getSession(false);
-        if (session != null) session.invalidate();
-
-        return "redirect:/";
-    }
 
     // 아이디 찾기
     @PostMapping("/auth/findId")

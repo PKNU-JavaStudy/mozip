@@ -39,12 +39,12 @@ public class ProjectEditDto {
     @NotNull(message = "예상기간은 필수입니다!")
     private Integer exceptDate;
 
-    @NotNull(message = "시작예정 선택은 필수입니다!")
     private LocalDateTime exceptTime;
 
     @NotBlank(message = "프로젝트 소개는 필수입니다!")
     private String projectInfo;
 
+    @NotNull(message = "시작예정 선택은 필수입니다!")
     private String exceptChangeTime; // LocalDateTime 을 String 으로 바꿔서 input태그(date속성)에 담을 수 있음
 
     @NotNull(message = "기술스택은 필수입니다!")

@@ -39,13 +39,16 @@
 - SpringBoot DevTools
 - MyBatis Framework
 - JDBC API
-- Oracle Driver
+- MySQL Driver
 - Validation
 - Thymeleaf
 - Java Mail Sender
 - jQuery
 - Ajax
 - jbcrypt
+- AOP
+- SpringSecurity
+- OAuth2 Client
 
 ### ERD
 ![mozip.png](/src/main/resources/static/img/mozip.png)
