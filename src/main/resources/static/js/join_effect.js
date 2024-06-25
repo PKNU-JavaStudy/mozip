@@ -91,14 +91,8 @@ $(document).ready(function () {
                 }
             },
             error: function (xhr, status, error) {
-                console.error("Error:", error);
-
-                // 서버에서 반환된 에러 메시지를 확인하고 표시
-                if (xhr.responseJSON && xhr.responseJSON.message) {
-                    alert(xhr.responseJSON.message);
-                } else {
-                    alert("이메일 중복입니다 !");
-                }
+                console.log("Error:", xhr.responseJSON.msg);
+                alert(xhr.responseJSON.msg);
             }
         });
     });

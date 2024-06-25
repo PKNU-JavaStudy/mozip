@@ -5,6 +5,7 @@ import com.mozip.domain.member.Member;
 import com.mozip.dto.req.FindEmailDto;
 import com.mozip.dto.req.LoginDto;
 import com.mozip.dto.req.JoinMemberDto;
+import com.mozip.handler.ex.CustomApiException;
 import com.mozip.handler.ex.CustomException;
 import lombok.RequiredArgsConstructor;
 import org.mindrot.jbcrypt.BCrypt;
@@ -37,9 +38,8 @@ public class AuthService {
     @Transactional
     public void joinUser(JoinMemberDto joinMemberDto) {
         // 아이디 중복 체크
-        // TODO : 이메일 중복 알림창이 회원가입 알림창 이후에 나옴.
-
-        if(authRepository.findByEmail(joinMemberDto.getEmail())!=null) throw new CustomException("이메일 중복입니다 !");
+        if(authRepository.findByEmail(joinMemberDto.getEmail())!=null)
+            throw new CustomApiException("이메일 중복입니다 !");
 
         // 비밀번호 암호화
         joinMemberDto.setPassword(BCrypt.hashpw(joinMemberDto.getPassword(), BCrypt.gensalt()));
