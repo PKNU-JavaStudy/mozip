@@ -28,9 +28,9 @@
     <div class="profile-container">
       <div class="profile-section">
         <div class="profile-img">
-          <a th:href="@{/member/edit/{memberId}(memberId=${member.getId()})}" class="edit-btn">마이페이지 수정</a>
+          <a th:href="@{|/member/edit/${member.getId()}|}" class="edit-btn">마이페이지 수정</a>
           <a href="#" class="img-wrap">
-            <img th:src="@{/upload/{url}(url=${member.getProfileImage()})}" alt="Profile Image" class="profile-image">
+            <img th:src="@{|/upload/${member.getProfileImage()}|}" alt="Profile Image" class="profile-image">
           </a>
         </div>
         <span class="career" th:if="${member.career == 1}">학생 / 취업준비생</span>
@@ -71,7 +71,7 @@
             <option>프로젝트 자랑</option>
           </select>
         </div>
-        <a th:each="project : ${member.myProjectList}" th:href="@{/project/{id}(id=${project.getId()})}" class="pj-content">
+        <a th:each="project : ${member.myProjectList}" th:href="@{|/project/${project.getId()}|}" class="pj-content">
           <div class="project-info">
             <div class="pj-type pj" th:text="${project.projectType}">사이드 프로젝트</div>
             <span class="time-commitment" th:if="${project.projectTime == 1}">매주 4일 10시간</span>
@@ -96,7 +96,7 @@
             <option>프로젝트 자랑</option>
           </select>
         </div>
-        <a th:each="bookmark : ${member.getBookmarks()}" th:href="@{/project/{id}(id=${bookmark.getId()})}" class="pj-content">
+        <a th:each="bookmark : ${member.getBookmarks()}" th:href="@{|/project/${bookmark.getId()}|}" class="pj-content">
           <div class="project-info">
             <div class="pj-type pj" th:text="${bookmark.projectType}">사이드 프로젝트</div>
             <span class="time-commitment" th:if="${bookmark.projectTime == 1}">매주 4일 10시간</span>

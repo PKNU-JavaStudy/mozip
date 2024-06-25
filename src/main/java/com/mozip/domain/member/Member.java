@@ -5,6 +5,7 @@ import lombok.ToString;
 
 import java.sql.NClob;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @ToString
 @Getter
@@ -14,6 +15,7 @@ public class Member {
     private String password;
     private String username;
     private String phone;
+    private List<Role> role;
     private int career;
     private NClob info;
     private String position;
@@ -29,4 +31,6 @@ public class Member {
         this.username = username;
         this.phone = phone;
     }
+
+
 }

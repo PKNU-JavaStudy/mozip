@@ -4,16 +4,22 @@ import com.mozip.domain.keep.Keep;
 import com.mozip.domain.likes.Likes;
 import com.mozip.dto.CMRespDto;
 import com.mozip.dto.req.ProjectCreateDto;
+import com.mozip.handler.ex.CustomValidationApiException;
+import com.mozip.handler.ex.CustomValidationException;
 import com.mozip.service.KeepService;
 import com.mozip.dto.resp.ProjectEditDto;
 import com.mozip.dto.resp.RecruitListDto;
 import com.mozip.dto.resp.ShowEditDto;
 import com.mozip.service.LikesService;
 import com.mozip.service.ProjectService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +31,7 @@ import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/api")
 @RestController
@@ -41,7 +48,7 @@ public class ApiProjectController {
 
     // 프로젝트 생성
     @PostMapping("/project")
-    public ResponseEntity<?> createProject(@RequestBody ProjectCreateDto dto) {
+    public ResponseEntity<?> createProject(@Valid @RequestBody ProjectCreateDto dto, BindingResult bindingResult) {
         int projectId = projectService.createProject(dto);
 
         return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공", projectId));
@@ -49,7 +56,8 @@ public class ApiProjectController {
 
     // 프로젝트 수정
     @PatchMapping("/project/update")
-    public ResponseEntity<?> updateRecruitProject(@RequestBody ProjectEditDto dto) {
+    public ResponseEntity<?> updateRecruitProject(@Valid @RequestBody ProjectEditDto dto,
+                                                  BindingResult bindingResult) {
         projectService.updateRecruitProject(dto);
 
         return ResponseEntity.ok().body(new CMRespDto<>(1, "프로젝트 수정 성공!", dto.getId()));
@@ -57,11 +65,11 @@ public class ApiProjectController {
 
     // 좋아요
     @PostMapping("/like")
-    public ResponseEntity<?> likeProject(@RequestBody Likes likes){
+    public ResponseEntity<?> likeProject(@RequestBody Likes likes) {
         // 좋아요, 좋아요 취소 구분하여 처리
         likesService.likeValidation(likes);
 
-        return ResponseEntity.ok().body(new CMRespDto<>(1,"통신성공", likesService.likeCount(likes.getProjectId())));
+        return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공", likesService.likeCount(likes.getProjectId())));
     }
 
     // 프로젝트 삭제 메서드
@@ -70,20 +78,22 @@ public class ApiProjectController {
 
         projectService.deleteProject(projectId); // 프로젝트 삭제 로직
 
-        return ResponseEntity.ok().body(new CMRespDto<>(1,"통신성공",projectId));
+        return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공", projectId));
     }
 
     // 프로젝트 자랑 수정
     @PatchMapping("/show/{projectId}")
-    public ResponseEntity<?> editSelectShow(@RequestBody ShowEditDto dto, @PathVariable("projectId") int projectId) {
+    public ResponseEntity<?> editSelectShow(@Valid @RequestBody ShowEditDto dto,
+                                            BindingResult bindingResult,
+                                            @PathVariable("projectId") int projectId) {
         projectService.updateShow(dto, projectId);
-        return ResponseEntity.ok().body(new CMRespDto<>(1,"통신성공",dto.getId()));
+        return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공", dto.getId()));
     }
 
     // 프로젝트 참여 신청
     @PostMapping("/project/join")
-    public ResponseEntity<?> projectJoin(@RequestParam("memberId") int memberId, @RequestParam("projectId") int projectId){
-        return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공", projectService.projectJoin(memberId,projectId)));
+    public ResponseEntity<?> projectJoin(@RequestParam("memberId") int memberId, @RequestParam("projectId") int projectId) {
+        return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공", projectService.projectJoin(memberId, projectId)));
     }
 
     // 멤버모집 리스트 검색
@@ -95,30 +105,30 @@ public class ApiProjectController {
 
     // 북마크
     @PostMapping("/keep")
-    public ResponseEntity<?> keepProject(@RequestBody Keep keep){
+    public ResponseEntity<?> keepProject(@RequestBody Keep keep) {
         // 북마크, 북마크 취소 구분하여 처리
         keepService.keepValidation(keep);
 
-        return ResponseEntity.ok().body(new CMRespDto<>(1,"통신성공", keepService.keepCount(keep.getProjectId(), keep.getMemberId())));
+        return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공", keepService.keepCount(keep.getProjectId(), keep.getMemberId())));
     }
 
     // 프로젝트모집 카테고리 필터
     @PostMapping("/project/filter")
-    public ResponseEntity<?> filterProject(@RequestParam("filter") String filter){
+    public ResponseEntity<?> filterProject(@RequestParam("filter") String filter) {
         return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공", projectService.projectFilterSearch(filter)));
     }
 
     // 프로젝트모집 셀렉트 필터
     @GetMapping("/project/select/{filter}")
-    public ResponseEntity<?> selectFilterProject(@PathVariable("filter") String filter){
+    public ResponseEntity<?> selectFilterProject(@PathVariable("filter") String filter) {
         return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공", projectService.projectSelectFilterSearch(filter)));
     }
 
     // 프로젝트모집 타입 필터
     @GetMapping("/project/type/{filter}")
-    public ResponseEntity<?> selectProjectTypeFilter(@PathVariable("filter") String filter){
-        if(filter.equals("스터디모집"))
-            filter="모집/스터디";
+    public ResponseEntity<?> selectProjectTypeFilter(@PathVariable("filter") String filter) {
+        if (filter.equals("스터디모집"))
+            filter = "모집/스터디";
         return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공", projectService.projectSelectTypeFilter(filter)));
     }
 }
