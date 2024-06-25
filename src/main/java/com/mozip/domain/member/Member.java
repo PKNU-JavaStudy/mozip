@@ -1,5 +1,6 @@
 package com.mozip.domain.member;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -31,6 +32,8 @@ public class Member {
         this.username = username;
         this.phone = phone;
     }
+
+
 
 
 }

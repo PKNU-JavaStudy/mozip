@@ -1,10 +1,12 @@
 package com.mozip.config;
 
+import com.mozip.config.auth.PrincipalOauth2UserService;
 import com.mozip.handler.ex.CustomException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -29,6 +31,9 @@ public class SecurityConfig {
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+    @Autowired
+    PrincipalOauth2UserService principalOauth2UserService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -59,7 +64,9 @@ public class SecurityConfig {
                             }
                         })
                         .permitAll()
-                ).logout(config -> config.logoutRequestMatcher(new AntPathRequestMatcher("/auth/logout")).logoutSuccessUrl("/").invalidateHttpSession(true));
+                )
+                .logout(config -> config.logoutRequestMatcher(new AntPathRequestMatcher("/auth/logout")).logoutSuccessUrl("/").invalidateHttpSession(true))
+                .oauth2Login(oauth -> oauth.userInfoEndpoint(c -> c.userService(principalOauth2UserService)).defaultSuccessUrl("/", true));
 
         return http.build();
     }

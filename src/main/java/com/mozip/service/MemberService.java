@@ -5,7 +5,6 @@ import com.mozip.dto.req.MypageEditDto;
 import com.mozip.dto.resp.MypageDto;
 import com.mozip.dto.resp.NewMemberListDto;
 import com.mozip.dto.req.UpdateMypageEditDto;
-import com.mozip.util.Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
