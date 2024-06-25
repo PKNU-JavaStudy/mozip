@@ -30,16 +30,24 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
 
         String email = properties.get("nickname") + "@kakao.com";
-        String username = (String) properties.get("nickname");
-        String password = bCryptPasswordEncoder.encode((String) properties.get("nickname"));
-        String phone = "01000000000";
 
-        JoinMemberDto joinMemberDto = JoinMemberDto.builder().email(email).password(password).username(username).phone(phone).build();
-        authRepository.joinMember(joinMemberDto, Role.USER.getValue());
+        if (authRepository.findByEmail(email) != null) { // 이전에 가입 했던 유저
+            Member member = authRepository.findMember(email).orElseThrow(() -> {
+                throw new CustomException("가입하신 회원정보가 없습니다!");
+            });
+            return new PrincipalDetails(member, properties);
+        } else { // 처음 가입하는 유저
+            String username = (String) properties.get("nickname");
+            String password = bCryptPasswordEncoder.encode((String) properties.get("nickname"));
+            String phone = "01000000000";
 
-        Member member = authRepository.findMember(email).orElseThrow(() -> {
-            throw new CustomException("가입하신 회원정보가 없습니다!");
-        });
-        return new PrincipalDetails(member, properties);
+            JoinMemberDto joinMemberDto = JoinMemberDto.builder().email(email).password(password).username(username).phone(phone).build();
+            authRepository.joinMember(joinMemberDto, Role.USER.getValue());
+
+            Member member = authRepository.findMember(email).orElseThrow(() -> {
+                throw new CustomException("가입하신 회원정보가 없습니다!");
+            });
+            return new PrincipalDetails(member, properties);
+        }
     }
 }
