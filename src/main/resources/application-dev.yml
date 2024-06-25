@@ -16,6 +16,26 @@ spring:
           auth: true
           starttls:
             enable: true
+  #  Kakao 로그인 API
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: f37021dae16ea2b1778275828eb7ee08
+            client-secret: 30QjrDqVeK0txHxzM9T9knBmjO55g9n2
+            client-name: kakao-login
+            scope:
+              - profile_nickname
+              - profile_image
+            authorization-grant-type: authorizaion_code
+            redirect-uri: http://localhost:8082/login/oauth2/code/kakao
+            client-authentication-method: POST
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
 server:
   port:
     8082
