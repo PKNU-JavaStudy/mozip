@@ -145,7 +145,7 @@
                 <span class="pj-type ${project.projectType == '사이드 프로젝트' ? 'pj' : 'study'}">${project.projectType}</span>
                 <p class="title">
                   <strong class="state-ing">${project.status == 1 ? '모집 중' : '모집완료'}</strong>
-                   <span th:classappend="project-name" th:text="${project.getProjectName()}">엘리스 SW 4기 모집합니다!</span>
+                   <span th:classappend="project-name">${project.getProjectName()}</span>
                 </p>
                 <div class="cont-wrap">
                   <p class="content">${project.projectInfo}</p>

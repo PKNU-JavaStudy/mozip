@@ -358,4 +358,31 @@ public class ProjectService {
         }
         return recruitListDtos;
     }
+
+    // 프로젝트자랑 기술스택 필터
+    public List<ShowListDto> projectSkillFilter(String filter) {
+
+        List<ShowListDto> allShows = projectRepository.projectSkillFilter(filter);
+        for (ShowListDto show : allShows) {
+            show.setTeamName(projectRepository.findTeamName(show.getId()));
+            show.setLikes(projectRepository.findLikeCount(show.getId()));
+            show.setSkills(projectRepository.findProjectSkills(show.getId()));
+        }
+        return allShows;
+    }
+
+    // 프로젝트자랑 셀렉트 필터(북마크순)
+    public List<ProjectListDto> projectBookmarkOrder(String filter) {
+        List<ProjectListDto> showSelectBookmark = new ArrayList<>();
+
+        for (ProjectListDto dto : showSelectBookmark) {
+            showSelectBookmark.add(projectRepository.findShowBookmark(filter));
+            dto.setRoleNames(projectRepository.findRecruitRoles(dto.getId()));
+            dto.setCreateTime(Util.formatTimestamp(Timestamp.valueOf(dto.getCreateTime())));
+            dto.setSubscribe(projectRepository.findSubscribeCount(dto.getId()));
+            dto.setProjectInfo(Util.clobToString((NClob) dto.getProjectInfo()));
+        }
+
+        return showSelectBookmark;
+    }
 }

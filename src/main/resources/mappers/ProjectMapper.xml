@@ -498,11 +498,19 @@
         ORDER BY CREATED_AT DESC
     </select>
 
-
     <select id="findOneRecruit" resultMap="recruitDtoMap">
         SELECT ID, PROJECT_NAME, PROJECT_TYPE, PROJECT_INFO, VIEWS, STATUS, CREATED_AT
         FROM PROJECT
         WHERE ID = #{projectId}
     </select>
 
+    <select id="projectSkillFilter" resultMap="ShowListDtoMap">
+        SELECT ID, PROJECT_NAME, PROJECT_TYPE, OWNER_ID ,VIEWS, IS_SHOW
+        FROM PROJECT
+        WHERE PROJECT.ID IN(SELECT PROJECT_ID FROM PROJECT_SKILL WHERE SKILL_NAME LIKE #{filter})
+    </select>
+
+    <select id="findShowBookmark" resultType="Integer">
+        SELECT BOOKMARK.PROJECT_ID FROM BOOKMARK GROUP BY PROJECT_ID ORDER BY COUNT(*) DESC
+    </select>
 </mapper>

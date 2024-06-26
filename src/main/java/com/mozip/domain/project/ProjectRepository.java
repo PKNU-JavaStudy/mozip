@@ -3,7 +3,6 @@ package com.mozip.domain.project;
 import com.mozip.dto.req.ProjectCreateDto;
 import com.mozip.dto.resp.*;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -153,5 +152,9 @@ public interface ProjectRepository {
 
     RecruitListDto findOneRecruit(@Param("projectId") int projectId);
 
+    // 프로젝트자랑 리스트 : 기술스택 필터
+    List<ShowListDto> projectSkillFilter(@Param("filter") String filter);
 
+    // 프로젝트자랑 리스트 : 셀렉트 필터(북마크순)
+    ProjectListDto findShowBookmark(@Param("filter") String filter);
 }

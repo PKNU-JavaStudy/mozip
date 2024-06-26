@@ -120,4 +120,17 @@ public class ApiProjectController {
             filter="모집/스터디";
         return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공", projectService.projectSelectTypeFilter(filter)));
     }
+
+    // 프로젝트자랑 기술스택 필터
+    @GetMapping("/project/skill/{filter}")
+    public ResponseEntity<?> selectProjectSkill(@PathVariable("filter") String filter){
+        return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공", projectService.projectSkillFilter(filter)));
+    }
+
+    // 프로젝트자랑 셀렉트 필터(북마크순)
+    @GetMapping("/project/select/{filter}")
+    public ResponseEntity<?> selectFilterShow(@PathVariable("filter") String filter){
+        return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공", projectService.projectBookmarkOrder(filter)));
+    }
+
 }
