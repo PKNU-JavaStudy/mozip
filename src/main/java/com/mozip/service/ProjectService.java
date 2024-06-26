@@ -474,6 +474,7 @@ public class ProjectService {
     }
 
     // 프로젝트자랑 셀렉트 필터(북마크순)
+    /*
     public List<ProjectListDto> projectBookmarkOrder(String filter) {
         List<ProjectListDto> showSelectBookmark = new ArrayList<>();
 
@@ -487,4 +488,6 @@ public class ProjectService {
 
         return showSelectBookmark;
     }
+     */
+
 }

@@ -129,9 +129,12 @@ public class ApiProjectController {
     }
 
     // 프로젝트자랑 셀렉트 필터(북마크순)
+    /*
     @GetMapping("/project/select/{filter}")
     public ResponseEntity<?> selectFilterShow(@PathVariable("filter") String filter){
         return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공", projectService.projectBookmarkOrder(filter)));
     }
+
+     */
 
 }
