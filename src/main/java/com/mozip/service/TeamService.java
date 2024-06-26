@@ -8,20 +8,19 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.NClob;
 import java.util.List;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
 public class TeamService {
-
+    // TODO : 추후 구현기능이 수정.
     private final TeamnoteRepository teamnoteRepository;
 
     public List<TeamnoteListDto> findTeamNoteList(int memberId) {
         List<TeamnoteListDto> teamNoteList = teamnoteRepository.findTeamNoteList(memberId);
         for (TeamnoteListDto teamnoteListDto : teamNoteList) {
-            teamnoteListDto.setProjectInfo(Util.clobToString((NClob) teamnoteListDto.getProjectInfo()));
+            teamnoteListDto.setProjectInfo(teamnoteListDto.getProjectInfo());
         }
         return teamNoteList;
     }

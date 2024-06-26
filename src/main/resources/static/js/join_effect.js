@@ -1,131 +1,99 @@
-// 변수 선언
-const form = document.getElementById("signup-form"); // 전체 폼
-const submit = document.getElementById("join-submit"); // 회원가입 버튼
-const requiredCheckBoxes = Array.from(document.querySelectorAll(".required")); // 모든 필수 체크박스
-const agreeAllCheckBox = document.getElementById("agreeAll"); // 모두 동의 체크박스
-const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // 이메일 정규식
-const namePattern = /^.{2,5}$/; // 이름 정규식 (2~5자리)
-const phoneNumberPattern = /^010\d{8}$/; // 휴대폰 번호 정규식
+$(document).ready(function () {
+    const emailPattern = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/; // 이메일 정규식
+    const phoneNumberPattern = /^010\d{8}$/; // 휴대폰 번호 정규식
 
-// 입력이 올바른지 확인
-function checkFieldValidity(input) {
-    let isValid = true;
-    const value = input.value.trim();
-
-    if (input.id === "name") {
-        isValid = namePattern.test(value);
-    } else if (input.id === "email") {
-        isValid = emailPattern.test(value);
-    } else if (input.id === "phone-number") {
-        isValid = phoneNumberPattern.test(value);
-    } else if (input.id === "password" || input.id === "confirm-password") {
-        const password = document.getElementById("password").value.trim();
-        const confirmPassword = document.getElementById("confirm-password").value.trim();
-        isValid = password.length >= 5 && (input.id !== "confirm-password" || password === confirmPassword);
+    // 모두 동의 체크박스
+    function toggleAll(source) {
+        const checkboxes = $('input[type="checkbox"]');
+        checkboxes.prop('checked', source.checked);
     }
 
-    if (isValid) {
-        input.style.borderColor = "#c3c3c3";
-    } else {
-        input.style.borderColor = "red";
-    }
-}
+    // 이메일, 전화번호 및 비밀번호 확인 유효성 검사
+    function checkFieldValidity(input) {
+        let isValid = true;
+        const value = input.val().trim();
 
-// 모두 동의 체크박스
-function toggleAll(source) {
-    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-    checkboxes.forEach((checkbox) => {
-        checkbox.checked = source.checked;
-    });
-    checkSubmitState();
-}
-
-// 모든 필수 박스가 선택되었는지 확인
-function checkSubmitState() {
-    const name = document.getElementById("name").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const phoneNumber = document.getElementById("phone-number").value.trim();
-    const password = document.getElementById("password").value.trim();
-    const checkPassword = document.getElementById("confirm-password").value.trim();
-
-    // 모든 필수 입력 필드가 채워져 있는지 확인
-    const allFieldsFilled = name && email && phoneNumber && password && checkPassword;
-
-    // 모든 필수 체크박스가 체크되었는지 확인
-    const allChecked = agreeAllCheckBox.every((checkbox) => checkbox.checked);
-    console.log("필수 체크박스 상태: ", allChecked); // 디버깅용 콘솔 로그
-
-    submit.disabled = !(allChecked && allFieldsFilled);
-}
-
-// 필수 체크박스 변경 시 이벤트 리스너
-requiredCheckBoxes.forEach((checkbox) => {
-    checkbox.addEventListener("change", checkSubmitState);
-});
-
-// 입력 필드 변경 시 이벤트 리스너
-document.querySelectorAll("#name, #email, #phone-number, #password, #confirm-password").forEach((input) => {
-    input.addEventListener("input", () => {
-        checkFieldValidity(input);
-        checkSubmitState();
-    });
-});
-
-// 폼 제출 이벤트 리스너
-form.addEventListener("submit", function (event) {
-    let isFormValid = true;
-
-    // 필수 체크박스가 모두 체크되었는지 확인
-    const allChecked = requiredCheckBoxes.every((checkbox) => checkbox.checked);
-
-    // 입력 필드 확인
-    const username = document.getElementById("name").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const phoneNumber = document.getElementById("phone-number").value.trim();
-    const password = document.getElementById("password").value.trim();
-    const checkPassword = document.getElementById("confirm-password").value.trim();
-
-    // 각 필드 유효성 검사 및 테두리 색상 변경
-    document.querySelectorAll("#name, #email, #phone-number, #password, #confirm-password").forEach((input) => {
-        checkFieldValidity(input);
-        if (input.style.borderColor === "red") {
-            isFormValid = false;
+        if (input.attr("id") === "email") {
+            isValid = emailPattern.test(value);
+        } else if (input.attr("id") === "phone-number") {
+            isValid = phoneNumberPattern.test(value);
+        } else if (input.attr("id") === "confirm-password") {
+            const password = $("#password").val().trim();
+            isValid = (password === value);
         }
+
+        if (isValid) {
+            input.css("border-color", "#c3c3c3");
+        } else {
+            input.css("border-color", "red");
+        }
+    }
+
+    $('#agreeAll').change(function () {
+        toggleAll(this);
     });
-    console.log("폼 제출 시 필수 체크박스 상태: ", allChecked); // 디버깅용 콘솔 로그
-    if (!allChecked) {
-        alert("필수 이용약관 동의를 해주세요.");
-        isFormValid = false;
-    }
 
-    if (username == null || email == null || phoneNumber == null || password == null || checkPassword == null) {
-        alert("모든 입력 칸을 작성해 주세요.");
-        isFormValid = false;
-    }
-    if (!namePattern.test(username)) {
-        alert("이름이 올바르지 않습니다.");
-        isFormValid = false;
-    }
-    if (!emailPattern.test(email)) {
-        alert("유효한 이메일을 입력해 주세요.");
-        isFormValid = false;
-    }
-    if (!phoneNumberPattern.test(phoneNumber)) {
-        alert("유효한 전화번호를 입력해 주세요.");
-        isFormValid = false;
-    }
-    if (password !== checkPassword) {
-        alert("비밀번호가 일치하지 않습니다.");
-        isFormValid = false;
-    }
+    $('#email, #phone-number, #confirm-password').on('input', function () {
+        checkFieldValidity($(this));
+    });
 
-    if (!isFormValid) {
+    $('#signup-form').submit(function (event) {
         event.preventDefault(); // 폼 제출 막기
-    } else {
-        alert("회원가입이 완료되었습니다.");
-        // window.location.href = "login.html";
-    }
-});
 
-// 초기 상태에서 제출 버튼 비활성화
-checkSubmitState();
+        const email = $('#email').val().trim();
+        const phoneNumber = $('#phone-number').val().trim();
+        const password = $('#password').val().trim();
+        const confirmPassword = $('#confirm-password').val().trim();
+
+        const requiredCheckboxes = $('.required');
+        const allChecked = requiredCheckboxes.toArray().every(checkbox => checkbox.checked);
+
+        if (!allChecked) {
+            alert("모든 필수 항목에 동의해 주세요 !");
+            return;
+        }
+
+        if (!emailPattern.test(email)) {
+            alert("이메일 형식이 아닙니다 !");
+            return;
+        }
+
+        if (!phoneNumberPattern.test(phoneNumber)) {
+            alert("휴대폰 번호 형식이 아닙니다 !");
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            alert("비밀번호가 일치하지 않습니다 !");
+            return;
+        }
+
+        // AJAX 요청으로 폼 데이터 전송
+        const formData = {
+            email: email,
+            password: password,
+            username: $('#name').val().trim(),
+            phone: phoneNumber
+        };
+
+        console.log("전송할 데이터: ", formData); // 서버로 전송되는 데이터 확인용 로그
+
+        $.ajax({
+            type: "POST",
+            url: "/auth/join",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(formData),
+            dataType: "json",
+            success: function (response) {
+                if (response.success) {
+                    alert("회원가입이 완료되었습니다 !");
+                    window.location.assign(`/auth/login`)
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log("Error:", xhr.responseJSON.msg);
+                alert(xhr.responseJSON.msg);
+            }
+        });
+    });
+});

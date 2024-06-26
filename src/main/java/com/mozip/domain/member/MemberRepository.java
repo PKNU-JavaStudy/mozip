@@ -1,11 +1,13 @@
 package com.mozip.domain.member;
 
-import com.mozip.dto.req.MypageEditDto;
-import com.mozip.dto.req.UpdateMypageEditDto;
-import com.mozip.dto.resp.*;
+import com.mozip.dto.req.member.MypageEditDto;
+import com.mozip.dto.req.member.UpdateMypageEditDto;
+import com.mozip.dto.resp.member.MyBookmarkListDto;
+import com.mozip.dto.resp.member.MyProjectDto;
+import com.mozip.dto.resp.member.MypageDto;
+import com.mozip.dto.resp.member.NewMemberListDto;
 import org.apache.ibatis.annotations.Param;
 
-import java.nio.file.Path;
 import java.util.List;
 
 public interface MemberRepository {
@@ -28,14 +30,17 @@ public interface MemberRepository {
     MypageEditDto editUserInfo(int id);
     // 마이페이지 수정: 스킬목록
     List<String> findSkill(int memberId);
+
     // 마이페이지 수정: 수정 정보 업데이트
     void updateInfo(UpdateMypageEditDto updateMypageEditDto);
+
     // 마이페이지 수정: 스킬 삭제
     void deleteSkills(int memberId);
+
     // 마이페이지 수정: 스킬 삽입
     void insertSkills(@Param("memberId") int memberId, @Param("skill") String skill);
 
-
+    // 프로필 이미지 저장
     void updateProfileImg(@Param("imageDir") String imageDir, @Param("memberId") int memberId);
 }
 

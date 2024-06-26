@@ -211,9 +211,10 @@ function sendFormData() {
                     console.error('Error:', textStatus, errorThrown);
                 }
             })
-            window.location.assign(`/`);
+            window.location.assign(`/member/${memberId}`);
         }).fail(error => {
-            console.log("실패", error);
+            let errors = Object.values(JSON.parse(JSON.stringify(error.responseJSON.data))).join('\n');
+            alert(errors);
         });
     } else {
         $.ajax({
@@ -227,7 +228,9 @@ function sendFormData() {
             alert("정보 수정 완료 !");
             window.location.replace(`/member/${memberId}`);
         }).fail(error => {
-            console.log("실패", error);
+            console.log(error);
+            let errors = Object.values(JSON.parse(JSON.stringify(error.responseJSON.data))).join('\n');
+            alert(errors);
         });
     }
 }

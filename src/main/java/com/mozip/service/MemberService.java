@@ -1,11 +1,10 @@
 package com.mozip.service;
 
 import com.mozip.domain.member.MemberRepository;
-import com.mozip.dto.req.MypageEditDto;
-import com.mozip.dto.resp.MypageDto;
-import com.mozip.dto.resp.NewMemberListDto;
-import com.mozip.dto.req.UpdateMypageEditDto;
-import com.mozip.util.Util;
+import com.mozip.dto.req.member.MypageEditDto;
+import com.mozip.dto.resp.member.MypageDto;
+import com.mozip.dto.resp.member.NewMemberListDto;
+import com.mozip.dto.req.member.UpdateMypageEditDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -15,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.NClob;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,29 +26,45 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
+    /**
+     * <h3>메인페이지 - 새 멤버 가져오는 메서드</h3>
+     * <li>마이페이지를 수정한 멤버중 가장 최근에 가입한 6명의 Member 데이터를 가져온다.</li>
+     * @return List<>
+     */
     public List<NewMemberListDto> newMemberList() {
         List<NewMemberListDto> newMembers = memberRepository.newMemberList();
         for (NewMemberListDto newMember : newMembers) {
-            newMember.setInfo(Util.clobToString((NClob) newMember.getInfo()));
+            newMember.setInfo(newMember.getInfo());
+
         }
         return newMembers;
     }
 
-    // 마이페이지: 유저 정보를 가져오는 메서드
-    public MypageDto getUserInfo(int id) {
-        MypageDto findMember = memberRepository.getUserInfo(id);
+    /**
+     * <h3>마이페이지 - 멤버 정보를 가져오는 메서드</h3>
+     * <li>멤버의 ID 를 통해 화면에 뿌려줄 데이터들을 가져온다.</li>
+     * @param memberId
+     * @return MypageDto
+     */
+    public MypageDto getUserInfo(int memberId) {
+        MypageDto findMember = memberRepository.getUserInfo(memberId);
         findMember.setBookmarks(memberRepository.getUserBookmarks(findMember.getId()));
         findMember.setMyProjectList(memberRepository.getUserProject(findMember.getId()));
         findMember.setSkills(memberRepository.getUserSkill(findMember.getId()));
-        findMember.setInfo(Util.clobToString((NClob) findMember.getInfo()));
+        findMember.setInfo(findMember.getInfo());
 
         return findMember;
     }
 
-    // 마이페이지 수정: 유저 정보를 가져오는 메서드
+    /**
+     * <h3>마이페이지 수정 - 멤버 정보를 가져오는 메서드</h3>
+     * <li>마이페이지 정보 수정 전 기존 데이터를 가져온다.</li>
+     * @param id
+     * @return MypageEditDto
+     */
     public MypageEditDto editUserInfo(int id) {
         MypageEditDto editMember = memberRepository.editUserInfo(id);
-        editMember.setInfo(Util.clobToString((NClob) editMember.getInfo()));
+        editMember.setInfo(editMember.getInfo());
         editMember.setSkills(memberRepository.findSkill(editMember.getId()));
 
         return memberRepository.editUserInfo(id);
@@ -58,6 +72,12 @@ public class MemberService {
     }
 
     // 마이페이지 수정: 유저 정보 업데이트 메서드
+
+    /**
+     * 마이페이지 수정 - 멤버 정보를 수정하는 메서드
+     * <li>정보수정 페이지에서 입력받은 새로운 데이터로 수정</li>
+     * @param dto
+     */
     @Transactional
     public void updateMemberInfo(UpdateMypageEditDto dto) {
         memberRepository.updateInfo(dto);
@@ -70,6 +90,14 @@ public class MemberService {
     }
 
     // 프로필 이미지
+
+    /**
+     * <h3>프로필 이미지 저장 메서드</h3>
+     * <li>1. 프로필 이미지를 받아 UUID 를 통해 새로운 이름을 만든다.</li>
+     * <li>2. 이미지가 저장되는 경로에 이미지 저장</li>
+     * @param file
+     * @param memberId
+     */
     @Transactional
     public void profileImageUpload(MultipartFile file, int memberId){
         /**

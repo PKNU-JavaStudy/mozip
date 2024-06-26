@@ -1,21 +1,17 @@
 package com.mozip.service;
 
 import com.mozip.domain.project.ProjectRepository;
-import com.mozip.dto.req.ProjectCreateDto;
-import com.mozip.dto.resp.ProjectDetailDto;
-import com.mozip.dto.resp.ProjectListDto;
-import com.mozip.dto.resp.ProjectMemberDto;
-import com.mozip.dto.resp.RecruitListDto;
-import com.mozip.dto.resp.ShowListDto;
+import com.mozip.dto.req.project.ProjectCreateDto;
+import com.mozip.dto.resp.project.*;
 import com.mozip.handler.ex.CustomException;
-import com.mozip.dto.resp.*;
 import com.mozip.util.Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.NClob;
+
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,39 +21,54 @@ import java.util.List;
 public class ProjectService {
     private final ProjectRepository projectRepository;
 
-    // 메인페이지 새로운모집글(상위 6개) 데이터 갖고오는 메서드
+    /**
+     * <h3>메인페이지 - 새로운모집글 데이터 갖고오는 메서드</h3>
+     * <li>새로운 모집글 상위 6개를 갖고와서 반환</li>
+     * <li>프로젝트의 몇몇 정보는 다른 테이블과 조인이 필요하므로 for 문을 통해 데이터를 셋팅한다.</li>
+     * @return List<ProjectListDto>
+     */
     public List<ProjectListDto> findNewProject() {
         // 프로젝트에서 필요 데이터를 가져온다.
         List<ProjectListDto> newProjects = projectRepository.findNewProject();
 
-        // 다른 데이터는 프로젝트의 ID값을 통해 다른 테이블과 조인하므로 아래처럼 로직을 탄다.
         for (ProjectListDto project : newProjects) {
-            // 각 project의 각 ID를 통해 북마크수, 조회수를 가져와서 추가해줘야 한다.
             project.setRoleNames(projectRepository.findRecruitRoles(project.getId()));
             project.setBookmarkCount(projectRepository.findBookmarkCount(project.getId()));
-            project.setProjectInfo(Util.clobToString((NClob) project.getProjectInfo())); // NCLOB -> String 변환
+            project.setProjectInfo(project.getProjectInfo());
+
         }
         return newProjects;
     }
 
-    // 메인페이지 인기모집글(상위6개) 데이터 갖고오는 메서드
+    /**
+     * <h3>메인페이지 - 인기모집글 데이터 갖고오는 메서드</h3>
+     * <li>프로젝트 중 조회수가 가장 많은 상위 6개의 데이터를 가져온다.</li>
+     * <li>findNewProject() 와 거의 똑같은 로직</li>
+     * @return List<ProjectListDto>
+     */
     public List<ProjectListDto> findHotProject() {
         List<ProjectListDto> hotProjects = projectRepository.findHotProject();
         // 각 project의 각 ID를 통해 북마크수, 조회수를 가져와서 추가
         for (ProjectListDto project : hotProjects) {
             project.setRoleNames(projectRepository.findRecruitRoles(project.getId()));
             project.setBookmarkCount(projectRepository.findBookmarkCount(project.getId()));
-            project.setProjectInfo(Util.clobToString((NClob) project.getProjectInfo())); // NCLOB -> String 변환
+            project.setProjectInfo(project.getProjectInfo());
         }
         return hotProjects;
     }
 
-    // 프로젝트모집 상세페이지 데이터 갖고오는 메서드
+    /**
+     * <h3>프로젝트모집 상세페이지 데이터 갖고오는 메서드</h3>
+     * <li>프로젝트 ID를 통해 상세페이지에 뿌려줄 데이터를 셋팅한다.</li>
+     * @param projectId
+     * @return ProjectDetailDto
+     */
     public ProjectDetailDto findProjectDetail(int projectId) {
         ProjectDetailDto findProject = projectRepository.findProjectDetail(projectId);
 
-        // 프로젝트소개 타입 변경: NCLOB -> String
-        findProject.setProjectInfo(Util.clobToString((NClob) findProject.getProjectInfo()));
+        // 프로젝트소개
+        findProject.setProjectInfo(findProject.getProjectInfo());
+
 
         // 시작예정, 생성일 타입 변경
         findProject.setCreatedAt(Util.formatTimestamp(Timestamp.valueOf(findProject.getCreatedAt())));
@@ -89,19 +100,27 @@ public class ProjectService {
         return findProject;
     }
 
-    //리스트페이지 데이터 갖고오는 메서드
+    /**
+     * <h3>프로젝트모집 목록 페이지 데이터 갖고오는 메서드</h3>
+     * <li>목록 페이지에 뿌려줄 데이터들을 셋팅</li>
+     * @return List<RecruitListDto>
+     */
     public List<RecruitListDto> findAllProject() {
         List<RecruitListDto> allProjects = projectRepository.findAllProject();
         for (RecruitListDto project : allProjects) {
             project.setRoleNames(projectRepository.findRecruitRoles(project.getId()));
             project.setCreateTime(Util.formatTimestamp(Timestamp.valueOf(project.getCreateTime())));
             project.setSubscribe(projectRepository.findSubscribeCount(project.getId()));
-            project.setProjectInfo(Util.clobToString((NClob) project.getProjectInfo())); // NCLOB -> String 변환
+            project.setProjectInfo(project.getProjectInfo());
         }
         return allProjects;
     }
 
-    // 프로젝트자랑페이지 데이터 갖고오는 메서드
+    /**
+     * <h3>프로젝트자랑 목록 페이지 데이터 갖고오는 메서드</h3>
+     * <li>프로젝트 중 프로젝트 자랑인 데이터만 셋팅하여 갖고온다.</li>
+     * @return List<ShowListDto>
+     */
     public List<ShowListDto> findAllShowProject() {
         List<ShowListDto> allShows = projectRepository.findAllShowProject();
         for (ShowListDto show : allShows) {
@@ -112,7 +131,11 @@ public class ProjectService {
         return allShows;
     }
 
-    // 프로젝트자랑페이지 인기 데이터 갖고오는 메서드
+    /**
+     * <h3>프로젝트자랑 목록 인기 프로젝트 갖고오는 메서드</h3>
+     * <li>프로젝트중 프로젝트자랑인 데이터를 상위 6개 갖고온다.</li>
+     * @return List<ShowListDto>
+     */
     public List<ShowListDto> findHotShow() {
         List<ShowListDto> HotShows = projectRepository.findHotShow();
         for (ShowListDto show : HotShows) {
@@ -123,12 +146,17 @@ public class ProjectService {
         return HotShows;
     }
 
-    // 프로젝트 자랑 상세페이지(show_detail) 데이터 갖고오는 메서드
+    /**
+     * <h3>프로젝트자랑 상세 데이터 갖고오는 메서드</h3>
+     * <li>프로젝트ID값을 통해 상세페이지에 뿌려줄 데이터를 갖고온다.</li>
+     * @param projectId
+     * @return ShowDetailDto
+     */
     public ShowDetailDto findShowDetail(int projectId) {
         ShowDetailDto findShowDetail = projectRepository.findShowDetail(projectId);
 
         // 프로젝트 소개 가져오기
-        findShowDetail.setProjectInfo(Util.clobToString((NClob) findShowDetail.getProjectInfo()));
+        findShowDetail.setProjectInfo(findShowDetail.getProjectInfo());
 
         // 좋아요 수 카운트
         findShowDetail.setLikes(projectRepository.findShowLikeCount(findShowDetail.getId()));
@@ -151,7 +179,12 @@ public class ProjectService {
         return findShowDetail;
     }
 
-    // 프로젝트작성페이지
+    /**
+     * <h3>프로젝트생성 메서드</h3>
+     * <li>사용자로부터 입력받은 DTO를 통해 프로젝트를 생성한다.</li>
+     * @param projectCreateDto
+     * @return int
+     */
     @Transactional
     public int createProject(ProjectCreateDto projectCreateDto) {
 
@@ -185,37 +218,60 @@ public class ProjectService {
         return projectId;
     }
 
-    // 조회 수 저장
+    /**
+     * <h3>프로젝트 조회수 증가 메서드</h3>
+     * <li>프로젝트ID값을 통해 조회수를 증가시키는 메서드</li>
+     * @param projectId
+     * @return int
+     */
     @Transactional
     public int increaseView(int projectId) {
         return projectRepository.findViewCount(projectId);
     }
 
-    // 프로젝트자랑 페이지 삭제
+    /**
+     * <h3>프로젝트 삭제 메서드</h3>
+     * <li>프로젝트ID값을 통해 프로젝트를 삭제한다.</li>
+     * @param projectId
+     */
+    @Transactional
     public void deleteProject(int projectId) {
-        projectRepository.deleteProject(projectId); // 프로젝트 삭제 로
+        projectRepository.deleteProject(projectId);
 
     }
 
-    // 프로젝트 자랑 수정 전 불러오기
+    /**
+     * <h3>프로젝트자랑 수정 전 기존 데이터 갖고오는 메서드</h3>
+     * <li>프로젝트자랑 수정 페이지에서 해당 프로젝트의 기존 값들을 갖고온다.</li>
+     * @param projectId
+     * @return ShowEditDto
+     */
     public ShowEditDto editSelectShow(int projectId) {
         ShowEditDto project = projectRepository.editSelectShow(projectId);
 
         project.setSkills(projectRepository.findProjectSkills(projectId));
         project.setRecruitRole(projectRepository.findRecruitRoles(projectId));
-        project.setProjectInfo(Util.clobToString((NClob) project.getProjectInfo()));
+        project.setProjectInfo(project.getProjectInfo());
         // LocalDateTime -> String 변환
-        project.setCreatedChangeAt(Util.formatLocalDateTime(project.getCreatedAt()));
-        project.setModifiedChangeAt(Util.formatLocalDateTime(project.getModifiedShow()));
+        project.setCreatedChangeAt(Util.formatTimestamp(project.getCreatedAt()));
         return project;
     }
 
-    // 프로젝트자랑 페이지 수정
+    /**
+     * <h3>프로젝트자랑 수정 메서드</h3>
+     * <li>사용자로부터 입력받은 수정할 데이터와 프로젝트 ID를 통해 프로젝트를 수정한다.</li>
+     * @param dto
+     * @param projectId
+     */
     @Transactional
     public void updateShow(ShowEditDto dto, int projectId) {
         dto.setId(projectId);
-        dto.setCreatedAt(Util.stringToLocalDateTime(dto.getCreatedChangeAt()));
-        dto.setModifiedShow(Util.stringToLocalDateTime(dto.getModifiedChangeAt()));
+        try {
+            dto.setCreatedAt(Util.stringToTimestamp(dto.getCreatedChangeAt()));
+            dto.setModifiedShow(Util.stringToTimestamp(dto.getModifiedChangeAt()));
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
 
         projectRepository.updateShow(dto);
 
@@ -231,7 +287,12 @@ public class ProjectService {
         });
     }
 
-    // 프로젝트 모집 완료여부 체크 후 동작
+    /**
+     * <h3>프로젝트 모집완료 메서드</h3>
+     * <li>프로젝트ID값으로 모집완료인지 모집중인지 구분하여 로직 수행</li>
+     * @param projectId
+     * @return int
+     */
     @Transactional
     public int recruitIsDone(int projectId) {
         // 모집완료 여부 체크
@@ -247,7 +308,13 @@ public class ProjectService {
         }
     }
 
-    // 프로젝트 수정 페이지 요청 시 프로젝트 작성자와 로그인 멤버가 일치하는지 체크
+    /**
+     * <h3>프로젝트 수정 권한 체크 메서드</h3>
+     * <li>해당 프로젝트의 작성자(ownerId)만 수정하게 권한을 체크하는 메서드</li>
+     * @param projectId
+     * @param memberid
+     * @return boolean
+     */
     public boolean ownerCheck(int projectId, int memberid) {
         if (projectRepository.findOwnerId(projectId, memberid) != projectId)
             return false;
@@ -255,19 +322,28 @@ public class ProjectService {
         return true;
     }
 
-    // 프로젝트 수정 페이지에 원본 데이터 갖고오는 메서드
+    /**
+     * <h3>프로젝트 수정 전 기존 데이터 갖고오는 메서드</h3>
+     * <li>프로젝트ID를 통해 수정 전 기존 데이터를 갖고온다.</li>
+     * @param projectId
+     * @return ProjectEditDto
+     */
     public ProjectEditDto findOriginProjectInfo(int projectId) {
         ProjectEditDto project = projectRepository.findProjectEditDetail(projectId);
         project.setSkills(projectRepository.findProjectSkills(projectId));
         project.setRecruitRole(projectRepository.findRecruitRoles(projectId));
-        project.setProjectInfo(Util.clobToString((NClob) project.getProjectInfo()));
+        project.setProjectInfo(project.getProjectInfo());
         // LocalDateTime -> String 변환
         project.setExceptChangeTime(Util.formatLocalDateTime(project.getExceptTime()));
 
         return project;
     }
 
-    // 프로젝트모집 수정
+    /**
+     * <h3>프로젝트 수정 메서드</h3>
+     * <li>사용자로부터 입력받은 프로젝트 수정 데이터로 프로젝트를 수정 </li>
+     * @param dto
+     */
     @Transactional
     public void updateRecruitProject(ProjectEditDto dto) {
         dto.setExceptTime(Util.stringToLocalDateTime(dto.getExceptChangeTime()));
@@ -286,32 +362,48 @@ public class ProjectService {
         });
     }
 
-    // 프로젝트모집 참여 신청
+    /**
+     * <h3>프로젝트 모집 신청 메서드</h3>
+     * <li>해당 프로젝트의 참여인원으로 추가된다.</li>
+     * @param memberId
+     * @param projectId
+     * @return ProjectMemberDto
+     */
     @Transactional
     public ProjectMemberDto projectJoin(int memberId, int projectId) {
         projectRepository.projectJoin(memberId, projectId);
 
         // 참여 완료 시 실시간으로 참가신청자 목록에 추가하기 위한 데이터
-        ProjectMemberDto  memberInfo = projectRepository.findOneJoinMember(memberId, projectId);
+        ProjectMemberDto memberInfo = projectRepository.findOneJoinMember(memberId, projectId);
         memberInfo.setCreatedAt(Util.formatTimestamp(Timestamp.valueOf(memberInfo.getCreatedAt())));
 
         return memberInfo;
     }
 
-    // 멤버모집 검색
+    /**
+     * <h3>프로젝트모집 검색 메서드</h3>
+     * <li>프로젝트모집 목록 페이지에서 프로젝트를 검색하는 메서드</li>
+     * @param keyword
+     * @return List<RecruitListDto>
+     */
     public List<RecruitListDto> searchProject(String keyword) {
         List<RecruitListDto> recruitListDtos = projectRepository.searchProject(keyword);
         for (RecruitListDto recruitListDto : recruitListDtos) {
             recruitListDto.setRoleNames(projectRepository.findRecruitRoles(recruitListDto.getId()));
             recruitListDto.setCreateTime(Util.formatTimestamp(Timestamp.valueOf(recruitListDto.getCreateTime())));
             recruitListDto.setSubscribe(projectRepository.findSubscribeCount(recruitListDto.getId()));
-            recruitListDto.setProjectInfo(Util.clobToString((NClob) recruitListDto.getProjectInfo()));
+            recruitListDto.setProjectInfo(recruitListDto.getProjectInfo());
         }
         return recruitListDtos;
     }
 
-    // 멤버모집 필터
-    public List<RecruitListDto> projectFilterSearch(String filter){
+    /**
+     * <h3>프로젝트모집 카테고리 필터 메서드</h3>
+     * <li>프론트,백엔드,디자이너 등등 카테고리에 따른 필터된 데이터를 갖고오는 메서드이다.</li>
+     * @param filter
+     * @return List<RecruitListDto>
+     */
+    public List<RecruitListDto> projectFilterSearch(String filter) {
         List<Integer> projectFilterId = projectRepository.filterSearch(filter);
         List<RecruitListDto> recruitListDtos = new ArrayList<>();
         for (Integer projectId : projectFilterId) {
@@ -321,12 +413,17 @@ public class ProjectService {
             dto.setRoleNames(projectRepository.findRecruitRoles(dto.getId()));
             dto.setCreateTime(Util.formatTimestamp(Timestamp.valueOf(dto.getCreateTime())));
             dto.setSubscribe(projectRepository.findSubscribeCount(dto.getId()));
-            dto.setProjectInfo(Util.clobToString((NClob) dto.getProjectInfo()));
+            dto.setProjectInfo(dto.getProjectInfo());
         }
         return recruitListDtos;
     }
 
-    // 셀렉트 필터
+    /**
+     * <h3>프로젝트모집 셀렉트 필터</h3>
+     * <li>모집중/모집완료 셀렉트 버튼에 따라 필터된 데이터를 갖고오는 메서드이다.</li>
+     * @param filter
+     * @return List<RecruitListDto>
+     */
     public List<RecruitListDto> projectSelectFilterSearch(String filter) {
         List<Integer> projectFilterId = projectRepository.selectFilter(Integer.parseInt(filter));
         List<RecruitListDto> recruitListDtos = new ArrayList<>();
@@ -337,12 +434,17 @@ public class ProjectService {
             dto.setRoleNames(projectRepository.findRecruitRoles(dto.getId()));
             dto.setCreateTime(Util.formatTimestamp(Timestamp.valueOf(dto.getCreateTime())));
             dto.setSubscribe(projectRepository.findSubscribeCount(dto.getId()));
-            dto.setProjectInfo(Util.clobToString((NClob) dto.getProjectInfo()));
+            dto.setProjectInfo(dto.getProjectInfo());
         }
         return recruitListDtos;
     }
 
-    // 프로젝트 타입 필터
+    /**
+     * <h3>프로젝트 타입 필터 메서드</h3>
+     * <li>프로젝트 타입(사이드프로젝트 or 스터디)에 따라 필터된 데이터를 갖고오는 메서드</li>
+     * @param filter
+     * @return List<RecruitListDto>
+     */
     public List<RecruitListDto> projectSelectTypeFilter(String filter) {
         List<Integer> projectFilterId = projectRepository.projectTypeFilter(filter);
 
@@ -354,7 +456,7 @@ public class ProjectService {
             dto.setRoleNames(projectRepository.findRecruitRoles(dto.getId()));
             dto.setCreateTime(Util.formatTimestamp(Timestamp.valueOf(dto.getCreateTime())));
             dto.setSubscribe(projectRepository.findSubscribeCount(dto.getId()));
-            dto.setProjectInfo(Util.clobToString((NClob) dto.getProjectInfo()));
+            dto.setProjectInfo(dto.getProjectInfo());
         }
         return recruitListDtos;
     }
