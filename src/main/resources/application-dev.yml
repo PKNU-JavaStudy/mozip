@@ -28,7 +28,8 @@ spring:
               - profile_nickname
               - profile_image
             authorization-grant-type: authorization_code
-            redirect-uri: http://localhost:8082/login/oauth2/code/kakao
+#            redirect-uri: http://localhost:8082/login/oauth2/code/kakao # 개발용
+            redirect-uri: http://52.78.114.31:8082/login/oauth2/code/kakao # 배포용
             client-name: Kakao
             client-authentication-method: client_secret_post
         provider:
@@ -37,6 +38,9 @@ spring:
             token-uri: https://kauth.kakao.com/oauth/token
             user-info-uri: https://kapi.kakao.com/v2/user/me
             user-name-attribute: id
+  thymeleaf:
+    suffix: .html
+    prefix: classpath:/templates/
 server:
   port:
     8082

@@ -44,7 +44,7 @@ public class ProjectController {
         if (principalDetails == null) {
             throw new CustomException("로그인이 필요합니다");
         }
-        return "/project/recruit_create";
+        return "project/recruit_create";
     }
 
     // 프로젝트모집 상세 페이지
@@ -58,14 +58,14 @@ public class ProjectController {
         // 북마크
         if (principalDetails != null)
             model.addAttribute("isBookmark", keepService.keepCount(projectId, principalDetails.getMember().getId()));
-        return "/project/recruit_detail";
+        return "project/recruit_detail";
     }
 
     // 프로젝트모집 목록 페이지
     @GetMapping("/project")
     public String recruitListForm(Model model){
         model.addAttribute("allProject", projectService.findAllProject());
-        return "/project/recruit_list";
+        return "project/recruit_list";
     }
 
     // 프로젝트모집 수정 페이지
@@ -78,7 +78,7 @@ public class ProjectController {
             throw new CustomException("접근 권한이 없습니다 !");
         model.addAttribute("project", projectService.findOriginProjectInfo(projectId));
         model.addAttribute("projectId", projectId);
-        return "/project/recruit_edit";
+        return "project/recruit_edit";
     }
 
     // 프로젝트자랑 상세 페이지
@@ -92,7 +92,7 @@ public class ProjectController {
         if (principalDetails != null)
             model.addAttribute("isBookmark", keepService.keepCount(projectId, principalDetails.getMember().getId()));
 
-        return "/project/show_detail";
+        return "project/show_detail";
     }
 
     // show_list 페이지
@@ -103,7 +103,7 @@ public class ProjectController {
         // 인기 프로젝트 자랑
         model.addAttribute("HotShows", projectService.findHotShow());
 
-        return "/project/show_list";
+        return "project/show_list";
     }
 
     // 프로젝트 자랑 수정 전 데이터 가져오기
@@ -118,6 +118,6 @@ public class ProjectController {
     @GetMapping("/email/suceess")
     public String emailView(){
 
-        return "/project/EmailView";
+        return "project/EmailView";
     }
 }
