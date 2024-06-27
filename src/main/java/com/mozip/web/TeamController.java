@@ -25,6 +25,6 @@ public class TeamController {
         if (principalDetails.getMember() == null) throw new CustomException("로그인이 필요합니다 !");
 
         model.addAttribute("teamnoteList", teamService.findTeamNoteList(memberId));
-        return "/team/teamnote_list";
+        return "team/teamnote_list";
     }
 }
