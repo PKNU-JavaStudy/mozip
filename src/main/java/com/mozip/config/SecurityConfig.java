@@ -38,8 +38,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http.
-                authorizeHttpRequests(auth -> auth.requestMatchers("/auth/**", "/", "/project/show", "/member/**",
-                                                                "/project", "/project/*", "/css/**", "/js/**", "/img/**").permitAll().
+                authorizeHttpRequests(auth -> auth.requestMatchers("/auth/login", "/auth/join", "/", "/project/show", "/member/**",
+                                                                "/project", "/project/*", "/css/**", "/js/**", "/img/**", "/upload/**").permitAll().
                                                 requestMatchers("/member/edit/**", "/project/create").authenticated().
                                                 anyRequest().authenticated())
                 .csrf(config -> config.disable())
