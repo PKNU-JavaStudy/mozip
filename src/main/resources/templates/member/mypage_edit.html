@@ -77,6 +77,7 @@
               </div>
               <select id="skill" th:switch="${member.position}" name="position">
                 <option value="">--선택--</option>
+                <option value="풀스택" th:selected="${member.position == '풀스택'}">풀스택</option>
                 <option value="프론트엔드" th:selected="${member.position == '프론트엔드'}">프론트엔드</option>
                 <option value="백엔드" th:selected="${member.position == '백엔드'}">백엔드</option>
                 <option value="디자이너" th:selected="${member.position == '디자이너'}">디자이너</option>
