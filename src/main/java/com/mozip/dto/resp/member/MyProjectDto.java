@@ -1,4 +1,4 @@
-package com.mozip.dto.resp;
+package com.mozip.dto.resp.member;
 
 import lombok.Data;
 

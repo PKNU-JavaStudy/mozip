@@ -1,4 +1,4 @@
-package com.mozip.dto.req;
+package com.mozip.dto.req.project;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

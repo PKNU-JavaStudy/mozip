@@ -12,7 +12,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class LikesService {
     private final LikesRepository likesRepository;
 
-    // 좋아요 수 저장
+
+    /**
+     * <h3>좋아요 및 좋아요 취소 메서드</h3>
+     * <li>프로젝트 ID 와 유저ID를 통해 좋아요를 눌렀는지 검증 후 실행 및 취소</li>
+     * @param likes
+     * @return int
+     */
     @Transactional
     public int likeValidation(Likes likes) {
         // 좋아요를 누른 기록에 projectId와 memberId가 존재하지 않으면
@@ -25,7 +31,12 @@ public class LikesService {
         }
     }
 
-    // 좋아요 수 가져오기
+    /**
+     * <h3>좋아요 갯수 가져오는 메서드</h3>
+     * <li>프로젝트ID를 통해 해당 프로젝트 좋아요갯수를 가져온다.</li>
+     * @param projectId
+     * @return int
+     */
     public int likeCount(int projectId) {
         return likesRepository.likeCount(projectId);
     }

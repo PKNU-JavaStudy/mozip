@@ -1,9 +1,8 @@
 package com.mozip.domain.project;
 
-import com.mozip.dto.req.ProjectCreateDto;
-import com.mozip.dto.resp.*;
+import com.mozip.dto.req.project.ProjectCreateDto;
+import com.mozip.dto.resp.project.*;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -41,8 +40,10 @@ public interface ProjectRepository {
     // 프로젝트모집 상세페이지 : 프로젝트 모집 완료
     int recruitDoneCheck(@Param("projectId") int projectId);
 
+    // 모집완료
     void recruitDoneSuccess(int projectId);
 
+    // 모집완료 취소
     void recruitDoneCancle(int projectId);
 
     // 리스트페이지 : 전체 모집글 데이터 쿼리

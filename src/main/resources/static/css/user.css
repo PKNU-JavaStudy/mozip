@@ -65,13 +65,20 @@ input[type="submit"] {
   font-weight: 600;
 }
 
-.kakaoLogin input {
-  width: 100%;
+.kakaoLogin {
   /* 버튼 너비 조정 */
+  width: 100%;
+  padding: 15px 0;
   background-color: #fee500;
-  color: #000;
   font-weight: 600;
-  margin-top: 0;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.kakaoLogin a {
+  color: black;
 }
 
 input[type="submit"]:hover {

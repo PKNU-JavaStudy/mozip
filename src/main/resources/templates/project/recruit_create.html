@@ -164,7 +164,6 @@
           <h3>모집글을 등록하시겠습니까?</h3>
           <div class="button-wrap">
             <button class="close-modal">돌아가기</button>
-            <!-- TODO: <button class="submit-modal" type="submit"> 백엔드 연결 후 수정 -->
             <button class="submit-modal" type="button">
               등록하기
             </button>
@@ -200,7 +199,8 @@
       </div>
     </div>
   </div>
-  <div class="owner-id" th:text="${session.loginMember.getId()}" style="visibility: hidden"></div>
+  <div class="owner-id" th:if="${#authentication.getPrincipal()!='anonymousUser'}" th:text="${#authentication.getPrincipal().getMember().getId()}"
+       style="visibility: hidden"></div>
   <footer>
     <th:block th:replace="~{fragment/footer}"></th:block>
   </footer>
@@ -280,7 +280,8 @@
 
                   window.location.assign(`/project/${projectId}`);
               }).fail(error => { // HttpStatus 200번대가 아닐때
-                  alert("프로젝트 작성에 실패하였습니다!")
+                  let errors = Object.values(JSON.parse(JSON.stringify(error.responseJSON.data))).join('\n');
+                  alert(errors);
               });
           }
       });

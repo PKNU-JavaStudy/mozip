@@ -6,8 +6,8 @@
 
     <!-- 북마크 하기 -->
     <insert id="addBookmark" parameterType="com.mozip.domain.keep.Keep">
-        INSERT INTO BOOKMARK(ID, PROJECT_ID, MEMBER_ID)
-        VALUES (BOOKMARK_SEQ.nextVal, #{dto.projectId}, #{dto.memberId})
+        INSERT INTO BOOKMARK (PROJECT_ID, MEMBER_ID)
+        VALUES (#{dto.projectId}, #{dto.memberId})
     </insert>
 
     <!-- 북마크 취소 -->
@@ -25,9 +25,9 @@
 
     <!-- 북마크 수 가져오기 -->
     <select id="keepCount" resultType="java.lang.Integer">
-    SELECT COUNT(*)
-    FROM BOOKMARK
-    WHERE PROJECT_ID = #{projectId} AND MEMBER_ID = #{memberId}
+        SELECT COUNT(*)
+        FROM BOOKMARK
+        WHERE PROJECT_ID = #{projectId} AND MEMBER_ID = #{memberId}
     </select>
 
 </mapper>

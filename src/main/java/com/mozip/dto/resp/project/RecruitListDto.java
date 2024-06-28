@@ -1,10 +1,8 @@
-package com.mozip.dto.resp;
+package com.mozip.dto.resp.project;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.NClob;
-import java.sql.Timestamp;
 import java.util.List;
 
 @NoArgsConstructor
@@ -14,7 +12,7 @@ public class RecruitListDto {
     private int id;
     private String projectName;
     private String projectType;
-    private Object projectInfo;
+    private String projectInfo;
     private int views;
     private int status;
     private String createTime;

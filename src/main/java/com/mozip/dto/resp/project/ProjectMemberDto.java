@@ -1,6 +1,5 @@
-package com.mozip.dto.resp;
+package com.mozip.dto.resp.project;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data

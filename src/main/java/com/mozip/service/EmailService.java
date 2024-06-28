@@ -20,6 +20,12 @@ public class EmailService {
     private final ProjectRepository projectRepository;
     private final JavaMailSender mailSender;
 
+    /**
+     * <h3>프로젝트 멤버초대 이메일 전송 메서드</h3>
+     * TODO: 로직을 수정해야함
+     * @param memberId
+     * @param projectId
+     */
     @Transactional
     public void emailSender(int memberId, int projectId) {
         String memberEmail = authRepository.findById(memberId);
