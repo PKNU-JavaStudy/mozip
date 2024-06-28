@@ -1,13 +1,16 @@
 package com.mozip.web;
 
+import com.mozip.dto.req.member.FindPwDto;
 import com.mozip.dto.req.project.FindEmailDto;
 import com.mozip.dto.req.member.JoinMemberDto;
 import com.mozip.service.AuthService;
+import com.mozip.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final AuthService authService;
+    private final MemberService memberService;
 
     // find_id 페이지
     @GetMapping("/auth/findId")
@@ -31,6 +35,26 @@ public class AuthController {
     @GetMapping("/auth/findPw")
     public String findPwForm() {
         return "auth/find_password";
+    }
+
+    // 비밀번호 찾기 페이지: 입력값 확인받아 update_password로 리턴
+    @PostMapping("/auth/findPw")
+    public String findPw(@Valid @ModelAttribute FindPwDto findPwDto, BindingResult bindingResult, Model model){
+
+        model.addAttribute("email", authService.emailValidate(findPwDto));
+        return "auth/update_password";
+    }
+
+    // 비밀번호 재설정 페이지: API 통신 안됨, 폼 제출으로 비밀번호 업데이트
+    @PostMapping("/auth/updatePw")
+    @ResponseBody
+    public String updatePw(@RequestParam("password") String password,
+                           @RequestParam("confirmPassword") String confirmPassword,
+                           @RequestParam("email") String email){
+
+        authService.updatePassword(password, confirmPassword,email);
+
+        return "<script>alert('비밀번호 변경이 완료되었습니다!.'); window.location='/auth/login';</script>";
     }
 
     // join 페이지

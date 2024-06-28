@@ -55,4 +55,21 @@
         WHERE USERNAME = #{username} AND PHONE = #{phone}
     </select>
 
+    <!--비밀번호 찾기-->
+    <select id="findEmailValidate" resultType="java.lang.String">
+        SELECT EMAIL
+        FROM MEMBER
+        WHERE EMAIL = #{dto.email}
+          AND USERNAME = #{dto.username}
+          AND PHONE = #{dto.phone}
+    </select>
+
+    <!--비밀번호 재설정-->
+    <update id="updateMemberPw">
+        UPDATE MEMBER
+        SET PASSWORD = #{password}
+        WHERE EMAIL = #{email}
+    </update>
 </mapper>
+
+
