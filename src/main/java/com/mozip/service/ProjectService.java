@@ -403,13 +403,14 @@ public class ProjectService {
      */
     public List<RecruitListDto> projectFilterSearch(String filter) {
         List<Integer> projectFilterId = projectRepository.filterSearch(filter);
+
         List<RecruitListDto> recruitListDtos = new ArrayList<>();
         for (Integer projectId : projectFilterId) {
             recruitListDtos.add(projectRepository.findOneRecruit(projectId));
         }
         for (RecruitListDto dto : recruitListDtos) {
             dto.setRoleNames(projectRepository.findRecruitRoles(dto.getId()));
-            dto.setCreateTime(Util.formatTimestamp(Timestamp.valueOf(dto.getCreateTime())));
+            //dto.setCreateTime(Util.formatTimestamp(Timestamp.valueOf(dto.getCreateTime())));
             dto.setSubscribe(projectRepository.findSubscribeCount(dto.getId()));
             dto.setProjectInfo(dto.getProjectInfo());
         }
@@ -444,6 +445,9 @@ public class ProjectService {
      * @return List<RecruitListDto>
      */
     public List<RecruitListDto> projectSelectTypeFilter(String filter) {
+        if (filter.equals("스터디 모임"))
+            filter = "스터디/모임";
+
         List<Integer> projectFilterId = projectRepository.projectTypeFilter(filter);
 
         List<RecruitListDto> recruitListDtos = new ArrayList<>();

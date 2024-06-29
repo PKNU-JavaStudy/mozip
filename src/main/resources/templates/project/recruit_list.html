@@ -23,6 +23,7 @@
   <!-- swiper -->
   <script th:src="@{/js/index.js}"></script>
   <script th:src="@{/js/common.js}"></script>
+  <script th:src="@{/js/03yoonji.js}"></script>
   <!-- favicon -->
   <link rel="icon" th:href="@{/img/favicon.ico}">
 </head>
@@ -56,7 +57,7 @@
         <ul>
           <li id="typeAll" class="on"><a href="/project">전체</a></li>
           <li id="typeSide"><a href="#" onclick="filterProjects('type', '사이드 프로젝트')">사이드 프로젝트</a></li>
-          <li id="typeStudy"><a href="#" onclick="filterProjects('type', '스터디')">스터디/모임</a></li>
+          <li id="typeStudy"><a href="#" onclick="filterProjects('type', '스터디 모임')">스터디/모임</a></li>
         </ul>
       </div>
       <select class="select" onchange="handleSelectFilter(event)">
@@ -95,6 +96,7 @@
         </ul>
       </a>
     </div>
+    <div id="sentinel"></div>
   </div>
 </div>
 <footer>
@@ -116,25 +118,24 @@
   function filterProjects(filterType, filterValue) {
     let url = '';
     if (filterType === 'category') {
-      url = filterValue === 'all' ? `/api/project/all` : `/api/project/filter`;
+      url = `/api/project/${filterValue}`;
     } else if (filterType === 'type') {
-      url = filterValue === 'all' ? `/api/project/all` : `/api/project/type/${filterValue}`;
+      url = `/api/project/type/${filterValue}`;
     } else if (filterType === 'status') {
       url = `/api/project/select/${filterValue}`;
     }
 
+    $('.lists').empty();  // 기존 리스트 초기화
     $.ajax({
       url: url,
-      type: filterValue === 'all' ? 'GET' : (filterType === 'category' ? 'POST' : 'GET'), // 전체는 GET, 카테고리는 POST, 나머지는 GET
+      type: 'GET',
       contentType: "application/x-www-form-urlencoded; charset=utf-8",
-      data: filterValue === 'all' ? null : (filterType === 'category' ? {"filter": filterValue} : null) // 전체는 데이터 불필요, 카테고리는 데이터 필요, 나머지는 불필요
+      dataType : 'json',
     }).done(res => {
       console.log("성공", res);
-      $('.lists').empty();
       if (res.data.length === 0) {
         $('.lists').append('<p class="search-null">프로젝트가 존재하지 않습니다. 다시 검색해주세요.</p>');
       } else {
-        // 새로운 프로젝트 리스트를 추가합니다.
         res.data.forEach(project => {
           $('.lists').append(`
             <a href="/project/${project.id}" class="project-box">
@@ -162,15 +163,20 @@
       // 스타일 변경
       if (filterType === 'category') {
         document.querySelectorAll('.category ul li').forEach(item => item.classList.remove('on'));
+        document.querySelectorAll('.tapmenu ul li').forEach(item => item.classList.remove('on'));
         document.getElementById(getCategoryId(filterValue)).classList.add('on');
+        document.getElementById(getTypeId('all')).classList.add('on');
+
       } else if (filterType === 'type') {
         document.querySelectorAll('.tapmenu ul li').forEach(item => item.classList.remove('on'));
+        document.querySelectorAll('.category ul li').forEach(item => item.classList.remove('on'));
         document.getElementById(getTypeId(filterValue)).classList.add('on');
+        document.getElementById(getCategoryId('all')).classList.add('on');
       } else if (filterType === 'status') {
         document.querySelector('.select').value = filterValue;
       }
     }).fail(error => {
-      console.log("실패", error);
+      console.log("실패", error)
     });
   }
 
@@ -189,7 +195,7 @@
       case '기획':
         return 'manager';
       default:
-        return '';
+        return 'all';
     }
   }
 
@@ -199,7 +205,7 @@
         return 'typeAll';
       case '사이드 프로젝트':
         return 'typeSide';
-      case '스터디':
+      case '스터디 모임':
         return 'typeStudy';
       default:
         return '';
@@ -213,36 +219,36 @@
 
   function searchProjects() {
     let keyword = document.querySelector(".recruit-ipt").value;
+    $('.lists').empty();  // 기존 리스트 초기화
     $.ajax({
       url: "/api/project/search",
       type: "GET",
-      data: { "keyword": keyword },
+      data: {"keyword": keyword},
       success: function (response) {
-        $('.lists').empty();
         if (response.data.length === 0) {
           $('.lists').append('<p class="search-null">프로젝트가 존재하지 않습니다. 다시 검색해주세요.</p>');
         } else {
           response.data.forEach(project => {
             $('.lists').append(`
-              <a href="/project/${project.id}" class="project-box">
-                <span class="pj-type ${project.projectType == '사이드 프로젝트' ? 'pj' : 'study'}">${project.projectType}</span>
-                <p class="title">
-                  <strong class="${project.status == 1 ? 'state-ing' : 'state-done'}">${project.status == 1 ? '모집 중' : '모집완료'}</strong>
-                  <span>${project.projectName}</span>
-                </p>
-                <div class="cont-wrap">
-                  <p class="content">${project.projectInfo}</p>
-                </div>
-                <ul class="pj-work">
-                  ${project.roleNames.map(role => `<li>${role}</li>`).join('')}
-                </ul>
-                <ul class="count">
-                  <li>${project.createTime}</li>
-                  <li><i class="fa-regular fa-hand"></i> ${project.subscribe}명</li>
-                  <li><i class="fa-solid fa-eye"></i> ${project.views}회</li>
-                </ul>
-              </a>
-            `);
+            <a href="/project/${project.id}" class="project-box">
+              <span class="pj-type ${project.projectType == '사이드 프로젝트' ? 'pj' : 'study'}">${project.projectType}</span>
+              <p class="title">
+                <strong class="${project.status == 1 ? 'state-ing' : 'state-done'}">${project.status == 1 ? '모집 중' : '모집완료'}</strong>
+                <span>${project.projectName}</span>
+              </p>
+              <div class="cont-wrap">
+                <p class="content">${project.projectInfo}</p>
+              </div>
+              <ul class="pj-work">
+                ${project.roleNames.map(role => `<li>${role}</li>`).join('')}
+              </ul>
+              <ul class="count">
+                <li>${project.createTime}</li>
+                <li><i class="fa-regular fa-hand"></i> ${project.subscribe}명</li>
+                <li><i class="fa-solid fa-eye"></i> ${project.views}회</li>
+              </ul>
+            </a>
+          `);
           });
         }
       },
@@ -261,9 +267,32 @@
     searchProjects();
   }
 
-  document.querySelector(".recruit-ipt").addEventListener("input", handleInput);
+  function handleKeyDown(event) {
+    if (event.key === 'Enter') {
+      searchProjects();
+    }
+  }
 
-  // 페이지 로드 시 전체 프로젝트 로드
-  // window.onload = searchProjects;
+  // 이벤트 리스너 추가
+  document.querySelector(".recruit-ipt").addEventListener('input', handleInput);
+  document.querySelector(".recruit-ipt").addEventListener('keydown', handleKeyDown);
+  document.querySelector(".clear-button").addEventListener('click', clearSearch); // clear-button은 클리어 버튼의 클래스명입니다.
+
+  function clearSearch() {
+    document.querySelector(".recruit-ipt").value = '';
+    searchProjects();
+  }
+
+  function handleInput() {
+    searchProjects();
+  }
+
+  function handleKeyDown(event) {
+    if (event.key === 'Enter') {
+      searchProjects();
+    }
+  }
+
+  document.querySelector(".recruit-ipt").addEventListener("input", handleInput);
 </script>
 </html>
