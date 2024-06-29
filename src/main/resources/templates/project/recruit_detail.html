@@ -247,10 +247,14 @@
 </main>
 <!-- 로그인 유무 -->
 <th:block th:if="${#authentication.getPrincipal()!='anonymousUser'}">
-  <div class="loginMember" th:text="${#authentication.getPrincipal().getMember().getId()}" style="display: none"></div>
+  <div class="login-member" th:text="${#authentication.getPrincipal().getMember().getId()}" style="display: none"></div>
 </th:block>
 <th:block th:if="${#authentication.getPrincipal()=='anonymousUser'}">
-  <div class="loginMember" style="display: none">0</div>
+  <div class="login-member" style="display: none">0</div>
+</th:block>
+<!-- 사용자 수정 여부 -->
+<th:block th:if="${#authentication.getPrincipal()!='anonymousUser'}">
+  <div class="is-modify" th:text="${#authentication.getPrincipal().getMember().getIsModify()}"></div>
 </th:block>
 <footer>
   <th:block th:replace="~{fragment/footer}"></th:block>
@@ -259,7 +263,8 @@
     // 프로젝트 참여신청
     function projectJoin(projectId) {
         // 현재 로그인한 유저의 ID
-        let loginMemberId = document.querySelector(".loginMember").textContent;
+        let loginMemberId = document.querySelector(".login-member").textContent;
+        let isModify = document.querySelector(".is-modify").textContent;
         let logicCheck = -1;
 
         // 신청자 목록에서 로그인한 멤버가 있다면 alert() 출력 후 함수 종료
@@ -270,6 +275,8 @@
 
         if (logicCheck == 1)
             alert("이미 신청하셨습니다 !");
+        else if(isModify == 0)
+            alert("회원정보 수정이 필요합니다!");
         else {
             // 신청한 유저가 아니면 아래 로직이 실행됨.
             $.ajax({
@@ -389,7 +396,7 @@
 
     // 북마크 눌렀을 때 실시간으로 색이 변하게 하는 로직(북마크 중이면 main_color, 북마크를 안하면 색 없음 / 비동기 방식)
     function projectBookmark(projectId) {
-        let memberId = document.querySelector(".loginMember").textContent;
+        let memberId = document.querySelector(".login-member").textContent;
         console.log("memberId:", memberId); // memberId가 올바르게 설정되었는지 확인
         let data = {
             memberId: memberId,

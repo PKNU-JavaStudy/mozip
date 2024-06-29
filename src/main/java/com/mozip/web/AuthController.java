@@ -79,8 +79,6 @@ public class AuthController {
     }
 
 
-
-    // TODO : 아이디 찾기 로직 수정해라 김동건;;
     @PostMapping("/auth/findId")
     @ResponseBody
     public String findId(@Valid @ModelAttribute FindEmailDto findEmailDto,

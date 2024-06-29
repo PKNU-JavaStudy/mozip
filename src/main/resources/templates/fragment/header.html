@@ -21,7 +21,7 @@
       </span>님 반갑습니다!
         <ul class="sub-member" sec:authorize="isAuthenticated()">
           <li><a th:href="@{|/member/${#authentication.getPrincipal().getMember().getId()}|}">내프로필</a></li>
-          <li><a href="">회원탈퇴</a></li>
+          <li><a th:href="@{|/member/delete/${#authentication.getPrincipal().getMember().getId()}|}">회원탈퇴</a></li>
           <li><a th:href="@{/auth/logout}">로그아웃</a></li>
         </ul>
       </li>
