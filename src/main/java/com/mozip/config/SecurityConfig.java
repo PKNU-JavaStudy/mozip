@@ -39,7 +39,9 @@ public class SecurityConfig {
 
         http.
                 authorizeHttpRequests(auth -> auth.requestMatchers("/auth/login", "/auth/join", "/", "/project/show", "/member/**",
-                                                                "/project", "/project/*", "/css/**", "/js/**", "/img/**", "/upload/**").permitAll().
+                                                                "/api/like","/api/project/join","/api/project/search","/api/keep","/api/project/**",
+                                                                "/api/project/select/**","/api/project/type/**",
+                                                                "/project", "/project/**", "/css/**", "/js/**", "/img/**", "/upload/**").permitAll().
                                                 requestMatchers("/member/edit/**", "/project/create").authenticated().
                                                 anyRequest().authenticated())
                 .csrf(config -> config.disable())
