@@ -330,7 +330,7 @@
     }
   }
 
-  // 셀렉트 필터(북마크순)
+  // 셀렉트 필터(최신, 오래된, 북마크순)
   function handleSelectFilter(event) {
 
     let selecteCondition = event.target.value;
@@ -347,7 +347,7 @@
 
         $('#showList').empty();
         if (res.data.length === 0) {
-          $('#showList').append('<p class="search-null">프로젝트가 존재하지 않습니다. 다시 검색해주세요.</p>');
+          $('#showList').append('<p class="search-null">프로젝트가 존재하지 않습니다. 다른 조건으로 검색해주세요.</p>');
         } else {
           // 새로운 프로젝트 리스트를 추가합니다.
           res.data.forEach(project => {
