@@ -31,4 +31,13 @@ public class MemberController {
         model.addAttribute("member", memberService.editUserInfo(memberId));
         return "member/mypage_edit";
     }
+
+    @PostMapping("/member/delete")
+    public String memberDelete(@RequestParam("memberId") int memberId){
+        System.out.println("===========");
+        System.out.println(memberId);
+        System.out.println("===========");
+
+        return "redirect:/";
+    }
 }

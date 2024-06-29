@@ -28,7 +28,6 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
         Map<String, Object> attributes = super.loadUser(userRequest).getAttributes();
-        System.out.println("attributes = " + attributes);
 
         // 카카오 API 로 받은 사용자 정보(닉네임, 프로필이미지)
         Map<String, Object> properties = (Map<String, Object>) super.loadUser(userRequest).getAttributes().get("properties");
