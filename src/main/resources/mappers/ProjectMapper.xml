@@ -104,14 +104,6 @@
         WHERE IS_SHOW = 0
     </select>
 
-    <!--  프로젝트자랑페이지 : 팀네임  -->
-    <select id="findTeamName" resultType="java.lang.String">
-        SELECT TEAM_NAME
-        FROM TEAM_NOTE
-                 INNER JOIN PROJECT ON TEAM_NOTE.PROJECT_ID = PROJECT.ID
-        WHERE PROJECT_ID = #{projectId}
-    </select>
-
     <!--  프로젝트자랑페이지 : 새로운 프로젝트  -->
     <select id="findHotShow" resultMap="ShowListDtoMap">
         <![CDATA[

@@ -74,7 +74,6 @@
             </li>
           </ul>
           <div class="lists-bot">
-            <p th:text="${project.getTeamName()}"></p>
             <ul class="count">
               <li><i class="fa-solid fa-eye"></i>
                 <th:block th:text="${project.getViews()} + '회'">16회</th:block>
@@ -121,6 +120,7 @@
         </select>
         <select name="">
           <option value="all">포지션</option>
+          <option value="">폴스택</option>
           <option value="">프론트엔드</option>
           <option value="">백엔드</option>
           <option value="">디자인</option>

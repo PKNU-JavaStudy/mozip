@@ -124,7 +124,6 @@ public class ProjectService {
     public List<ShowListDto> findAllShowProject() {
         List<ShowListDto> allShows = projectRepository.findAllShowProject();
         for (ShowListDto show : allShows) {
-            show.setTeamName(projectRepository.findTeamName(show.getId()));
             show.setLikes(projectRepository.findLikeCount(show.getId()));
             show.setSkills(projectRepository.findProjectSkills(show.getId()));
         }
@@ -139,7 +138,6 @@ public class ProjectService {
     public List<ShowListDto> findHotShow() {
         List<ShowListDto> HotShows = projectRepository.findHotShow();
         for (ShowListDto show : HotShows) {
-            show.setTeamName(projectRepository.findTeamName(show.getId()));
             show.setLikes(projectRepository.findLikeCount(show.getId()));
             show.setSkills(projectRepository.findProjectSkills(show.getId()));
         }
