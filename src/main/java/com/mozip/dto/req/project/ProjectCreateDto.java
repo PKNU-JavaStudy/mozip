@@ -14,7 +14,7 @@ public class ProjectCreateDto {
     private int id;
 
     @NotBlank(message = "프로젝트 제목은 필수입니다!")
-    @Size(min = 5, max = 50)
+    @Size(min = 5, max = 50, message = "프로젝트 제목은 최소 5글자, 최대 50글자 사이입니다.")
     private String projectName;
 
     @NotBlank(message = "프로젝트 타입은 필수입니다!")
