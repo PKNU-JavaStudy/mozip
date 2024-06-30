@@ -410,7 +410,7 @@ public class ProjectService {
         }
         for (RecruitListDto dto : recruitListDtos) {
             dto.setRoleNames(projectRepository.findRecruitRoles(dto.getId()));
-            //dto.setCreateTime(Util.formatTimestamp(Timestamp.valueOf(dto.getCreateTime())));
+            dto.setCreateTime(Util.formatTimestamp(Timestamp.valueOf(dto.getCreateTime())));
             dto.setSubscribe(projectRepository.findSubscribeCount(dto.getId()));
             dto.setProjectInfo(dto.getProjectInfo());
         }
