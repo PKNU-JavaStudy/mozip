@@ -1,6 +1,8 @@
 package com.mozip.service;
 
+import com.mozip.config.auth.PrincipalDetails;
 import com.mozip.domain.member.AuthRepository;
+import com.mozip.domain.member.Member;
 import com.mozip.domain.member.Role;
 import com.mozip.dto.req.member.FindPwDto;
 import com.mozip.dto.req.project.FindEmailDto;
@@ -74,5 +76,13 @@ public class AuthService {
         else
             authRepository.updateMemberPw(bCryptPasswordEncoder.encode(password), email);
 
+    }
+
+    public void updateSession(PrincipalDetails principalDetails) {
+        Member findMember = authRepository.findMember(principalDetails.getMember().getEmail()).orElseThrow(() -> {
+            throw new CustomApiException("찾으시는 객체가 없습니다!");
+        });
+
+        principalDetails.updateSession(findMember);
     }
 }

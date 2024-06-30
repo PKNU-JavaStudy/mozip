@@ -4,7 +4,10 @@ import com.mozip.config.auth.PrincipalDetails;
 import com.mozip.dto.CMRespDto;
 import com.mozip.dto.req.member.UpdateMypageEditDto;
 import com.mozip.handler.ex.CustomValidationException;
+import com.mozip.service.AuthService;
 import com.mozip.service.MemberService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +21,15 @@ import org.springframework.web.multipart.MultipartFile;
 public class ApiMemberController {
 
     private final MemberService memberService;
+    private final AuthService authService;
 
     // 회원정보 수정
     @PostMapping("/api/member/edit")
     public ResponseEntity<?> memberEdit(@Valid @RequestBody UpdateMypageEditDto updateMypageEditDto,
-                                        BindingResult bindingResult) {
+                                        BindingResult bindingResult,
+                                        @AuthenticationPrincipal PrincipalDetails principalDetails) {
         memberService.updateMemberInfo(updateMypageEditDto);
+        authService.updateSession(principalDetails);
         return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공", null));
     }
 
@@ -36,6 +42,17 @@ public class ApiMemberController {
             throw new CustomValidationException("이미지가 첨부되지 않았습니다", null);
         }
         memberService.profileImageUpload(file, principalDetails.getMember().getId()); // 이미지 저장
+        authService.updateSession(principalDetails);
+        return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공", null));
+    }
+
+    // 회원탈퇴
+    @PostMapping("/api/member/delete")
+    public ResponseEntity<?> memberDelete(@RequestParam("memberId") int memberId,
+                                          HttpServletRequest request) {
+        memberService.deleteMember(memberId);
+        HttpSession session = request.getSession();
+        session.invalidate();
         return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공", null));
     }
 }

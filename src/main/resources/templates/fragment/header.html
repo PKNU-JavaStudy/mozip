@@ -21,16 +21,34 @@
       </span>님 반갑습니다!
         <ul class="sub-member" sec:authorize="isAuthenticated()">
           <li><a th:href="@{|/member/${#authentication.getPrincipal().getMember().getId()}|}">내프로필</a></li>
-          <li>
-            <form th:action="@{/member/delete}" method="post">
-              <input type="hidden" name="memberId" th:value="${#authentication.getPrincipal().getMember().getId()}"/>
-              <button>회원탈퇴</button>
-            </form>
-          </li>
+          <li><a th:onclick="|deleteMember(${#authentication.getPrincipal().getMember().getId()})|">회원탈퇴</a></li>
           <li><a th:href="@{/auth/logout}">로그아웃</a></li>
         </ul>
       </li>
     </ul>
   </div>
 </div>
+<script>
+    function deleteMember(memberId) {
+        if(confirm("탈퇴 하시겠습니까?")){
+            $.ajax({
+                url: "/api/member/delete",
+                type: "post",
+                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                data: {
+                    "memberId": memberId
+                },
+                dataType: "json"
+            }).done(res => {
+                console.log("성공", res);
+
+                alert("성공적으로 탈퇴되었습니다 !");
+                window.location.assign("/");
+            }).fail(err => {
+                console.log("실패", err);
+                alert("회원탈퇴를 실패하셨습니다! 관리자에게 문의주세요");
+            });
+        }
+    }
+</script>
 </html>
