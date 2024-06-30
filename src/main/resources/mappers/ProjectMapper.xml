@@ -84,9 +84,14 @@
 
     <!--  리스트페이지 : 모든 프로젝트  -->
     <select id="findAllProject" resultMap="recruitDtoMap">
+--         SELECT ID, PROJECT_NAME, PROJECT_INFO, PROJECT_TYPE, VIEWS, STATUS, CREATED_AT
+--         FROM PROJECT
+--         ORDER BY CREATED_AT DESC
         SELECT ID, PROJECT_NAME, PROJECT_INFO, PROJECT_TYPE, VIEWS, STATUS, CREATED_AT
-        FROM PROJECT
+        FROM PROJECT ORDERS
         ORDER BY CREATED_AT DESC
+        LIMIT 10
+        OFFSET #{page}
     </select>
 
     <!--  메인페이지 : 신청자 카운트  -->

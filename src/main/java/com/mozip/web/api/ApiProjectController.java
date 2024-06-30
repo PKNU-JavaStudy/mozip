@@ -119,4 +119,10 @@ public class ApiProjectController {
     public ResponseEntity<?> selectProjectTypeFilter(@PathVariable("filter") String filter) {
         return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공", projectService.projectSelectTypeFilter(filter)));
     }
+
+    // 무한페이지
+    @GetMapping("/project")
+    public ResponseEntity<?> projectList(@RequestParam("page") int page) {
+        return ResponseEntity.ok().body(new CMRespDto<>(1,"통신성공",projectService.findAllProject(page)));
+    }
 }

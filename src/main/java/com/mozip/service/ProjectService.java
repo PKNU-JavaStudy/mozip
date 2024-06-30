@@ -105,8 +105,8 @@ public class ProjectService {
      * <li>목록 페이지에 뿌려줄 데이터들을 셋팅</li>
      * @return List<RecruitListDto>
      */
-    public List<RecruitListDto> findAllProject() {
-        List<RecruitListDto> allProjects = projectRepository.findAllProject();
+    public List<RecruitListDto> findAllProject(int page) {
+        List<RecruitListDto> allProjects = projectRepository.findAllProject(page);
         for (RecruitListDto project : allProjects) {
             project.setRoleNames(projectRepository.findRecruitRoles(project.getId()));
             project.setCreateTime(Util.formatTimestamp(Timestamp.valueOf(project.getCreateTime())));
