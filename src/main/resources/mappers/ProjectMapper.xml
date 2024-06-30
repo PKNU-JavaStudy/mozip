@@ -495,4 +495,10 @@
         WHERE ID = #{projectId}
     </select>
 
+    <update id="baseProjectImg">
+        UPDATE PROJECT
+        SET IMAGE_URL=#{image}
+        WHERE ID = #{projectId}
+    </update>
+
 </mapper>

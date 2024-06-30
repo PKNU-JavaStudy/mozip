@@ -212,6 +212,12 @@ public class ProjectService {
             projectRepository.createRecruitRole(role, projectId);
         }
 
+        // 기본이미지 변경
+        if(projectCreateDto.getProjectType().equals("사이드 프로젝트"))
+            projectRepository.baseProjectImg(projectId,"project_sample.png");
+        else
+            projectRepository.baseProjectImg(projectId,"study_sample.png");
+
         // 4. 프로젝트 ID 값을 Controller에 반환
         return projectId;
     }
