@@ -50,10 +50,10 @@ public class ProjectController {
     // 프로젝트모집 상세 페이지
     @GetMapping("/project/{projectId}")
     public String recruitDetailForm(@PathVariable("projectId") int projectId, Model model,
-                                    @AuthenticationPrincipal PrincipalDetails principalDetails){
+                                    @AuthenticationPrincipal PrincipalDetails principalDetails) {
         // 조회수 증가
         projectService.increaseView(projectId);
-        model.addAttribute("project",projectService.findProjectDetail(projectId));
+        model.addAttribute("project", projectService.findProjectDetail(projectId));
 
         // 북마크
         if (principalDetails != null)
@@ -63,8 +63,8 @@ public class ProjectController {
 
     // 프로젝트모집 목록 페이지
     @GetMapping("/project")
-    public String recruitListForm(Model model){
-        model.addAttribute("allProject", projectService.findAllProject());
+    public String recruitListForm(Model model) {
+        model.addAttribute("allProject", projectService.findAllProject(0));
         return "project/recruit_list";
     }
 
@@ -84,7 +84,7 @@ public class ProjectController {
     // 프로젝트자랑 상세 페이지
     @GetMapping("/project/show/{projectId}")
     public String showDetailForm(@PathVariable("projectId") int projectId, Model model,
-                                 @AuthenticationPrincipal PrincipalDetails principalDetails){
+                                 @AuthenticationPrincipal PrincipalDetails principalDetails) {
         // 조회수 증가
         projectService.increaseView(projectId);
         model.addAttribute("showDetail", projectService.findShowDetail(projectId));
@@ -116,7 +116,7 @@ public class ProjectController {
 
     // 사용자 초대 버튼 클릭
     @GetMapping("/email/suceess")
-    public String emailView(){
+    public String emailView() {
 
         return "project/EmailView";
     }

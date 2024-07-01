@@ -105,8 +105,8 @@ public class ProjectService {
      * <li>목록 페이지에 뿌려줄 데이터들을 셋팅</li>
      * @return List<RecruitListDto>
      */
-    public List<RecruitListDto> findAllProject() {
-        List<RecruitListDto> allProjects = projectRepository.findAllProject();
+    public List<RecruitListDto> findAllProject(int page) {
+        List<RecruitListDto> allProjects = projectRepository.findAllProject(page);
         for (RecruitListDto project : allProjects) {
             project.setRoleNames(projectRepository.findRecruitRoles(project.getId()));
             project.setCreateTime(Util.formatTimestamp(Timestamp.valueOf(project.getCreateTime())));
@@ -124,7 +124,6 @@ public class ProjectService {
     public List<ShowListDto> findAllShowProject() {
         List<ShowListDto> allShows = projectRepository.findAllShowProject();
         for (ShowListDto show : allShows) {
-            show.setTeamName(projectRepository.findTeamName(show.getId()));
             show.setLikes(projectRepository.findLikeCount(show.getId()));
             show.setSkills(projectRepository.findProjectSkills(show.getId()));
         }
@@ -139,7 +138,6 @@ public class ProjectService {
     public List<ShowListDto> findHotShow() {
         List<ShowListDto> HotShows = projectRepository.findHotShow();
         for (ShowListDto show : HotShows) {
-            show.setTeamName(projectRepository.findTeamName(show.getId()));
             show.setLikes(projectRepository.findLikeCount(show.getId()));
             show.setSkills(projectRepository.findProjectSkills(show.getId()));
         }
@@ -213,6 +211,12 @@ public class ProjectService {
         for (String role : roles) {
             projectRepository.createRecruitRole(role, projectId);
         }
+
+        // 기본이미지 변경
+        if(projectCreateDto.getProjectType().equals("사이드 프로젝트"))
+            projectRepository.baseProjectImg(projectId,"project_sample.png");
+        else
+            projectRepository.baseProjectImg(projectId,"study_sample.png");
 
         // 4. 프로젝트 ID 값을 Controller에 반환
         return projectId;
@@ -405,6 +409,7 @@ public class ProjectService {
      */
     public List<RecruitListDto> projectFilterSearch(String filter) {
         List<Integer> projectFilterId = projectRepository.filterSearch(filter);
+
         List<RecruitListDto> recruitListDtos = new ArrayList<>();
         for (Integer projectId : projectFilterId) {
             recruitListDtos.add(projectRepository.findOneRecruit(projectId));
@@ -446,6 +451,9 @@ public class ProjectService {
      * @return List<RecruitListDto>
      */
     public List<RecruitListDto> projectSelectTypeFilter(String filter) {
+        if (filter.equals("스터디 모임"))
+            filter = "스터디/모임";
+
         List<Integer> projectFilterId = projectRepository.projectTypeFilter(filter);
 
         List<RecruitListDto> recruitListDtos = new ArrayList<>();

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -19,7 +19,7 @@
 </head>
 <body>
 <header id="header">
-  <!-- 헤더 블록 -->
+<th:block th:replace="~{fragment/header}"></th:block>
 </header>
 <main>
   <div class="wrap flex user-title">
@@ -46,22 +46,23 @@
   </div>
 </main>
 <footer>
-  <!-- 푸터 블록 -->
-  <script>
-      $(document).ready(function() {
-          $('#findIdForm').on('submit', function(e) {
-              e.preventDefault();
-              $.ajax({
-                  type: 'POST',
-                  url: '/auth/findId',
-                  data: $(this).serialize(),
-                  success: function(response) {
-                      $('body').html(response);  // 서버로부터 받은 스크립트를 실행
-                  }
-              });
-          });
-      });
-  </script>
+  <th:block th:replace="~{fragment/footer}"></th:block>
 </footer>
+<!-- 푸터 블록 -->
+<script>
+  $(document).ready(function() {
+    $('#findIdForm').on('submit', function(e) {
+      e.preventDefault();
+      $.ajax({
+        type: 'POST',
+        url: '/auth/findId',
+        data: $(this).serialize(),
+        success: function(response) {
+          $('body').html(response);  // 서버로부터 받은 스크립트를 실행
+        }
+      });
+    });
+  });
+</script>
 </body>
 </html>

@@ -20,11 +20,11 @@ public class JoinMemberDto {
     private String email;
 
     @NotBlank(message = "비밀번호는 필수입니다!")
-    @Size(min = 5, max = 80)
+    @Size(min = 5, max = 80, message = "비밀번호는 최소 5글자, 최대 80글자 사이입니다")
     private String password;
 
     @NotBlank(message = "이름은 필수입니다!")
-    @Size(min = 2, max = 5)
+    @Size(min = 2, max = 5, message = "이름은 최소 2글자, 최대 5글자 사이입니다.")
     private String username;
 
     @NotBlank(message = "전화번호는 필수입니다!")

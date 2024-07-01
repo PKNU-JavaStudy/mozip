@@ -103,8 +103,8 @@ public class ApiProjectController {
     }
 
     // 프로젝트모집 카테고리 필터
-    @PostMapping("/project/filter")
-    public ResponseEntity<?> filterProject(@RequestParam("filter") String filter) {
+    @GetMapping("/project/{filter}")
+    public ResponseEntity<?> filterProject(@PathVariable("filter") String filter) {
         return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공", projectService.projectFilterSearch(filter)));
     }
 
@@ -117,9 +117,13 @@ public class ApiProjectController {
     // 프로젝트모집 타입 필터
     @GetMapping("/project/type/{filter}")
     public ResponseEntity<?> selectProjectTypeFilter(@PathVariable("filter") String filter) {
-        if (filter.equals("스터디모집"))
-            filter = "모집/스터디";
         return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공", projectService.projectSelectTypeFilter(filter)));
+    }
+
+    // 무한페이지
+    @GetMapping("/project")
+    public ResponseEntity<?> projectList(@RequestParam("page") int page) {
+        return ResponseEntity.ok().body(new CMRespDto<>(1,"통신성공",projectService.findAllProject(page)));
     }
 
     // 프로젝트자랑 기술스택 필터

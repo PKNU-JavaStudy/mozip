@@ -28,7 +28,7 @@ public class UpdateMypageEditDto {
     private String position;
 
     @NotBlank(message = "자기소개는 필수입니다!")
-    @Size(min = 1, max = 150)
+    @Size(min = 1, max = 150, message = "자기소개는 최소 1글자, 최대 150글자 사이입니다")
     private String info;
 
     @NotNull(message = "기술스택은 필수입니다!")

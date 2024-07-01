@@ -143,6 +143,7 @@
             </div>
             <select id="role">
               <option value="all">전체</option>
+              <option value="풀스택">풀스택</option>
               <option value="프론트엔드">프론트엔드</option>
               <option value="백엔드">백엔드</option>
               <option value="디자인">디자인</option>
@@ -214,7 +215,7 @@
                   dataType: "json"
               }).done(res => {
                   console.log("통신성공", res);
-                  alert("데이터 수정완료!");
+                  alert("멤버 모집이 정상적으로 수정되었습니다.");
                   let projectId = res.data;
                   window.location.assign(`/project/${projectId}`);
               }).fail(error => {

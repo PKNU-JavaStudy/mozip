@@ -1,5 +1,6 @@
 package com.mozip.service;
 
+import com.mozip.domain.member.Member;
 import com.mozip.domain.member.MemberRepository;
 import com.mozip.dto.req.member.MypageEditDto;
 import com.mozip.dto.resp.member.MypageDto;
@@ -121,6 +122,18 @@ public class MemberService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Transactional
+    public void deleteMember(int memberId) {
+        // SUBSCRIBE 테이블에 관련된 member 데이터 삭제
+        memberRepository.deleteSubscribe(memberId);
+        // BOOKMARK 테이블에 관련된 member 데이터 삭제
+        memberRepository.deleteBookmark(memberId);
+        // MEMBER_SKILL 테이블에 관련된 member 데이터 삭제
+        memberRepository.deleteSkills(memberId);
+        // MEMBER 삭제
+        memberRepository.deleteMember(memberId);
     }
 }
 

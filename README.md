@@ -23,12 +23,12 @@
 
 ### 기술스택
 
-| Language                                                                                                       | Backend                                                                                                          | Frontend                                                                                               | Database                                                                                                 | Configuration                                                                                    | Build Tool                                                                                           | Collaboration Tool                                                                                     |
-|----------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|
-| <img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white">             | <img src="https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white">           | <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white">   | <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=MySQL&logoColor=white">   | <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white"> | <img src="https://img.shields.io/badge/Gradle-02303A?style=for-the-badge&logo=Ajax&logoColor=white"> | <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white"> |
-| <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"> | <img src="https://img.shields.io/badge/security-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white"> | <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white">      | <img src="https://img.shields.io/badge/MyBatis-000000?style=for-the-badge&logo=Mybatis&logoColor=white"> |                                                                                                  |                                                                                                      | <img src="https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=Ajax&logoColor=white">   |
-|                                                                                                                |                                                                                                                  | <img src="https://img.shields.io/badge/jquery-0769AD?style=for-the-badge&logo=jquery&logoColor=white"> |                                                                                                          |                                                                                                  |                                                                                                      |                                                                                                        |
-|                                                                                                                |                                                                                                                  | <img src="https://img.shields.io/badge/Ajax-000000?style=for-the-badge&logo=Ajax&logoColor=white">     |                                                                                                          |                                                                                                  |                                                                                                      |                                                                                                        |
+| Language                                                                                                       | Backend                                                                                                                 | Frontend                                                                                               | Database                                                                                                 | Server                                                                                                                   | Tool                                                                                                   |
+|----------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|
+| <img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white">             | <img src="https://img.shields.io/badge/spring boot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white">         | <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white">   | <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=MySQL&logoColor=white">     | <img src="https://img.shields.io/badge/AWS Lightsail-232F3E?style=for-the-badge&logo=amazonwebservices&logoColor=white"> | <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white">       |
+| <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"> | <img src="https://img.shields.io/badge/spring security-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white"> | <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white">      | <img src="https://img.shields.io/badge/MyBatis-000000?style=for-the-badge&logo=Mybatis&logoColor=white"> | <img src="https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=black"/>                  | <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white"> |
+|                                                                                                                |                                                                                                                         | <img src="https://img.shields.io/badge/jquery-0769AD?style=for-the-badge&logo=jquery&logoColor=white"> |                                                                                                          |                                                                                                                          | <img src="https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=notion&logoColor=white"> |
+|                                                                                                                |                                                                                                                         | <img src="https://img.shields.io/badge/jquery-0769AD?style=for-the-badge&logo=jquery&logoColor=white"> |                                                                                                          |                                                                                                                          |                                                                                                        |
 
 ### 의존성 및 라이브러리
 
@@ -51,7 +51,9 @@
 ![mozip.png](/src/main/resources/static/img/mozip.png)
 
 ### 구현 기능(수정필요)
+
 #### 프로젝트 생성
+
 - 회원가입
     - 유효성 검사
         - 이메일 형식 / 중복 검사
@@ -90,6 +92,7 @@
         - 모집 완료 / 모집완료 취소
 
 #### 프로젝트 신청
+
 - 로그인
     - 프로젝트 모집
         - 좋아요
@@ -101,12 +104,14 @@
     - 깃허브 링크(팀노트에 있는 링크를 가져오기 때문에 팀노트가 완성 되면 깃허브 링크는 자동으로 연동)
 
 #### 모집 과정
+
 - 모집 글 올리기
 - 글 작성자 아이디에서 멤버 추가 버튼을 누르기
 - 신청자가 본인 메일로 들어가서 신청 승낙 메일 확인
 - ***모집 글에 인원 수가 늘어난 것을 확인***
 
 #### AOP 구현
+
 - AOP(Aspect Orientied Programming, 관점 지향 프로그래밍) : 주 기능이 아닌 부가기능은 AOP 로 묶어서 구현
 - 컨트롤러 단에서 하는 유효성검사(Validation)을 AOP로 묶어서 따로 구현
     ```java
@@ -134,10 +139,13 @@
         // 생략...
     }
     ```
+
 #### AWS - RDS
+
 - `AWS Lightsail` 을 통해 `MySql` 데이터베이스를 연동하여 하나의 데이터베이스 여러 팀원들이 공유하여 작업
 
 #### 카카오 API 로그인
+
 - `OAuth2 client` 를 통해 카카오 로그인 구현
 - 카카오 API 를 통해 사용자 닉네임과, 프로필 이미지를 받아와서 강제로 회원가입 시켜서 시큐리티 세션에 저장
     ```java
@@ -179,13 +187,11 @@
     }
     ```
 
-
 ### 앞으로 남은 작업 및 보완
+
 - 공유하기 버튼(현재 사용자가 보고있는 글의 url을 클립보드에 복사하여 공유할 수 있도록 하기)
 - 신청자 메일에서 페이지 연동(멤버 신청 후 메일 확인했을 때 버튼 누르면 해당 게시글의 링크로 바로가기)
 - 프로젝트 자랑페이지 검색필터
-- 회원탈퇴
-- 무한 스크롤
-- 프로젝트 배포(AWS Lightsail 이용)
-- 사람인 API 
+- 무한 스크롤(진행도:50%) : 프로젝트모집 필터 및 검색은 무한스크롤 미적용.
+- 사람인 API : 아직 승인대기 중
 

@@ -42,5 +42,14 @@ public interface MemberRepository {
 
     // 프로필 이미지 저장
     void updateProfileImg(@Param("imageDir") String imageDir, @Param("memberId") int memberId);
+
+    // 회원탈퇴 : 프로젝트참여신청 삭제
+    void deleteSubscribe(@Param("memberId") int memberId);
+
+    // 회원탈퇴 : 북마크 삭제
+    void deleteBookmark(@Param("memberId") int memberId);
+
+    // 회원탈퇴 : 멤버 삭제
+    void deleteMember(@Param("memberId") int memberId);
 }
 

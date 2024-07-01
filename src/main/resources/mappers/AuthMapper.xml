@@ -8,7 +8,7 @@
         INSERT INTO MEMBER (EMAIL, PASSWORD, USERNAME, PHONE, CAREER, INFO, GITHUB_LINK, PROFILE_IMAGE_URL, POSITION,
                             ROLE,
                             IS_MODIFY, CREATED_AT)
-        VALUES (#{dto.email}, #{dto.password}, #{dto.username}, #{dto.phone}, 0, '수정필요!', '수정필요!',
+        VALUES (#{dto.email}, #{dto.password}, #{dto.username}, #{dto.phone}, 0, null, null,
                 'profile_sample.png', 0, #{role}, 0, NOW())
     </insert>
 
@@ -55,4 +55,21 @@
         WHERE USERNAME = #{username} AND PHONE = #{phone}
     </select>
 
+    <!--비밀번호 찾기-->
+    <select id="findEmailValidate" resultType="java.lang.String">
+        SELECT EMAIL
+        FROM MEMBER
+        WHERE EMAIL = #{dto.email}
+          AND USERNAME = #{dto.username}
+          AND PHONE = #{dto.phone}
+    </select>
+
+    <!--비밀번호 재설정-->
+    <update id="updateMemberPw">
+        UPDATE MEMBER
+        SET PASSWORD = #{password}
+        WHERE EMAIL = #{email}
+    </update>
 </mapper>
+
+

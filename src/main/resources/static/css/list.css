@@ -209,12 +209,18 @@
 
 .project-box .title{
   padding-top:12px;
+  display: flex;
+  align-items: center;
 }
 
-.project-box .project-name {
-  padding: 0 0 17px;
+.project-box .title span {
+  display: inline-block;
   font-size: 1.25rem;
-  font-weight: 600;
+  font-weight: 500;
+  width: 580px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .project-box strong {
@@ -224,7 +230,6 @@
   padding-right: 12px;
   border-right: 1px solid var(--border-color);
   margin-right: 11px;
-  line-height: 0.8rem;
 }
 
 /*.project-box strong.state-ing:before {*/

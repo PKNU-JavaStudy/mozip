@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.mozpi'
-version = '0.0.1-SNAPSHOT'
+version = '0.5.0-SNAPSHOT' // TODO : 최종완성 후 1.0.0 으로 변경
 
 java {
 	sourceCompatibility = '17'
@@ -39,11 +39,6 @@ dependencies {
 	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.3'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-
-	//mvnrepository.com/artifact/org.mindrot/jbcrypt
-	implementation group: 'org.mindrot', name: 'jbcrypt', version: '0.4'
-
-	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-aop
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop', version: '3.2.1'
 }
 

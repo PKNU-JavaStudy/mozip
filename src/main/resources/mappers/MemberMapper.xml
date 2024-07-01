@@ -136,4 +136,22 @@
         SET PROFILE_IMAGE_URL=#{imageDir}
         WHERE ID = #{memberId}
     </update>
+
+    <delete id="deleteSubscribe">
+        DELETE
+        FROM SUBSCRIBE
+        WHERE MEMBER_ID = #{memberId}
+    </delete>
+
+    <delete id="deleteBookmark">
+        DELETE
+        FROM BOOKMARK
+        WHERE MEMBER_ID = #{memberId}
+    </delete>
+
+    <delete id="deleteMember">
+        DELETE
+        FROM MEMBER
+        WHERE ID = #{memberId}
+    </delete>
 </mapper>

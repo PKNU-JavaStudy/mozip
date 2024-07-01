@@ -47,7 +47,7 @@ public interface ProjectRepository {
     void recruitDoneCancle(int projectId);
 
     // 리스트페이지 : 전체 모집글 데이터 쿼리
-    List<RecruitListDto> findAllProject();
+    List<RecruitListDto> findAllProject(@Param("page") int page);
 
     // 멤버모집리스트페이지 : 모집글 신청 멤버 조회 쿼리
     int findSubscribeCount(@Param("projectId") int projectId);
@@ -55,8 +55,6 @@ public interface ProjectRepository {
     // 프로젝트자랑리스트페이지 : 전체 자랑글 데이터 쿼리
     List<ShowListDto> findAllShowProject();
 
-    // 프로젝트자랑리스트페이지 : 팀네임 데이터 쿼리
-    String findTeamName(@Param("projectId") int projectId);
 
     // 프로젝트자랑리스트페이지 : 인기 프로젝트자랑 데이터 쿼리
     List<ShowListDto> findHotShow();
@@ -154,6 +152,8 @@ public interface ProjectRepository {
 
     RecruitListDto findOneRecruit(@Param("projectId") int projectId);
 
+    // 프로젝트생성 : 기본 이미지 세팅
+    void baseProjectImg(@Param("projectId") int projectId, @Param("image") String image);
     // 프로젝트자랑 리스트 : 기술스택 필터
     List<ShowListDto> projectSkillFilter(@Param("filter") String filter);
 
