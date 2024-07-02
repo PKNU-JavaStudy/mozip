@@ -474,7 +474,7 @@ public class ProjectService {
 
         List<ShowListDto> allShows = projectRepository.projectSkillFilter(filter);
         for (ShowListDto show : allShows) {
-            show.setTeamName(projectRepository.findTeamName(show.getId()));
+//            show.setTeamName(projectRepository.findTeamName(show.getId()));
             show.setLikes(projectRepository.findLikeCount(show.getId()));
             show.setSkills(projectRepository.findProjectSkills(show.getId()));
         }
