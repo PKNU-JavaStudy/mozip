@@ -72,6 +72,13 @@
   transform: translateY(-50%);
 
 }
+
+.search.show button{
+  right: 10px;
+  background: none;
+  border: none;
+}
+
 .search-on{
   right: 15px;
   background: none;

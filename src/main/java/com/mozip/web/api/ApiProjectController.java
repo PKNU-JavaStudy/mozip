@@ -93,6 +93,13 @@ public class ApiProjectController {
         return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공", projectService.searchProject(keyword)));
     }
 
+    // 프로젝트 자랑 리스트 검색
+    @GetMapping("/show/search")
+    @ResponseBody
+    public ResponseEntity<?> searchShow(@RequestParam("keyword") String keyword) {
+        return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공", projectService.searchShow(keyword)));
+    }
+
     // 북마크
     @PostMapping("/keep")
     public ResponseEntity<?> keepProject(@RequestBody Keep keep) {

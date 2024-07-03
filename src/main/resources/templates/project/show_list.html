@@ -134,9 +134,10 @@
         </select>
       </div>
       <div class="right-select">
-        <div class="search">
+        <div class="search show">
           <input type="text" placeholder="제목, 내용으로 검색" class="show-ipt"/>
-          <button><i class="fa-solid fa-magnifying-glass"></i></button>
+          <button class="search-remove" onclick="clearSearch()"><i class="fa-solid fa-xmark"></i></button>
+          <button class="search-on" onclick="searchProjects()"><i class="fa-solid fa-magnifying-glass"></i></button>
         </div>
         <select class="select">
           <option value="new">최신순</option>
@@ -149,7 +150,7 @@
     </div>
 
   </div>
-  <div class="show-lists">
+  <div class="show-lists show-search-result">
     <a th:href="@{/project/show/{projectId}(projectId=${project.getId()})}" th:each="project:${allShows}" class="show-box">
       <div class="img-wrap">
         <img th:src="@{/img/showlist_sample.png}" alt="프로필 이미지"/>
@@ -209,4 +210,72 @@
 <footer>
   <th:block th:replace="~{fragment/footer}"></th:block>
 </footer>
+<script>
+  function searchProjects() {
+    let keyword = document.querySelector(".show-ipt").value;
+    $('.show-search-result').empty();  // 기존 리스트 초기화
+    $.ajax({
+      url: "/api/show/search",
+      type: "GET",
+      data: {"keyword": keyword},
+      success: function (response) {
+        if (response.data.length === 0) {
+          $('.show-search-result').append('<p class="search-null">프로젝트가 존재하지 않습니다. 다시 검색해주세요.</p>');
+        } else {
+          response.data.forEach(project => {
+            $('.show-search-result').append(`
+               <a href="/project/show/{projectId}" class="show-box">
+              <div class="img-wrap">
+                <img src="/img/showlist_sample.png" alt="프로필 이미지"/>
+              </div>
+              <div class="box-text">
+                <span class="pj-type">${project.projectType()}</span>
+                <h2>${project.projectName()}</h2>
+                <ul class="skill">
+                    ${project.skills.map(role => `<li>${skill}</li>`).join('')}
+                </ul>
+                <div class="lists-bot">
+                  <ul class="count">
+                    <li><i class="fa-solid fa-eye"></i>
+                      ${project.views()}회
+                    </li>
+                    <li><i class="fa-regular fa-thumbs-up"></i>
+                      ${project.likes()}개
+                    </li>
+                  </ul>
+                </div>
+
+              </div>
+            </a>
+
+          `);
+          });
+        }
+      },
+      error: function (error) {
+        console.log("Error: ", error);
+      }
+    });
+  }
+
+  function clearSearch() {
+    document.querySelector(".show-ipt").value = '';
+    searchProjects();
+  }
+
+  function handleInput() {
+    searchProjects();
+  }
+
+  function handleKeyDown(event) {
+    if (event.key === 'Enter') {
+      searchProjects();
+    }
+  }
+
+  // 이벤트 리스너 추가
+  document.querySelector(".show-ipt").addEventListener('input', handleInput);
+  document.querySelector(".show-ipt").addEventListener('keydown', handleKeyDown);
+  document.querySelector(".clear-button").addEventListener('click', clearSearch); // clear-button은 클리어 버튼의 클래스명입니다.
+</script>
 </html>

@@ -402,6 +402,20 @@ public class ProjectService {
     }
 
     /**
+     * <h3>프로젝트자랑 검색 메서드</h3>
+     * <li>프로젝트자랑 목록 페이지에서 프로젝트를 검색하는 메서드</li>
+     * @param keyword
+     * @return List<RecruitListDto>
+     */
+    public List<ShowListDto> searchShow(String keyword) {
+        List<ShowListDto> ShowListDtos = projectRepository.searchShow(keyword);
+        for (ShowListDto ShowListDto : ShowListDtos) {
+            ShowListDto.setSkills(projectRepository.findProjectSkills(ShowListDto.getId()));
+        }
+        return ShowListDtos;
+    }
+
+    /**
      * <h3>프로젝트모집 카테고리 필터 메서드</h3>
      * <li>프론트,백엔드,디자이너 등등 카테고리에 따른 필터된 데이터를 갖고오는 메서드이다.</li>
      * @param filter

@@ -458,6 +458,15 @@
         ORDER BY CREATED_AT DESC
     </select>
 
+    <!--  프로젝트자랑리스트 검색하기  -->
+    <select id="searchShow" resultMap="showDtoMap">
+        SELECT P.ID, P.PROJECT_NAME, P.PROJECT_TYPE,
+               P.VIEWS
+        FROM PROJECT P
+        WHERE P.PROJECT_NAME LIKE CONCAT('%', #{keyword}, '%')
+        ORDER BY CREATED_AT DESC
+    </select>
+
     <select id="findProjectMemberIdList" resultType="java.lang.Integer">
         SELECT MEMBER_ID
         FROM PROJECT_MEMBER
