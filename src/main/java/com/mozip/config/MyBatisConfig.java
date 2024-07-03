@@ -22,6 +22,12 @@ public class MyBatisConfig {
         config.setMapUnderscoreToCamelCase(true);
         sessionFactory.setConfiguration(config);
         sessionFactory.setDataSource(dataSource);
+
+        // MyBatis 로그 설정
+        org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuration();
+        configuration.setLogImpl(org.apache.ibatis.logging.stdout.StdOutImpl.class);
+        sessionFactory.setConfiguration(configuration);
+
         sessionFactory
                 .setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mappers/*.xml"));
         return sessionFactory.getObject();
