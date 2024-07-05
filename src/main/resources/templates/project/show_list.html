@@ -36,7 +36,7 @@
     <div class="show-lists top">
       <a th:href="@{/project/show/{projectId}(projectId=${project.getId()})}" th:each="project:${HotShows}" class="show-box">
         <div class="img-wrap">
-          <img th:src="@{/img/showlist_sample.png}" alt="프로필 이미지"/>
+          <img th:src="@{|/upload/${project.getImageUrl()}|}" alt="프로필 이미지"/>
         </div>
         <div class="box-text">
           <span class="pj-type" th:classappend="${project.getProjectType() == '사이드 프로젝트'? 'pj' : 'study'}"
@@ -152,7 +152,7 @@
   <div class="show-lists">
     <a th:href="@{/project/show/{projectId}(projectId=${project.getId()})}" th:each="project:${allShows}" class="show-box">
       <div class="img-wrap">
-        <img th:src="@{/img/showlist_sample.png}" alt="프로필 이미지"/>
+        <img th:src="@{|/upload/${project.getImageUrl()}|}" alt="프로필 이미지"/>
       </div>
       <div class="box-text">
         <span class="pj-type" th:classappend="${project.getProjectType() == '사이드 프로젝트'? 'pj' : 'study'}" th:text="${project.getProjectType()}"></span>

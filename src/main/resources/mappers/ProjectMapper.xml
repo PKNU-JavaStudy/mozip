@@ -27,6 +27,7 @@
         <result property="projectType" column="PROJECT_TYPE"/>
         <result property="views" column="VIEWS"/>
         <result property="isShow" column="IS_SHOW"/>
+        <result property="imageUrl" column="IMAGE_URL"/>
     </resultMap>
 
     <resultMap id="projectDetailMap" type="com.mozip.dto.resp.project.ProjectDetailDto">
@@ -104,7 +105,7 @@
 
     <!--  프로젝트자랑페이지 : 모든 프로젝트자랑  -->
     <select id="findAllShowProject" resultMap="ShowListDtoMap">
-        SELECT ID, PROJECT_NAME, PROJECT_TYPE, OWNER_ID, VIEWS, IS_SHOW
+        SELECT ID, PROJECT_NAME, PROJECT_TYPE, OWNER_ID, VIEWS, IS_SHOW, IMAGE_URL
         FROM PROJECT
         WHERE IS_SHOW = 0
     </select>
@@ -112,7 +113,7 @@
     <!--  프로젝트자랑페이지 : 새로운 프로젝트  -->
     <select id="findHotShow" resultMap="ShowListDtoMap">
         <![CDATA[
-        SELECT ID, PROJECT_NAME, PROJECT_TYPE, VIEWS, IS_SHOW
+        SELECT ID, PROJECT_NAME, PROJECT_TYPE, VIEWS, IS_SHOW, IMAGE_URL
         FROM PROJECT
         WHERE IS_SHOW = 0
         ORDER BY VIEWS DESC
@@ -274,11 +275,11 @@
         INSERT INTO PROJECT (PROJECT_NAME, PROJECT_TYPE, SUBJECT,
                              RECRUIT_COUNT, PROJECT_PURPOSE, PROJECT_TIME,
                              PROJECT_PROCESS, EXCEPT_DATE, EXCEPT_TIME, OWNER_ID, PROJECT_INFO, STATUS, CREATED_AT,
-                             VIEWS)
+                             VIEWS, IMAGE_URL)
         VALUES (#{dto.projectName}, #{dto.projectType}, #{dto.subject},
                 #{dto.recruitCount}, #{dto.projectPurpose}, #{dto.projectTime},
                 #{dto.projectProcess}, #{dto.exceptDate}, #{dto.exceptTime}, #{dto.ownerId},
-                #{dto.projectInfo}, 1, NOW(), 0)
+                #{dto.projectInfo}, 1, NOW(), 0, #{img})
     </insert>
 
     <insert id="createProjectSkill">

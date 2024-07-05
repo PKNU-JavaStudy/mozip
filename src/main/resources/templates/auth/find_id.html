@@ -15,7 +15,6 @@
   <!-- jQuery CDN -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5+5hb7P1y5b+TEYz9K9o56+Ov3+5FA5HEm5yXK9q" crossorigin="anonymous"></script>
 
-  <script defer th:src="@{/js/find_id.js}"></script>
   <!-- favicon -->
   <link rel="icon" href="/img/favicon.ico">
 </head>
@@ -50,6 +49,6 @@
 <footer>
   <th:block th:replace="~{fragment/footer}"></th:block>
 </footer>
-<!-- 푸터 블록 -->
+<script defer th:src="@{/js/find_id.js}"></script>
 </body>
 </html>

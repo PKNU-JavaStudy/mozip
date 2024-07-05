@@ -434,6 +434,14 @@
   height: 150px;
 }
 
+.show-box img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 이미지가 잘리지 않고, 요소의 크기에 맞춰서 비율을 유지하며 채워지도록 함 */
+  object-position: center; /* 이미지가 중앙에 위치하도록 설정 */
+  cursor: pointer;
+}
+
 .show-box:hover img {
   scale: 1.1;
   transition: 0.3s;

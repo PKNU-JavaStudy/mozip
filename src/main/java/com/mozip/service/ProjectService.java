@@ -196,7 +196,10 @@ public class ProjectService {
             throw new CustomException("프로젝트 명이 중복됩니다 !");
 
         // DB 실행
-        projectRepository.createProject(projectCreateDto);
+        if(projectCreateDto.getProjectType().equals("사이드 프로젝트"))
+            projectRepository.createProject(projectCreateDto, "project_sample.png");
+        else if(projectCreateDto.getProjectType().equals("스터디/모임"))
+            projectRepository.createProject(projectCreateDto,"study_sample.png");
 
         // 1. DTO의 projectName으로 SELECT 쿼리를 날려서 해당 프로젝트 ID 값을 가져온다.
         String projectName = projectCreateDto.getProjectName();

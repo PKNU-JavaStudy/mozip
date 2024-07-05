@@ -85,7 +85,7 @@ public interface ProjectRepository {
     List<String> findShowRecruitRoles(@Param("projectId") int projectId);
 
     // 프로젝트작성페이지
-    void createProject(@Param("dto") ProjectCreateDto dto);
+    void createProject(@Param("dto") ProjectCreateDto dto, @Param("img") String img);
 
     void createProjectSkill(@Param("skill") String skill, @Param("id") int id);
 
