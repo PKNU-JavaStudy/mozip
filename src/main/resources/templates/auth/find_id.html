@@ -14,6 +14,8 @@
   <script src="/js/common.js"></script>
   <!-- jQuery CDN -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5+5hb7P1y5b+TEYz9K9o56+Ov3+5FA5HEm5yXK9q" crossorigin="anonymous"></script>
+
+  <script defer th:src="@{/js/find_id.js}"></script>
   <!-- favicon -->
   <link rel="icon" href="/img/favicon.ico">
 </head>
@@ -49,20 +51,5 @@
   <th:block th:replace="~{fragment/footer}"></th:block>
 </footer>
 <!-- 푸터 블록 -->
-<script>
-  $(document).ready(function() {
-    $('#findIdForm').on('submit', function(e) {
-      e.preventDefault();
-      $.ajax({
-        type: 'POST',
-        url: '/auth/findId',
-        data: $(this).serialize(),
-        success: function(response) {
-          $('body').html(response);  // 서버로부터 받은 스크립트를 실행
-        }
-      });
-    });
-  });
-</script>
 </body>
 </html>

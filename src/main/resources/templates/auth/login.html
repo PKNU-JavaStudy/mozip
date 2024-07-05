@@ -15,6 +15,7 @@
   <link rel="stylesheet" th:href="@{/css/common.css}"/>
   <link rel="stylesheet" th:href="@{/css/user.css}"/>
 
+  <script defer th:src="@{/js/login.js}"></script>
   <script th:src="@{/js/common.js}"></script>
   <script defer th:src="@{/js/join_effect.js}"></script>
   <!--  kakaoLogin  -->
@@ -63,15 +64,4 @@
   <th:block th:replace="~{fragment/footer}"></th:block>
 </footer>
 </body>
-<script>
-    // URLSearchParams를 사용하여 URL의 쿼리 파라미터를 파싱합니다.
-    const params = new URLSearchParams(window.location.search);
-    const error = params.get('error');
-    const message = params.get('message');
-
-    // error가 true이면 alert로 메시지를 표시합니다.
-    if (error) {
-        alert(decodeURIComponent(message));
-    }
-</script>
 </html>
