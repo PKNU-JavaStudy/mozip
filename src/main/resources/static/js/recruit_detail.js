@@ -56,7 +56,6 @@ function projectJoin(projectId) {
 }
 
 // 프로젝트 삭제
-// TODO : URL 변경 필요함(URL에 정보 노출 X)
 function deleteProject(projectId) {
     $.ajax({
         type: "DELETE",

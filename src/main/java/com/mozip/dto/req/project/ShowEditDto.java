@@ -8,7 +8,6 @@ import java.util.List;
 
 @Data
 public class ShowEditDto {
-    // TODO : 프로젝트 수정은 회의 후 컬럼 및 로직 수정이 필요함!!
     private int id;
     private String projectType; // 프로젝트 타입(프로젝트/스터디)
     private String projectName; // 프로젝트 제목
