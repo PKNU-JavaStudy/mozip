@@ -316,6 +316,13 @@
         DELETE FROM PROJECT WHERE ID = #{projectId}
     </delete>
 
+    <!-- 프로젝트자랑: 좋아요 삭제-->
+    <delete id="deleteProjectLikes" parameterType="int">
+        DELETE
+        FROM LIKES
+        WHERE PROJECT_ID = #{projectId}
+    </delete>
+
     <!-- 프로젝트자랑 수정 : 기존 데이터 갖고오기 -->
     <select id="editSelectShow" resultType="com.mozip.dto.req.project.ShowEditDto">
         SELECT ID,

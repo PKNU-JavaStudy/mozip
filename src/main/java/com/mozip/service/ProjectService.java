@@ -241,7 +241,7 @@ public class ProjectService {
     /**
      * <h3>프로젝트 삭제 메서드</h3>
      * <li>프로젝트ID값을 통해 프로젝트를 삭제한다.</li>
-     * <li>프로젝트 스킬,모집역할,북마크,좋아요 삭제 추가</li>
+     * <li>프로젝트 스킬,모집역할,북마크,좋아요,신청맴버,신청목록 삭제 추가</li>
      * @param projectId
      */
     @Transactional
@@ -252,6 +252,7 @@ public class ProjectService {
         projectRepository.deleteProjectBookmark(projectId);
         projectRepository.deleteProjectMembers(projectId);
         projectRepository.deleteProjectSubscribe(projectId);
+        projectRepository.deleteProjectLikes(projectId);
     }
 
     /**

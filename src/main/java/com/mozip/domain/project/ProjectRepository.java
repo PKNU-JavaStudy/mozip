@@ -132,6 +132,9 @@ public interface ProjectRepository {
     // 프로젝트 신청 목록 삭제
     void deleteProjectSubscribe(@Param("projectId") int projectId);
 
+    // 프로젝트자랑: 좋아요 삭제
+    void deleteProjectLikes(@Param("projectId") int projectId);
+
     // 프로젝트자랑페이지 : 프로젝트 수정전 불러오기
     ShowEditDto editSelectShow(@Param("projectId") int projectId);
 
