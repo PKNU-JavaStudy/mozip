@@ -250,6 +250,8 @@ public class ProjectService {
         projectRepository.deleteProjectSkills(projectId);
         projectRepository.deleteProjectRecruitRoles(projectId);
         projectRepository.deleteProjectBookmark(projectId);
+        projectRepository.deleteProjectMembers(projectId);
+        projectRepository.deleteProjectSubscribe(projectId);
     }
 
     /**

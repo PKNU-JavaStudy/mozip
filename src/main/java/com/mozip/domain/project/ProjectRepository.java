@@ -126,6 +126,12 @@ public interface ProjectRepository {
     // 프로젝트 북마크 삭제
     void deleteProjectBookmark(@Param("projectId") int projectId);
 
+    // 프로젝트 참여 맴버 삭제
+    void deleteProjectMembers(@Param("projectId") int projectId);
+
+    // 프로젝트 신청 목록 삭제
+    void deleteProjectSubscribe(@Param("projectId") int projectId);
+
     // 프로젝트자랑페이지 : 프로젝트 수정전 불러오기
     ShowEditDto editSelectShow(@Param("projectId") int projectId);
 

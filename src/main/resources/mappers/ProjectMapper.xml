@@ -455,6 +455,20 @@
         WHERE PROJECT_ID = #{projectId}
     </delete>
 
+    <!--프로젝트 참여 맴버 삭제-->
+    <delete id="deleteProjectMembers" parameterType="int">
+        DELETE
+        FROM PROJECT_MEMBER
+        WHERE PROJECT_ID = #{projectId}
+    </delete>
+
+    <!--프로젝트 신청목록 삭제-->
+    <delete id="deleteProjectSubscribe" parameterType="int">
+        DELETE
+        FROM SUBSCRIBE
+        WHERE PROJECT_ID = #{projectId}
+    </delete>
+
     <!-- 프로젝트모집 프로젝트 신청 -->
     <insert id="projectJoin">
         INSERT INTO SUBSCRIBE (PROJECT_ID, MEMBER_ID, CREATED_AT)
