@@ -448,6 +448,13 @@
         WHERE PROJECT_ID = #{projectId}
     </delete>
 
+    <!--프로젝트 북마크 삭제-->
+    <delete id="deleteProjectBookmark" parameterType="int">
+        DELETE
+        FROM BOOKMARK
+        WHERE PROJECT_ID = #{projectId}
+    </delete>
+
     <!-- 프로젝트모집 프로젝트 신청 -->
     <insert id="projectJoin">
         INSERT INTO SUBSCRIBE (PROJECT_ID, MEMBER_ID, CREATED_AT)
