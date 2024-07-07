@@ -42,7 +42,8 @@ public class MemberController {
         if (principalDetails == null || principalDetails.getMember().getId() != memberId)
             throw new CustomException("접근권한이 없습니다!");
 
-        model.addAttribute("projectList", memberService.findProjectList(memberId););
+
+        model.addAttribute("projectList", memberService.findProjectList(memberId));
 
         return "member/myproject_list";
     }
