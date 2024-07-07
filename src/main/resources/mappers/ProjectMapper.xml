@@ -561,4 +561,13 @@
         WHERE ID = #{projectId}
     </update>
 
+    <select id="findProjectListById" resultMap="ShowListDtoMap">
+        SELECT ID, PROJECT_NAME, PROJECT_TYPE, OWNER_ID, VIEWS, IS_SHOW, IMAGE_URL
+        FROM PROJECT
+        WHERE IS_SHOW = 1
+          AND STATUS = 1
+          AND IS_END = 1
+          AND OWNER_ID = #{memberId};
+    </select>
+
 </mapper>

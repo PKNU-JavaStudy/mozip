@@ -95,7 +95,13 @@
         <li class="on"><a href="">사이드 프로젝트</a></li>
         <li><a href="">스터디/모임</a></li>
       </ul>
-      <button>✏️ 프로젝트 자랑 하기</button>
+      <!-- 로그인 유무 -->
+      <th:block th:if="${#authentication.getPrincipal()!='anonymousUser'}">
+        <a class="myproject-list" th:onclick="|myProjectList(${#authentication.getPrincipal().getMember().getId()})|">✏️ 프로젝트 자랑 하기</a>
+      </th:block>
+      <th:block th:if="${#authentication.getPrincipal()=='anonymousUser'}">
+        <a class="myproject-list" onclick="myProjectList(0)">✏️ 프로젝트 자랑 하기</a>
+      </th:block>
     </div>
     <div class="select-wrap">
       <div class="left-select">
@@ -210,7 +216,16 @@
 <footer>
   <th:block th:replace="~{fragment/footer}"></th:block>
 </footer>
+
 <script>
+
+  function myProjectList(memberId) {
+    if (memberId == 0)
+      alert("로그인부터 하셔야합니다 !");
+    else
+      window.location.assign(`/member/projectList/${memberId}`);
+  }
+
   function getSkillIcon(skill) {
     const skillIcons = {
       'AWS': '/img/aws.svg',
@@ -306,7 +321,7 @@
   document.querySelector(".search-remove").addEventListener('click', clearSearch);
 
   // 페이지 로드 시 모든 프로젝트 로드
-  $(document).ready(function() {
+  $(document).ready(function () {
     searchProjects();
   });
 </script>

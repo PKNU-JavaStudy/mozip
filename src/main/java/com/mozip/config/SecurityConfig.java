@@ -40,7 +40,7 @@ public class SecurityConfig {
         http.
                 authorizeHttpRequests(auth -> auth.requestMatchers("/auth/login", "/auth/join", "/", "/project/show", "/member/**",
                                                                 "/api/**", "/project", "/project/**", "/css/**", "/js/**", "/img/**", "/upload/**").permitAll().
-                                                requestMatchers("/member/edit/**", "/project/create").authenticated().
+                                                requestMatchers("/member/edit/**", "/project/create", "/member/projectList/**").authenticated().
                                                 anyRequest().authenticated())
                 .csrf(config -> config.disable())
                 .formLogin(config -> config.

@@ -171,4 +171,6 @@ public interface ProjectRepository {
 
     // 프로젝트생성 : 기본 이미지 세팅
     void baseProjectImg(@Param("projectId") int projectId, @Param("image") String image);
+
+    List<ShowListDto> findProjectListById(@Param("memberId") int memberId);
 }

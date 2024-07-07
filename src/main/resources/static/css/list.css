@@ -146,6 +146,15 @@
   font-weight: 500;
 }
 
+.show-flex .myproject-list {
+  background: var(--main-color);
+  border: none;
+  padding: 10px 17px;
+  border-radius: 7px;
+  color: #fff;
+  font-weight: 500;
+}
+
 .type-slt li {
   text-align: center;
   padding-right: 20px;
