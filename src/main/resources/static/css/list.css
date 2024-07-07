@@ -578,7 +578,7 @@ ul.count li i {
   font-size: 1.2rem;
 }
 
-.teamnote-list-wrap {
+.show-list-wrap {
   display: grid;
   column-gap: 15px;
   row-gap: 30px;
@@ -586,6 +586,12 @@ ul.count li i {
   margin: 55px 0;
   justify-content: space-between;
 }
+
+.show-list-wrap .show-box:hover{
+  border:3px solid var(--main-color);
+  transition: .2s;
+}
+
 .search-remove{
   right: 45px;
   background: #f1f1f1;

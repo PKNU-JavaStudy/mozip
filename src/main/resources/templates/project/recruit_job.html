@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+  <!-- font awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"/>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
+  <!-- 직접 구현한 CSS -->
+  <link rel="stylesheet" th:href="@{/css/reset.css}"/>
+  <link rel="stylesheet" th:href="@{/css/common.css}"/>
+  <link rel="stylesheet" th:href="@{/css/index.css}"/>
+  <link rel="stylesheet" th:href="@{/css/recruit.css}"/>
+
+  <title>모집(mo.zip) - 채용공고</title>
+  <!-- favicon -->
+  <link rel="icon" th:href="@{/img/favicon.ico}">
+</head>
+<body id="recruit">
+<div class="search-top">
+  <div class="input-wrap">
+    <input type="text" placeholder="검색어 입력">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </div>
+  <select name="location" id="location">
+    <option value="전국">전국</option>
+    <option value="서울">서울</option>
+    <option value="경기">경기</option>
+    <option value="강원">강원</option>
+    <option value="인천">인천</option>
+    <option value="대전">대전</option>
+    <option value="충북">충북</option>
+    <option value="충남">충남</option>
+    <option value="경북">경북</option>
+    <option value="대구">대구</option>
+    <option value="경남">경남</option>
+    <option value="부산">부산</option>
+    <option value="전북">전북</option>
+    <option value="광주">광주</option>
+    <option value="전남">전남</option>
+    <option value="제주">제주</option>
+  </select>
+  <select name="job" id="job">
+    <option value="">프론트엔드</option>
+    <option value="">백엔드</option>
+    <option value="">디자인</option>
+    <option value="">기획</option>
+    <option value="">게임</option>
+  </select>
+  <button>검색</button>
+</div>
+<div class="wrap">
+  <div class="recruit-list">
+    <div class="recruit-top">
+      <h3>채용 정보</h3>
+      <span>총 300건</span>
+    </div>
+    <a class="recruit-item">
+      <div class="recruit-left">
+        <h5 class="recruit-title">React/React Native 웹/앱 프론트엔드 개발자분을 모집합니다.</h5>
+        <ul class="recruit-info">
+          <li>부산 해운대구</li>
+          <li>경력 5 ~ 15년</li>
+          <li>대졸<i class="fa-solid fa-arrow-up"></i></li>
+          <li>정규직</li>
+        </ul>
+        <ul class="recruit-etc">
+          <li>백엔드/서버개발, 유지보수, 정보보안, 네트워크 외</li>
+          <li>등록일 24/07/01</li>
+        </ul>
+      </div>
+      <div class="recruit-right">
+        <h4>(주)하키코리아</h4>
+      </div>
+    </a>
+  </div>
+</div>
+</body>
+</html>

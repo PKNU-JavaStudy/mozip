@@ -120,4 +120,10 @@ public class ProjectController {
 
         return "project/EmailView";
     }
+
+    // 채용공고
+    @GetMapping("/project/reacruitJob")
+    public String reacruitJob(Model model) {
+        return "project/reacruit_job";
+    }
 }
