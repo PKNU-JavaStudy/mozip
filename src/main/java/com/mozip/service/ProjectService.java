@@ -410,6 +410,7 @@ public class ProjectService {
     public List<ShowListDto> searchShow(String keyword) {
         List<ShowListDto> ShowListDtos = projectRepository.searchShow(keyword);
         for (ShowListDto ShowListDto : ShowListDtos) {
+            ShowListDto.setLikes(projectRepository.findLikeCount(ShowListDto.getId()));
             ShowListDto.setSkills(projectRepository.findProjectSkills(ShowListDto.getId()));
         }
         return ShowListDtos;
