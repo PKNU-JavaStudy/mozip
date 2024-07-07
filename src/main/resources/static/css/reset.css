@@ -20,6 +20,12 @@ button {
   cursor: pointer;
 }
 
+body{
+  width: 100%;
+  min-width: 1290px;
+  overflow-x: auto;
+}
+
 
 input:focus-visible,
 select:focus,
