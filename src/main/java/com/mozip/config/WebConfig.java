@@ -11,8 +11,6 @@ import org.springframework.web.servlet.resource.PathResourceResolver;
 @RequiredArgsConstructor
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
-//    @Value("${file.path}")
-//    private String uploadFolder;
     private final Environment env;
 
     @Override
@@ -21,7 +19,7 @@ public class WebConfig implements WebMvcConfigurer {
 
         WebMvcConfigurer.super.addResourceHandlers(registry);
 
-        registry.addResourceHandler("/upload/**") // jsp 페이지에서 "/upload/**" 이 패턴이 나오면
+        registry.addResourceHandler("/upload/**") // Thymeleaf 페이지에서 "/upload/**" 이 패턴이 나오면
                 .addResourceLocations("file:///"+uploadFolder)// 실행
                 .setCachePeriod(60*10*6) // 1시간동안 캐싱
                 .resourceChain(true) //true 로 설정.

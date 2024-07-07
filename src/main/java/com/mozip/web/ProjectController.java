@@ -2,7 +2,7 @@ package com.mozip.web;
 
 import com.mozip.config.auth.PrincipalDetails;
 
-import com.mozip.dto.resp.project.ShowEditDto;
+import com.mozip.dto.req.project.ShowEditDto;
 import com.mozip.handler.ex.CustomException;
 import com.mozip.service.KeepService;
 import com.mozip.service.MemberService;

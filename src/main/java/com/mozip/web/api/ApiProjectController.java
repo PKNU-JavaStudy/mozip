@@ -5,8 +5,8 @@ import com.mozip.domain.likes.Likes;
 import com.mozip.dto.CMRespDto;
 import com.mozip.dto.req.project.ProjectCreateDto;
 import com.mozip.service.KeepService;
-import com.mozip.dto.resp.project.ProjectEditDto;
-import com.mozip.dto.resp.project.ShowEditDto;
+import com.mozip.dto.req.project.ProjectEditDto;
+import com.mozip.dto.req.project.ShowEditDto;
 import com.mozip.service.LikesService;
 import com.mozip.service.ProjectService;
 import jakarta.validation.Valid;
@@ -93,7 +93,7 @@ public class ApiProjectController {
         return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공", projectService.searchProject(keyword)));
     }
 
-    // 프로젝트 자랑 리스트 검색
+    // 프로젝트 자랑 검색
     @GetMapping("/show/search")
     @ResponseBody
     public ResponseEntity<?> searchShow(@RequestParam("keyword") String keyword) {

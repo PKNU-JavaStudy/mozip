@@ -148,3 +148,64 @@ document.addEventListener('DOMContentLoaded', function () {
     localStorage.setItem('bgColor', selectedColor);
   });
 });
+
+// 모집완료 모달
+document
+    .querySelector(".open-modal")
+    .addEventListener("click", function () {
+      document.querySelector(".modal-bg").classList.add("visible");
+      document.querySelector(".modal").classList.add("visible");
+    });
+
+document
+    .querySelector(".close-modal")
+    .addEventListener("click", function () {
+      document.querySelector(".modal-bg").classList.remove("visible");
+      document.querySelector(".modal").classList.remove("visible");
+      resetModal();
+    });
+
+document
+    .querySelector(".close-modal-back")
+    .addEventListener("click", function () {
+      document.querySelector(".modal-bg").classList.remove("visible");
+      document.querySelector(".modal").classList.remove("visible");
+      resetModal();
+    });
+
+// 삭제 모달
+document
+    .querySelector(".open-modal02")
+    .addEventListener("click", function () {
+      document.querySelector(".bg02").classList.add("visible");
+      document.querySelector(".modal02").classList.add("visible");
+    });
+
+document
+    .querySelector(".close-modal02-back")
+    .addEventListener("click", function () {
+      document.querySelector(".bg02").classList.remove("visible");
+      document.querySelector(".modal02").classList.remove("visible");
+    });
+
+document
+    .querySelector(".close-modal02")
+    .addEventListener("click", function () {
+      document.querySelector(".bg02").classList.remove("visible");
+      document.querySelector(".modal02").classList.remove("visible");
+    });
+
+// 바깥영역 클릭 시 종료
+document.addEventListener("click", function (event) {
+  if (
+      !event.target.closest(".modal, .open-modal, .open-modal02, .modal02")
+  ) {
+    document.querySelector(".modal").classList.remove("visible");
+    document.querySelector(".modal-bg").classList.remove("visible");
+
+    document.querySelector(".modal02").classList.remove("visible");
+    document.querySelector(".bg02").classList.remove("visible");
+
+    document.body.classList.remove("modal-open");
+  }
+});

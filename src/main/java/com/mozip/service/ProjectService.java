@@ -2,6 +2,8 @@ package com.mozip.service;
 
 import com.mozip.domain.project.ProjectRepository;
 import com.mozip.dto.req.project.ProjectCreateDto;
+import com.mozip.dto.req.project.ProjectEditDto;
+import com.mozip.dto.req.project.ShowEditDto;
 import com.mozip.dto.resp.project.*;
 import com.mozip.handler.ex.CustomException;
 import com.mozip.util.Util;
@@ -194,7 +196,10 @@ public class ProjectService {
             throw new CustomException("프로젝트 명이 중복됩니다 !");
 
         // DB 실행
-        projectRepository.createProject(projectCreateDto);
+        if(projectCreateDto.getProjectType().equals("사이드 프로젝트"))
+            projectRepository.createProject(projectCreateDto, "project_sample.png");
+        else if(projectCreateDto.getProjectType().equals("스터디/모임"))
+            projectRepository.createProject(projectCreateDto,"study_sample.png");
 
         // 1. DTO의 projectName으로 SELECT 쿼리를 날려서 해당 프로젝트 ID 값을 가져온다.
         String projectName = projectCreateDto.getProjectName();
@@ -236,12 +241,18 @@ public class ProjectService {
     /**
      * <h3>프로젝트 삭제 메서드</h3>
      * <li>프로젝트ID값을 통해 프로젝트를 삭제한다.</li>
+     * <li>프로젝트 스킬,모집역할,북마크,좋아요,신청맴버,신청목록 삭제 추가</li>
      * @param projectId
      */
     @Transactional
     public void deleteProject(int projectId) {
         projectRepository.deleteProject(projectId);
-
+        projectRepository.deleteProjectSkills(projectId);
+        projectRepository.deleteProjectRecruitRoles(projectId);
+        projectRepository.deleteProjectBookmark(projectId);
+        projectRepository.deleteProjectMembers(projectId);
+        projectRepository.deleteProjectSubscribe(projectId);
+        projectRepository.deleteProjectLikes(projectId);
     }
 
     /**
@@ -336,9 +347,9 @@ public class ProjectService {
         ProjectEditDto project = projectRepository.findProjectEditDetail(projectId);
         project.setSkills(projectRepository.findProjectSkills(projectId));
         project.setRecruitRole(projectRepository.findRecruitRoles(projectId));
-        project.setProjectInfo(project.getProjectInfo());
+//        project.setProjectInfo(project.getProjectInfo());
         // LocalDateTime -> String 변환
-        project.setExceptChangeTime(Util.formatLocalDateTime(project.getExceptTime()));
+        project.setExceptChangeTime(Util.formatTimestamp(project.getExceptTime()));
 
         return project;
     }
@@ -350,7 +361,11 @@ public class ProjectService {
      */
     @Transactional
     public void updateRecruitProject(ProjectEditDto dto) {
-        dto.setExceptTime(Util.stringToLocalDateTime(dto.getExceptChangeTime()));
+        try {
+            dto.setExceptTime(Util.stringToTimestamp(dto.getExceptChangeTime()));
+        } catch (ParseException e) {
+            throw new CustomException(e.getMessage());
+        }
 
         projectRepository.updateRecruitProject(dto);
 
@@ -404,22 +419,22 @@ public class ProjectService {
     /**
      * <h3>프로젝트자랑 검색 메서드</h3>
      * <li>프로젝트자랑 목록 페이지에서 프로젝트를 검색하는 메서드</li>
-     * @param keyword
-     * @return List<RecruitListDto>
+     * @param
+     * @return List<ShowListDto>
      */
     public List<ShowListDto> searchShow(String keyword) {
-        List<ShowListDto> ShowListDtos = projectRepository.searchShow(keyword);
-        for (ShowListDto ShowListDto : ShowListDtos) {
-            ShowListDto.setLikes(projectRepository.findLikeCount(ShowListDto.getId()));
-            ShowListDto.setSkills(projectRepository.findProjectSkills(ShowListDto.getId()));
+        List<ShowListDto> showListDtos = projectRepository.searchShow(keyword);
+        for (ShowListDto showListDto : showListDtos) {
+            showListDto.setLikes(projectRepository.findLikeCount(showListDto.getId()));
+            showListDto.setSkills(projectRepository.findProjectSkills(showListDto.getId()));
         }
-        return ShowListDtos;
+        return showListDtos;
     }
 
     /**
      * <h3>프로젝트모집 카테고리 필터 메서드</h3>
      * <li>프론트,백엔드,디자이너 등등 카테고리에 따른 필터된 데이터를 갖고오는 메서드이다.</li>
-     * @param filter
+     * @param
      * @return List<RecruitListDto>
      */
     public List<RecruitListDto> projectFilterSearch(String filter) {
