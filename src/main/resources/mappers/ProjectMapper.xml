@@ -22,11 +22,11 @@
     </resultMap>
 
     <resultMap id="ShowListDtoMap" type="com.mozip.dto.resp.project.ShowListDto">
-        <result property="id" column="ID"/>
+        <result property="id"          column="ID"/>
         <result property="projectName" column="PROJECT_NAME"/>
         <result property="projectType" column="PROJECT_TYPE"/>
-        <result property="views" column="VIEWS"/>
-        <result property="isShow" column="IS_SHOW"/>
+        <result property="views"       column="VIEWS"/>
+        <result property="isShow"      column="IS_SHOW"/>
     </resultMap>
 
     <resultMap id="projectDetailMap" type="com.mozip.dto.resp.project.ProjectDetailDto">
@@ -507,7 +507,42 @@
         WHERE PROJECT.ID IN(SELECT PROJECT_ID FROM PROJECT_SKILL WHERE SKILL_NAME LIKE #{filter})
     </select>
 
-    <select id="findShowBookmark" resultType="Integer">
-        SELECT BOOKMARK.PROJECT_ID FROM BOOKMARK GROUP BY PROJECT_ID ORDER BY COUNT(*) DESC
+    <select id="saveConditionSelect" resultMap="ShowListDtoMap">
+            SELECT P.ID,
+                   P.PROJECT_NAME,
+                   P.PROJECT_TYPE,
+                   P.VIEWS,
+                   P.IS_SHOW,
+                   B.북마크_갯수
+            FROM PROJECT P
+                     INNER JOIN (
+                SELECT COUNT(*) AS 북마크_갯수, PROJECT_ID
+                FROM BOOKMARK
+                GROUP BY PROJECT_ID
+            ) B ON P.ID = B.PROJECT_ID
+            ORDER BY B.북마크_갯수 DESC;
     </select>
+
+    <select id="newConditionSelect" resultMap="ShowListDtoMap">
+            SELECT ID,
+                   PROJECT_NAME,
+                   PROJECT_TYPE,
+                   VIEWS,
+                   IS_SHOW
+            FROM PROJECT
+            WHERE IS_SHOW = 0 AND IS_END = 0 AND STATUS = 0
+            ORDER BY CREATED_AT DESC
+    </select>
+
+    <select id="oldConditionSelect" resultMap="ShowListDtoMap">
+            SELECT ID,
+                   PROJECT_NAME,
+                   PROJECT_TYPE,
+                   VIEWS,
+                   IS_SHOW
+            FROM PROJECT
+            WHERE IS_SHOW = 0 AND IS_END = 0 AND STATUS = 0
+            ORDER BY CREATED_AT
+    </select>
+
 </mapper>

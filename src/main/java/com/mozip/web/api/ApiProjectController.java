@@ -132,13 +132,10 @@ public class ApiProjectController {
         return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공", projectService.projectSkillFilter(filter)));
     }
 
-    // 프로젝트자랑 셀렉트 필터(북마크순)
-    /*
-    @GetMapping("/project/select/{filter}")
+    // 프로젝트자랑 셀렉트 필터(최신, 오래된, 북마크순)
+    @GetMapping("/show/select/{filter}")
     public ResponseEntity<?> selectFilterShow(@PathVariable("filter") String filter){
-        return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공", projectService.projectBookmarkOrder(filter)));
+        return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공", projectService.selectConditionFilter(filter)));
     }
-
-     */
 
 }
