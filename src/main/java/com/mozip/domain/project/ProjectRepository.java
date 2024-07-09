@@ -1,6 +1,8 @@
 package com.mozip.domain.project;
 
 import com.mozip.dto.req.project.ProjectCreateDto;
+import com.mozip.dto.req.project.ProjectEditDto;
+import com.mozip.dto.req.project.ShowEditDto;
 import com.mozip.dto.resp.project.*;
 import org.apache.ibatis.annotations.Param;
 
@@ -83,7 +85,7 @@ public interface ProjectRepository {
     List<String> findShowRecruitRoles(@Param("projectId") int projectId);
 
     // 프로젝트작성페이지
-    void createProject(@Param("dto") ProjectCreateDto dto);
+    void createProject(@Param("dto") ProjectCreateDto dto, @Param("img") String img);
 
     void createProjectSkill(@Param("skill") String skill, @Param("id") int id);
 
@@ -121,6 +123,18 @@ public interface ProjectRepository {
     // 프로젝트 모집역할 삭제
     void deleteProjectRecruitRoles(@Param("projectId") int projectId);
 
+    // 프로젝트 북마크 삭제
+    void deleteProjectBookmark(@Param("projectId") int projectId);
+
+    // 프로젝트 참여 맴버 삭제
+    void deleteProjectMembers(@Param("projectId") int projectId);
+
+    // 프로젝트 신청 목록 삭제
+    void deleteProjectSubscribe(@Param("projectId") int projectId);
+
+    // 프로젝트자랑: 좋아요 삭제
+    void deleteProjectLikes(@Param("projectId") int projectId);
+
     // 프로젝트자랑페이지 : 프로젝트 수정전 불러오기
     ShowEditDto editSelectShow(@Param("projectId") int projectId);
 
@@ -152,6 +166,9 @@ public interface ProjectRepository {
 
     RecruitListDto findOneRecruit(@Param("projectId") int projectId);
 
+    // 프로젝트 자랑 : 검색 필터
+    List<ShowListDto> searchShow(@Param("keyword") String keyword);
+
     // 프로젝트생성 : 기본 이미지 세팅
     void baseProjectImg(@Param("projectId") int projectId, @Param("image") String image);
 
@@ -162,5 +179,7 @@ public interface ProjectRepository {
     List<ShowListDto> newConditionSelect();
     List<ShowListDto> oldConditionSelect();
     List<ShowListDto> saveConditionSelect();
+  
+    List<ShowListDto> findProjectListById(@Param("memberId") int memberId);
 
 }

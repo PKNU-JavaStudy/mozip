@@ -5,8 +5,8 @@ import com.mozip.domain.likes.Likes;
 import com.mozip.dto.CMRespDto;
 import com.mozip.dto.req.project.ProjectCreateDto;
 import com.mozip.service.KeepService;
-import com.mozip.dto.resp.project.ProjectEditDto;
-import com.mozip.dto.resp.project.ShowEditDto;
+import com.mozip.dto.req.project.ProjectEditDto;
+import com.mozip.dto.req.project.ShowEditDto;
 import com.mozip.service.LikesService;
 import com.mozip.service.ProjectService;
 import jakarta.validation.Valid;
@@ -93,6 +93,13 @@ public class ApiProjectController {
         return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공", projectService.searchProject(keyword)));
     }
 
+    // 프로젝트 자랑 검색
+    @GetMapping("/show/search")
+    @ResponseBody
+    public ResponseEntity<?> searchShow(@RequestParam("keyword") String keyword) {
+        return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공", projectService.searchShow(keyword)));
+    }
+
     // 북마크
     @PostMapping("/keep")
     public ResponseEntity<?> keepProject(@RequestBody Keep keep) {
@@ -120,7 +127,7 @@ public class ApiProjectController {
         return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공", projectService.projectSelectTypeFilter(filter)));
     }
 
-    // 무한페이지
+    // 무한 스크롤
     @GetMapping("/project")
     public ResponseEntity<?> projectList(@RequestParam("page") int page) {
         return ResponseEntity.ok().body(new CMRespDto<>(1,"통신성공",projectService.findAllProject(page)));

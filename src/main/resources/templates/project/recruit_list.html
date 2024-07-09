@@ -23,7 +23,7 @@
   <!-- swiper -->
   <script th:src="@{/js/index.js}"></script>
   <script th:src="@{/js/common.js}"></script>
-  <script th:src="@{/js/03yoonji.js}"></script>
+  <script th:src="@{/js/recruit_list.js}"></script>
   <!-- favicon -->
   <link rel="icon" th:href="@{/img/favicon.ico}">
 </head>
@@ -314,10 +314,10 @@
         document.querySelector(".recruit-ipt").value = '';
         searchProjects();
     }
-
-    function handleInput() {
-        searchProjects();
-    }
+    //
+    // function handleInput() {
+    //     searchProjects();
+    // }
 
     function handleKeyDown(event) {
         if (event.key === 'Enter') {
@@ -326,25 +326,8 @@
     }
 
     // 이벤트 리스너 추가
-    document.querySelector(".recruit-ipt").addEventListener('input', handleInput);
+    // document.querySelector(".recruit-ipt").addEventListener('input', handleInput);
     document.querySelector(".recruit-ipt").addEventListener('keydown', handleKeyDown);
     document.querySelector(".clear-button").addEventListener('click', clearSearch); // clear-button은 클리어 버튼의 클래스명입니다.
-
-    function clearSearch() {
-        document.querySelector(".recruit-ipt").value = '';
-        searchProjects();
-    }
-
-    function handleInput() {
-        searchProjects();
-    }
-
-    function handleKeyDown(event) {
-        if (event.key === 'Enter') {
-            searchProjects();
-        }
-    }
-
-    document.querySelector(".recruit-ipt").addEventListener("input", handleInput);
 </script>
 </html>

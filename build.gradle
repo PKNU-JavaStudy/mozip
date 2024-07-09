@@ -40,6 +40,11 @@ dependencies {
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop', version: '3.2.1'
+
+	implementation 'org.springframework.boot:spring-boot-starter-logging'
+
+	// https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
+	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.17.1'
 }
 
 tasks.named('test') {

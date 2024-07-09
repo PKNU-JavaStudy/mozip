@@ -2,10 +2,12 @@ package com.mozip.service;
 
 import com.mozip.domain.member.Member;
 import com.mozip.domain.member.MemberRepository;
+import com.mozip.domain.project.ProjectRepository;
 import com.mozip.dto.req.member.MypageEditDto;
 import com.mozip.dto.resp.member.MypageDto;
 import com.mozip.dto.resp.member.NewMemberListDto;
 import com.mozip.dto.req.member.UpdateMypageEditDto;
+import com.mozip.dto.resp.project.ShowListDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,7 @@ public class MemberService {
     @Value("${file.path}")
     private String uploadFolder;
 
+    private final ProjectRepository projectRepository;
     private final MemberRepository memberRepository;
 
     /**
@@ -134,6 +137,16 @@ public class MemberService {
         memberRepository.deleteSkills(memberId);
         // MEMBER 삭제
         memberRepository.deleteMember(memberId);
+    }
+
+    public List<ShowListDto> findProjectList(int memberId) {
+        List<ShowListDto> projectList = projectRepository.findProjectListById(memberId);
+        for (ShowListDto project : projectList) {
+            project.setLikes(projectRepository.findLikeCount(project.getId()));
+            project.setSkills(projectRepository.findProjectSkills(project.getId()));
+        }
+
+        return projectList;
     }
 }
 

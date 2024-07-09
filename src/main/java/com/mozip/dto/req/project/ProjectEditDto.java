@@ -1,4 +1,4 @@
-package com.mozip.dto.resp.project;
+package com.mozip.dto.req.project;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 import java.util.List;
 
 @NoArgsConstructor
@@ -18,7 +18,7 @@ public class ProjectEditDto {
     private String projectType;
 
     @NotBlank(message = "프로젝트 제목은 필수입니다!")
-    @Size(min = 5, max = 50)
+    @Size(min = 5, max = 50, message = "프로젝트 제목은 최소 5글자, 최대 50글자 사이입니다.")
     private String projectName;
 
     @NotBlank(message = "프로젝트 주제는 필수입니다!")
@@ -39,7 +39,7 @@ public class ProjectEditDto {
     @NotNull(message = "예상기간은 필수입니다!")
     private Integer exceptDate;
 
-    private LocalDateTime exceptTime;
+    private Timestamp exceptTime;
 
     @NotBlank(message = "프로젝트 소개는 필수입니다!")
     private String projectInfo;

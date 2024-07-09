@@ -17,10 +17,15 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.Collections;
 
 @Slf4j
 @Configuration
@@ -40,7 +45,7 @@ public class SecurityConfig {
         http.
                 authorizeHttpRequests(auth -> auth.requestMatchers("/auth/login", "/auth/join", "/", "/project/show", "/member/**",
                                                                 "/api/**", "/project", "/project/**", "/css/**", "/js/**", "/img/**", "/upload/**").permitAll().
-                                                requestMatchers("/member/edit/**", "/project/create").authenticated().
+                                                requestMatchers("/member/edit/**", "/project/create", "/member/projectList/**").authenticated().
                                                 anyRequest().authenticated())
                 .csrf(config -> config.disable())
                 .formLogin(config -> config.
@@ -64,9 +69,22 @@ public class SecurityConfig {
                         })
                         .permitAll()
                 )
+                .cors(corsConfig -> corsConfig.configurationSource(corsConfigurationSource()))
                 .logout(config -> config.logoutRequestMatcher(new AntPathRequestMatcher("/auth/logout")).logoutSuccessUrl("/").invalidateHttpSession(true))
                 .oauth2Login(oauth -> oauth.userInfoEndpoint(c -> c.userService(principalOauth2UserService)).defaultSuccessUrl("/", true));
 
         return http.build();
+    }
+
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        return request -> {
+            CorsConfiguration config = new CorsConfiguration();
+            config.setAllowedHeaders(Collections.singletonList("*"));
+            config.setAllowedMethods(Collections.singletonList("*"));
+            config.setAllowedOriginPatterns(Collections.singletonList("http://localhost:3000")); // 허용할 Origin URL
+            config.setAllowCredentials(true);
+            return config;
+        };
     }
 }

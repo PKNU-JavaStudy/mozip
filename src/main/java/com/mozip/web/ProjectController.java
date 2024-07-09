@@ -2,12 +2,13 @@ package com.mozip.web;
 
 import com.mozip.config.auth.PrincipalDetails;
 
-import com.mozip.dto.resp.project.ShowEditDto;
+import com.mozip.dto.req.project.ShowEditDto;
 import com.mozip.handler.ex.CustomException;
 import com.mozip.service.KeepService;
 import com.mozip.service.MemberService;
 import com.mozip.service.ProjectService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +20,9 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @Controller
 public class ProjectController {
+    @Value("${saramin.key}")
+    private String key;
+
     private final ProjectService projectService;
     private final MemberService memberService;
     private final KeepService keepService;
@@ -119,5 +123,12 @@ public class ProjectController {
     public String emailView() {
 
         return "project/EmailView";
+    }
+
+    // 채용공고
+    @GetMapping("/project/recruitJob")
+    public String reacruitJob(Model model) {
+        model.addAttribute("secretKey", key);
+        return "project/recruit_job";
     }
 }

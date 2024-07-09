@@ -27,6 +27,14 @@
         <result property="projectType" column="PROJECT_TYPE"/>
         <result property="views"       column="VIEWS"/>
         <result property="isShow"      column="IS_SHOW"/>
+        <result property="imageUrl" column="IMAGE_URL"/>
+    </resultMap>
+
+    <resultMap id="ShowDtoMap" type="com.mozip.dto.resp.project.ShowListDto">
+        <result property="id" column="ID"/>
+        <result property="projectName" column="PROJECT_NAME"/>
+        <result property="projectType" column="PROJECT_TYPE"/>
+        <result property="views" column="VIEWS"/>
     </resultMap>
 
     <resultMap id="projectDetailMap" type="com.mozip.dto.resp.project.ProjectDetailDto">
@@ -104,7 +112,7 @@
 
     <!--  프로젝트자랑페이지 : 모든 프로젝트자랑  -->
     <select id="findAllShowProject" resultMap="ShowListDtoMap">
-        SELECT ID, PROJECT_NAME, PROJECT_TYPE, OWNER_ID, VIEWS, IS_SHOW
+        SELECT ID, PROJECT_NAME, PROJECT_TYPE, OWNER_ID, VIEWS, IS_SHOW, IMAGE_URL
         FROM PROJECT
         WHERE IS_SHOW = 0
     </select>
@@ -112,7 +120,7 @@
     <!--  프로젝트자랑페이지 : 새로운 프로젝트  -->
     <select id="findHotShow" resultMap="ShowListDtoMap">
         <![CDATA[
-        SELECT ID, PROJECT_NAME, PROJECT_TYPE, VIEWS, IS_SHOW
+        SELECT ID, PROJECT_NAME, PROJECT_TYPE, VIEWS, IS_SHOW, IMAGE_URL
         FROM PROJECT
         WHERE IS_SHOW = 0
         ORDER BY VIEWS DESC
@@ -274,11 +282,11 @@
         INSERT INTO PROJECT (PROJECT_NAME, PROJECT_TYPE, SUBJECT,
                              RECRUIT_COUNT, PROJECT_PURPOSE, PROJECT_TIME,
                              PROJECT_PROCESS, EXCEPT_DATE, EXCEPT_TIME, OWNER_ID, PROJECT_INFO, STATUS, CREATED_AT,
-                             VIEWS)
+                             VIEWS, IMAGE_URL)
         VALUES (#{dto.projectName}, #{dto.projectType}, #{dto.subject},
                 #{dto.recruitCount}, #{dto.projectPurpose}, #{dto.projectTime},
                 #{dto.projectProcess}, #{dto.exceptDate}, #{dto.exceptTime}, #{dto.ownerId},
-                #{dto.projectInfo}, 1, NOW(), 0)
+                #{dto.projectInfo}, 1, NOW(), 0, #{img})
     </insert>
 
     <insert id="createProjectSkill">
@@ -315,8 +323,15 @@
         DELETE FROM PROJECT WHERE ID = #{projectId}
     </delete>
 
+    <!-- 프로젝트자랑: 좋아요 삭제-->
+    <delete id="deleteProjectLikes" parameterType="int">
+        DELETE
+        FROM LIKES
+        WHERE PROJECT_ID = #{projectId}
+    </delete>
+
     <!-- 프로젝트자랑 수정 : 기존 데이터 갖고오기 -->
-    <select id="editSelectShow" resultType="com.mozip.dto.resp.project.ShowEditDto">
+    <select id="editSelectShow" resultType="com.mozip.dto.req.project.ShowEditDto">
         SELECT ID,
                PROJECT_TYPE,
                PROJECT_NAME,
@@ -332,7 +347,7 @@
     </select>
 
     <!-- 프로젝트자랑 수정 : 프로젝트 데이터 수정 -->
-    <update id="updateShow" parameterType="com.mozip.dto.resp.project.ShowEditDto">
+    <update id="updateShow" parameterType="com.mozip.dto.req.project.ShowEditDto">
         UPDATE PROJECT
         SET PROJECT_TYPE    = #{dto.projectType},
             PROJECT_NAME    = #{dto.projectName},
@@ -375,11 +390,11 @@
     </select>
 
     <!-- 프로젝트모집 수정 : 기존 데이터 갖고오기 -->
-    <select id="findProjectEditDetail" resultType="com.mozip.dto.resp.project.ProjectEditDto">
+    <select id="findProjectEditDetail" resultMap="projectOrigin">
         SELECT ID,
+               SUBJECT,
                PROJECT_TYPE,
                PROJECT_NAME,
-               SUBJECT,
                RECRUIT_COUNT,
                PROJECT_PURPOSE,
                PROJECT_TIME,
@@ -391,8 +406,22 @@
         WHERE ID = #{projectId}
     </select>
 
+    <resultMap id="projectOrigin" type="com.mozip.dto.req.project.ProjectEditDto">
+        <result property="id" column="ID"/>
+        <result property="subject" column="SUBJECT"/>
+        <result property="projectType" column="PROJECT_TYPE"/>
+        <result property="projectName" column="PROJECT_NAME"/>
+        <result property="recruitCount" column="RECRUIT_COUNT"/>
+        <result property="projectPurpose" column="PROJECT_PURPOSE"/>
+        <result property="projectTime" column="PROJECT_TIME"/>
+        <result property="projectProcess" column="PROJECT_PROCESS"/>
+        <result property="exceptDate" column="EXCEPT_DATE"/>
+        <result property="exceptTime" column="EXCEPT_TIME"/>
+        <result property="projectInfo" column="PROJECT_INFO"/>
+    </resultMap>
+
     <!-- 프로젝트모집 수정 : 프로젝트 데이터 수정 -->
-    <update id="updateRecruitProject" parameterType="com.mozip.dto.resp.project.ProjectEditDto">
+    <update id="updateRecruitProject" parameterType="com.mozip.dto.req.project.ProjectEditDto">
         UPDATE PROJECT
         SET PROJECT_TYPE    = #{dto.projectType},
             PROJECT_NAME    = #{dto.projectName},
@@ -433,6 +462,27 @@
         WHERE PROJECT_ID = #{projectId}
     </delete>
 
+    <!--프로젝트 북마크 삭제-->
+    <delete id="deleteProjectBookmark" parameterType="int">
+        DELETE
+        FROM BOOKMARK
+        WHERE PROJECT_ID = #{projectId}
+    </delete>
+
+    <!--프로젝트 참여 맴버 삭제-->
+    <delete id="deleteProjectMembers" parameterType="int">
+        DELETE
+        FROM PROJECT_MEMBER
+        WHERE PROJECT_ID = #{projectId}
+    </delete>
+
+    <!--프로젝트 신청목록 삭제-->
+    <delete id="deleteProjectSubscribe" parameterType="int">
+        DELETE
+        FROM SUBSCRIBE
+        WHERE PROJECT_ID = #{projectId}
+    </delete>
+
     <!-- 프로젝트모집 프로젝트 신청 -->
     <insert id="projectJoin">
         INSERT INTO SUBSCRIBE (PROJECT_ID, MEMBER_ID, CREATED_AT)
@@ -455,6 +505,16 @@
         FROM PROJECT P
         WHERE P.PROJECT_NAME LIKE CONCAT('%', #{keyword}, '%')
            OR P.PROJECT_INFO LIKE CONCAT('%', #{keyword}, '%')
+        ORDER BY CREATED_AT DESC
+    </select>
+
+    <!--  프로젝트자랑리스트 검색하기  -->
+    <select id="searchShow" resultMap="ShowListDtoMap">
+        SELECT P.ID, P.PROJECT_NAME, P.PROJECT_TYPE,
+               P.VIEWS, P.IS_SHOW,P.IMAGE_URL
+        FROM PROJECT P
+        WHERE P.PROJECT_NAME LIKE CONCAT('%', #{keyword}, '%')
+        AND  IS_SHOW = 0
         ORDER BY CREATED_AT DESC
     </select>
 
@@ -543,6 +603,14 @@
             FROM PROJECT
             WHERE IS_SHOW = 0 AND IS_END = 0 AND STATUS = 0
             ORDER BY CREATED_AT
+    </select>
+  
+    <select id="findProjectListById" resultMap="ShowListDtoMap">
+        SELECT ID, PROJECT_NAME, PROJECT_TYPE, OWNER_ID, VIEWS, IS_SHOW, IMAGE_URL
+        FROM PROJECT
+        WHERE IS_SHOW = 1
+          AND STATUS = 0
+          AND OWNER_ID = #{memberId};
     </select>
 
 </mapper>

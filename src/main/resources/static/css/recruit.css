@@ -1,0 +1,114 @@
+#recruit {
+    background-color: #f8f9fc;
+}
+.search-top {
+    background-color: #6948ef;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+}
+
+.input-wrap {
+    position: relative;
+}
+.search-top input {
+    border: none;
+    padding: 15px 15px 15px 40px;
+    border-radius: 8px 0 0 8px;
+    width: 400px;
+    font-size: 1rem;
+}
+.input-wrap i {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 10px;
+}
+
+.search-top select {
+    border: 1px solid #e6e6e6;
+    width: 250px;
+}
+
+.search-top button {
+    background-color: #000;
+    padding: 14px 20px;
+    border-radius: 0 8px 8px 0;
+    color: #fff;
+    border: none;
+    font-size: 17px;
+}
+
+.recruit-list {
+    background-color: #fff;
+    border-radius: 10px;
+    border: 1px solid #e6e6e6;
+    padding: 30px 40px;
+}
+
+.recruit-top {
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 40px;
+}
+.recruit-top h3 {
+    font-size: 23px;
+    padding-right: 15px;
+}
+.recruit-top span {
+    font-size: 13px;
+    color: var(--gray-font);
+}
+
+.recruit-item {
+    padding: 21px 39px 20px;
+    border-top: 1px solid #e6e6e6;
+    line-height: 20px;
+}
+.recruit-item:nth-last-child(1) {
+    border-bottom: 1px solid #e6e6e6;
+}
+.recruit-title {
+    font-size: 17px;
+    font-weight: 700;
+    padding-bottom: 10px;
+}
+
+.recruit-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.recruit-item:hover {
+    background-color: #fafcff;
+}
+
+.recruit-info {
+    display: flex;
+    padding-bottom: 25px;
+}
+.recruit-info li {
+    font-size: 13px;
+    padding-right: 15px;
+    color: var(--gray-font);
+}
+.recruit-info li i {
+    font-size: 12px;
+    padding-left: 3px;
+    color: var(--gray-font);
+}
+.recruit-etc {
+    display: flex;
+}
+.recruit-etc li {
+    font-size: 13px;
+    padding-right: 10px;
+    color: var(--gray-font);
+    line-height: 1;
+}
+
+.recruit-etc li:nth-child(1) {
+    border-right: 1px solid var(--border-color);
+    margin-right: 10px;
+}
