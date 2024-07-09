@@ -25,7 +25,7 @@
 <main>
   <div class="wrap flex user-title">
     <h1>아이디 찾기</h1>
-    <form class="submit-box" action="/auth/findId" method="post" id="findIdForm">
+    <form class="submit-box" th:action="@{/auth/findId}" method="post" id="findIdForm">
       <div class="input-group">
         <h2 for="username">이름</h2>
         <input type="text" id="username" name="username" class="input-padding" placeholder="이름을 입력해주세요." minlength="2" maxlength="5" required>
