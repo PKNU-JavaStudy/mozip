@@ -18,8 +18,15 @@
   <title>모집(mo.zip) - 채용공고</title>
   <!-- favicon -->
   <link rel="icon" th:href="@{/img/favicon.ico}">
+
+  <!-- jquery -->
+  <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+          crossorigin="anonymous"></script>
 </head>
 <body id="recruit">
+<header id="header">
+  <th:block th:replace="~{fragment/header}"></th:block>
+</header>
 <div class="search-top">
   <div class="input-wrap">
     <input type="text" placeholder="검색어 입력">
@@ -78,5 +85,30 @@
     </a>
   </div>
 </div>
+<div class="secretKey" th:text="${secretKey}" style="display: none"></div>
+<footer>
+  <th:block th:replace="~{fragment/footer}"></th:block>
+</footer>
+<script>
+  // let key = document.querySelector(".secretKey").textContent;
+  //
+  // // let apiURL = `https://oapi.saramin.co.kr/job-search?access-key=${key}&keyword=`;
+  // let apiURL =
+  //     `https://oapi.saramin.co.kr/job-search?access-key=${key}&keywords=IT&stock=kospi+kosdaq+konex&sr=directhire&job_type=&edu_lv=&job_mid_cd=2`;
+  // console.log(apiURL);
+  // $.ajax({
+  //   url: apiURL,
+  //   type: "get",
+  //   headers:
+  //       {
+  //         'Accept': 'application/json'
+  //       },
+  //   dataType: "json" // CORS 우회
+  // }).done(res => {
+  //   console.log("성공: ", res);
+  // }).fail(err => {
+  //   console.log("실패: ", err);
+  // });
+</script>
 </body>
 </html>
