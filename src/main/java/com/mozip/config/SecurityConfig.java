@@ -44,7 +44,7 @@ public class SecurityConfig {
 
         http.
                 authorizeHttpRequests(auth -> auth.requestMatchers("/auth/login", "/auth/join","/auth/findId","/auth/findPw", "/", "/project/show", "/member/**",
-                                                                "/api/**", "/project", "/project/**", "/css/**", "/js/**", "/img/**", "/upload/**").permitAll().
+                                                                "/api/**", "/project", "/project/**", "/css/**", "/js/**", "/img/**", "/upload/**","/job-search").permitAll().
                                                 requestMatchers("/member/edit/**", "/project/create", "/member/projectList/**").authenticated().
                                                 anyRequest().authenticated())
                 .csrf(config -> config.disable())
@@ -77,14 +77,15 @@ public class SecurityConfig {
     }
 
     @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        return request -> {
-            CorsConfiguration config = new CorsConfiguration();
-            config.setAllowedHeaders(Collections.singletonList("*"));
-            config.setAllowedMethods(Collections.singletonList("*"));
-            config.setAllowedOriginPatterns(Collections.singletonList("http://localhost:3000")); // 허용할 Origin URL
-            config.setAllowCredentials(true);
-            return config;
-        };
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("*"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Accept"));
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }

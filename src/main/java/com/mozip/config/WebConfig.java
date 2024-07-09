@@ -28,13 +28,4 @@ public class WebConfig implements WebMvcConfigurer {
                 .resourceChain(true) //true 로 설정.
                 .addResolver(new PathResourceResolver());
     }
-
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000") // 클라이언트의 도메인 주소
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                .allowedHeaders("*")
-                .allowCredentials(true);
-    }
 }
