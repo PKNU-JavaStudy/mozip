@@ -69,3 +69,6 @@ logging:
     com.mozip: DEBUG # 프로젝트 패키지 로깅 레벨 설정
     org.apache.ibatis.logging.stdout.StdOutImpl: DEBUG # MyBatis 로깅 레벨 설정
 
+saramin:
+  key: ${secrets.saramin.key}
+
