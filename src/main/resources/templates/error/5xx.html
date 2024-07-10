@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>500</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0; /* 배경색 설정 */
+        }
+
+        .error-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 30px;
+        }
+
+        .error-container img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        .error-container h3 {
+            font-size: 20px;
+            font-weight: 900;
+            margin-bottom: 10px;
+        }
+
+        .error-container p {
+            font-size: 17px;
+            font-weight: 600;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .error-container a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #7850ef; /* 링크 배경색 */
+            color: #fff;
+            text-decoration: none;
+            border-radius: 20px;
+            transition: background-color 0.3s;
+            font-size: 14px;
+        }
+
+        .error-container a:hover {
+            background-color: #5d3fb8; /* 링크 호버 배경색 */
+        }
+
+    </style>
+</head>
+<body>
+<div class="error-container">
+    <img src="/img/xx.png" alt="5xx 에러 이미지">
+    <h3>시스템 장애가 발생하였습니다.</h3>
+    <p>관리자에게 문의하세요.</p>
+    <a href="/">홈으로</a>
+</div>
+</body>
+</html>
