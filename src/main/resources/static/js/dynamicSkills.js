@@ -1,13 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
     const skillSelect = document.getElementById("skill");
-    const profileForm = document.getElementById("profile-form");
     const maxSkills = 6;
 
     skillSelect.addEventListener("change", () => {
         handleSelectChange(skillSelect, "skill-container");
     });
-
-    profileForm.addEventListener("submit", validateForm);
 
     function handleSelectChange(selectElement, containerId) {
         const selectedValue = selectElement.value;
@@ -58,9 +55,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // 셀렉트 박스 초기화
         selectElement.value = "all";
-    }
-
-    function validateForm(event) {
-        // 추가적인 폼 검증 로직을 여기에 추가
     }
 });
