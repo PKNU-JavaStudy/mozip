@@ -138,9 +138,9 @@
     </div>
     <div class="right-box">
       <div class="profile-box">
-        <div class="right-tag">
           <img th:src="@{|/upload/${showDetail.getOwnerInfo().getProfileImageUrl()}|}" alt="프로필이미지">
           <!--/*@thymesVar id="member" type=""*/-->
+        <div class="right-tag">
           <span class="work right" th:text="${showDetail.getOwnerInfo().getPosition()}">백엔드</span>
           <span class="career right" th:if="${showDetail.getOwnerInfo().getCareer() == 1}">학생/취준생</span>
           <span class="career right" th:if="${showDetail.getOwnerInfo().getCareer() == 2}">신입</span>
