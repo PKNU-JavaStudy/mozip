@@ -2,209 +2,217 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
-  <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-  <title>모집(mo.zip) - 멤버모집 작성</title>
-  <!-- font awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"/>
-  <!-- 직접 구현한 CSS -->
-  <link rel="stylesheet" th:href="@{/css/reset.css}"/>
-  <link rel="stylesheet" th:href="@{/css/common.css}"/>
-  <link rel="stylesheet" th:href="@{/css/index.css}"/>
-  <link rel="stylesheet" th:href="@{/css/create.css}"/>
-  <!-- js -->
-  <!-- jquery -->
-  <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-          crossorigin="anonymous"></script>
+    <meta charset="UTF-8"/>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>모집(mo.zip) - 멤버모집 작성</title>
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+          integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <!-- 직접 구현한 CSS -->
+    <link rel="stylesheet" th:href="@{/css/reset.css}"/>
+    <link rel="stylesheet" th:href="@{/css/common.css}"/>
+    <link rel="stylesheet" th:href="@{/css/index.css}"/>
+    <link rel="stylesheet" th:href="@{/css/create.css}"/>
+    <!-- js -->
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+            integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+            crossorigin="anonymous"></script>
 
-  <script defer th:src="@{/js/dynamicSkills.js}"></script>
-  <script th:src="@{/js/common.js}"></script>
-  <!-- favicon -->
-  <link rel="icon" th:href="@{/img/favicon.ico}">
+    <script defer th:src="@{/js/dynamicSkills.js}"></script>
+    <script th:src="@{/js/common.js}"></script>
+    <!-- favicon -->
+    <link rel="icon" th:href="@{/img/favicon.ico}">
 </head>
 <body>
 <header id="header">
-  <th:block th:replace="~{fragment/header}"></th:block>
+    <th:block th:replace="~{fragment/header}"></th:block>
 </header>
 <main>
-  <div class="wrap flex">
-    <div class="rc-input">
-      <form id="createProject">
-        <!--        <span class="pj-type pj">사이드 프로젝트</span>-->
-        <select name="projectType" class="project-type">
-          <option value="사이드 프로젝트">사이드 프로젝트</option>
-          <option value="스터디/모임">스터디/모임</option>
-        </select>
-        <input class="rc-title" type="text" name="projectName" placeholder="제목을 입력하세요" maxlength="50"/>
-        <div class="rc-summarize">
-          <p class="s-title">주제</p>
-          <textarea id="subject" name="subject" rows="1" cols="20" placeholder="주제를 한 줄 이내로 간단하게 작성해주세요."></textarea>
+    <div class="wrap flex">
+        <div class="rc-input">
+            <form id="createProject">
+                <!--        <span class="pj-type pj">사이드 프로젝트</span>-->
+                <!--글자수 역역을 위한 div 생성-->
+                <div class="head-title">
+                    <select name="projectType" class="project-type">
+                        <option value="사이드 프로젝트">사이드 프로젝트</option>
+                        <option value="스터디/모임">스터디/모임</option>
+                    </select>
+                    <span id="titleCount" class="maxlength">0/50</span>
+                </div>
+                <input id="titleInput" class="rc-title" type="text" name="projectName" placeholder="제목을 입력하세요"
+                       maxlength="50"/>
+                <div class="rc-summarize">
+                    <p class="c-title">주제<span id="subjectCount" class="maxlength">0/40</span></p>
+                    <textarea id="subject" name="subject" rows="1" cols="50"
+                              placeholder="주제를 한 줄 이내로 간단하게 작성해주세요." maxlength="40"></textarea>
+                </div>
+                <div class="cont-flex">
+                    <div>
+                        <label for="recruitCount" class="s-title">모집인원</label>
+                        <select name="recruitCount" id="recruitCount">
+                            <option value="0">인원 미정</option>
+                            <option value="1">1명</option>
+                            <option value="2">2명</option>
+                            <option value="3">3명</option>
+                            <option value="4">4명</option>
+                            <option value="5">5명</option>
+                            <option value="6">6명</option>
+                            <option value="7">7명</option>
+                            <option value="8">8명</option>
+                            <option value="9">9명</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="projectPurpose" class="s-title">수행목적</label>
+                        <select name="projectPurpose" id="projectPurpose">
+                            <option value="포트폴리오/직무 역량 강화">포트폴리오/직무 역량 강화</option>
+                            <option value="창업/수익 창출">창업/수익 창출</option>
+                            <option value="재미/네트워킹">재미/네트워킹</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="cont-flex">
+                    <div>
+                        <label for="projectTime" class="s-title">참여시간</label>
+                        <select name="projectTime" id="projectTime">
+                            <option value="1">매주 4시간 이하</option>
+                            <option value="2">매주 4 ~ 10시간</option>
+                            <option value="3">매주 10시간 이상</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="projectProcess" class="s-title">진행방식</label>
+                        <select name="projectProcess" id="projectProcess">
+                            <option value="온라인">온라인</option>
+                            <option value="오프라인">오프라인</option>
+                            <option value="온/오프라인">온/오프라인</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="cont-flex">
+                    <div>
+                        <label for="exceptDate" class="s-title">예상기간</label>
+                        <select name="exceptDate" id="exceptDate">
+                            <option value="1">1개월 이하</option>
+                            <option value="2">2개월</option>
+                            <option value="3">3개월</option>
+                            <option value="4">4개월</option>
+                            <option value="5">5개월</option>
+                            <option value="6">6개월</option>
+                            <option value="7">7개월</option>
+                            <option value="0">장기</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="exceptTime" class="s-title">시작예정</label>
+                        <input type="date" name="exceptTime" id="exceptTime">
+                    </div>
+                </div>
+                <div class="cont-flex">
+                    <div>
+                        <label for="skill" class="s-title">기술스택</label>
+                        <div class="select-programs" id="skill-container">
+                            <!--아이콘 들어가는 곳-->
+                        </div>
+                        <select id="skill">
+                            <option value="all">기술스택</option>
+                            <option value="AWS">AWS</option>
+                            <option value="Docker">Docker</option>
+                            <option value="Figma">Figma</option>
+                            <option value="Flutter">Flutter</option>
+                            <option value="Git">Git</option>
+                            <option value="Java">Java</option>
+                            <option value="JavaScript">JavaScript</option>
+                            <option value="Jest">Jest</option>
+                            <option value="Kotlin">Kotlin</option>
+                            <option value="MongoDb">MongoDb</option>
+                            <option value="MySQL">MySQL</option>
+                            <option value="Nodejs">Nodejs</option>
+                            <option value="php">php</option>
+                            <option value="Python">Python</option>
+                            <option value="React">React</option>
+                            <option value="ReactNative">ReactNative</option>
+                            <option value="Spring">Spring</option>
+                            <option value="Svelte">Svelte</option>
+                            <option value="TypeScript">TypeScript</option>
+                            <option value="Vue">Vue</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="role" class="s-title">모집분야</label>
+                        <div class="select-programs" id="role-container">
+                            <!--아이콘 들어가는 곳-->
+                        </div>
+                        <select id="role">
+                            <option value="all">전체</option>
+                            <option value="풀스택">풀스택</option>
+                            <option value="프론트엔드">프론트엔드</option>
+                            <option value="백엔드">백엔드</option>
+                            <option value="디자인">디자인</option>
+                            <option value="기획">기획</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="rc-project-info">
+                        <p class="c-title">소개<span id="infoCount" class="maxlength">0/500</span></p>
+                    <textarea id="infoInput" cols="40" rows="15" name="projectInfo" placeholder="프로젝트 소개글을 작성하세요." maxlength="500"></textarea>
+                </div>
+                <div class="open-modal btn-write">작성완료</div>
+                <!-- 모달창 -->
+                <div class="modal-bg"></div>
+                <div class="modal">
+                    <div class="modal-header">
+                        <a href="#" class="close-modal"><i class="fa-solid fa-xmark"></i></a>
+                    </div>
+                    <h3>모집글을 등록하시겠습니까?</h3>
+                    <div class="button-wrap">
+                        <button class="close-modal">돌아가기</button>
+                        <button class="submit-modal" type="button">
+                            등록하기
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
-        <div class="cont-flex">
-          <div>
-            <label for="recruitCount" class="s-title">모집인원</label>
-            <select name="recruitCount" id="recruitCount">
-              <option value="0">인원 미정</option>
-              <option value="1">1명</option>
-              <option value="2">2명</option>
-              <option value="3">3명</option>
-              <option value="4">4명</option>
-              <option value="5">5명</option>
-              <option value="6">6명</option>
-              <option value="7">7명</option>
-              <option value="8">8명</option>
-              <option value="9">9명</option>
-            </select>
-          </div>
-          <div>
-            <label for="projectPurpose" class="s-title">수행목적</label>
-            <select name="projectPurpose" id="projectPurpose">
-              <option value="포트폴리오/직무 역량 강화">포트폴리오/직무 역량 강화</option>
-              <option value="창업/수익 창출">창업/수익 창출</option>
-              <option value="재미/네트워킹">재미/네트워킹</option>
-            </select>
-          </div>
-        </div>
-        <div class="cont-flex">
-          <div>
-            <label for="projectTime" class="s-title">참여시간</label>
-            <select name="projectTime" id="projectTime">
-              <option value="1">매주 4시간 이하</option>
-              <option value="2">매주 4 ~ 10시간</option>
-              <option value="3">매주 10시간 이상</option>
-            </select>
-          </div>
-          <div>
-            <label for="projectProcess" class="s-title">진행방식</label>
-            <select name="projectProcess" id="projectProcess">
-              <option value="돈라인">온라인</option>
-              <option value="오프라인">오프라인</option>
-              <option value="온/오프라인">온/오프라인</option>
-            </select>
-          </div>
-        </div>
-        <div class="cont-flex">
-          <div>
-            <label for="exceptDate" class="s-title">예상기간</label>
-            <select name="exceptDate" id="exceptDate">
-              <option value="1">1개월 이하</option>
-              <option value="2">2개월</option>
-              <option value="3">3개월</option>
-              <option value="4">4개월</option>
-              <option value="5">5개월</option>
-              <option value="6">6개월</option>
-              <option value="7">7개월</option>
-              <option value="0">장기</option>
-            </select>
-          </div>
-          <div>
-            <label for="exceptTime" class="s-title">시작예정</label>
-            <input type="date" name="exceptTime" id="exceptTime">
-          </div>
-        </div>
-        <div class="cont-flex">
-          <div>
-            <label for="skill" class="s-title">기술스택</label>
-            <div class="select-programs" id="skill-container">
-              <!--아이콘 들어가는 곳-->
+        <div class="rc-info">
+            <div class="rc-title-info">
+                제목은 프로젝트를 직관적으로 알 수 있게<br/>
+                작성해주세요 (50자이내)
             </div>
-            <select id="skill">
-              <option value="all">기술스택</option>
-              <option value="AWS">AWS</option>
-              <option value="Docker">Docker</option>
-              <option value="Figma">Figma</option>
-              <option value="Flutter">Flutter</option>
-              <option value="Git">Git</option>
-              <option value="Java">Java</option>
-              <option value="JavaScript">JavaScript</option>
-              <option value="Jest">Jest</option>
-              <option value="Kotlin">Kotlin</option>
-              <option value="MongoDb">MongoDb</option>
-              <option value="MySQL">MySQL</option>
-              <option value="Nodejs">Nodejs</option>
-              <option value="php">php</option>
-              <option value="Python">Python</option>
-              <option value="React">React</option>
-              <option value="ReactNative">ReactNative</option>
-              <option value="Spring">Spring</option>
-              <option value="Svelte">Svelte</option>
-              <option value="TypeScript">TypeScript</option>
-              <option value="Vue">Vue</option>
-            </select>
-          </div>
-          <div>
-            <label for="role" class="s-title">모집분야</label>
-            <div class="select-programs" id="role-container">
-              <!--아이콘 들어가는 곳-->
+            <div class="rc-title-info summarize">
+                어떤 프로젝트인지 이해하기 쉽도록 명확하고 간결하게
+                요약해주세요(40자이내)
             </div>
-            <select id="role">
-              <option value="all">전체</option>
-              <option value="풀스택">풀스택</option>
-              <option value="프론트엔드">프론트엔드</option>
-              <option value="백엔드">백엔드</option>
-              <option value="디자인">디자인</option>
-              <option value="기획">기획</option>
-            </select>
-          </div>
+            <div class="advice">
+                <div class="advice-step1">
+                    ✅ 소개에는 이런 내용이 있으면 좋아요👇
+                </div>
+                <div class="advice-step2">
+                    <ul>
+                        <li>어떤 프로젝트인지</li>
+                        <li>프로젝트를 기획한 배경</li>
+                        <li>프로젝트 목적, 달성하고 싶은 목표</li>
+                        <li>모집하고 싶은 역할과 인원수</li>
+                        <li>프로젝트 진행 방식</li>
+                    </ul>
+                </div>
+                <div class="advice-step3">
+                    이미 진행 중인 프로젝트라면, 현재 구성원과 진행상황을 알려주세요
+                </div>
+            </div>
         </div>
-        <div class="rc-project-info">
-          <p class="s-title">소개</p>
-          <textarea cols="40" rows="15" name="projectInfo" placeholder="프로젝트 소개글을 작성하세요."></textarea>
-        </div>
-        <div class="open-modal btn-write">작성완료</div>
-        <!-- 모달창 -->
-        <div class="modal-bg"></div>
-        <div class="modal">
-          <div class="modal-header">
-            <a href="#" class="close-modal"><i class="fa-solid fa-xmark"></i></a>
-          </div>
-          <h3>모집글을 등록하시겠습니까?</h3>
-          <div class="button-wrap">
-            <button class="close-modal">돌아가기</button>
-            <button class="submit-modal" type="button">
-              등록하기
-            </button>
-          </div>
-        </div>
-      </form>
     </div>
-    <div class="rc-info">
-      <div class="rc-title-info">
-        제목은 프로젝트를 직관적으로 알 수 있게<br/>
-        작성해주세요 (50자이내)
-      </div>
-      <div class="rc-title-info summarize">
-        어떤 프로젝트인지 이해하기 쉽도록 명확하고 간결하게
-        요약해주세요(150자이내)
-      </div>
-      <div class="advice">
-        <div class="advice-step1">
-          ✅ 소개에는 이런 내용이 있으면 좋아요👇
-        </div>
-        <div class="advice-step2">
-          <ul>
-            <li>어떤 프로젝트인지</li>
-            <li>프로젝트를 기획한 배경</li>
-            <li>프로젝트 목적, 달성하고 싶은 목표</li>
-            <li>모집하고 싶은 역할과 인원수</li>
-            <li>프로젝트 진행 방식</li>
-          </ul>
-        </div>
-        <div class="advice-step3">
-          이미 진행 중인 프로젝트라면, 현재 구성원과 진행상황을 알려주세요
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="owner-id" th:if="${#authentication.getPrincipal()!='anonymousUser'}" th:text="${#authentication.getPrincipal().getMember().getId()}"
-       style="visibility: hidden"></div>
-  <footer>
-    <th:block th:replace="~{fragment/footer}"></th:block>
-  </footer>
+    <div class="owner-id" th:if="${#authentication.getPrincipal()!='anonymousUser'}"
+         th:text="${#authentication.getPrincipal().getMember().getId()}"
+         style="visibility: hidden"></div>
+    <footer>
+        <th:block th:replace="~{fragment/footer}"></th:block>
+    </footer>
 </main>
 <script defer th:src="@{/js/recruit_create.js}"></script>
 </body>

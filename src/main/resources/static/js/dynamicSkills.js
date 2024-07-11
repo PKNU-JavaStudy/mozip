@@ -1,15 +1,10 @@
-// 기술스택 동적으로 바꾸기
 document.addEventListener("DOMContentLoaded", () => {
     const skillSelect = document.getElementById("skill");
-    const roleSelect = document.getElementById("role");
     const profileForm = document.getElementById("profile-form");
+    const maxSkills = 6;
 
     skillSelect.addEventListener("change", () => {
         handleSelectChange(skillSelect, "skill-container");
-    });
-
-    roleSelect.addEventListener("change", () => {
-        handleSelectChange(roleSelect, "role-container");
     });
 
     profileForm.addEventListener("submit", validateForm);
@@ -21,21 +16,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (selectedValue === "all") return; // "전체" 또는 "기술스택 선택"은 처리하지 않음
 
+        const iconContainer = document.getElementById(containerId);
+        const currentCount = iconContainer.getElementsByClassName('selected-skill').length;
+
+        // 모집 기술스택 6개로 제한
+        if (currentCount >= maxSkills) {
+            alert("모집글의 최대 기술스택은 6개 입니다 !");
+            selectElement.value = "all";
+            return;
+        }
+
         // 기존 옵션 제거
         selectElement.remove(selectElement.selectedIndex);
 
         // 선택된 옵션을 컨테이너에 추가
-        const iconContainer = document.getElementById(containerId);
         const icon = document.createElement('div');
         icon.textContent = selectedText;
-        // containerId에 따라 클래스를 설정
-        if (containerId === "skill-container") {
-            icon.className = 'selected-skill';
-        } else if (containerId === "role-container") {
-            icon.className = 'selected-role';
-        }
+        icon.className = 'selected-skill';
         icon.id = selectedValue;
-        icon.textContent = selectedText;
 
         const removeBtn = document.createElement('span');
         removeBtn.className = 'remove-btn';
@@ -62,4 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
         selectElement.value = "all";
     }
 
+    function validateForm(event) {
+        // 추가적인 폼 검증 로직을 여기에 추가
+    }
 });

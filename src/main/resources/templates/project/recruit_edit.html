@@ -2,183 +2,201 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
-  <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-  <title>모집(mo.zip) - 멤버모집 작성</title>
-  <!-- font awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"/>
-  <!-- 직접 구현한 CSS -->
-  <link rel="stylesheet" th:href="@{/css/reset.css}"/>
-  <link rel="stylesheet" th:href="@{/css/common.css}"/>
-  <link rel="stylesheet" th:href="@{/css/index.css}"/>
-  <link rel="stylesheet" th:href="@{/css/create.css}"/>
-  <!-- js -->
-  <!-- jquery -->
-  <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-          crossorigin="anonymous"></script>
+    <meta charset="UTF-8"/>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>모집(mo.zip) - 멤버모집 작성</title>
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+          integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <!-- 직접 구현한 CSS -->
+    <link rel="stylesheet" th:href="@{/css/reset.css}"/>
+    <link rel="stylesheet" th:href="@{/css/common.css}"/>
+    <link rel="stylesheet" th:href="@{/css/index.css}"/>
+    <link rel="stylesheet" th:href="@{/css/create.css}"/>
+    <!-- js -->
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+            integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+            crossorigin="anonymous"></script>
 
-  <script defer th:src="@{/js/dynamicSkills.js}"></script>
-  <script th:src="@{/js/common.js}"></script>
-  <!-- favicon -->
-  <link rel="icon" th:href="@{/img/favicon.ico}">
+    <script defer th:src="@{/js/dynamicSkills.js}"></script>
+    <script th:src="@{/js/common.js}"></script>
+    <!-- favicon -->
+    <link rel="icon" th:href="@{/img/favicon.ico}">
 </head>
 <body>
 <header id="header">
-  <th:block th:replace="~{fragment/header}"></th:block>
+    <th:block th:replace="~{fragment/header}"></th:block>
 </header>
 <main>
-  <div class="wrap flex">
-    <div class="rc-input">
-      <form id="editProject">
-        <input name="id" style="display: none" th:value="${project.getId()}"/>
-        <select name="projectType" class="project-type">
-          <option th:value="'사이드 프로젝트'" th:text="'사이드 프로젝트'" th:selected="${project.getProjectType() == '사이드 프로젝트'}"></option>
-          <option th:value="'모집/스터디'" th:text="'모집/스터디'" th:selected="${project.getProjectType() == '모집/스터디'}"></option>
-        </select>
-        <input class="rc-title" name="projectName" th:value="${project.getProjectName()}" type="text" placeholder="제목을 입력하세요" maxlength="50"/>
-        <div class="rc-summarize">
-          <p class="s-title">주제</p>
-          <textarea id="subject" th:text="${project.getSubject()}" name="subject" rows="1" cols="20"
-                    placeholder="주제를 한 줄 이내로 간단하게 작성해주세요."></textarea>
+    <div class="wrap flex">
+        <div class="rc-input">
+            <form id="editProject">
+                <div class="head-title">
+                    <input name="id" style="display: none" th:value="${project.getId()}"/>
+                    <select name="projectType" class="project-type">
+                        <option th:value="'사이드 프로젝트'" th:text="'사이드 프로젝트'"
+                                th:selected="${project.getProjectType() == '사이드 프로젝트'}"></option>
+                        <option th:value="'모집/스터디'" th:text="'모집/스터디'"
+                                th:selected="${project.getProjectType() == '모집/스터디'}"></option>
+                    </select>
+                    <span id="titleCount" class="maxlength">0/50</span>
+                </div>
+                <input id="titleInput" class="rc-title" name="projectName" th:value="${project.getProjectName()}"
+                       type="text"
+                       placeholder="제목을 입력하세요" maxlength="50"/>
+                <div class="rc-summarize">
+                    <p class="c-title">주제<span id="subjectCount" class="maxlength">0/40</span></p>
+                    <textarea id="subject" name="subject" rows="1" cols="50"
+                              placeholder="주제를 한 줄 이내로 간단하게 작성해주세요." maxlength="40"></textarea>
+                </div>
+                <div class="cont-flex">
+                    <div>
+                        <label class="s-title">모집인원</label>
+                        <select name="recruitCount">
+                            <option th:value="0" th:selected="${project.getRecruitCount() == '0'}">인원 미정</option>
+                            <option th:value="1" th:selected="${project.getRecruitCount() == '1'}">1명</option>
+                            <option th:value="2" th:selected="${project.getRecruitCount() == '2'}">2명</option>
+                            <option th:value="3" th:selected="${project.getRecruitCount() == '3'}">3명</option>
+                            <option th:value="4" th:selected="${project.getRecruitCount() == '4'}">4명</option>
+                            <option th:value="5" th:selected="${project.getRecruitCount() == '5'}">5명</option>
+                            <option th:value="6" th:selected="${project.getRecruitCount() == '6'}">6명</option>
+                            <option th:value="7" th:selected="${project.getRecruitCount() == '7'}">7명</option>
+                            <option th:value="8" th:selected="${project.getRecruitCount() == '8'}">8명</option>
+                            <option th:value="9" th:selected="${project.getRecruitCount() == '9'}">9명</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="s-title">수행목적</label>
+                        <select name="projectPurpose">
+                            <option th:value="'포트폴리오/직무 역량 강화'"
+                                    th:selected="${project.getProjectPurpose()== '포트폴리오/직무 역량 강화'}"> 포트폴리오/직무 역량 강화
+                            </option>
+                            <option th:value="'창업/수익 창출'" th:selected="${project.getProjectPurpose()== '창업/수익 창출'}">
+                                창업/수익 창출
+                            </option>
+                            <option th:value="'재미/네트워킹'" th:selected="${project.getProjectPurpose()== '재미/네트워킹'}">
+                                재미/네트워킹
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="cont-flex">
+                    <div>
+                        <label class="s-title">참여시간</label>
+                        <select name="projectTime">
+                            <option th:value="1" th:selected="${project.getProjectTime() == '1'}">매주 4시간 이하</option>
+                            <option th:value="2" th:selected="${project.getProjectTime() == '2'}">매주 4 ~ 10시간</option>
+                            <option th:value="3" th:selected="${project.getProjectTime() == '3'}">매주 10시간 이상</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="s-title">진행방식</label>
+                        <select name="projectProcess">
+                            <option th:value="'온라인'" th:selected="${project.getProjectProcess() == '온라인'}">온라인</option>
+                            <option th:value="'오프라인'" th:selected="${project.getProjectProcess() == '오프라인'}">오프라인
+                            </option>
+                            <option th:value="'온/오프라인'" th:selected="${project.getProjectProcess() == '온/오프라인'}">
+                                온/오프라인
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="cont-flex">
+                    <div>
+                        <label class="s-title">예상기간</label>
+                        <select name="exceptDate">
+                            <option th:value="1" th:selected="${project.getExceptDate() == '1'}">1개월 이하</option>
+                            <option th:value="2" th:selected="${project.getExceptDate() == '2'}">2개월</option>
+                            <option th:value="3" th:selected="${project.getExceptDate() == '3'}">3개월</option>
+                            <option th:value="4" th:selected="${project.getExceptDate() == '4'}">4개월</option>
+                            <option th:value="5" th:selected="${project.getExceptDate() == '5'}">5개월</option>
+                            <option th:value="6" th:selected="${project.getExceptDate() == '6'}">6개월</option>
+                            <option th:value="7" th:selected="${project.getExceptDate() == '7'}">7개월</option>
+                            <option th:value="8" th:selected="${project.getExceptDate() == '8'}">장기</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="s-title">시작예정</label>
+                        <input type="date" name="exceptChangeTime" th:value="${project.getExceptChangeTime()}">
+                    </div>
+                </div>
+                <div class="cont-flex">
+                    <div>
+                        <label for="skill" class="s-title">기술스택</label>
+                        <div class="select-programs" id="skill-container">
+                        </div>
+                        <select id="skill">
+                            <option value="all">기술스택</option>
+                            <option value="AWS">AWS</option>
+                            <option value="Docker">Docker</option>
+                            <option value="Figma">Figma</option>
+                            <option value="Flutter">Flutter</option>
+                            <option value="Git">Git</option>
+                            <option value="Java">Java</option>
+                            <option value="JavaScript">JavaScript</option>
+                            <option value="Jest">Jest</option>
+                            <option value="Kotlin">Kotlin</option>
+                            <option value="MongoDb">MongoDb</option>
+                            <option value="MySQL">MySQL</option>
+                            <option value="Nodejs">Nodejs</option>
+                            <option value="php">php</option>
+                            <option value="Python">Python</option>
+                            <option value="React">React</option>
+                            <option value="ReactNative">ReactNative</option>
+                            <option value="Spring">Spring</option>
+                            <option value="Svelte">Svelte</option>
+                            <option value="TypeScript">TypeScript</option>
+                            <option value="Vue">Vue</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="role" class="s-title">모집분야</label>
+                        <div class="select-programs" id="role-container">
+                            <!--아이콘 들어가는 곳-->
+                        </div>
+                        <select id="role">
+                            <option value="all">전체</option>
+                            <option value="풀스택">풀스택</option>
+                            <option value="프론트엔드">프론트엔드</option>
+                            <option value="백엔드">백엔드</option>
+                            <option value="디자인">디자인</option>
+                            <option value="기획">기획</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="rc-project-info">
+                    <p class="c-title">소개<span id="infoCount" class="maxlength">0/500</span></p>
+                    <textarea id="infoInput" cols="40" rows="15" th:text="${project.getProjectInfo()}" name="projectInfo"
+                              placeholder="프로젝트 소개글을 작성하세요." maxlength="500"></textarea>
+                </div>
+                <button class="open-modal btn-write" type="button">수정완료</button>
+                <!-- 모달창 -->
+                <div class="modal-bg"></div>
+                <div class="modal">
+                    <div class="modal-header">
+                        <a href="#" class="close-modal"><i class="fa-solid fa-xmark"></i></a>
+                    </div>
+                    <h3>모집글을 수정하시겠습니까?</h3>
+                    <div class="button-wrap">
+                        <button class="close-modal">돌아가기</button>
+                        <button class="submit-modal">
+                            수정하기
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
-        <div class="cont-flex">
-          <div>
-            <label class="s-title">모집인원</label>
-            <select name="recruitCount">
-              <option th:value="0" th:selected="${project.getRecruitCount() == '0'}">인원 미정</option>
-              <option th:value="1" th:selected="${project.getRecruitCount() == '1'}">1명</option>
-              <option th:value="2" th:selected="${project.getRecruitCount() == '2'}">2명</option>
-              <option th:value="3" th:selected="${project.getRecruitCount() == '3'}">3명</option>
-              <option th:value="4" th:selected="${project.getRecruitCount() == '4'}">4명</option>
-              <option th:value="5" th:selected="${project.getRecruitCount() == '5'}">5명</option>
-              <option th:value="6" th:selected="${project.getRecruitCount() == '6'}">6명</option>
-              <option th:value="7" th:selected="${project.getRecruitCount() == '7'}">7명</option>
-              <option th:value="8" th:selected="${project.getRecruitCount() == '8'}">8명</option>
-              <option th:value="9" th:selected="${project.getRecruitCount() == '9'}">9명</option>
-            </select>
-          </div>
-          <div>
-            <label class="s-title">수행목적</label>
-            <select name="projectPurpose">
-              <option th:value="'포트폴리오/직무 역량 강화'" th:selected="${project.getProjectPurpose()== '포트폴리오/직무 역량 강화'}"> 포트폴리오/직무 역량 강화</option>
-              <option th:value="'창업/수익 창출'" th:selected="${project.getProjectPurpose()== '창업/수익 창출'}">창업/수익 창출</option>
-              <option th:value="'재미/네트워킹'" th:selected="${project.getProjectPurpose()== '재미/네트워킹'}">재미/네트워킹</option>
-            </select>
-          </div>
-        </div>
-        <div class="cont-flex">
-          <div>
-            <label class="s-title">참여시간</label>
-            <select name="projectTime">
-              <option th:value="1" th:selected="${project.getProjectTime() == '1'}">매주 4시간 이하</option>
-              <option th:value="2" th:selected="${project.getProjectTime() == '2'}">매주 4 ~ 10시간</option>
-              <option th:value="3" th:selected="${project.getProjectTime() == '3'}">매주 10시간 이상</option>
-            </select>
-          </div>
-          <div>
-            <label class="s-title">진행방식</label>
-            <select name="projectProcess">
-              <option th:value="'온라인'" th:selected="${project.getProjectProcess() == '온라인'}">온라인</option>
-              <option th:value="'오프라인'" th:selected="${project.getProjectProcess() == '오프라인'}">오프라인</option>
-              <option th:value="'온/오프라인'" th:selected="${project.getProjectProcess() == '온/오프라인'}">온/오프라인</option>
-            </select>
-          </div>
-        </div>
-        <div class="cont-flex">
-          <div>
-            <label class="s-title">예상기간</label>
-            <select name="exceptDate">
-              <option th:value="1" th:selected="${project.getExceptDate() == '1'}">1개월 이하</option>
-              <option th:value="2" th:selected="${project.getExceptDate() == '2'}">2개월</option>
-              <option th:value="3" th:selected="${project.getExceptDate() == '3'}">3개월</option>
-              <option th:value="4" th:selected="${project.getExceptDate() == '4'}">4개월</option>
-              <option th:value="5" th:selected="${project.getExceptDate() == '5'}">5개월</option>
-              <option th:value="6" th:selected="${project.getExceptDate() == '6'}">6개월</option>
-              <option th:value="7" th:selected="${project.getExceptDate() == '7'}">7개월</option>
-              <option th:value="8" th:selected="${project.getExceptDate() == '8'}">장기</option>
-            </select>
-          </div>
-          <div>
-            <label class="s-title">시작예정</label>
-            <input type="date" name="exceptChangeTime" th:value="${project.getExceptChangeTime()}">
-          </div>
-        </div>
-        <div class="cont-flex">
-          <div>
-            <label for="skill" class="s-title">기술스택</label>
-            <div class="select-programs" id="skill-container">
-            </div>
-            <select id="skill">
-              <option value="" selected disabled hidden>기술스택</option>
-              <option value="AWS">AWS</option>
-              <option value="Docker">Docker</option>
-              <option value="Figma">Figma</option>
-              <option value="Flutter">Flutter</option>
-              <option value="Git">Git</option>
-              <option value="Java">Java</option>
-              <option value="JavaScript">JavaScript</option>
-              <option value="Jest">Jest</option>
-              <option value="Kotlin">Kotlin</option>
-              <option value="MongoDb">MongoDb</option>
-              <option value="MySQL">MySQL</option>
-              <option value="Nodejs">Nodejs</option>
-              <option value="php">php</option>
-              <option value="Python">Python</option>
-              <option value="React">React</option>
-              <option value="ReactNative">ReactNative</option>
-              <option value="Spring">Spring</option>
-              <option value="Svelte">Svelte</option>
-              <option value="TypeScript">TypeScript</option>
-              <option value="Vue">Vue</option>
-            </select>
-          </div>
-          <div>
-            <label for="role" class="s-title">모집분야</label>
-            <div class="select-programs" id="role-container">
-              <!--아이콘 들어가는 곳-->
-            </div>
-            <select id="role">
-              <option value="all">전체</option>
-              <option value="풀스택">풀스택</option>
-              <option value="프론트엔드">프론트엔드</option>
-              <option value="백엔드">백엔드</option>
-              <option value="디자인">디자인</option>
-              <option value="기획">기획</option>
-            </select>
-          </div>
-        </div>
-        <div class="rc-project-info">
-          <p class="s-title">소개</p>
-          <textarea cols="40" rows="15" th:text="${project.getProjectInfo()}" name="projectInfo" placeholder="프로젝트 소개글을 작성하세요."></textarea>
-        </div>
-        <button class="open-modal btn-write" type="button">수정완료</button>
-        <!-- 모달창 -->
-        <div class="modal-bg"></div>
-        <div class="modal">
-          <div class="modal-header">
-            <a href="#" class="close-modal"><i class="fa-solid fa-xmark"></i></a>
-          </div>
-          <h3>모집글을 수정하시겠습니까?</h3>
-          <div class="button-wrap">
-            <button class="close-modal">돌아가기</button>
-            <button class="submit-modal">
-              수정하기
-            </button>
-          </div>
-        </div>
-      </form>
-    </div>
-    <div class="rc-info">
+        <div class="rc-info">
 
+        </div>
     </div>
-  </div>
 </main>
 <footer>
-  <th:block th:replace="~{fragment/footer}"></th:block>
+    <th:block th:replace="~{fragment/footer}"></th:block>
 </footer>
 <script defer th:src="@{/js/recruit_edit.js}"></script>
 </body>

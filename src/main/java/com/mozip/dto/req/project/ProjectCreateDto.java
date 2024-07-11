@@ -21,6 +21,7 @@ public class ProjectCreateDto {
     private String projectType;
 
     @NotBlank(message = "프로젝트 주제는 필수입니다!")
+    @Size(min = 5, max = 40, message = "프로젝트 주제는 최소 5글자, 최대 40글자 사이입니다.")
     private String subject;
 
     @NotBlank(message = "수행목적은 필수입니다!")
