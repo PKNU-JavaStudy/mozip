@@ -326,11 +326,6 @@ function handleKeyDown(event) {
 document.querySelector(".show-ipt").addEventListener('keydown', handleKeyDown);
 document.querySelector(".search-remove").addEventListener('click', clearSearch);
 
-// 페이지 로드 시 모든 프로젝트 로드
-$(document).ready(function () {
-    searchProjects();
-});
-
 // 사용자 프로젝트 리스트 가져오기
 function myProjectList(memberId) {
     if (memberId == 0)
