@@ -842,7 +842,7 @@ ul.stack-icon li:nth-child(3n) {
 .button-wrap .close-modal-back {
     /* 모집완료버튼 -> 돌아가기 버튼*/
     border: 1px solid var(--tag-bgcolor);
-    margin-bottom: 40px;
+    margin-bottom: 20px;
     justify-content: center;
     display: flex;
     align-items: center;

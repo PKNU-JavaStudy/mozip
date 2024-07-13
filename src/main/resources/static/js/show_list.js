@@ -253,7 +253,7 @@ function handleSelectFilter(event) {
     });
 }
 
-// 프로젝트 리스트 필터링
+// 프로젝트 자랑 검색
 function searchProjects(keyword = '') {
     $.ajax({
         url: "/api/show/search",

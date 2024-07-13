@@ -277,6 +277,7 @@
             type: "GET",
             data: {"keyword": keyword},
             success: function (response) {
+              $('.lists').empty();
                 if (response.data.length === 0) {
                     $('.lists').append('<p class="search-null">프로젝트가 존재하지 않습니다. 다시 검색해주세요.</p>');
                 } else {
@@ -311,23 +312,18 @@
     }
 
     function clearSearch() {
-        document.querySelector(".recruit-ipt").value = '';
-        searchProjects();
+      document.querySelector(".recruit-ipt").value = '';
+      searchProjects('');
     }
-    //
-    // function handleInput() {
-    //     searchProjects();
-    // }
 
     function handleKeyDown(event) {
-        if (event.key === 'Enter') {
-            searchProjects();
-        }
+      if (event.key === 'Enter') {
+        searchProjects(event.target.value);
+      }
     }
 
     // 이벤트 리스너 추가
-    // document.querySelector(".recruit-ipt").addEventListener('input', handleInput);
     document.querySelector(".recruit-ipt").addEventListener('keydown', handleKeyDown);
-    document.querySelector(".clear-button").addEventListener('click', clearSearch); // clear-button은 클리어 버튼의 클래스명입니다.
+    document.querySelector(".search-remove").addEventListener('click', clearSearch);
 </script>
 </html>
