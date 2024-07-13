@@ -92,13 +92,13 @@
 
     <!--  리스트페이지 : 모든 프로젝트  -->
     <select id="findAllProject" resultMap="recruitDtoMap">
---         SELECT ID, PROJECT_NAME, PROJECT_INFO, PROJECT_TYPE, VIEWS, STATUS, CREATED_AT
+        --         SELECT ID, PROJECT_NAME, PROJECT_INFO, PROJECT_TYPE, VIEWS, STATUS, CREATED_AT
 --         FROM PROJECT
 --         ORDER BY CREATED_AT DESC
         SELECT ID, PROJECT_NAME, PROJECT_INFO, PROJECT_TYPE, VIEWS, STATUS, CREATED_AT
         FROM PROJECT ORDERS
-        ORDER BY CREATED_AT DESC
-        LIMIT 10
+        WHERE IS_SHOW = 1
+        ORDER BY CREATED_AT DESC LIMIT 10
         OFFSET #{page}
     </select>
 
@@ -500,11 +500,18 @@
 
     <!--  멤버모집리스트 검색하기  -->
     <select id="searchProject" resultMap="recruitDtoMap">
-        SELECT P.ID, P.PROJECT_NAME, P.PROJECT_TYPE,
-               P.PROJECT_INFO, P.VIEWS, P.STATUS, P.CREATED_AT
+        SELECT P.ID,
+               P.PROJECT_NAME,
+               P.PROJECT_TYPE,
+               P.PROJECT_INFO,
+               P.VIEWS,
+               P.STATUS,
+               P.CREATED_AT
         FROM PROJECT P
-        WHERE P.PROJECT_NAME LIKE CONCAT('%', #{keyword}, '%')
-           OR P.PROJECT_INFO LIKE CONCAT('%', #{keyword}, '%')
+        WHERE (P.PROJECT_NAME LIKE CONCAT('%', #{keyword}, '%')
+            OR P.PROJECT_INFO LIKE CONCAT('%', #{keyword}, '%'))
+          AND IS_SHOW = 1
+
         ORDER BY CREATED_AT DESC
     </select>
 
@@ -530,6 +537,7 @@
         FROM PROJECT P
                  INNER JOIN RECRUIT_ROLE PR ON P.ID = PR.PROJECT_ID
         WHERE ROLE_NAME LIKE CONCAT('%', #{filter}, '%')
+          AND IS_SHOW = 1
         ORDER BY CREATED_AT DESC
     </select>
 
@@ -538,6 +546,7 @@
         SELECT ID
         FROM PROJECT
         WHERE STATUS = #{filter}
+          AND IS_SHOW = 1
         ORDER BY CREATED_AT DESC
     </select>
 
@@ -546,6 +555,7 @@
         SELECT ID
         FROM PROJECT
         WHERE PROJECT_TYPE = #{filter}
+          AND IS_SHOW = 1
         ORDER BY CREATED_AT DESC
     </select>
 
