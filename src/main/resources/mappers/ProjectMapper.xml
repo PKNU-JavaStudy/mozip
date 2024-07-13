@@ -92,13 +92,13 @@
 
     <!--  리스트페이지 : 모든 프로젝트  -->
     <select id="findAllProject" resultMap="recruitDtoMap">
---         SELECT ID, PROJECT_NAME, PROJECT_INFO, PROJECT_TYPE, VIEWS, STATUS, CREATED_AT
+        --         SELECT ID, PROJECT_NAME, PROJECT_INFO, PROJECT_TYPE, VIEWS, STATUS, CREATED_AT
 --         FROM PROJECT
 --         ORDER BY CREATED_AT DESC
         SELECT ID, PROJECT_NAME, PROJECT_INFO, PROJECT_TYPE, VIEWS, STATUS, CREATED_AT
         FROM PROJECT ORDERS
-        ORDER BY CREATED_AT DESC
-        LIMIT 10
+        WHERE IS_SHOW = 1
+        ORDER BY CREATED_AT DESC LIMIT 10
         OFFSET #{page}
     </select>
 
@@ -537,6 +537,7 @@
         FROM PROJECT P
                  INNER JOIN RECRUIT_ROLE PR ON P.ID = PR.PROJECT_ID
         WHERE ROLE_NAME LIKE CONCAT('%', #{filter}, '%')
+          AND IS_SHOW = 1
         ORDER BY CREATED_AT DESC
     </select>
 
@@ -545,6 +546,7 @@
         SELECT ID
         FROM PROJECT
         WHERE STATUS = #{filter}
+          AND IS_SHOW = 1
         ORDER BY CREATED_AT DESC
     </select>
 
@@ -553,6 +555,7 @@
         SELECT ID
         FROM PROJECT
         WHERE PROJECT_TYPE = #{filter}
+          AND IS_SHOW = 1
         ORDER BY CREATED_AT DESC
     </select>
 
