@@ -37,9 +37,12 @@ public class MemberService {
      */
     public List<NewMemberListDto> newMemberList() {
         List<NewMemberListDto> newMembers = memberRepository.newMemberList();
+        
         for (NewMemberListDto newMember : newMembers) {
             newMember.setInfo(newMember.getInfo());
-
+            System.out.println("==============");
+            System.out.println("newMember = " + newMember);
+            System.out.println("==============");
         }
         return newMembers;
     }

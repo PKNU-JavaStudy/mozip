@@ -32,13 +32,24 @@
         <result property="createdAt" column="CREATED_AT"/>
     </resultMap>
 
-    <select id="newMemberList" resultType="com.mozip.dto.resp.member.NewMemberListDto">
+    <resultMap id="newMember" type="com.mozip.dto.resp.member.NewMemberListDto">
+        <result property="id" column="ID"/>
+        <result property="username" column="USERNAME"/>
+        <result property="position" column="POSITION"/>
+        <result property="info" column="INFO"/>
+        <result property="profileImageUrl" column="PROFILE_IMAGE_URL"/>
+    </resultMap>
+
+    <select id="newMemberList" resultMap="newMember">
         <![CDATA[
-        SELECT ID, USERNAME, POSITION, INFO, PROFILE_IMAGE_URL
+        SELECT ID,
+               USERNAME,
+               POSITION,
+               INFO,
+               PROFILE_IMAGE_URL
         FROM MEMBER
         WHERE IS_MODIFY = 1
-        ORDER BY CREATED_AT DESC
-            LIMIT 6
+        ORDER BY CREATED_AT DESC LIMIT 6
         ]]>
     </select>
 
