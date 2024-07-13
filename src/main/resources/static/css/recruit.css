@@ -4,9 +4,11 @@
 .search-top {
     background-color: #6948ef;
     width: 100%;
+    padding: 20px 0;
+}
+.search-ipt{
     display: flex;
     justify-content: center;
-    padding: 20px 0;
 }
 
 .input-wrap {
@@ -16,7 +18,7 @@
     border: none;
     padding: 15px 15px 15px 40px;
     border-radius: 8px 0 0 8px;
-    width: 400px;
+    width: 460px;
     font-size: 1rem;
 }
 .input-wrap i {
@@ -30,8 +32,11 @@
     border: 1px solid #e6e6e6;
     width: 250px;
 }
+.search-top .wrap{
+    padding:0;
+}
 
-.search-top button {
+.search-btn {
     background-color: #000;
     padding: 14px 20px;
     border-radius: 0 8px 8px 0;
@@ -40,11 +45,30 @@
     font-size: 17px;
 }
 
+.reset-btn{
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 14px;
+    padding-bottom:6px;
+}
+.reset-btn i {
+    color:#fff;
+    font-size:14px;
+    padding-right:3px;
+}
+
 .recruit-list {
     background-color: #fff;
     border-radius: 10px;
     border: 1px solid #e6e6e6;
     padding: 30px 40px;
+}
+.recruit-left{
+    max-width:640px;
 }
 
 .recruit-top {
@@ -102,13 +126,18 @@
     display: flex;
 }
 .recruit-etc li {
-    font-size: 13px;
-    padding-right: 10px;
+    font-size: 12px;
+    padding-right: 7px;
     color: var(--gray-font);
     line-height: 1;
 }
 
-.recruit-etc li:nth-child(1) {
+.recruit-etc li:nth-child(8) {
     border-right: 1px solid var(--border-color);
     margin-right: 10px;
+}
+
+.recruit-etc li span {
+    font-weight:500;
+    font-size:12px;
 }

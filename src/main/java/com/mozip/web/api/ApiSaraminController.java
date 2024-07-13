@@ -21,7 +21,8 @@ public class ApiSaraminController {
                                      @RequestParam(value = "count", required = false) String count,
                                      @RequestParam(value = "job_mid_cd", required = false) String job_mid_cd,
                                      @RequestParam(value = "loc_cd", required = false, defaultValue = "") String loc_cd,
-                                     @RequestParam(value = "job_cd", required = false, defaultValue = "") String job_cd
+                                     @RequestParam(value = "job_cd", required = false, defaultValue = "") String job_cd,
+                                     @RequestParam(value = "fields") String fields
     ) {
         String url = "https://oapi.saramin.co.kr/job-search?access-key=" + key
                 + "&keywords=" + keywords
@@ -29,7 +30,8 @@ public class ApiSaraminController {
                 + "&count=" + count
                 + "&job_mid_cd=" + job_mid_cd
                 + "&loc_cd=" + loc_cd
-                + "&job_cd=" + job_cd;
+                + "&job_cd=" + job_cd
+                + "&fields=" + fields;
 
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
         return ResponseEntity.ok().body(response);

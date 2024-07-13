@@ -28,294 +28,298 @@
   <th:block th:replace="~{fragment/header}"></th:block>
 </header>
 <div class="search-top">
-  <div class="input-wrap">
-    <input id="searchText" type="text" placeholder="검색어 입력">
-    <i class="fa-solid fa-magnifying-glass"></i>
+  <div class="wrap">
+    <button onclick="reset()" class="reset-btn"><i class="fa-solid fa-rotate-right"></i>초기화</button>
+    <div class="search-ipt">
+      <div class="input-wrap">
+        <input id="searchText" type="text" placeholder="검색어 입력">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </div>
+      <select name="location" id="location">
+        <option value="117000" selected>전국</option>
+        <option value="101000">서울</option>
+        <option value="102000">경기</option>
+        <option value="103000">광주</option>
+        <option value="104000">대구</option>
+        <option value="105000">대전</option>
+        <option value="106000">부산</option>
+        <option value="107000">울산</option>
+        <option value="108000">인천</option>
+        <option value="109000">강원</option>
+        <option value="110000">경남</option>
+        <option value="111000">경북</option>
+        <option value="112000">전남</option>
+        <option value="113000">전북</option>
+        <option value="114000">충북</option>
+        <option value="115000">충남</option>
+        <option value="116000">제주</option>
+        <option value="118000">세종</option>
+      </select>
+      <select name="job" id="job">
+        <option value="" selected>전체</option>
+        <option value="2229"> SQA</option>
+        <option value="2239"> 보안관제</option>
+        <option value="2246"> BI 엔지니어</option>
+        <option value="2247"> 개발PM</option>
+        <option value="2248"> 데이터 사이언티스트</option>
+        <option value="2230"> 헬스케어</option>
+        <option value="2231"> 메타버스</option>
+        <option value="2249"> 클라이언트</option>
+        <option value="2250"> HTTP</option>
+        <option value="2251"> 암호화폐</option>
+        <option value="2252"> MMORPG</option>
+        <option value="2253"> Dapp</option>
+        <option value="2254"> DID</option>
+        <option value="2255"> 크로스플랫폼</option>
+        <option value="2256"> 루비온레일즈</option>
+        <option value="2232"> 풀스택</option>
+        <option value="2233"> Solidity</option>
+        <option value="2234"> 스마트컨트랙트</option>
+        <option value="80"> 게임개발</option>
+        <option value="103">검색엔진</option>
+        <option value="184">.NET</option>
+        <option value="81"> 기술지원</option>
+        <option value="104">네트워크</option>
+        <option value="185">그누보드</option>
+        <option value="82"> 데이터분석가</option>
+        <option value="105">데이터라벨링</option>
+        <option value="186">라즈베리파이</option>
+        <option value="83"> 데이터엔지니어</option>
+        <option value="106">데이터마이닝</option>
+        <option value="187">쉘스크립트</option>
+        <option value="84"> 백엔드/서버개발</option>
+        <option value="107">데이터시각화</option>
+        <option value="188">액션스크립트</option>
+        <option value="85"> 보안컨설팅</option>
+        <option value="108">딥러닝</option>
+        <option value="189">어셈블리</option>
+        <option value="86"> 앱개발</option>
+        <option value="109">머신러닝</option>
+        <option value="190">와이어샤크</option>
+        <option value="87"> 웹개발</option>
+        <option value="110">모델링</option>
+        <option value="191">파워빌더</option>
+        <option value="88"> 웹마스터</option>
+        <option value="111">모의해킹</option>
+        <option value="192">ABAP</option>
+        <option value="89"> 유지보수</option>
+        <option value="112">미들웨어</option>
+        <option value="193">AIX</option>
+        <option value="90"> 정보보안</option>
+        <option value="113">반응형웹</option>
+        <option value="194">Ajax</option>
+        <option value="91"> 퍼블리셔</option>
+        <option value="114">방화벽</option>
+        <option value="195">Android</option>
+        <option value="92"> 프론트엔드</option>
+        <option value="115">블록체인</option>
+        <option value="196">Angular</option>
+        <option value="93"> CISO</option>
+        <option value="116">빅데이터</option>
+        <option value="197">Apache</option>
+        <option value="94"> CPO</option>
+        <option value="117">빌링</option>
+        <option value="198">ArcGIS</option>
+        <option value="95"> DBA</option>
+        <option value="118">솔루션</option>
+        <option value="199">ASP</option>
+        <option value="96"> FAE</option>
+        <option value="119">스크립트</option>
+        <option value="200">ASP.NET</option>
+        <option value="97"> GM(게임운영)</option>
+        <option value="120">신경망</option>
+        <option value="201">AWS</option>
+        <option value="98"> IT컨설팅</option>
+        <option value="121">악성코드</option>
+        <option value="202">Azure</option>
+        <option value="99"> QA/테스터</option>
+        <option value="122">알고리즘</option>
+        <option value="203">Bootstrap</option>
+        <option value="100">SE(시스템엔지니어)</option>
+        <option value="123">영상처리</option>
+        <option value="204">C#</option>
+        <option value="101">SI개발</option>
+        <option value="124">웹표준·웹접근성</option>
+        <option value="205">C++</option>
+        <option value="102">ICT컨설팅</option>
+        <option value="125">음성인식</option>
+        <option value="206">C언어</option>
+        <option value="126">이미지프로세싱</option>
+        <option value="207">CentOS</option>
+        <option value="127">인프라</option>
+        <option value="208">COBOL</option>
+        <option value="128">임베디드</option>
+        <option value="209">CSS</option>
+        <option value="129">자율주행</option>
+        <option value="210">CSS3</option>
+        <option value="130">정보통신</option>
+        <option value="211">Delphi</option>
+        <option value="131">챗봇</option>
+        <option value="212">Directx</option>
+        <option value="132">취약점진단</option>
+        <option value="213">Django</option>
+        <option value="133">컴퓨터비전</option>
+        <option value="214">Docker</option>
+        <option value="134">크로스브라우징</option>
+        <option value="215">Eclipse</option>
+        <option value="135">크롤링</option>
+        <option value="216">ECMAScript</option>
+        <option value="136">클라우드</option>
+        <option value="217">ElasticStack</option>
+        <option value="137">텍스트마이닝</option>
+        <option value="218">Flask</option>
+        <option value="138">트러블슈팅</option>
+        <option value="219">FLEX</option>
+        <option value="139">펌웨어</option>
+        <option value="220">Flutter</option>
+        <option value="140">플러그인</option>
+        <option value="221">GCP</option>
+        <option value="141">핀테크</option>
+        <option value="222">Git</option>
+        <option value="142">API</option>
+        <option value="223">GoLang</option>
+        <option value="143">APM</option>
+        <option value="224">GraphQL</option>
+        <option value="144">AR(증강현실)</option>
+        <option value="225">Groovy</option>
+        <option value="145">DBMS</option>
+        <option value="226">Gulp</option>
+        <option value="146">DevOps</option>
+        <option value="227">Hadoop</option>
+        <option value="147">DLP</option>
+        <option value="228">HBase</option>
+        <option value="148">DW</option>
+        <option value="229">HTML</option>
+        <option value="149">ERP</option>
+        <option value="230">HTML5</option>
+        <option value="150">ETL</option>
+        <option value="231">IaaS</option>
+        <option value="151">FPGA</option>
+        <option value="232">iBATIS</option>
+        <option value="152">GIS</option>
+        <option value="233">Ionic</option>
+        <option value="153">H/W</option>
+        <option value="234">iOS</option>
+        <option value="154">IDC</option>
+        <option value="235">Java</option>
+        <option value="155">IIS</option>
+        <option value="236">Javascript</option>
+        <option value="156">IoT</option>
+        <option value="237">Jenkins</option>
+        <option value="157">ISMS</option>
+        <option value="238">JPA</option>
+        <option value="158">MCU</option>
+        <option value="239">jQuery</option>
+        <option value="159">Nginx</option>
+        <option value="240">JSP</option>
+        <option value="160">NLP(자연어처리)</option>
+        <option value="241">Kafka</option>
+        <option value="161">NLU(자연어이해)</option>
+        <option value="242">Keras</option>
+        <option value="162">OCR</option>
+        <option value="243">Kotlin</option>
+        <option value="163">OLAP</option>
+        <option value="244">Kubernetes</option>
+        <option value="164">RDBMS</option>
+        <option value="245">LabVIEW</option>
+        <option value="165">RPA</option>
+        <option value="246">Linux</option>
+        <option value="166">RTOS</option>
+        <option value="247">Logstash</option>
+        <option value="167">S/W</option>
+        <option value="248">Lucene</option>
+        <option value="168">SAP</option>
+        <option value="249">MacOS</option>
+        <option value="169">SDK</option>
+        <option value="250">MariaDB</option>
+        <option value="170">SOA</option>
+        <option value="251">Matlab</option>
+        <option value="171">STT</option>
+        <option value="252">Maven</option>
+        <option value="172">TTS</option>
+        <option value="253">MFC</option>
+        <option value="173">UTM</option>
+        <option value="254">MongoDB</option>
+        <option value="174">VDI</option>
+        <option value="255">MSSQL</option>
+        <option value="175">VMware</option>
+        <option value="256">MyBatis</option>
+        <option value="176">VoIP</option>
+        <option value="257">MySQL</option>
+        <option value="177">VPN</option>
+        <option value="258">Node.js</option>
+        <option value="178">VR(가상현실)</option>
+        <option value="259">NoSQL</option>
+        <option value="179">WCF</option>
+        <option value="260">Objective-C</option>
+        <option value="180">아키텍쳐</option>
+        <option value="261">OpenCV</option>
+        <option value="181">AI(인공지능)</option>
+        <option value="262">OpenGL</option>
+        <option value="182">Windows</option>
+        <option value="263">OracleDB</option>
+        <option value="183">인터페이스</option>
+        <option value="264">OSS</option>
+        <option value="265">PaaS</option>
+        <option value="266">Pandas</option>
+        <option value="267">Perl</option>
+        <option value="268">PHP</option>
+        <option value="269">PL/SQL</option>
+        <option value="270">PostgreSQL</option>
+        <option value="271">Pro-C</option>
+        <option value="272">Python</option>
+        <option value="273">Pytorch</option>
+        <option value="274">QGIS</option>
+        <option value="275">Qt</option>
+        <option value="276">R</option>
+        <option value="277">React</option>
+        <option value="278">React-Native</option>
+        <option value="279">ReactJS</option>
+        <option value="280">Redis</option>
+        <option value="281">Redux</option>
+        <option value="282">RestAPI</option>
+        <option value="283">Ruby</option>
+        <option value="284">SaaS</option>
+        <option value="285">SAS</option>
+        <option value="286">Scala</option>
+        <option value="287">Servlet</option>
+        <option value="288">Solaris</option>
+        <option value="289">Spark</option>
+        <option value="290">Splunk</option>
+        <option value="291">Spring</option>
+        <option value="292">SpringBoot</option>
+        <option value="293">SQL</option>
+        <option value="294">SQLite</option>
+        <option value="295">Storm</option>
+        <option value="296">Struts</option>
+        <option value="297">SVN</option>
+        <option value="298">Swift</option>
+        <option value="299">Sybase</option>
+        <option value="300">Tensorflow</option>
+        <option value="301">Tomcat</option>
+        <option value="302">TypeScript</option>
+        <option value="303">Ubuntu</option>
+        <option value="304">Unity</option>
+        <option value="305">Unix</option>
+        <option value="306">Unreal</option>
+        <option value="307">VB.NET</option>
+        <option value="308">Verilog</option>
+        <option value="309">Vert.x</option>
+        <option value="310">VisualBasic</option>
+        <option value="311">VisualC·C++</option>
+        <option value="312">Vue.js</option>
+        <option value="313">WAS</option>
+        <option value="314">WebGL</option>
+        <option value="315">Webpack</option>
+        <option value="316">WebRTC</option>
+        <option value="317">WPF</option>
+        <option value="318">XML</option>
+        <option value="319">아두이노</option>
+        <option value="320">임베디드리눅스</option>
+      </select>
+      <button onclick="getSaraminByFilter()" class="search-btn">검색</button>
+    </div>
   </div>
-  <select name="location" id="location">
-    <option value="117000" selected>전국</option>
-    <option value="101000">서울</option>
-    <option value="102000">경기</option>
-    <option value="103000">광주</option>
-    <option value="104000">대구</option>
-    <option value="105000">대전</option>
-    <option value="106000">부산</option>
-    <option value="107000">울산</option>
-    <option value="108000">인천</option>
-    <option value="109000">강원</option>
-    <option value="110000">경남</option>
-    <option value="111000">경북</option>
-    <option value="112000">전남</option>
-    <option value="113000">전북</option>
-    <option value="114000">충북</option>
-    <option value="115000">충남</option>
-    <option value="116000">제주</option>
-    <option value="118000">세종</option>
-  </select>
-  <select name="job" id="job">
-    <option value="" selected>전체</option>
-    <option value="2229"> SQA</option>
-    <option value="2239"> 보안관제</option>
-    <option value="2246"> BI 엔지니어</option>
-    <option value="2247"> 개발PM</option>
-    <option value="2248"> 데이터 사이언티스트</option>
-    <option value="2230"> 헬스케어</option>
-    <option value="2231"> 메타버스</option>
-    <option value="2249"> 클라이언트</option>
-    <option value="2250"> HTTP</option>
-    <option value="2251"> 암호화폐</option>
-    <option value="2252"> MMORPG</option>
-    <option value="2253"> Dapp</option>
-    <option value="2254"> DID</option>
-    <option value="2255"> 크로스플랫폼</option>
-    <option value="2256"> 루비온레일즈</option>
-    <option value="2232"> 풀스택</option>
-    <option value="2233"> Solidity</option>
-    <option value="2234"> 스마트컨트랙트</option>
-    <option value="80"> 게임개발</option>
-    <option value="103">검색엔진</option>
-    <option value="184">.NET</option>
-    <option value="81"> 기술지원</option>
-    <option value="104">네트워크</option>
-    <option value="185">그누보드</option>
-    <option value="82"> 데이터분석가</option>
-    <option value="105">데이터라벨링</option>
-    <option value="186">라즈베리파이</option>
-    <option value="83"> 데이터엔지니어</option>
-    <option value="106">데이터마이닝</option>
-    <option value="187">쉘스크립트</option>
-    <option value="84"> 백엔드/서버개발</option>
-    <option value="107">데이터시각화</option>
-    <option value="188">액션스크립트</option>
-    <option value="85"> 보안컨설팅</option>
-    <option value="108">딥러닝</option>
-    <option value="189">어셈블리</option>
-    <option value="86"> 앱개발</option>
-    <option value="109">머신러닝</option>
-    <option value="190">와이어샤크</option>
-    <option value="87"> 웹개발</option>
-    <option value="110">모델링</option>
-    <option value="191">파워빌더</option>
-    <option value="88"> 웹마스터</option>
-    <option value="111">모의해킹</option>
-    <option value="192">ABAP</option>
-    <option value="89"> 유지보수</option>
-    <option value="112">미들웨어</option>
-    <option value="193">AIX</option>
-    <option value="90"> 정보보안</option>
-    <option value="113">반응형웹</option>
-    <option value="194">Ajax</option>
-    <option value="91"> 퍼블리셔</option>
-    <option value="114">방화벽</option>
-    <option value="195">Android</option>
-    <option value="92"> 프론트엔드</option>
-    <option value="115">블록체인</option>
-    <option value="196">Angular</option>
-    <option value="93"> CISO</option>
-    <option value="116">빅데이터</option>
-    <option value="197">Apache</option>
-    <option value="94"> CPO</option>
-    <option value="117">빌링</option>
-    <option value="198">ArcGIS</option>
-    <option value="95"> DBA</option>
-    <option value="118">솔루션</option>
-    <option value="199">ASP</option>
-    <option value="96"> FAE</option>
-    <option value="119">스크립트</option>
-    <option value="200">ASP.NET</option>
-    <option value="97"> GM(게임운영)</option>
-    <option value="120">신경망</option>
-    <option value="201">AWS</option>
-    <option value="98"> IT컨설팅</option>
-    <option value="121">악성코드</option>
-    <option value="202">Azure</option>
-    <option value="99"> QA/테스터</option>
-    <option value="122">알고리즘</option>
-    <option value="203">Bootstrap</option>
-    <option value="100">SE(시스템엔지니어)</option>
-    <option value="123">영상처리</option>
-    <option value="204">C#</option>
-    <option value="101">SI개발</option>
-    <option value="124">웹표준·웹접근성</option>
-    <option value="205">C++</option>
-    <option value="102">ICT컨설팅</option>
-    <option value="125">음성인식</option>
-    <option value="206">C언어</option>
-    <option value="126">이미지프로세싱</option>
-    <option value="207">CentOS</option>
-    <option value="127">인프라</option>
-    <option value="208">COBOL</option>
-    <option value="128">임베디드</option>
-    <option value="209">CSS</option>
-    <option value="129">자율주행</option>
-    <option value="210">CSS3</option>
-    <option value="130">정보통신</option>
-    <option value="211">Delphi</option>
-    <option value="131">챗봇</option>
-    <option value="212">Directx</option>
-    <option value="132">취약점진단</option>
-    <option value="213">Django</option>
-    <option value="133">컴퓨터비전</option>
-    <option value="214">Docker</option>
-    <option value="134">크로스브라우징</option>
-    <option value="215">Eclipse</option>
-    <option value="135">크롤링</option>
-    <option value="216">ECMAScript</option>
-    <option value="136">클라우드</option>
-    <option value="217">ElasticStack</option>
-    <option value="137">텍스트마이닝</option>
-    <option value="218">Flask</option>
-    <option value="138">트러블슈팅</option>
-    <option value="219">FLEX</option>
-    <option value="139">펌웨어</option>
-    <option value="220">Flutter</option>
-    <option value="140">플러그인</option>
-    <option value="221">GCP</option>
-    <option value="141">핀테크</option>
-    <option value="222">Git</option>
-    <option value="142">API</option>
-    <option value="223">GoLang</option>
-    <option value="143">APM</option>
-    <option value="224">GraphQL</option>
-    <option value="144">AR(증강현실)</option>
-    <option value="225">Groovy</option>
-    <option value="145">DBMS</option>
-    <option value="226">Gulp</option>
-    <option value="146">DevOps</option>
-    <option value="227">Hadoop</option>
-    <option value="147">DLP</option>
-    <option value="228">HBase</option>
-    <option value="148">DW</option>
-    <option value="229">HTML</option>
-    <option value="149">ERP</option>
-    <option value="230">HTML5</option>
-    <option value="150">ETL</option>
-    <option value="231">IaaS</option>
-    <option value="151">FPGA</option>
-    <option value="232">iBATIS</option>
-    <option value="152">GIS</option>
-    <option value="233">Ionic</option>
-    <option value="153">H/W</option>
-    <option value="234">iOS</option>
-    <option value="154">IDC</option>
-    <option value="235">Java</option>
-    <option value="155">IIS</option>
-    <option value="236">Javascript</option>
-    <option value="156">IoT</option>
-    <option value="237">Jenkins</option>
-    <option value="157">ISMS</option>
-    <option value="238">JPA</option>
-    <option value="158">MCU</option>
-    <option value="239">jQuery</option>
-    <option value="159">Nginx</option>
-    <option value="240">JSP</option>
-    <option value="160">NLP(자연어처리)</option>
-    <option value="241">Kafka</option>
-    <option value="161">NLU(자연어이해)</option>
-    <option value="242">Keras</option>
-    <option value="162">OCR</option>
-    <option value="243">Kotlin</option>
-    <option value="163">OLAP</option>
-    <option value="244">Kubernetes</option>
-    <option value="164">RDBMS</option>
-    <option value="245">LabVIEW</option>
-    <option value="165">RPA</option>
-    <option value="246">Linux</option>
-    <option value="166">RTOS</option>
-    <option value="247">Logstash</option>
-    <option value="167">S/W</option>
-    <option value="248">Lucene</option>
-    <option value="168">SAP</option>
-    <option value="249">MacOS</option>
-    <option value="169">SDK</option>
-    <option value="250">MariaDB</option>
-    <option value="170">SOA</option>
-    <option value="251">Matlab</option>
-    <option value="171">STT</option>
-    <option value="252">Maven</option>
-    <option value="172">TTS</option>
-    <option value="253">MFC</option>
-    <option value="173">UTM</option>
-    <option value="254">MongoDB</option>
-    <option value="174">VDI</option>
-    <option value="255">MSSQL</option>
-    <option value="175">VMware</option>
-    <option value="256">MyBatis</option>
-    <option value="176">VoIP</option>
-    <option value="257">MySQL</option>
-    <option value="177">VPN</option>
-    <option value="258">Node.js</option>
-    <option value="178">VR(가상현실)</option>
-    <option value="259">NoSQL</option>
-    <option value="179">WCF</option>
-    <option value="260">Objective-C</option>
-    <option value="180">아키텍쳐</option>
-    <option value="261">OpenCV</option>
-    <option value="181">AI(인공지능)</option>
-    <option value="262">OpenGL</option>
-    <option value="182">Windows</option>
-    <option value="263">OracleDB</option>
-    <option value="183">인터페이스</option>
-    <option value="264">OSS</option>
-    <option value="265">PaaS</option>
-    <option value="266">Pandas</option>
-    <option value="267">Perl</option>
-    <option value="268">PHP</option>
-    <option value="269">PL/SQL</option>
-    <option value="270">PostgreSQL</option>
-    <option value="271">Pro-C</option>
-    <option value="272">Python</option>
-    <option value="273">Pytorch</option>
-    <option value="274">QGIS</option>
-    <option value="275">Qt</option>
-    <option value="276">R</option>
-    <option value="277">React</option>
-    <option value="278">React-Native</option>
-    <option value="279">ReactJS</option>
-    <option value="280">Redis</option>
-    <option value="281">Redux</option>
-    <option value="282">RestAPI</option>
-    <option value="283">Ruby</option>
-    <option value="284">SaaS</option>
-    <option value="285">SAS</option>
-    <option value="286">Scala</option>
-    <option value="287">Servlet</option>
-    <option value="288">Solaris</option>
-    <option value="289">Spark</option>
-    <option value="290">Splunk</option>
-    <option value="291">Spring</option>
-    <option value="292">SpringBoot</option>
-    <option value="293">SQL</option>
-    <option value="294">SQLite</option>
-    <option value="295">Storm</option>
-    <option value="296">Struts</option>
-    <option value="297">SVN</option>
-    <option value="298">Swift</option>
-    <option value="299">Sybase</option>
-    <option value="300">Tensorflow</option>
-    <option value="301">Tomcat</option>
-    <option value="302">TypeScript</option>
-    <option value="303">Ubuntu</option>
-    <option value="304">Unity</option>
-    <option value="305">Unix</option>
-    <option value="306">Unreal</option>
-    <option value="307">VB.NET</option>
-    <option value="308">Verilog</option>
-    <option value="309">Vert.x</option>
-    <option value="310">VisualBasic</option>
-    <option value="311">VisualC·C++</option>
-    <option value="312">Vue.js</option>
-    <option value="313">WAS</option>
-    <option value="314">WebGL</option>
-    <option value="315">Webpack</option>
-    <option value="316">WebRTC</option>
-    <option value="317">WPF</option>
-    <option value="318">XML</option>
-    <option value="319">아두이노</option>
-    <option value="320">임베디드리눅스</option>
-  </select>
-  <button onclick="getSaraminByFilter()">검색</button>
-  <button onclick="reset()">초기화</button>
 </div>
 <div class="wrap">
   <div class="recruit-list">
@@ -356,7 +360,7 @@
   });
 
   function getSaramin() {
-    const apiURL = `http://localhost:8082/job-search?start=${page}&count=10&job_mid_cd=2`
+    const apiURL = `http://localhost:8082/job-search?start=${page}&count=10&job_mid_cd=2&fields=posting-date`
 
     $.ajax({
       url: apiURL,
@@ -371,35 +375,45 @@
       if (data.code == 4)
         alert(data.message);
       else {
-
         let jobs = data.jobs.job; // 실제 응답데이터(List형태)
         total = parseInt(data.jobs.total);
-        $('.total-data').text(`총 ${data.jobs.total}건`)
+        $('.total-data').text(`총 ${data.jobs.total}건`);
 
         jobs.forEach(job => {
-          $(".saramin").append(
-              `
-            <a class="recruit-item" href="${job.url}" target="_blank">
-              <div class="recruit-left">
-                <h5 class="recruit-title">${job.position.title}</h5>
-                <ul class="recruit-info">
-                  <li>${job.position.location.name}</li>
-                  <li>${job.position['experience-level'].name}</li>
-                  <li>${job.position['required-education-level'].name}<i class="fa-solid fa-arrow-up"></i></li>
-                  <li>${job.position['job-type'].name}</li>
-                </ul>
-                <ul class="recruit-etc">
-                  <li>${job.position['job-code'].name}</li>
-                  <li>등록일 ${job.position['posting-timestamp']}</li>
-                </ul>
-              </div>
-              <div class="recruit-right">
-                <h4>${job.company.detail.name}</h4>
-              </div>
-            </a>
-            `
-          );
-        })
+          let jobCodeNames = job.position['job-code'] ? job.position['job-code'].name : '';
+          let jobPostingDate = job['posting-date'];
+          let PostingDateArray = jobPostingDate.split("T");
+          let jobLocationName = job.position.location.name;
+          let LocationNameArray = jobLocationName.split(",");
+
+          if (jobCodeNames) {
+            let jobCodesArray = jobCodeNames.split(",");
+            let JobCodes = jobCodesArray.slice(0, 8);
+
+            $(".saramin").append(
+                    `
+                        <a class="recruit-item" href="${job.url}" target="_blank">
+                          <div class="recruit-left">
+                            <h5 class="recruit-title">${job.position.title}</h5>
+                            <ul class="recruit-info">
+                              <li>${LocationNameArray[0]}</li>
+                              <li>${job.position['experience-level'].name}</li>
+                              <li>${job.position['required-education-level'].name}<i class="fa-solid fa-arrow-up"></i></li>
+                              <li>${job.position['job-type'].name}</li>
+                            </ul>
+                            <ul class="recruit-etc">
+                              ${JobCodes.map(name => `<li>${name}</li>`).join('')}
+                              <li><span>등록일</span> ${PostingDateArray[0]}</li>
+                            </ul>
+                          </div>
+                          <div class="recruit-right">
+                            <h4>${job.company.detail.name}</h4>
+                          </div>
+                        </a>
+                        `
+            );
+          }
+        });
       }
     }).fail(err => {
       console.log("실패: ", err);
@@ -412,7 +426,7 @@
     search = $("#searchText").val();
 
     const apiURL =
-        `http://localhost:8082/job-search?keywords=${search}&loc_cd=${selectedLoc}&start=${filterPage}&count=10&job_mid_cd=2&job_cd=${selectedSkill}`
+            `http://localhost:8082/job-search?keywords=${search}&loc_cd=${selectedLoc}&start=${filterPage}&count=10&job_mid_cd=2&job_cd=${selectedSkill}&fields=posting-date`
 
     $.ajax({
       url: apiURL,
@@ -433,28 +447,36 @@
         if (filterPage == 0)
           $(".saramin").empty();
         jobs.forEach(job => {
-          $(".saramin").append(
-              `
-            <a class="recruit-item" href="${job.url}" target="_blank">
-              <div class="recruit-left">
-                <h5 class="recruit-title">${job.position.title}</h5>
-                <ul class="recruit-info">
-                  <li>${job.position.location.name}</li>
-                  <li>${job.position['experience-level'].name}</li>
-                  <li>${job.position['required-education-level'].name}<i class="fa-solid fa-arrow-up"></i></li>
-                  <li>${job.position['job-type'].name}</li>
-                </ul>
-                <ul class="recruit-etc">
-                  <li>${job.position['job-code'].name}</li>
-                  <li>등록일 ${job.position['posting-timestamp']}</li>
-                </ul>
-              </div>
-              <div class="recruit-right">
-                <h4>${job.company.detail.name}</h4>
-              </div>
-            </a>
+          let jobCodeNames = job.position['job-code'] ? job.position['job-code'].name : '';
+          let jobPostingDate = job['posting-date'];
+          let PostingDateArray = jobPostingDate.split("T");
+
+          if (jobCodeNames) {
+            let jobCodesArray = jobCodeNames.split(",");
+            let JobCodes = jobCodesArray.slice(0, 8);
+            $(".saramin").append(
+                    `
+                        <a class="recruit-item" href="${job.url}" target="_blank">
+                          <div class="recruit-left">
+                            <h5 class="recruit-title">${job.position.title}</h5>
+                            <ul class="recruit-info">
+                              <li>${job.position.location.name}</li>
+                              <li>${job.position['experience-level'].name}</li>
+                              <li>${job.position['required-education-level'].name}<i class="fa-solid fa-arrow-up"></i></li>
+                              <li>${job.position['job-type'].name}</li>
+                            </ul>
+                            <ul class="recruit-etc">
+                              ${JobCodes.map(name => `<li>${name}</li>`).join('')}
+                              <li><span>등록일</span> ${PostingDateArray[0]}</li>
+                            </ul>
+                          </div>
+                          <div class="recruit-right">
+                            <h4>${job.company.detail.name}</h4>
+                          </div>
+                        </a>
             `
-          );
+            );
+          }
         })
       }
     }).fail(err => {
