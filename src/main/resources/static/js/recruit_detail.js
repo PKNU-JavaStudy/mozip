@@ -10,10 +10,10 @@ function projectJoin(projectId) {
         if (item.textContent === loginMemberId)
             logicCheck = 1;
     });
-    alert("isModify : " + isModify);
+
     if (logicCheck == 1)
         alert("이미 신청하셨습니다 !");
-    else if(isModify == '0')
+    else if(isModify == 0)
         alert("회원정보 수정이 필요합니다!");
     else {
         // 신청한 유저가 아니면 아래 로직이 실행됨.

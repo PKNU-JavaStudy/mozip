@@ -1,5 +1,7 @@
 package com.mozip.config;
 
+import com.mozip.domain.member.Role;
+import com.mozip.handler.RoleTypeHandler;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -20,13 +22,17 @@ public class MyBatisConfig {
         SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
         org.apache.ibatis.session.Configuration config = new org.apache.ibatis.session.Configuration();
         config.setMapUnderscoreToCamelCase(true);
-        sessionFactory.setConfiguration(config);
         sessionFactory.setDataSource(dataSource);
 
         // MyBatis 로그 설정
-        org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuration();
-        configuration.setLogImpl(org.apache.ibatis.logging.stdout.StdOutImpl.class);
-        sessionFactory.setConfiguration(configuration);
+        config = new org.apache.ibatis.session.Configuration();
+        config.setLogImpl(org.apache.ibatis.logging.stdout.StdOutImpl.class);
+
+        // ROLE 타입 핸들러
+        config.getTypeHandlerRegistry().register(Role.class, RoleTypeHandler.class);
+
+
+        sessionFactory.setConfiguration(config);
 
         sessionFactory
                 .setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mappers/*.xml"));

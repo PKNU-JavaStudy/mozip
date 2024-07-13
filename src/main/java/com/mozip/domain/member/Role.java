@@ -11,4 +11,13 @@ public enum Role {
     }
 
     private String value;
+
+    public static Role fromValue(String value) {
+        for (Role role : Role.values()) {
+            if (role.getValue().equals(value)) {
+                return role;
+            }
+        }
+        throw new IllegalArgumentException("No enum constant for value: " + value);
+    }
 }

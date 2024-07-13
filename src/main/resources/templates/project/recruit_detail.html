@@ -254,7 +254,7 @@
 </th:block>
 <!-- 사용자 수정 여부 -->
 <th:block th:if="${#authentication.getPrincipal()!='anonymousUser'}">
-  <div class="is-modify" th:text="${#authentication.getPrincipal().getMember().getIsModify()}"></div>
+  <div class="is-modify" th:text="${#authentication.getPrincipal().getMember().getIsModify()}" style="display: none"></div>
 </th:block>
 <footer>
   <th:block th:replace="~{fragment/footer}"></th:block>
