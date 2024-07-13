@@ -500,11 +500,18 @@
 
     <!--  멤버모집리스트 검색하기  -->
     <select id="searchProject" resultMap="recruitDtoMap">
-        SELECT P.ID, P.PROJECT_NAME, P.PROJECT_TYPE,
-               P.PROJECT_INFO, P.VIEWS, P.STATUS, P.CREATED_AT
+        SELECT P.ID,
+               P.PROJECT_NAME,
+               P.PROJECT_TYPE,
+               P.PROJECT_INFO,
+               P.VIEWS,
+               P.STATUS,
+               P.CREATED_AT
         FROM PROJECT P
-        WHERE P.PROJECT_NAME LIKE CONCAT('%', #{keyword}, '%')
-           OR P.PROJECT_INFO LIKE CONCAT('%', #{keyword}, '%')
+        WHERE (P.PROJECT_NAME LIKE CONCAT('%', #{keyword}, '%')
+            OR P.PROJECT_INFO LIKE CONCAT('%', #{keyword}, '%'))
+          AND IS_SHOW = 1
+
         ORDER BY CREATED_AT DESC
     </select>
 
