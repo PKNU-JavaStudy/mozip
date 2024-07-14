@@ -40,9 +40,6 @@ public class MemberService {
         
         for (NewMemberListDto newMember : newMembers) {
             newMember.setInfo(newMember.getInfo());
-            System.out.println("==============");
-            System.out.println("newMember = " + newMember);
-            System.out.println("==============");
         }
         return newMembers;
     }

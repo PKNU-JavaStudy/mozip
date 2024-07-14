@@ -347,7 +347,7 @@ public class ProjectService {
         ProjectEditDto project = projectRepository.findProjectEditDetail(projectId);
         project.setSkills(projectRepository.findProjectSkills(projectId));
         project.setRecruitRole(projectRepository.findRecruitRoles(projectId));
-//        project.setProjectInfo(project.getProjectInfo());
+        project.setProjectInfo(project.getProjectInfo().replaceAll("<br\\s*/?>", "\n"));
         // LocalDateTime -> String 변환
         project.setExceptChangeTime(Util.formatTimestamp(project.getExceptTime()));
 
