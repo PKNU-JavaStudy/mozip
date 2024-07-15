@@ -1,3 +1,13 @@
+// 공유하기 버튼
+function copyToClipboard() {
+    const url = window.location.href;
+    navigator.clipboard.writeText(url).then(() => {
+        alert('URL이 클립보드에 복사되었습니다 !');
+    }).catch(err => {
+        console.error('URL 복사 실패: ', err);
+    });
+}
+
 // 프로젝트 참여신청
 function projectJoin(projectId) {
     // 현재 로그인한 유저의 ID

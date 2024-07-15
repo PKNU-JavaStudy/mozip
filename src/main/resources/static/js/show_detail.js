@@ -1,3 +1,13 @@
+// 공유하기 버튼
+function copyToClipboard() {
+    const url = window.location.href;
+    navigator.clipboard.writeText(url).then(() => {
+        alert('URL이 클립보드에 복사되었습니다 !');
+    }).catch(err => {
+        console.error('URL 복사 실패: ', err);
+    });
+}
+
 // 좋아요 수 실시간으로 증감하는 로직(비동기 방식)
 function projectLike(projectId) {
     let memberId = document.querySelector(".loginMember").textContent;
