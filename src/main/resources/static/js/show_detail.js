@@ -1,4 +1,4 @@
-// 공유하기 버튼
+// 공유하기
 function copyToClipboard() {
     const url = window.location.href;
 
