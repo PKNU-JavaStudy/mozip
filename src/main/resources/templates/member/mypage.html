@@ -14,7 +14,6 @@
   <link rel="stylesheet" th:href="@{/css/reset.css}"/>
   <link rel="stylesheet" th:href="@{/css/common.css}"/>
   <link rel="stylesheet" th:href="@{/css/mypage.css}"/>
-
   <script th:src="@{/js/common.js}"></script>
   <!-- favicon -->
   <link rel="icon" th:href="@{/img/favicon.ico}">
@@ -39,8 +38,8 @@
         <span class="career" th:if="${member.career == 4}">3 ~ 5년차</span>
         <span class="career" th:if="${member.career == 5}">5년차 이상</span>
         <h1 th:text="${member.name}">한지수</h1>
-        <p id="text-input" th:text="${member.info != null and member.info != '' ? member.info : '마이페이지에서 수정해주세요!'}">안녕하세요 프론트 개발자 이윤지입니다. 안녕하세요 프론트 개발자 이윤지입니다. 안녕하세요 프론트 개발자 이윤지입니다. 안녕하세요 프론트 개발자
-          이윤지입니다. 안녕하세요 프론트 개발자 이윤지입니다.안녕하세요 프론트 개발자 이윤지입니다. 안녕하세요 프론트 개발자 이윤지입니다.</p>
+        <p id="text-input" th:text="${member.info != null and member.info != '' ? member.info : '마이페이지에서 수정해주세요!'}">안녕하세요 프론트 개발자 이윤지입니다. 안녕하세요 프론트 개발자 이윤지입니다. 안녕하세요 프론트 개발자 이윤지입니다. 안녕하세요 프론트 개발자 이윤지입니다. 안녕하세요 프론트 개발자 이윤지입니다.안녕하세요 프론트 개발자 이윤지입니다.
+          안녕하세요 프론트 개발자 이윤지입니다.</p>
       </div>
       <div class="container">
         <div class="skills-section">
@@ -74,11 +73,6 @@
       <div class="make-pj">
         <div class="header-flex">
           <h2>📄 내가 만든 프로젝트 <span class="highlight" th:text="${member.getMyProjectList().size()}">2</span></h2>
-          <select class="dropdown">
-            <option>모집중</option>
-            <option>모집완료</option>
-            <option>프로젝트 자랑</option>
-          </select>
         </div>
         <div class="notproject" th:if="${member.getMyProjectList().size() == 0}">
           <p><i class="fa-solid fa-circle-exclamation"></i> 작성한 프로젝트가 아직 없습니다</p>
@@ -91,39 +85,38 @@
             <span class="time-commitment" th:if="${project.projectTime == 3}">주 10시간 이상</span>
           </div>
           <p class="title">
-            <strong class="state-ing" th:text="${project.getStatus() == 1 ? '모집 중' : '모집완료'}">모집 중</strong><span th:text="${project.projectName}">엘리스 SW 4기
-            모집합니다!</span>
+            <strong class="state-ing" th:text="${project.getStatus() == 1 ? '모집 중' : '모집완료'}">모집 중</strong><span th:text="${project.projectName}">엘리스 SW 4기 모집합니다!</span>
           </p>
           <span class="date" th:text="${project.createdAt}">2024년 4월 30일 오후 3:50:44</span>
         </a>
-
       </div>
 
       <div class="keep">
         <div class="header-flex">
           <h2>🏷️ 북마크한 글 <span class="highlight" th:text="${member.getBookmarks().size()}">4</span></h2>
-          <select class="dropdown">
-            <option>모집중</option>
-            <option>모집완료</option>
-            <option>프로젝트 자랑</option>
+          <select class="dropdown" onchange="handleBookmarkFilter(event)">
+            <option value="all">전체</option>
+            <option value="1">모집중</option>
+            <option value="0">모집완료</option>
           </select>
         </div>
-        <div class="notproject" th:if="${member.getBookmarks().size() == 0}">
+        <div class="notproject" style="display: none;">
           <p><i class="fa-solid fa-circle-exclamation"></i> 북마크한 프로젝트가 아직 없습니다</p>
         </div>
-        <a th:each="bookmark : ${member.getBookmarks()}" th:href="@{|/project/${bookmark.getId()}|}" class="pj-content">
-          <div class="project-info">
-            <div class="pj-type pj" th:text="${bookmark.projectType}">사이드 프로젝트</div>
-            <span class="time-commitment" th:if="${bookmark.projectTime == 1}">매주 4일 10시간</span>
-            <span class="time-commitment" th:if="${bookmark.projectTime == 2}">주 4시간 ~ 10시간</span>
-            <span class="time-commitment" th:if="${bookmark.projectTime == 3}">주 10시간 이상</span>
-          </div>
-          <p class="title">
-            <strong class="state-ing" th:text="${bookmark.getStatus() == 1 ? '모집 중' : '모집완료'}">모집 중</strong><span th:text="${bookmark.projectName}">엘리스 SW 4기
-            모집합니다!</span>
-          </p>
-          <span class="date" th:text="${bookmark.createdAt}">2024년 4월 30일 오후 3:50:44</span>
-        </a>
+        <div class="lists">
+          <a th:each="bookmark : ${member.getBookmarks()}" th:href="@{|/project/${bookmark.getId()}|}" class="pj-content bookmark" th:attr="data-status=${bookmark.getStatus()}, data-type=${bookmark.projectType}">
+            <div class="project-info">
+              <div class="pj-type pj" th:text="${bookmark.projectType}">사이드 프로젝트</div>
+              <span class="time-commitment" th:if="${bookmark.projectTime == 1}">매주 4일 10시간</span>
+              <span class="time-commitment" th:if="${bookmark.projectTime == 2}">주 4시간 ~ 10시간</span>
+              <span class="time-commitment" th:if="${bookmark.projectTime == 3}">주 10시간 이상</span>
+            </div>
+            <p class="title">
+              <strong class="state-ing" th:text="${bookmark.getStatus() == 1 ? '모집 중' : '모집완료'}">모집 중</strong><span th:text="${bookmark.projectName}">엘리스 SW 4기 모집합니다!</span>
+            </p>
+            <span class="date" th:text="${bookmark.createdAt}">2024년 4월 30일 오후 3:50:44</span>
+          </a>
+        </div>
       </div>
     </div>
   </div>
@@ -131,5 +124,6 @@
 <footer>
   <th:block th:replace="~{fragment/footer}"></th:block>
 </footer>
+<script defer th:src="@{/js/mypage.js}"></script>
 </body>
 </html>
