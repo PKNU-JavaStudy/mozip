@@ -182,4 +182,6 @@ public interface ProjectRepository {
   
     List<ShowListDto> findProjectListById(@Param("memberId") int memberId);
 
+    // 회원탈퇴 : 작성 프로젝트 삭제
+    void deleteByOwnerId(@Param("memberId") int memberId);
 }

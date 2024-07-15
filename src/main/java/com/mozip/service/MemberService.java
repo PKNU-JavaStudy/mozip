@@ -135,6 +135,8 @@ public class MemberService {
         memberRepository.deleteBookmark(memberId);
         // MEMBER_SKILL 테이블에 관련된 member 데이터 삭제
         memberRepository.deleteSkills(memberId);
+        // MEMBER 가 작성한 프로젝트 삭제
+        projectRepository.deleteByOwnerId(memberId);
         // MEMBER 삭제
         memberRepository.deleteMember(memberId);
     }

@@ -625,4 +625,9 @@
           AND OWNER_ID = #{memberId};
     </select>
 
+    <delete id="deleteByOwnerId" parameterType="int">
+        DELETE
+        FROM PROJECT
+        WHERE OWNER_ID = #{memberId}
+    </delete>
 </mapper>
