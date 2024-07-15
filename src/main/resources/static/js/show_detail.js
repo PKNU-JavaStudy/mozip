@@ -1,11 +1,23 @@
-// 공유하기 버튼
+// 공유하기
 function copyToClipboard() {
     const url = window.location.href;
-    navigator.clipboard.writeText(url).then(() => {
-        alert('URL이 클립보드에 복사되었습니다 !');
-    }).catch(err => {
+
+    const textArea = document.createElement('textarea');
+    textArea.value = url;
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+
+    try {
+        document.execCommand('copy');
+        console.log('URL 복사 성공');
+        alert('URL이 클립보드에 복사되었습니다!');
+    } catch (err) {
         console.error('URL 복사 실패: ', err);
-    });
+        alert('URL 복사에 실패했습니다. 브라우저 콘솔을 확인하세요.');
+    }
+
+    document.body.removeChild(textArea);
 }
 
 // 좋아요 수 실시간으로 증감하는 로직(비동기 방식)
