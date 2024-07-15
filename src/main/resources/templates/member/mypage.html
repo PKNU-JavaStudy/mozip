@@ -85,7 +85,8 @@
             <span class="time-commitment" th:if="${project.projectTime == 3}">주 10시간 이상</span>
           </div>
           <p class="title">
-            <strong class="state-ing" th:text="${project.getStatus() == 1 ? '모집 중' : '모집완료'}">모집 중</strong><span th:text="${project.projectName}">엘리스 SW 4기 모집합니다!</span>
+            <strong th:class="${project.status == 1} ? 'state-ing' : 'state-done'" th:text="${project.status == 1 ? '모집 중' : '모집완료'}">모집 중</strong>
+            <span th:text="${project.projectName}">엘리스 SW 4기 모집합니다!</span>
           </p>
           <span class="date" th:text="${project.createdAt}">2024년 4월 30일 오후 3:50:44</span>
         </a>
@@ -93,7 +94,7 @@
 
       <div class="keep">
         <div class="header-flex">
-          <h2>🏷️ 북마크한 글 <span class="highlight" th:text="${member.getBookmarks().size()}">4</span></h2>
+          <h2>🏷️ 북마크한 글 <span class="highlight bookmark-count" th:text="${member.getBookmarks().size()}">4</span></h2>
           <select class="dropdown" onchange="handleBookmarkFilter(event)">
             <option value="all">전체</option>
             <option value="1">모집중</option>
@@ -104,7 +105,7 @@
           <p><i class="fa-solid fa-circle-exclamation"></i> 북마크한 프로젝트가 아직 없습니다</p>
         </div>
         <div class="lists">
-          <a th:each="bookmark : ${member.getBookmarks()}" th:href="@{|/project/${bookmark.getId()}|}" class="pj-content bookmark" th:attr="data-status=${bookmark.getStatus()}, data-type=${bookmark.projectType}">
+          <a th:each="bookmark : ${member.getBookmarks()}" th:href="@{|/project/${bookmark.getId()}|}" class="pj-content bookmark" th:attr="data-status=${bookmark.getStatus()}">
             <div class="project-info">
               <div class="pj-type pj" th:text="${bookmark.projectType}">사이드 프로젝트</div>
               <span class="time-commitment" th:if="${bookmark.projectTime == 1}">매주 4일 10시간</span>
@@ -112,7 +113,8 @@
               <span class="time-commitment" th:if="${bookmark.projectTime == 3}">주 10시간 이상</span>
             </div>
             <p class="title">
-              <strong class="state-ing" th:text="${bookmark.getStatus() == 1 ? '모집 중' : '모집완료'}">모집 중</strong><span th:text="${bookmark.projectName}">엘리스 SW 4기 모집합니다!</span>
+              <strong th:class="${bookmark.getStatus() == 1} ? 'state-ing' : 'state-done'" th:text="${bookmark.getStatus() == 1 ? '모집 중' : '모집완료'}"></strong>
+              <span th:text="${bookmark.projectName}">엘리스 SW 4기 모집합니다!</span>
             </p>
             <span class="date" th:text="${bookmark.createdAt}">2024년 4월 30일 오후 3:50:44</span>
           </a>
