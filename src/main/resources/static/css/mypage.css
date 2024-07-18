@@ -214,7 +214,7 @@ a.github-link:hover {
 }
 
 /* 작성한 글이 없을 때 알림 창 */
-.notproject {
+.notproject, .notbookmark {
     border: none;
     /*border-radius: 10px;*/
     width: 100%;
@@ -224,8 +224,8 @@ a.github-link:hover {
     justify-content: center;
 }
 
-.notproject p,
-.notproject i {
+.notproject p, .notbookmark p,
+.notproject i, .notbookmark i{
     color: #4abcce;
 }
 

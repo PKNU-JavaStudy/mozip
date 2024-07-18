@@ -101,7 +101,7 @@
             <option value="0">모집완료</option>
           </select>
         </div>
-        <div class="notproject" style="display: none;">
+        <div class="notbookmark" th:if="${member.getBookmarks().size()==0}">
           <p><i class="fa-solid fa-circle-exclamation"></i> 북마크한 프로젝트가 아직 없습니다</p>
         </div>
         <div class="lists">

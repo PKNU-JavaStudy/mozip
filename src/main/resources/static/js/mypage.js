@@ -31,14 +31,25 @@ function filterProjects(filterValue) {
         }
     });
 
-    // 프로젝트 목록
-    const visibleProjects = document.querySelectorAll('.pj-content.bookmark[style="display: block;"]');
-    const notProjectMessage = document.querySelector('.notproject');
-
-    if (visibleProjects.length === 0) {
-        notProjectMessage.style.display = 'block';
+    // 북마크한 프로젝트가 없을 때 메시지 표시
+    const notProjectMessage = document.querySelector('.notbookmark');
+    // 북마크한 프로젝트가 없다면
+    if (visibleCount === 0) {
+        if (!notProjectMessage) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'notbookmark';
+            messageDiv.innerHTML = '<p><i class="fa-solid fa-circle-exclamation"></i> 북마크한 프로젝트가 아직 없습니다</p>';
+            document.querySelector('.keep').appendChild(messageDiv);
+            // 북마크한 프로젝트가 있다면 스타일을 block으로
+        } else {
+            notProjectMessage.style.display = 'block';
+        }
+        // 북마크한 프로젝트가 있다면
     } else {
-        notProjectMessage.style.display = 'none';
+        // 메시지를 none
+        if (notProjectMessage) {
+            notProjectMessage.style.display = 'none';
+        }
     }
 
     // 북마크한 글의 갯수 표시
