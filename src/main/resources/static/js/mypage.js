@@ -11,7 +11,7 @@ function filterProjects(filterValue) {
             project.style.display = 'block';
             visibleCount++;
         }
-        // 모집완료
+        // 모집완료(0)
         else if (filterValue === '0') {
             if (status === '0') {
                 project.style.display = 'block';
@@ -20,7 +20,7 @@ function filterProjects(filterValue) {
                 project.style.display = 'none';
             }
         }
-        // 모집중
+        // 모집중(1)
         else if (filterValue === '1') {
             if (status === '1') {
                 project.style.display = 'block';
@@ -35,14 +35,15 @@ function filterProjects(filterValue) {
     const notProjectMessage = document.querySelector('.notbookmark');
     // 북마크한 프로젝트가 없다면
     if (visibleCount === 0) {
+        // 메시지를 남김
         if (!notProjectMessage) {
             const messageDiv = document.createElement('div');
             messageDiv.className = 'notbookmark';
             messageDiv.innerHTML = '<p><i class="fa-solid fa-circle-exclamation"></i> 북마크한 프로젝트가 아직 없습니다</p>';
             document.querySelector('.keep').appendChild(messageDiv);
-            // 북마크한 프로젝트가 있다면 스타일을 block으로
+            // 북마크한 프로젝트가 있다면 스타일을 flex으로
         } else {
-            notProjectMessage.style.display = 'block';
+            notProjectMessage.style.display = 'flex';
         }
         // 북마크한 프로젝트가 있다면
     } else {
