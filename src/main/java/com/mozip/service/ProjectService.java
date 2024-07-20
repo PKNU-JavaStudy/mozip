@@ -405,8 +405,8 @@ public class ProjectService {
      * @param keyword
      * @return List<RecruitListDto>
      */
-    public List<RecruitListDto> searchProject(String keyword) {
-        List<RecruitListDto> recruitListDtos = projectRepository.searchProject(keyword);
+    public List<RecruitListDto> searchProject(String keyword, int page) {
+        List<RecruitListDto> recruitListDtos = projectRepository.searchProject(keyword, page);
         for (RecruitListDto recruitListDto : recruitListDtos) {
             recruitListDto.setRoleNames(projectRepository.findRecruitRoles(recruitListDto.getId()));
             recruitListDto.setCreateTime(Util.formatTimestamp(Timestamp.valueOf(recruitListDto.getCreateTime())));
@@ -437,8 +437,8 @@ public class ProjectService {
      * @param
      * @return List<RecruitListDto>
      */
-    public List<RecruitListDto> projectFilterSearch(String filter) {
-        List<Integer> projectFilterId = projectRepository.filterSearch(filter);
+    public List<RecruitListDto> projectFilterSearch(String filter, int page) {
+        List<Integer> projectFilterId = projectRepository.filterSearch(filter, page);
 
         List<RecruitListDto> recruitListDtos = new ArrayList<>();
         for (Integer projectId : projectFilterId) {
@@ -459,8 +459,8 @@ public class ProjectService {
      * @param filter
      * @return List<RecruitListDto>
      */
-    public List<RecruitListDto> projectSelectFilterSearch(String filter) {
-        List<Integer> projectFilterId = projectRepository.selectFilter(Integer.parseInt(filter));
+    public List<RecruitListDto> projectSelectFilterSearch(String filter, int page) {
+        List<Integer> projectFilterId = projectRepository.selectFilter(Integer.parseInt(filter),page);
         List<RecruitListDto> recruitListDtos = new ArrayList<>();
         for (Integer projectId : projectFilterId) {
             recruitListDtos.add(projectRepository.findOneRecruit(projectId));
@@ -480,11 +480,11 @@ public class ProjectService {
      * @param filter
      * @return List<RecruitListDto>
      */
-    public List<RecruitListDto> projectSelectTypeFilter(String filter) {
+    public List<RecruitListDto> projectSelectTypeFilter(String filter, int page) {
         if (filter.equals("스터디 모임"))
             filter = "스터디/모임";
 
-        List<Integer> projectFilterId = projectRepository.projectTypeFilter(filter);
+        List<Integer> projectFilterId = projectRepository.projectTypeFilter(filter, page);
 
         List<RecruitListDto> recruitListDtos = new ArrayList<>();
         for (Integer projectId : projectFilterId) {
