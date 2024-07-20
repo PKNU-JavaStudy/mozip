@@ -512,7 +512,8 @@
             OR P.PROJECT_INFO LIKE CONCAT('%', #{keyword}, '%'))
           AND IS_SHOW = 1
 
-        ORDER BY CREATED_AT DESC
+        ORDER BY CREATED_AT DESC LIMIT 10
+        OFFSET #{page}
     </select>
 
     <!--  프로젝트자랑리스트 검색하기  -->
@@ -538,7 +539,8 @@
                  INNER JOIN RECRUIT_ROLE PR ON P.ID = PR.PROJECT_ID
         WHERE ROLE_NAME LIKE CONCAT('%', #{filter}, '%')
           AND IS_SHOW = 1
-        ORDER BY CREATED_AT DESC
+        ORDER BY CREATED_AT DESC LIMIT 10
+        OFFSET #{page}
     </select>
 
     <!-- 각 셀렉트 필터에 따른 검색 쿼리 -->
@@ -547,7 +549,8 @@
         FROM PROJECT
         WHERE STATUS = #{filter}
           AND IS_SHOW = 1
-        ORDER BY CREATED_AT DESC
+        ORDER BY CREATED_AT DESC LIMIT 10
+        OFFSET #{page}
     </select>
 
     <!-- 프로젝트타입(사이드, 스터디or모입)에 따른 검색 쿼리 -->
@@ -556,7 +559,8 @@
         FROM PROJECT
         WHERE PROJECT_TYPE = #{filter}
           AND IS_SHOW = 1
-        ORDER BY CREATED_AT DESC
+        ORDER BY CREATED_AT DESC LIMIT 10
+        OFFSET #{page}
     </select>
 
     <select id="findOneRecruit" resultMap="recruitDtoMap">

@@ -349,11 +349,9 @@
     let checkNum = $(window).scrollTop() - ($(document).height() - $(window).height());
 
     if (checkNum < 1 && checkNum > -1 && selectedLoc == "" && selectedSkill == "" && search == "" && (total / 10) >= page) {
-      console.log("total : ", total);
       page++;
       getSaramin();
     } else if (checkNum < 1 && checkNum > -1 && (total / 10) >= filterPage) {
-      console.log("total : ", total);
       filterPage++;
       getSaraminByFilter();
     }
