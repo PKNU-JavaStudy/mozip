@@ -576,9 +576,10 @@
     </update>
 
     <select id="projectSkillFilter" resultMap="ShowListDtoMap">
-        SELECT ID, PROJECT_NAME, PROJECT_TYPE, OWNER_ID ,VIEWS, IS_SHOW,IMAGE_URL
+        SELECT ID, PROJECT_NAME, PROJECT_TYPE, OWNER_ID, VIEWS, IS_SHOW, IMAGE_URL
         FROM PROJECT
-        WHERE PROJECT.ID IN(SELECT PROJECT_ID FROM PROJECT_SKILL WHERE SKILL_NAME LIKE #{filter})
+        WHERE PROJECT.ID IN (SELECT PROJECT_ID FROM PROJECT_SKILL WHERE SKILL_NAME LIKE #{filter})
+          AND IS_SHOW = 0
     </select>
 
     <select id="saveConditionSelect" resultMap="ShowListDtoMap">

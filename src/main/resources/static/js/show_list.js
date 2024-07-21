@@ -107,7 +107,6 @@ function handleStackFilter(event) {
                                     <li>${skillImages}</li>
                                 </ul>
                                 <div class="lists-bot">
-                                    <p>${project.teamName}</p>
                                     <ul class="count">
                                         <li><i class="fa-solid fa-eye"></i>${project.views}회</li>
                                         <li><i class="fa-regular fa-thumbs-up"></i>${project.likes}개</li>
@@ -239,7 +238,6 @@ function handleSelectFilter(event) {
                                 <li>${skillImages}</li>
                             </ul>
                             <div class="lists-bot">
-                                <p>${project.teamName}</p>
                                 <ul class="count">
                                     <li><i class="fa-solid fa-eye"></i>${project.views}회</li>
                                     <li><i class="fa-regular fa-thumbs-up"></i>${project.likes}개</li>
