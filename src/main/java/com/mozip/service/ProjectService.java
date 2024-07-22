@@ -4,6 +4,7 @@ import com.mozip.domain.project.ProjectRepository;
 import com.mozip.dto.req.project.ProjectCreateDto;
 import com.mozip.dto.req.project.ProjectEditDto;
 import com.mozip.dto.req.project.ShowEditDto;
+import com.mozip.dto.req.project.ShowUpdateDto;
 import com.mozip.dto.resp.project.*;
 import com.mozip.handler.ex.CustomException;
 import com.mozip.util.Util;
@@ -538,4 +539,13 @@ public class ProjectService {
         return filteredList;
     }
 
+    @Transactional
+    public void updateProjectToShow(ShowUpdateDto dto, int memberId) {
+        // 로그인유저 프로젝트 작성자 체크
+        if(projectRepository.findProjectOwnerById(dto.getProjectId()) != memberId)
+            throw new CustomException("수정 권한이 없습니다!!");
+
+        // 업데이트
+        projectRepository.updateProjectToShow(dto);
+    }
 }

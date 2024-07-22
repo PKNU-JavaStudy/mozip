@@ -176,7 +176,7 @@
                 class="right-btn github"><i class="fa-brands fa-github"></i>깃허브
         </button>
       </a></th:block>
-      <th:block th:if="${showDetail.getGithubLink() != null}"><a th:href="@{|https://${showDetail.getGithubLink()}|}">
+      <th:block th:if="${showDetail.getGithubLink() != null}"><a th:href="@{|${showDetail.getGithubLink()}|}">
         <button class="right-btn github"><i class="fa-brands fa-github"></i>깃허브</button>
       </a></th:block>
       <div class="edit-btn"

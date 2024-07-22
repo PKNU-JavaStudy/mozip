@@ -635,4 +635,17 @@
         FROM PROJECT
         WHERE OWNER_ID = #{memberId}
     </delete>
+
+    <select id="findProjectOwnerById" resultType="int">
+        SELECT OWNER_ID
+        FROM PROJECT
+        WHERE ID = #{projectId}
+    </select>
+
+    <update id="updateProjectToShow">
+        UPDATE PROJECT
+        SET GITHUB_LINK = #{dto.githubUrl},
+            IS_SHOW     = 0
+        WHERE ID = #{dto.projectId}
+    </update>
 </mapper>

@@ -1,9 +1,11 @@
 package com.mozip.web.api;
 
+import com.mozip.config.auth.PrincipalDetails;
 import com.mozip.domain.keep.Keep;
 import com.mozip.domain.likes.Likes;
 import com.mozip.dto.CMRespDto;
 import com.mozip.dto.req.project.ProjectCreateDto;
+import com.mozip.dto.req.project.ShowUpdateDto;
 import com.mozip.service.KeepService;
 import com.mozip.dto.req.project.ProjectEditDto;
 import com.mozip.dto.req.project.ShowEditDto;
@@ -13,6 +15,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -143,6 +146,13 @@ public class ApiProjectController {
     @GetMapping("/show/select/{filter}")
     public ResponseEntity<?> selectFilterShow(@PathVariable("filter") String filter) {
         return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공", projectService.selectConditionFilter(filter)));
+    }
+
+    // 프로젝트 모집->프로젝트 자랑 전환
+    @PatchMapping("/show/update")
+    public ResponseEntity<?> createShowProject(@RequestBody ShowUpdateDto dto, @AuthenticationPrincipal PrincipalDetails principalDetails){
+        projectService.updateProjectToShow(dto, principalDetails.getMember().getId());
+        return ResponseEntity.ok().body(new CMRespDto<>(1, "통신성공", dto.getProjectId()));
     }
 
 }

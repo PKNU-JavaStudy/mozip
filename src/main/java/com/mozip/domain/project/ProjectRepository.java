@@ -3,6 +3,7 @@ package com.mozip.domain.project;
 import com.mozip.dto.req.project.ProjectCreateDto;
 import com.mozip.dto.req.project.ProjectEditDto;
 import com.mozip.dto.req.project.ShowEditDto;
+import com.mozip.dto.req.project.ShowUpdateDto;
 import com.mozip.dto.resp.project.*;
 import org.apache.ibatis.annotations.Param;
 
@@ -186,4 +187,10 @@ public interface ProjectRepository {
 
     // 회원탈퇴 : 작성 프로젝트 삭제
     void deleteByOwnerId(@Param("memberId") int memberId);
+
+    // 프로젝트 작성자 아이디
+    int findProjectOwnerById(@Param("projectId") int projectId);
+
+    // 프로젝트 모집 -> 프로젝트 자랑 전환
+    void updateProjectToShow(@Param("dto") ShowUpdateDto dto);
 }

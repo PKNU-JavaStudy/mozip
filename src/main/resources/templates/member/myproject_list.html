@@ -20,10 +20,6 @@
           crossorigin="anonymous"></script>
 
   <script th:src="@{/js/common.js}"></script>
-  <script defer th:src="@{/js/kanban.js}"></script>
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
   <title>모집(mo.zip) - 프로젝트 자랑하기</title>
   <!-- favicon -->
   <link rel="icon" th:href="@{/img/favicon.ico}">
@@ -36,7 +32,8 @@
   <h1 th:text="'📒' + ${member.getUsername()} + '님의 프로젝트'"></h1>
   <p>자랑 할 프로젝트를 선택해주세요.</p>
   <div class="show-list-wrap">
-    <div class="show-box" th:each="project : ${projectList}" th:onclick="isShowConfirm()">
+    <div class="show-box open-modal" th:each="project : ${projectList}">
+      <div class="project-id"th:text="${project.getId()}" style="display: none"></div>
       <div class="img-wrap">
         <img th:src="@{/img/showlist_sample.png}" alt="썸네일"/>
       </div>
@@ -47,15 +44,72 @@
         </h2>
       </div>
     </div>
+    <!-- 모달창 -->
+    <div class="modal-bg"></div>
+    <div class="modal">
+      <div class="modal-header">
+        <a href="#" class="close-modal"><i class="fa-solid fa-xmark"></i></a>
+      </div>
+      <h3>프로젝트가 종료되었나요?</h3>
+      <p>프로젝트에 대한 추가 정보를 등록해주세요.</p>
+      <div class="modal-ipt">
+        <input type="text" id="github-url" placeholder="팀 프로젝트 깃허브 주소를 입력하세요.">
+      </div>
+      <div class="button-wrap">
+        <button class="submit-modal" type="button">
+          등록하기
+        </button>
+      </div>
+    </div>
   </div>
 </div>
 <footer>
   <th:block th:replace="~{fragment/footer}"></th:block>
 </footer>
-</body>
 <script>
-  function isShowConfirm() {
-    confirm('프로젝트 자랑을 등록하면 프로젝트가 종료 된 것으로 간주 됩니다. \n프로젝트 자랑 등록을 진행하시겠습니까?');
-  }
+  // 모달 창 열기
+  document.querySelectorAll(".open-modal").forEach(function (element) {
+    element.addEventListener("click", function () {
+      document.querySelector(".modal-bg").classList.add("visible");
+      document.querySelector(".modal").classList.add("visible");
+    });
+  });
+
+  // 모달 창 닫기
+  document.querySelector(".close-modal").addEventListener("click", function () {
+    document.querySelector(".modal-bg").classList.remove("visible");
+    document.querySelector(".modal").classList.remove("visible");
+  });
+
+  // 모달 데이터 전송
+  document.querySelector('.submit-modal').addEventListener("click", function (event) {
+    event.preventDefault();
+    let githubUrl = document.querySelector("#github-url").value;
+    let projectId = document.querySelector(".project-id").textContent;
+
+    let jsonData = {
+      githubUrl: githubUrl,
+      projectId: projectId
+    };
+
+    console.log(jsonData);
+    $.ajax({
+      type: "PATCH",
+      url: `/api/show/update`,
+      data: JSON.stringify(jsonData),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json"
+    }).done(res => {
+      console.log("통신성공", res);
+      alert("프로젝트 자랑이 정상적으로 등록되었습니다.");
+      let projectId = res.data;
+      window.location.assign(`/project/show/${projectId}`);
+    }).fail(error => {
+      console.log(error); // 에러 로그 출력
+      let errors = error.responseJSON && error.responseJSON.data ? Object.values(error.responseJSON.data).join('\n') : '알 수 없는 오류가 발생했습니다.';
+      alert(errors);
+    });
+  });
 </script>
+</body>
 </html>
