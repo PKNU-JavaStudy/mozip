@@ -62,145 +62,167 @@
 
 ## 5. 구현기능
 
-### 로그인 및 회원가입
+<details>
+  <summary>로그인 및 회원가입</summary>
 
-- 일반 회원가입은 사용자 입력값을 유효성 검사(front/back) 후 데이터 베이스에 저장
+  - 일반 회원가입은 사용자 입력값을 유효성 검사(front/back) 후 데이터 베이스에 저장
   - 로그인은 SpringSecurity 를 통해 로그인정보 확인 후 세션으로 저장
 ![로그인](/src/main/resources/static/gif/로그인.gif)
 - 소셜 로그인은 SpringSecurity 와 OAuth2 를 이용하여 카카오 API 로그인 구현
   - 첫 로그인 시 카카오 API 에서 받아온 사용자 정보로 강제 회원가입 시킨 후 로그인, 이후 로그인 시 DB에서 데이터 조회 후 로그인
 ![로그인](/src/main/resources/static/gif/카카오로그인.gif)
+</details>
+<details>
+  <summary>로그아웃</summary>
 
-### 로그아웃
-
-- SpringSecurity 에서 제공하는 logout 을 이용하여 로그아웃 구현
+  - SpringSecurity 에서 제공하는 logout 을 이용하여 로그아웃 구현
 ![로그아웃](/src/main/resources/static/gif/로그아웃.gif)
+</details>
+<details>
+  <summary>회원 탈퇴</summary>
 
-### 회원 탈퇴
-
-- 페이지 우 상단에서 회원탈퇴 클릭 시 DB에서 회원정보 삭제 후 강제 로그아웃
+  - 페이지 우 상단에서 회원탈퇴 클릭 시 DB에서 회원정보 삭제 후 강제 로그아웃
 ![회원탈퇴](/src/main/resources/static/gif/회원탈퇴.gif)
+</details>
+<details>
+  <summary>사용자 정보</summary>
 
-### 사용자 정보
-
-- 사용자 정보에는 사용자 기본정보와 사용자가 만든 프로젝트 목록, 북마크 글 목록이 랜더링
+  - 사용자 정보에는 사용자 기본정보와 사용자가 만든 프로젝트 목록, 북마크 글 목록이 랜더링
 ![마이페이지](/src/main/resources/static/gif/마이페이지.gif)
 - 마이페이지 수정 버튼 클릭 시 사용자 정보 수정 페이지로 이동
 - Ajax 통신으로 사용자 정보 수정 후 사용자 정보 페이지로 이동
 ![마이페이지_수정](/src/main/resources/static/gif/마이페이지_수정.gif)
+</details>
+<details>
+  <summary>프로필 이미지 구현</summary>
 
-### 프로필 이미지 구현
-
-- 프로젝트 외부에 파일을 두어 프로필 이미지 저장
+  - 프로젝트 외부에 파일을 두어 프로필 이미지 저장
 - DB에는 프로필 이미지 이름이 저장
 - 데이터 불러올 때는 /upload/파일명 을 통해 사진을 들고온다.
-
-### 메인페이지
-
+</details>
+<details>
+  <summary>메인페이지</summary>
+  
 - 배너 슬라이드
 - 섹션 별 데이터 랜더링
 - 데이터 리스트 슬라이드
 ![메인페이지](/src/main/resources/static/gif/메인페이지.gif)
+</details>
 
 ### 프로젝트 모집 CRUD 및 부가 기능
 
-#### 데이터 조회
+<details>
+  <summary>데이터 조회</summary>
 
-- 카테고리 별 데이터 랜더링
+  - 카테고리 별 데이터 랜더링
 - 프로젝트 타입(사이드 프로젝트 or 스터디/모임) 별 데이터 랜더링
 - 모집여부에 따른 데이터 랜더링
 - 검색기능
+</details>
+<details>
+  <summary>데이터 생성</summary>
 
-#### 데이터 생성
-
-- 프로젝트 생성 시 데이터 유효성 검사(front/back)
+  - 프로젝트 생성 시 데이터 유효성 검사(front/back)
 - 프로젝트 ID 값으로 ajax 통신으로 데이터 생성 후 데이터 상세 페이지 이동
 ![모집작성](/src/main/resources/static/gif/모집작성.gif)
 ![모집작성_유효성검사](/src/main/resources/static/gif/모집작성_유효성검사.gif)
+</details>
+<details>
+  <summary>데이터 수정</summary>
 
-#### 데이터 수정
-
-- 프로젝트 수정 시 데이터 유효성 검사(front/back)
+  - 프로젝트 수정 시 데이터 유효성 검사(front/back)
 - 프로젝트 ID 값으로 ajax 통신으로 데이터 수정 후 데이터 상세 페이지 이동
 ![모집작성_수정](/src/main/resources/static/gif/모집작성_수정.gif)
+</details>
+<details>
+  <summary>데이터 삭제</summary>
 
-#### 데이터 삭제
-
-- 프로젝트 삭제 구현
+  - 프로젝트 삭제 구현
 - 프로젝트 ID 값으로 데이터 삭제 후 프로젝트 모집 목록 페이지 이동
 ![모집작성_삭제](/src/main/resources/static/gif/모집작성_삭제.gif)
+</details>
+<details>
+  <summary>북마크 기능</summary>
 
-#### 북마크 기능
-
-- 로그인 한 유저만 북마크 버튼 출력
+  - 로그인 한 유저만 북마크 버튼 출력
 - 북마크 클릭 이력에 따른 알림창 출력 후 북마크 추가
 - 북마크 여부에 따른 버튼 레이아웃 변경
 ![북마크](/src/main/resources/static/gif/북마크.gif)
+</details>
+<details>
+  <summary>모집완료 기능</summary>
 
-#### 모집완료 기능
-
-- 프로젝트 작성자만 모집완료 버튼 출력
+  - 프로젝트 작성자만 모집완료 버튼 출력
 - 모집완료 시 프로젝트 모집완료 버튼 레이아웃 변경
 ![모집완료](/src/main/resources/static/gif/모집완료.gif)
+</details>
+<details>
+  <summary>프로젝트 참여 신청</summary>
 
-#### 프로젝트 참여 신청
-
-- 프로젝트 작성자가 아닌 유저만 참여신청 버튼 출력
+  - 프로젝트 작성자가 아닌 유저만 참여신청 버튼 출력
 - 프로젝트 참여 신청 버튼 클릭 시 페이지 하단 참가 신청자 목록에 신청자 데이터 출력
 ![프로젝트_참여신청](/src/main/resources/static/gif/프로젝트_참여신청.gif)
+</details>
+<details>
+  <summary>조회수 기능</summary>
 
-
-#### 조회수 기능
-
-- 프로젝트 상세페이지 들어가면 조회수 추가
+  - 프로젝트 상세페이지 들어가면 조회수 추가
 ![조회수](/src/main/resources/static/gif/조회수.gif)
-
+</details>
 
 ### 프로젝트 자랑 CRUD 및 부가 기능
 
-#### 데이터 조회
+<details>
+  <summary>데이터 조회</summary>
 
-- 조회수를 기준으로 인기 프로젝트 상위 3개 데이터 랜더링
+  - 조회수를 기준으로 인기 프로젝트 상위 3개 데이터 랜더링
 - 기술 스택에 따른 프로젝트 자랑 데이터 랜더링
 - 프로젝트 자랑 검색
 - 최신순, 오래된순, 북마크 순으로 프로젝트 자랑 데이터 랜더링
+</details>
+<details>
+  <summary>데이터 저장</summary>
 
-#### 데이터 저장(진행중)
-
-- 프로젝트 자랑하기 버튼 클릭 시 로그인 한 유저의 프로젝트 목록 리스트페이지로 이동
+  - 프로젝트 자랑하기 버튼 클릭 시 로그인 한 유저의 프로젝트 목록 리스트페이지로 이동
 - 프로젝트 클릭 시 모달창 출력
+</details>
+<details>
+  <summary>데이터 수정</summary>
 
-#### 데이터 수정
+  - 프로젝트 자랑 ID값으로 데이터 수정
+</details>
+<details>
+  <summary>데이터 삭제</summary>
 
-- 프로젝트 자랑 ID값으로 데이터 수정
+  - 프로젝트 자랑 ID값으로 데이터 삭제
+</details>
+<details>
+  <summary>좋아요 기능</summary>
 
-#### 데이터 삭제
-
-- 프로젝트 자랑 ID값으로 데이터 삭제
-
-#### 좋아요 기능
-
-- 프로젝트 자랑 상세페이지에서 좋아요/좋아요 취소 구현
+  - 프로젝트 자랑 상세페이지에서 좋아요/좋아요 취소 구현
 - 좋아요 추가/삭제 시 좋아요 숫자 랜더링
 ![좋아요](/src/main/resources/static/gif/좋아요.gif)
+</details>
+<details>
+  <summary>채용공고 페이지</summary>
 
-### 채용공고 페이지
-
-- 사람인 API 연동으로 개발관련 채용공고 랜더링
+  - 사람인 API 연동으로 개발관련 채용공고 랜더링
 - 검색어, 지역, 기술스택으로 검색 가능
 - 무한스크롤 적용
+</details>
+<details>
+  <summary>MyBatis 로깅</summary>
 
-### MyBatis 로깅
-
-- logback 을 이용하여 MyBatis 쿼리를 콘솔창에 로그로 출력
+  - logback 을 이용하여 MyBatis 쿼리를 콘솔창에 로그로 출력
 ![메인페이지_쿼리](/src/main/resources/static/gif/메인페이지_쿼리.gif)
 
+</details>
+<details>
+  <summary>이메일 전송 기능</summary>
 
-### 이메일 전송 기능
-
-- Java Mail Sender 를 이용하여 프로젝트 모집 작성자가 참여 신청자 목록에서 멤버초대 버튼 클릭 시 해당 멤버 이메일로 알림 이메일 전송
+  - Java Mail Sender 를 이용하여 프로젝트 모집 작성자가 참여 신청자 목록에서 멤버초대 버튼 클릭 시 해당 멤버 이메일로 알림 이메일 전송
 ![참여신청_이메일](/src/main/resources/static/gif/참여신청_이메일.gif)
-
+</details>
 
 ### AWS Lightsail 배포
 
